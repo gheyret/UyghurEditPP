@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:editing="clr-namespace:UyghurEditPP.Editing">
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="/UyghurEditPP;component/TextEditor/TextEditor.xaml" />
+		<ResourceDictionary Source="/UyghurEditPP;component/Search/DropDownButton.xaml" />
+		<ResourceDictionary Source="/UyghurEditPP;component/Search/SearchPanel.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<Style TargetType="{x:Type editing:LineNumberMargin}">
+		<Setter Property="Control.Cursor" Value="/UyghurEditPP;component/themes/RightArrow.cur"/>
+	</Style>
+</ResourceDictionary>
