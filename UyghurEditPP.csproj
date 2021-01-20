@@ -33,16 +33,27 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationIcon>UyghurEditPP.ICO</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Net40' ">
-    <DefineConstants>DOTNET4</DefineConstants>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\nk1449\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'WithNRefactory' ">
-    <DefineConstants>DOTNET4;NREFACTORY</DefineConstants>
     <AssemblyOriginatorKeyFile>..\..\NRefactory\ICSharpCode.NRefactory.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DefineConstants>DEBUG</DefineConstants>
     <OutputPath>bin\Debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>True</Optimize>
@@ -51,14 +62,20 @@
     <DebugType>Full</DebugType>
     <DefineDebug>True</DefineDebug>
     <DefineTrace>True</DefineTrace>
+    <StartAction>Project</StartAction>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
     <DebugSymbols>false</DebugSymbols>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DebugType>Full</DebugType>
+    <DebugType>None</DebugType>
     <DefineTrace>True</DefineTrace>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <Prefer32Bit>True</Prefer32Bit>
@@ -358,16 +375,6 @@
     <Compile Include="Rendering\VisualYPosition.cs">
       <DependentUpon>VisualLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Search\Localization.cs" />
-    <Compile Include="Search\RegexSearchStrategy.cs" />
-    <Compile Include="Search\DropDownButton.cs" />
-    <Compile Include="Search\ISearchStrategy.cs" />
-    <Compile Include="Search\SearchCommands.cs" />
-    <Compile Include="Search\SearchResultBackgroundRenderer.cs" />
-    <Compile Include="Search\SearchPanel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Search\SearchStrategyFactory.cs" />
     <Compile Include="Document\DocumentChangeEventArgs.cs" />
     <Compile Include="Document\GapTextBuffer.cs">
       <DependentUpon>TextDocument.cs</DependentUpon>
@@ -382,12 +389,6 @@
     <Compile Include="Document\TextDocument.cs" />
     <Compile Include="SymSpell\EditDistance.cs" />
     <Compile Include="SymSpell\SymSpell.cs" />
-    <Compile Include="TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="TextEditor\AvalonEditCommands.cs" />
     <Compile Include="TextEditor\TextEditor.cs" />
     <Compile Include="TextEditor\TextEditorAutomationPeer.cs" />
@@ -429,23 +430,22 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="FindReplace\FindReplaceDialog.xaml" />
-    <Page Include="Search\SearchPanel.xaml">
-      <DependentUpon>SearchPanel.cs</DependentUpon>
-    </Page>
-    <Page Include="Search\DropDownButton.xaml">
-      <DependentUpon>DropDownButton.cs</DependentUpon>
-    </Page>
     <Page Include="TextEditor\TextEditor.xaml">
       <DependentUpon>TextEditor.cs</DependentUpon>
     </Page>
     <Page Include="themes\generic.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Search\next.png" />
-    <Resource Include="Search\prev.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FindReplace" />
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormHeqqide.resx">
@@ -465,9 +465,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ocr\ResimRamka.resx">
       <DependentUpon>ResimRamka.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
