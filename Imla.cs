@@ -30,6 +30,7 @@ namespace UyghurEditPP
 			dec.PenThicknessUnit = TextDecorationUnit.FontRecommended;
 			gCollection.Add(dec);
 			gCollection.Freeze();
+			FindReplace=false;
 		}
 		
 		public IEnumerable<Match> FindWords(string text)
@@ -61,6 +62,11 @@ namespace UyghurEditPP
 			set;
 		}
 		
+		public bool FindReplace{
+			get;
+			set;
+		}
+		
 		protected override void ColorizeLine(DocumentLine line)
 		{
 			if (line.Length == 0)
@@ -79,7 +85,7 @@ namespace UyghurEditPP
 				}
 			}
 			
-			if(!string.IsNullOrEmpty(Selection) && Selection.Length>0){
+			if(!FindReplace && !string.IsNullOrEmpty(Selection) && Selection.Length>0){
 				int start = 0;
 				int index;
 				while ((index = text.IndexOf(Selection, start, StringComparison.Ordinal)) >= 0)

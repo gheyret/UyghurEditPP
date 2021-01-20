@@ -49,7 +49,6 @@ namespace UyghurEditPP
 		private System.Windows.Forms.ToolStripButton toolYPushayman;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem menuTehrir;
-		private System.Windows.Forms.ToolStripButton toolIzde;
 		private System.Windows.Forms.ToolStripButton toolDawam;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 		private System.Windows.Forms.StatusStrip stBar;
@@ -154,7 +153,6 @@ namespace UyghurEditPP
 			this.toolYeniwal = new System.Windows.Forms.ToolStripButton();
 			this.toolYPushayman = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolIzde = new System.Windows.Forms.ToolStripButton();
 			this.toolDawam = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolQatla = new System.Windows.Forms.ToolStripButton();
@@ -266,7 +264,6 @@ namespace UyghurEditPP
 			this.toolYeniwal,
 			this.toolYPushayman,
 			this.toolStripSeparator6,
-			this.toolIzde,
 			this.toolDawam,
 			this.toolStripSeparator7,
 			this.toolQatla,
@@ -408,16 +405,6 @@ namespace UyghurEditPP
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
 			this.toolStripSeparator6.Size = new System.Drawing.Size(6, 32);
 			// 
-			// toolIzde
-			// 
-			this.toolIzde.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolIzde.Image = ((System.Drawing.Image)(resources.GetObject("toolIzde.Image")));
-			this.toolIzde.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolIzde.Name = "toolIzde";
-			this.toolIzde.Size = new System.Drawing.Size(28, 29);
-			this.toolIzde.Text = "Izde";
-			this.toolIzde.Click += new System.EventHandler(this.ToolIzdeClick);
-			// 
 			// toolDawam
 			// 
 			this.toolDawam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -426,6 +413,7 @@ namespace UyghurEditPP
 			this.toolDawam.Name = "toolDawam";
 			this.toolDawam.Size = new System.Drawing.Size(28, 29);
 			this.toolDawam.Text = "Izdewer";
+			this.toolDawam.Click += new System.EventHandler(this.ToolIzdeDawamClick);
 			// 
 			// toolStripSeparator7
 			// 
@@ -497,7 +485,7 @@ namespace UyghurEditPP
 			// 
 			this.toolULY2UEY.Name = "toolULY2UEY";
 			this.toolULY2UEY.Size = new System.Drawing.Size(213, 22);
-			this.toolULY2UEY.Text = "Latinche -> Uyghurche";
+			this.toolULY2UEY.Text = "Latinche > Uyghurche";
 			this.toolULY2UEY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Latinchini Uyghurchigha aylanduridu";
 			this.toolULY2UEY.Click += new System.EventHandler(this.ToolULY2UEYClick);
 			// 
@@ -505,7 +493,7 @@ namespace UyghurEditPP
 			// 
 			this.toolUSY2UEY.Name = "toolUSY2UEY";
 			this.toolUSY2UEY.Size = new System.Drawing.Size(213, 22);
-			this.toolUSY2UEY.Text = "Slawyanche -> Uyghurche";
+			this.toolUSY2UEY.Text = "Slawyanche > Uyghurche";
 			this.toolUSY2UEY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Slawyanchini Uyghurchigha aylanduridu";
 			this.toolUSY2UEY.Click += new System.EventHandler(this.ToolUSY2UEYClick);
 			// 
@@ -527,7 +515,7 @@ namespace UyghurEditPP
 			// 
 			this.toolUEY2ULY.Name = "toolUEY2ULY";
 			this.toolUEY2ULY.Size = new System.Drawing.Size(200, 22);
-			this.toolUEY2ULY.Text = "Uyghurche -> Latinche";
+			this.toolUEY2ULY.Text = "Uyghurche > Latinche";
 			this.toolUEY2ULY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Uyghurchini Latinchigha aylanduridu";
 			this.toolUEY2ULY.Click += new System.EventHandler(this.ToolUEY2ULYClick);
 			// 
@@ -535,7 +523,7 @@ namespace UyghurEditPP
 			// 
 			this.toolUSY2ULY.Name = "toolUSY2ULY";
 			this.toolUSY2ULY.Size = new System.Drawing.Size(200, 22);
-			this.toolUSY2ULY.Text = "Slawyanche -> Latinche";
+			this.toolUSY2ULY.Text = "Slawyanche > Latinche";
 			this.toolUSY2ULY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Slawyanchini Latinchigha aylanduridu";
 			this.toolUSY2ULY.Click += new System.EventHandler(this.ToolUSY2ULYClick);
 			// 
@@ -557,7 +545,7 @@ namespace UyghurEditPP
 			// 
 			this.toolUEY2USY.Name = "toolUEY2USY";
 			this.toolUEY2USY.Size = new System.Drawing.Size(213, 22);
-			this.toolUEY2USY.Text = "Uyghurche -> Slawyanche";
+			this.toolUEY2USY.Text = "Uyghurche > Slawyanche";
 			this.toolUEY2USY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Uyghurchini Slawyanchigha aylanduridu";
 			this.toolUEY2USY.Click += new System.EventHandler(this.ToolUEY2USYClick);
 			// 
@@ -565,7 +553,7 @@ namespace UyghurEditPP
 			// 
 			this.toolULY2USY.Name = "toolULY2USY";
 			this.toolULY2USY.Size = new System.Drawing.Size(213, 22);
-			this.toolULY2USY.Text = "Latinche -> Slawyanche";
+			this.toolULY2USY.Text = "Latinche > Slawyanche";
 			this.toolULY2USY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu";
 			this.toolULY2USY.Click += new System.EventHandler(this.ToolULY2USYClick);
 			// 

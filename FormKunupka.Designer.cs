@@ -50,6 +50,7 @@ namespace UyghurEditPP
 			this.Name = "FormKunupka";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Herplerning Kunupkidiki Orni";
+			this.Load += new System.EventHandler(this.FormKunupkaLoad);
 			this.ResumeLayout(false);
 
 		}
