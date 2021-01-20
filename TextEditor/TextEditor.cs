@@ -35,7 +35,6 @@ using UyghurEditPP.Editing;
 using UyghurEditPP.Highlighting;
 using UyghurEditPP.Rendering;
 using UyghurEditPP.Utils;
-using UyghurEditPP.Search;
 
 namespace UyghurEditPP
 {
@@ -75,13 +74,13 @@ namespace UyghurEditPP
 
 			SetCurrentValue(OptionsProperty, textArea.Options);
 			SetCurrentValue(DocumentProperty, new TextDocument());
-			SearchPanel = SearchPanel.Install(this);
+			//SearchPanel = SearchPanel.Install(this);
 		}
 		
-		public SearchPanel SearchPanel{
-			get;
-			set;
-		}
+		//public SearchPanel SearchPanel{
+		//	get;
+		//	set;
+		//}
 		
 		#endregion
 
@@ -1193,8 +1192,8 @@ namespace UyghurEditPP
 			set{
 				base.FlowDirection = value?FlowDirection.RightToLeft:FlowDirection.LeftToRight;
 				this.textArea.TextView.Redraw();
-				SearchPanel.Uninstall();
-				SearchPanel=SearchPanel.Install(this);
+				//SearchPanel.Uninstall();
+				//SearchPanel=SearchPanel.Install(this);
 			}
 			get{
 				return base.FlowDirection == FlowDirection.RightToLeft;

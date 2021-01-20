@@ -88,6 +88,10 @@ namespace UyghurEditPP
 				Bitmap bimg = new Bitmap(gImgFile);
 				ramka.Image=bimg;
 			}
+			
+			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
+			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
+			this.Location = new Point(startx,starty);						
 		}
 		
 		

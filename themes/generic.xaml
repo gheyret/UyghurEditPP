@@ -3,8 +3,6 @@
 	xmlns:editing="clr-namespace:UyghurEditPP.Editing">
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="/UyghurEditPP;component/TextEditor/TextEditor.xaml" />
-		<ResourceDictionary Source="/UyghurEditPP;component/Search/DropDownButton.xaml" />
-		<ResourceDictionary Source="/UyghurEditPP;component/Search/SearchPanel.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 
 	<Style TargetType="{x:Type editing:LineNumberMargin}">

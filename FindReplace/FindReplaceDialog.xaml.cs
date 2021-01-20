@@ -8,7 +8,9 @@
  */
 using System.Text.RegularExpressions;
 using System.Windows;
-using UyghurEditPP.Document;
+using System.Windows.Input;
+using System.Windows.Controls;
+using System.Media;
 namespace UyghurEditPP.FindReplace
 {
 	/// <summary>
@@ -17,109 +19,227 @@ namespace UyghurEditPP.FindReplace
 	public partial class FindReplaceDialog : Window
 	{
 		private static string textToFind = "";
-		private static bool caseSensitive = true;
+		private static bool caseSensitive = false;
 		private static bool wholeWord = true;
 		private static bool useRegex = false;
 		private static bool useWildcards = false;
 		private static bool searchUp = false;
-
-		private TextEditor editor;
-
+		private TextEditor  curEditor;
+		private int         repCount = 0;
+		KUNUPKA       gKunupka = KUNUPKA.System;
+		
+		bool          gLastIsFind = true;
+		
 		public FindReplaceDialog(TextEditor editor)
 		{
 			InitializeComponent();
-
-			this.editor = editor;
-
-			txtFind.Text = txtFind2.Text = textToFind;
+			Editor = editor;
 			cbCaseSensitive.IsChecked = caseSensitive;
 			cbWholeWord.IsChecked = wholeWord;
 			cbRegex.IsChecked = useRegex;
 			cbWildcards.IsChecked = useWildcards;
 			cbSearchUp.IsChecked = searchUp;
+			
+			this.FontFamily = new System.Windows.Media.FontFamily("UKIJ Tuz");
+			this.FontSize = 14;
+			repCount = 0;
+			this.txtFind.PreviewTextInput += UserControl_TextInput;
+			this.txtReplace.PreviewTextInput += UserControl_TextInput;
+			UpdateMessages();
 		}
 
+		public void UpdateMessages(){
+			this.Title          = MainForm.gLang.GetText("Izdesh we Almashturush");
+			this.labIzde1.Text = MainForm.gLang.GetText("Izdeydighan tékist:");
+			this.labRep.Text   = MainForm.gLang.GetText("Orunbasar tékist:");
+			this.butFind1.Content = MainForm.gLang.GetText("Izde");
+			
+			this.butRep.Content = MainForm.gLang.GetText("Almashtur");
+			this.butRepAll.Content = MainForm.gLang.GetText("Hemmini Almashtur");
+			
+			this.cbCaseSensitive.Content = MainForm.gLang.GetText("Chong-kichik yézilishini perqlendürsun");
+			this.cbWholeWord.Content     = MainForm.gLang.GetText("Pütün söz");
+
+			this.cbRegex.Content     = MainForm.gLang.GetText("Ölchemlik ipade")+" (Regular Expression)";
+			this.cbWildcards.Content     = MainForm.gLang.GetText("Alahide belgiler") + "(\\t,\\n,\\r...)";
+			this.cbSearchUp.Content     = MainForm.gLang.GetText("Üstige qarap izdisun");
+			
+			this.ToolTip = "<Ctrl>+<K> ni bassa kunupka almiship, Uyghurche kirgüzgili bolidu";
+			this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
+		}
+		
+		void window1_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == Key.K && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+			{
+				if(gKunupka == KUNUPKA.System){
+					gKunupka = KUNUPKA.Uyghur;
+				}
+				else
+				{
+					gKunupka = KUNUPKA.System;
+				}
+				e.Handled = true;
+			}
+		}
+		
+		
+		private void UserControl_TextInput(object sender,TextCompositionEventArgs e)
+		{
+			string newtxt="";
+			TextBox curBox = sender as TextBox;
+			if(gKunupka == KUNUPKA.Uyghur){
+				newtxt = Uyghur.KeyToUEY(e.Text);
+				if(newtxt.Length>0)
+				{
+					e.Handled = true;
+					InputText(curBox,newtxt);
+				}
+			}
+		}
+		
+		private void InputText(TextBox curBox,string newtxt)
+		{
+			int oldpos = curBox.CaretIndex;
+			string txt = curBox.Text;
+			int inc = 0;
+			if(Uyghur.IsUSozuq(newtxt[0]))
+			{
+				if((oldpos==0) || (oldpos>0 && (Uyghur.IsUSozuq(txt[oldpos-1])||!Uyghur.IsUyghurcheHerp(txt[oldpos-1])))
+				  )
+				{
+					txt = txt.Insert(txtFind.CaretIndex,Uyghur.UYG_UN_HM_6+"");
+					inc++;
+				}
+			}
+			txt = txt.Insert(oldpos+inc,newtxt);
+			inc++;
+			curBox.Text = txt;
+			curBox.CaretIndex =  oldpos+inc;
+		}
+		
+		public TextEditor Editor{
+			set{
+				curEditor=value;
+				repCount = 0;
+				this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
+			}
+			get{
+				return curEditor;
+			}
+		}
+		
+		
+		public void ShowMe()
+		{
+			UpdateMessages();
+			Show();
+			Topmost=true;
+			Activate();
+		}
+		
+		public void HideMe()
+		{
+			this.Hide();
+			repCount = 0;
+			this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
+		}
+		
 		private void Window_Closed(object sender, System.EventArgs e)
 		{
-			textToFind = txtFind2.Text;
+			textToFind = txtFind.Text;
 			caseSensitive = (cbCaseSensitive.IsChecked == true);
 			wholeWord = (cbWholeWord.IsChecked == true);
 			useRegex = (cbRegex.IsChecked == true);
 			useWildcards = (cbWildcards.IsChecked == true);
 			searchUp = (cbSearchUp.IsChecked == true);
-
-			theDialog = null;
 		}
 
-		private void FindNextClick(object sender, RoutedEventArgs e)
+		public void FindNextClick(object sender, RoutedEventArgs e)
 		{
+			gLastIsFind = true;
 			if (!FindNext(txtFind.Text)){
-				//SystemSounds.Beep.Play();
+				SystemSounds.Beep.Play();
 			}
 		}
 
-		private void FindNext2Click(object sender, RoutedEventArgs e)
+
+		public void CountClick(object sender, RoutedEventArgs e)
 		{
-			if (!FindNext(txtFind2.Text)){
-				//SystemSounds.Beep.Play();
+		}
+		
+		public void ContinueLastOperation(){
+			if(gLastIsFind){
+				FindNextClick(null,null);
+			}
+			else{
+				ReplaceClick(null,null);
 			}
 		}
-
+		
+		
 		private void ReplaceClick(object sender, RoutedEventArgs e)
 		{
-			Regex regex = GetRegEx(txtFind2.Text);
-			string input = editor.Text.Substring(editor.SelectionStart, editor.SelectionLength);
-			Match match = regex.Match(input);
-			bool replaced = false;
-			if (match.Success && match.Index == 0 && match.Length == input.Length)
+			gLastIsFind = false;
+			Regex regex = GetRegEx(txtFind.Text);
+			//string input = editor.Text.Substring(editor.SelectionStart, editor.SelectionLength);
+			Match match = regex.Match(Editor.Text,Editor.SelectionStart);
+			if (match.Success)
 			{
-				editor.Document.Replace(editor.SelectionStart, editor.SelectionLength, txtReplace.Text);
-				replaced = true;
+				Editor.Document.Replace(match.Index, txtFind.Text.Length, txtReplace.Text);
+				Editor.CaretOffset　= match.Index+txtReplace.Text.Length;
+				Editor.BringCaretToView();
+				Editor.Focus();
+				repCount++;
+				labKun.Text = MainForm.gLang.GetText("Jemiy ") + repCount + MainForm.gLang.GetText(" qétim almashturuldi");
 			}
 
-			if (!FindNext(txtFind2.Text) && !replaced){
-				//SystemSounds.Beep.Play();
+			if (!FindNext(txtFind.Text) && !match.Success){
+				SystemSounds.Beep.Play();
 			}
 		}
 
 		private void ReplaceAllClick(object sender, RoutedEventArgs e)
 		{
-			if (MessageBox.Show("Are you sure you want to Replace All occurences of \"" +
-			                    txtFind2.Text + "\" with \"" + txtReplace.Text + "\"?",
-			                    "Replace All", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+			string msg = MainForm.gLang.GetText("Rastla barliq «") + txtFind.Text + MainForm.gLang.GetText("» ni «") +  txtReplace.Text + MainForm.gLang.GetText("» gha alamshturamsiz?");
+			if (MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				Regex regex = GetRegEx(txtFind2.Text, true);
+				Regex regex = GetRegEx(txtFind.Text, true);
 				int offset = 0;
-				editor.BeginChange();
-				foreach (Match match in regex.Matches(editor.Text))
+				Editor.BeginChange();
+				
+				foreach (Match match in regex.Matches(Editor.Text))
 				{
-					editor.Document.Replace(offset + match.Index, match.Length, txtReplace.Text);
+					Editor.Document.Replace(offset + match.Index, match.Length, txtReplace.Text);
 					offset += txtReplace.Text.Length - match.Length;
+					repCount++;
 				}
-				editor.EndChange();
+				Editor.EndChange();
+				Editor.CaretOffset = offset;
+				Editor.BringCaretToView();
+				labKun.Text = MainForm.gLang.GetText("Jemiy ") + repCount + MainForm.gLang.GetText(" qétim almashturuldi");
 			}
 		}
 
 		private bool FindNext(string textToFind)
 		{
 			Regex regex = GetRegEx(textToFind);
-			int start = regex.Options.HasFlag(RegexOptions.RightToLeft) ?
-				editor.SelectionStart : editor.SelectionStart + editor.SelectionLength;
-			Match match = regex.Match(editor.Text, start);
+			int start = regex.Options.HasFlag(RegexOptions.RightToLeft) ?	Editor.SelectionStart : Editor.SelectionStart + Editor.SelectionLength;
+			Match match = regex.Match(Editor.Text, start);
 
 			if (!match.Success)  // start again from beginning or end
 			{
 				if (regex.Options.HasFlag(RegexOptions.RightToLeft))
-					match = regex.Match(editor.Text, editor.Text.Length);
+					match = regex.Match(Editor.Text, Editor.Text.Length);
 				else
-					match = regex.Match(editor.Text, 0);
+					match = regex.Match(Editor.Text, 0);
 			}
 
 			if (match.Success)
 			{
-				editor.Select(match.Index, match.Length);
-				TextLocation loc = editor.Document.GetLocation(match.Index);
-				editor.ScrollTo(loc.Line, loc.Column);
+				Editor.Select(match.Index, match.Length);
+				Editor.CaretOffset = match.Index;
+				Editor.BringCaretToView();
 			}
 
 			return match.Success;
@@ -145,32 +265,6 @@ namespace UyghurEditPP.FindReplace
 				if (cbWholeWord.IsChecked == true)
 					pattern = "\\b" + pattern + "\\b";
 				return new Regex(pattern, options);
-			}
-		}
-
-		private static FindReplaceDialog theDialog = null;
-
-		public static void ShowForReplace(TextEditor editor)
-		{
-			if (theDialog == null)
-			{
-				theDialog = new FindReplaceDialog(editor);
-				theDialog.tabMain.SelectedIndex = 1;
-				theDialog.Show();
-				theDialog.Activate();
-			}
-			else
-			{
-				theDialog.tabMain.SelectedIndex = 1;
-				theDialog.Activate();
-			}
-
-			if (!editor.TextArea.Selection.IsMultiline)
-			{
-				theDialog.txtFind.Text = theDialog.txtFind2.Text = editor.TextArea.Selection.GetText();
-				theDialog.txtFind.SelectAll();
-				theDialog.txtFind2.SelectAll();
-				theDialog.txtFind2.Focus();
 			}
 		}
 	}
