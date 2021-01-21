@@ -53,6 +53,7 @@ namespace UyghurEditPP.FindReplace
 			this.labIzde1.Text = MainForm.gLang.GetText("Izdeydighan tékist:");
 			this.labRep.Text   = MainForm.gLang.GetText("Orunbasar tékist:");
 			this.butFind1.Content = MainForm.gLang.GetText("Izde");
+			this.butCount.Content = MainForm.gLang.GetText("Sani");
 			
 			this.butRep.Content = MainForm.gLang.GetText("Almashtur");
 			this.butRepAll.Content = MainForm.gLang.GetText("Hemmini Almashtur");
@@ -60,12 +61,12 @@ namespace UyghurEditPP.FindReplace
 			this.cbCaseSensitive.Content = MainForm.gLang.GetText("Chong-kichik yézilishini perqlendürsun");
 			this.cbWholeWord.Content     = MainForm.gLang.GetText("Pütün söz");
 
-			this.cbRegex.Content     = MainForm.gLang.GetText("Ölchemlik ipade")+" (Regular Expression)";
+			this.cbRegex.Content     = MainForm.gLang.GetText("Muntizim ipade")+" (Regular Expression)";
 			this.cbWildcards.Content     = MainForm.gLang.GetText("Alahide belgiler") + "(\\t,\\n,\\r...)";
 			this.cbSearchUp.Content     = MainForm.gLang.GetText("Üstige qarap izdisun");
 			
-			this.ToolTip = "<Ctrl>+<K> ni bassa kunupka almiship, Uyghurche kirgüzgili bolidu";
-			this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
+			this.ToolTip = "<Ctrl>+<K> " + MainForm.gLang.GetText("ni bassa kunupka almiship, Uyghurche kirgüzgili bolidu");
+			this.labKun.Text = "<Ctrl>+<K> " + MainForm.gLang.GetText("ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
 		}
 		
 		void window1_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -81,6 +82,7 @@ namespace UyghurEditPP.FindReplace
 				}
 				e.Handled = true;
 			}
+			this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
 		}
 		
 		
@@ -122,7 +124,6 @@ namespace UyghurEditPP.FindReplace
 			set{
 				curEditor=value;
 				repCount = 0;
-				this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
 			}
 			get{
 				return curEditor;
@@ -142,7 +143,6 @@ namespace UyghurEditPP.FindReplace
 		{
 			this.Hide();
 			repCount = 0;
-			this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
 		}
 		
 		private void Window_Closed(object sender, System.EventArgs e)
@@ -166,6 +166,9 @@ namespace UyghurEditPP.FindReplace
 
 		public void CountClick(object sender, RoutedEventArgs e)
 		{
+			Regex regex = GetRegEx(txtFind.Text, true);
+			MatchCollection cnt = regex.Matches(Editor.Text,0);
+			labKun.Text = MainForm.gLang.GetText("Sani: ") + cnt.Count;
 		}
 		
 		public void ContinueLastOperation(){
@@ -205,10 +208,10 @@ namespace UyghurEditPP.FindReplace
 			if (MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
 				Regex regex = GetRegEx(txtFind.Text, true);
-				int offset = 0;
+				int offset = 0; //Editor.CaretOffset;
 				Editor.BeginChange();
-				
-				foreach (Match match in regex.Matches(Editor.Text))
+				MatchCollection finds =  regex.Matches(Editor.Text, offset);
+				foreach (Match match in finds)
 				{
 					Editor.Document.Replace(offset + match.Index, match.Length, txtReplace.Text);
 					offset += txtReplace.Text.Length - match.Length;

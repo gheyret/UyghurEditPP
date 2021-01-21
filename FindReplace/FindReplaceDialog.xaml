@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Window
 	x:Class="UyghurEditPP.FindReplace.FindReplaceDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	Title="FindReplace"
@@ -17,7 +17,8 @@
 	PreviewKeyDown="window1_PreviewKeyDown"
 	MinWidth="600"
 	Width="600"
-	Height="273">
+	Height="273"
+	FontWeight="Bold">
 	<Grid
 		Height="244">
 		<Grid.RowDefinitions>
@@ -72,7 +73,7 @@
 			Margin="0,2,10,2" />
 		<Button
 			Grid.Row="3"
-			Content="Count"
+			Content="Sani"
 			Click="CountClick"
 			x:Name="butCount"
 			Margin="0,2,10,2"
