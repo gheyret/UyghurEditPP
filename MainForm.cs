@@ -1000,16 +1000,7 @@ namespace UyghurEditPP
 			menuChaplaBashqilar.Enabled = toolChapla.Enabled;
 			
 			menuQuryotkel.Enabled = gEditor.LineCount>5;
-			menuQurNomur.Checked = gEditor.ShowLineNumbers;
-			
-			if(gImla.WordFinder==null || gImla.SpellCheker==null)
-			{
-				menuImlaAuto.Enabled = false;
-			}
-			else{
-				menuImlaAuto.Enabled = true;
-			}
-			
+			menuQurNomur.Checked = gEditor.ShowLineNumbers;			
 		}
 		
 		public static String GetVersion()
@@ -1049,6 +1040,7 @@ namespace UyghurEditPP
 				gEditor = (TextEditor)host.Child;
 				gEditor.Focus();
 				CaretChanged(null,null);
+				TextSelctionChanged(null,null);
 				if(gFindReplace!=null){
 					gFindReplace.Editor = gEditor;
 				}
@@ -1537,8 +1529,29 @@ namespace UyghurEditPP
 			gEditor.CaretOffset = gEditor.Text.Length;
 			gEditor.ScrollToEnd();
 		}
-		
+
 		void MenuImlaClick(object sender, EventArgs e){
+			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			if(curYeziq == Uyghur.YEZIQ.UEY){
+				menuBelge.Enabled = true;
+			}
+			else{
+				menuBelge.Enabled = false;
+			}
+			
+			if((menuImlaUEY.Checked && curYeziq == Uyghur.YEZIQ.UEY)||
+			  (menuImlaULY.Checked && curYeziq == Uyghur.YEZIQ.ULY)||
+			  (menuImlaUSY.Checked && curYeziq == Uyghur.YEZIQ.USY)
+			  )
+			{
+				menuImlaAuto.Enabled = true;
+			}
+			else{
+				menuImlaAuto.Enabled = false;
+			}
+		}
+		
+		void MenuImlaClickActive(object sender, EventArgs e){
 			ToolStripMenuItem curMenu =(ToolStripMenuItem)sender;
 			Cursor  = Cursors.WaitCursor;
 			string yeziq = "YOQ";
@@ -1566,9 +1579,6 @@ namespace UyghurEditPP
 			menuImlaUEY.Checked=false;
 			menuImlaULY.Checked=false;
 			menuImlaUSY.Checked=false;
-			menuBelge.Enabled = false;
-			menuTiz.Enabled = false;
-			menuTekrar.Enabled = false;
 			
 			if(yeziq.Equals("YOQ")){
 				gImla.WordFinder = null;
@@ -1585,9 +1595,6 @@ namespace UyghurEditPP
 						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,0,1,0);
 						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,0);
 						menuImlaUEY.Checked=true;
-						menuBelge.Enabled = true;
-						menuTiz.Enabled = true;
-						menuTekrar.Enabled = true;
 					}
 					else if(yeziq.Equals("ULY") && gLatincheSoz != gImla.WordFinder){
 						gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
@@ -1598,7 +1605,6 @@ namespace UyghurEditPP
 						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,0,1,1);
 						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,1);
 						menuImlaULY.Checked = true;
-						menuTekrar.Enabled = true;
 					}
 					else if(yeziq.Equals("USY") && gSlawyancheSoz != gImla.WordFinder){
 						gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
@@ -1609,7 +1615,6 @@ namespace UyghurEditPP
 						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,0,1,2);
 						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,2);
 						menuImlaUSY.Checked = true;
-						menuTekrar.Enabled = true;
 					}
 					imlastrem.Close();
 					System.Diagnostics.Debug.WriteLine("Sozluk Sani = " + gImla.SpellCheker.WordCount);
@@ -1849,20 +1854,22 @@ namespace UyghurEditPP
 		{
 			string ngramtext="";
 			NGram ngram = new NGram(1);
-			if(menuImlaUEY.Checked){
-				ngramtext = ngram.MakeNGram(gEditor,this.gUyghurcheSoz);
+			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			if(curYeziq == Uyghur.YEZIQ.UEY)
+			{
+				ngramtext = ngram.MakeNGram(gEditor.Text,this.gUyghurcheSoz);
 				MenuYengiClick(null,null);
 				gEditor.Text = ngramtext;
 				gEditor.RightToLeft = true;
 			}
-			else if(menuImlaULY.Checked){
-				ngramtext = ngram.MakeNGram(gEditor,this.gLatincheSoz);
+			else if(curYeziq == Uyghur.YEZIQ.ULY){
+				ngramtext = ngram.MakeNGram(gEditor.Text,this.gLatincheSoz);
 				MenuYengiClick(null,null);
 				gEditor.Text = ngramtext;
 				gEditor.RightToLeft = false;
 			}
-			else if(menuImlaULY.Checked){
-				ngramtext = ngram.MakeNGram(gEditor,this.gSlawyancheSoz);
+			else if(curYeziq == Uyghur.YEZIQ.USY){
+				ngramtext = ngram.MakeNGram(gEditor.Text,this.gSlawyancheSoz);
 				MenuYengiClick(null,null);
 				gEditor.Text = ngramtext;
 				gEditor.RightToLeft = false;
@@ -1881,6 +1888,7 @@ namespace UyghurEditPP
 			gEditor.WordWrap = false;
 			gEditor.Text = sortedabzaslar;
 		}
+		
 		void MenuOCRClick(object sender, EventArgs e)
 		{
 			OCRForm ocr = new OCRForm(gEditor);
@@ -1928,6 +1936,17 @@ namespace UyghurEditPP
 			gConfig["YEZIQAUTO"] = gYeziqAuto;
 		}
 		
+		void MenuQoralDropDownOpened(object sender, EventArgs e)
+		{
+			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			if(curYeziq == Uyghur.YEZIQ.UEY){
+				menuTiz.Enabled = true;
+			}
+			else{
+				menuTiz.Enabled = false;
+			}
+		}
+		
 		
 		class NGram:IComparer<string>
 		{
@@ -1936,6 +1955,33 @@ namespace UyghurEditPP
 				N= cntGram;
 			}
 			
+			public String MakeNGram(string strOrg, Regex sozFinder){
+				int gSozSani = 0;
+				TstTree           mBuf=new TstTree();
+				StringBuilder     wBuf=new StringBuilder();
+				int i,j;
+				MatchCollection sozler;
+				sozler = sozFinder.Matches(strOrg, 0);
+				for(i=0;i<=sozler.Count-N;i++){
+					wBuf.Length=0;
+					for(j=i;j<N+i;j++){
+						wBuf.Append(" "+sozler[j].Value);
+					}
+					if(mBuf.Add(wBuf.ToString().Trim())==1){
+						gSozSani++;
+					}
+				}
+				List<string> ret=new List<string>();
+				mBuf.GetAll(1,ret);
+				mBuf = null;
+				ret.Sort(this);
+				wBuf.Length = 0;
+				foreach(string str in ret){
+					wBuf.AppendLine(str);
+				}
+				return wBuf.ToString();
+			}
+
 			public String MakeNGram(TextEditor curEdit, Regex sozFinder){
 				int gSozSani = 0;
 				TstTree           mBuf=new TstTree();

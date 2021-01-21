@@ -15,12 +15,12 @@ namespace UyghurEditPP
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
-		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.LinkLabel linkLabel2;
 		private System.Windows.Forms.LinkLabel linkLabel3;
+		private System.Windows.Forms.LinkLabel linkLabel4;
 
 		public FormHeqqide()
 		{
@@ -57,12 +57,12 @@ namespace UyghurEditPP
 			this.label4 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
 			this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+			this.linkLabel4 = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -78,20 +78,21 @@ namespace UyghurEditPP
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(126, 95);
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.Location = new System.Drawing.Point(113, 36);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(341, 30);
+			this.label4.Size = new System.Drawing.Size(324, 25);
 			this.label4.TabIndex = 5;
-			this.label4.Text = "Gheyret T. Kenji";
+			this.label4.Text = "Gheyret T. Kenji (gheyret@gmail.com)";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label1.Font = new System.Drawing.Font("UKIJ Tuz", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(126, 9);
+			this.label1.Location = new System.Drawing.Point(113, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(341, 30);
+			this.label1.Size = new System.Drawing.Size(324, 25);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "UyghurEdit++ Version ";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -99,47 +100,42 @@ namespace UyghurEditPP
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Font = new System.Drawing.Font("UKIJ Tuz", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(126, 48);
+			this.label2.Font = new System.Drawing.Font("UKIJ Tuz", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Location = new System.Drawing.Point(113, 64);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(341, 30);
+			this.label2.Size = new System.Drawing.Size(324, 25);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "2021/01/01";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// label5
-			// 
-			this.label5.Location = new System.Drawing.Point(126, 129);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(341, 30);
-			this.label5.TabIndex = 6;
-			this.label5.Text = "gheyret@gmail.com";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(5, 166);
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.label3.Location = new System.Drawing.Point(5, 100);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(426, 34);
+			this.label3.Size = new System.Drawing.Size(432, 25);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Buningda towendiki Ochuq Kodlar ishlitildi ";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-			                                                              | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Location = new System.Drawing.Point(1, 161);
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Location = new System.Drawing.Point(1, 95);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(473, 3);
+			this.groupBox1.Size = new System.Drawing.Size(436, 3);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			// 
 			// linkLabel1
 			// 
-			this.linkLabel1.Location = new System.Drawing.Point(38, 200);
+			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.linkLabel1.Location = new System.Drawing.Point(38, 123);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(436, 23);
+			this.linkLabel1.Size = new System.Drawing.Size(399, 23);
 			this.linkLabel1.TabIndex = 10;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "https://github.com/icsharpcode/AvalonEdit";
@@ -148,9 +144,11 @@ namespace UyghurEditPP
 			// 
 			// linkLabel2
 			// 
-			this.linkLabel2.Location = new System.Drawing.Point(38, 225);
+			this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.linkLabel2.Location = new System.Drawing.Point(38, 148);
 			this.linkLabel2.Name = "linkLabel2";
-			this.linkLabel2.Size = new System.Drawing.Size(436, 23);
+			this.linkLabel2.Size = new System.Drawing.Size(399, 23);
 			this.linkLabel2.TabIndex = 11;
 			this.linkLabel2.TabStop = true;
 			this.linkLabel2.Text = "https://github.com/wolfgarbe/SymSpell";
@@ -159,31 +157,45 @@ namespace UyghurEditPP
 			// 
 			// linkLabel3
 			// 
-			this.linkLabel3.Location = new System.Drawing.Point(38, 250);
+			this.linkLabel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.linkLabel3.Location = new System.Drawing.Point(38, 173);
 			this.linkLabel3.Name = "linkLabel3";
-			this.linkLabel3.Size = new System.Drawing.Size(436, 23);
+			this.linkLabel3.Size = new System.Drawing.Size(399, 23);
 			this.linkLabel3.TabIndex = 12;
 			this.linkLabel3.TabStop = true;
 			this.linkLabel3.Text = "https://github.com/fujieda/DynaJson";
 			this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1LinkClicked);
 			// 
+			// linkLabel4
+			// 
+			this.linkLabel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.linkLabel4.Location = new System.Drawing.Point(38, 196);
+			this.linkLabel4.Name = "linkLabel4";
+			this.linkLabel4.Size = new System.Drawing.Size(399, 23);
+			this.linkLabel4.TabIndex = 13;
+			this.linkLabel4.TabStop = true;
+			this.linkLabel4.Text = "https://github.com/charlesw/tesseract";
+			this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// FormHeqqide
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(479, 326);
+			this.ClientSize = new System.Drawing.Size(442, 231);
+			this.Controls.Add(this.linkLabel4);
 			this.Controls.Add(this.linkLabel3);
 			this.Controls.Add(this.linkLabel2);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label3);
-			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.pictureBox1);
-			this.Font = new System.Drawing.Font("UKIJ Tuz", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("UKIJ Tuz", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

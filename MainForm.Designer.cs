@@ -484,7 +484,7 @@ namespace UyghurEditPP
 			// toolULY2UEY
 			// 
 			this.toolULY2UEY.Name = "toolULY2UEY";
-			this.toolULY2UEY.Size = new System.Drawing.Size(213, 22);
+			this.toolULY2UEY.Size = new System.Drawing.Size(208, 22);
 			this.toolULY2UEY.Text = "Latinche > Uyghurche";
 			this.toolULY2UEY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Latinchini Uyghurchigha aylanduridu";
 			this.toolULY2UEY.Click += new System.EventHandler(this.ToolULY2UEYClick);
@@ -492,7 +492,7 @@ namespace UyghurEditPP
 			// toolUSY2UEY
 			// 
 			this.toolUSY2UEY.Name = "toolUSY2UEY";
-			this.toolUSY2UEY.Size = new System.Drawing.Size(213, 22);
+			this.toolUSY2UEY.Size = new System.Drawing.Size(208, 22);
 			this.toolUSY2UEY.Text = "Slawyanche > Uyghurche";
 			this.toolUSY2UEY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Slawyanchini Uyghurchigha aylanduridu";
 			this.toolUSY2UEY.Click += new System.EventHandler(this.ToolUSY2UEYClick);
@@ -514,7 +514,7 @@ namespace UyghurEditPP
 			// toolUEY2ULY
 			// 
 			this.toolUEY2ULY.Name = "toolUEY2ULY";
-			this.toolUEY2ULY.Size = new System.Drawing.Size(200, 22);
+			this.toolUEY2ULY.Size = new System.Drawing.Size(195, 22);
 			this.toolUEY2ULY.Text = "Uyghurche > Latinche";
 			this.toolUEY2ULY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Uyghurchini Latinchigha aylanduridu";
 			this.toolUEY2ULY.Click += new System.EventHandler(this.ToolUEY2ULYClick);
@@ -522,7 +522,7 @@ namespace UyghurEditPP
 			// toolUSY2ULY
 			// 
 			this.toolUSY2ULY.Name = "toolUSY2ULY";
-			this.toolUSY2ULY.Size = new System.Drawing.Size(200, 22);
+			this.toolUSY2ULY.Size = new System.Drawing.Size(195, 22);
 			this.toolUSY2ULY.Text = "Slawyanche > Latinche";
 			this.toolUSY2ULY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Slawyanchini Latinchigha aylanduridu";
 			this.toolUSY2ULY.Click += new System.EventHandler(this.ToolUSY2ULYClick);
@@ -544,7 +544,7 @@ namespace UyghurEditPP
 			// toolUEY2USY
 			// 
 			this.toolUEY2USY.Name = "toolUEY2USY";
-			this.toolUEY2USY.Size = new System.Drawing.Size(213, 22);
+			this.toolUEY2USY.Size = new System.Drawing.Size(208, 22);
 			this.toolUEY2USY.Text = "Uyghurche > Slawyanche";
 			this.toolUEY2USY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Uyghurchini Slawyanchigha aylanduridu";
 			this.toolUEY2USY.Click += new System.EventHandler(this.ToolUEY2USYClick);
@@ -552,7 +552,7 @@ namespace UyghurEditPP
 			// toolULY2USY
 			// 
 			this.toolULY2USY.Name = "toolULY2USY";
-			this.toolULY2USY.Size = new System.Drawing.Size(213, 22);
+			this.toolULY2USY.Size = new System.Drawing.Size(208, 22);
 			this.toolULY2USY.Text = "Latinche > Slawyanche";
 			this.toolULY2USY.ToolTipText = "Hazirqi hojjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu";
 			this.toolULY2USY.Click += new System.EventHandler(this.ToolULY2USYClick);
@@ -896,13 +896,14 @@ namespace UyghurEditPP
 			this.menuImla.Name = "menuImla";
 			this.menuImla.Size = new System.Drawing.Size(41, 19);
 			this.menuImla.Text = "Imla";
+			this.menuImla.DropDownOpened += new System.EventHandler(this.MenuImlaClick);
 			// 
 			// menuImlaUEY
 			// 
 			this.menuImlaUEY.Name = "menuImlaUEY";
 			this.menuImlaUEY.Size = new System.Drawing.Size(348, 22);
 			this.menuImlaUEY.Text = "Uyghurchining Imlasini Kozetsun";
-			this.menuImlaUEY.Click += new System.EventHandler(this.MenuImlaClick);
+			this.menuImlaUEY.Click += new System.EventHandler(this.MenuImlaClickActive);
 			this.menuImlaUEY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
 			// 
 			// menuImlaULY
@@ -910,7 +911,7 @@ namespace UyghurEditPP
 			this.menuImlaULY.Name = "menuImlaULY";
 			this.menuImlaULY.Size = new System.Drawing.Size(348, 22);
 			this.menuImlaULY.Text = "Latinchining Imlasini Kozetsun";
-			this.menuImlaULY.Click += new System.EventHandler(this.MenuImlaClick);
+			this.menuImlaULY.Click += new System.EventHandler(this.MenuImlaClickActive);
 			this.menuImlaULY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
 			// 
 			// menuImlaUSY
@@ -918,7 +919,7 @@ namespace UyghurEditPP
 			this.menuImlaUSY.Name = "menuImlaUSY";
 			this.menuImlaUSY.Size = new System.Drawing.Size(348, 22);
 			this.menuImlaUSY.Text = "Slawyanchining Imlasini Kozetsun";
-			this.menuImlaUSY.Click += new System.EventHandler(this.MenuImlaClick);
+			this.menuImlaUSY.Click += new System.EventHandler(this.MenuImlaClickActive);
 			this.menuImlaUSY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
 			// 
 			// toolStripSeparator19
@@ -972,13 +973,15 @@ namespace UyghurEditPP
 			this.menuQoral.Name = "menuQoral";
 			this.menuQoral.Size = new System.Drawing.Size(61, 19);
 			this.menuQoral.Text = "Qorallar";
+			this.menuQoral.DropDownOpened += new System.EventHandler(this.MenuQoralDropDownOpened);
 			// 
 			// menuTiz
 			// 
 			this.menuTiz.Name = "menuTiz";
 			this.menuTiz.Size = new System.Drawing.Size(210, 22);
 			this.menuTiz.Text = "Elipbbe Tertipi Boyiche Tiz";
-			this.menuTiz.Click += new System.EventHandler(this.MenuTizClick);
+			this.menuTiz.DropDownOpened += new System.EventHandler(this.MenuTizClick);
+			
 			// 
 			// menuTekrar
 			// 
