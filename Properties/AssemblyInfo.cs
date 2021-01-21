@@ -21,6 +21,7 @@
 using System;
 using System.Resources;
 using System.Windows;
+using System.Reflection;
 using System.Windows.Markup;
 
 #endregion
@@ -43,10 +44,16 @@ using System.Windows.Markup;
 
 
 
+[assembly: AssemblyTitle ("UyghurEditPP")]
+[assembly: AssemblyDescription ("")]
+[assembly: AssemblyConfiguration ("")]
+[assembly: AssemblyCompany ("")]
+[assembly: AssemblyProduct ("UyghurEditPP")]
+[assembly: AssemblyCopyright ("Copyright 2021")]
+[assembly: AssemblyTrademark ("")]
+[assembly: AssemblyCulture ("")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
-[assembly: NeutralResourcesLanguage("en-US")]
 
-[assembly: XmlnsPrefix("http://icsharpcode.net/sharpdevelop/avalonedit", "avalonedit")]
 
 [assembly: XmlnsDefinition("http://icsharpcode.net/sharpdevelop/avalonedit", "UyghurEditPP")]
 [assembly: XmlnsDefinition("http://icsharpcode.net/sharpdevelop/avalonedit", "UyghurEditPP.Editing")]
@@ -56,3 +63,4 @@ using System.Windows.Markup;
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly",	Justification = "AssemblyInformationalVersion does not need to be a parsable version")]
 
+[assembly: AssemblyVersion ("0.1.*")]
