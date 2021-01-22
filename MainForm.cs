@@ -68,7 +68,6 @@ namespace UyghurEditPP
 		int[]  gCodePages = {-3,-2,-1,65000,65001,1200,1201,932, 51932, 936, 950, 1250,1251,1252,1253,1254,1255,1256,1257};
 		
 		public    static string gImgexts = "";
-		int       gImlaSozSani = 119020;
 		Hashtable gConfig= new Hashtable();
 		string    gConfName = @"uyghuredit.cfg";
 		string    gFontName = "UKIJ Tuz";
@@ -195,7 +194,7 @@ namespace UyghurEditPP
 		{
 			System.Windows.Controls.MenuItem  menuNamzat= (System.Windows.Controls.MenuItem)sender;
 			string soz = (string)menuNamzat.Tag;
-			gImla.SpellCheker.CreateDictionaryEntry(soz,1);
+			gImla.SpellCheker.Add(soz,1);
 			gEditor.TextArea.TextView.Redraw();
 			if(menuNamzat == gMenuSozToghra){
 				try{
@@ -466,11 +465,11 @@ namespace UyghurEditPP
 				//gEditor.Select(usoz.Index,usoz.Length);
 				gEditor.CaretOffset = usoz.Index;
 				gContextMenu.Items.Clear();
-				var namzatlar = gImla.SpellCheker.Lookup(usoz.Value,SymSpell.Verbosity.Closest, 2);
+				var namzatlar = gImla.SpellCheker.Lookup(usoz.Value);
 				System.Diagnostics.Debug.WriteLine("Symspell Namzat Sani = " + namzatlar.Count);
 				Point txtPos = new Point(usoz.Index,usoz.Length);
 				foreach(var namzat in namzatlar){
-					strNamzat= namzat.term;
+					strNamzat= namzat;
 					System.Diagnostics.Debug.WriteLine(strNamzat);
 					if(char.IsUpper(usoz.Value[0])){
 						strNamzat=char.ToUpper(strNamzat[0])+strNamzat.Substring(1);
@@ -478,7 +477,7 @@ namespace UyghurEditPP
 					menuNamzat = new System.Windows.Controls.MenuItem{Header=strNamzat,Tag=txtPos};
 					menuNamzat.Click += namzat_Click;
 					gContextMenu.Items.Add(menuNamzat);
-					if(gContextMenu.Items.Count>10){
+					if(gContextMenu.Items.Count>=15){
 						break;
 					}
 				}
@@ -510,7 +509,6 @@ namespace UyghurEditPP
 			gEditor.Document.Replace(txtPos.X,txtPos.Y,nsoz);
 			gEditor.CaretOffset = txtPos.X + nsoz.Length;
 
-			xatasoz = xatasoz.Replace(Uyghur.Sozghuch,"");
 			gImla.SpellCheker.AddXataToghra(xatasoz,nsoz);
 			try{
 				string tx = Uyghur.ToUEY(xatasoz+"="+nsoz);
@@ -1270,15 +1268,13 @@ namespace UyghurEditPP
 		{
 			if(gEditor.Text.Length==0) return;
 			if(gEditor.SelectedText.Length>0){
-				string txtuey = gEditor.SelectedText.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.ToULY(txtuey);
+				string newtext = Uyghur.ToULY(gEditor.SelectedText);
 				if(newtext!=null){
 					gEditor.SelectedText = newtext;
 				}
 			}
 			else{
-				string txtuey = gEditor.Text.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.ToULY(txtuey);
+				string newtext = Uyghur.ToULY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
 					gEditor.Text = newtext;
@@ -1291,15 +1287,13 @@ namespace UyghurEditPP
 		{
 			if(gEditor.Text.Length==0) return;
 			if(gEditor.SelectedText.Length>0){
-				string txtuey = gEditor.SelectedText.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.ToUSY(txtuey);
+				string newtext = Uyghur.ToUSY(gEditor.SelectedText);
 				if(newtext!=null){
 					gEditor.SelectedText = newtext;
 				}
 			}
 			else{
-				string txtuey = gEditor.Text.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.ToUSY(txtuey);
+				string newtext = Uyghur.ToUSY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
 					gEditor.Text = newtext;
@@ -1374,15 +1368,13 @@ namespace UyghurEditPP
 		{
 			if(gEditor.Text.Length==0) return;
 			if(gEditor.SelectedText.Length>0){
-				string txtuey = gEditor.SelectedText.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.UEY2ULY(txtuey);
+				string newtext = Uyghur.UEY2ULY(gEditor.SelectedText);
 				if(newtext!=null){
 					gEditor.SelectedText = newtext;
 				}
 			}
 			else{
-				string txtuey = gEditor.Text.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.UEY2ULY(txtuey);
+				string newtext = Uyghur.UEY2ULY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
 					gEditor.Text = newtext;
@@ -1417,15 +1409,13 @@ namespace UyghurEditPP
 		{
 			if(gEditor.Text.Length==0) return;
 			if(gEditor.SelectedText.Length>0){
-				string txtuey = gEditor.SelectedText.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.UEY2USY(txtuey);
+				string newtext = Uyghur.UEY2USY(gEditor.SelectedText);
 				if(newtext!=null){
 					gEditor.SelectedText = newtext;
 				}
 			}
 			else{
-				string txtuey = gEditor.Text.Replace(Uyghur.Sozghuch,"");
-				string newtext = Uyghur.UEY2USY(txtuey);
+				string newtext = Uyghur.UEY2USY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
 					gEditor.Text = newtext;
@@ -1590,30 +1580,30 @@ namespace UyghurEditPP
 						gMenuSozTekshurme.Header= Uyghur.ULY2UEY("Bu sözni ötküzüwet");
 						gMenuSozToghra.Header   = Uyghur.ULY2UEY("Bu söz toghra");
 						gImla.WordFinder = gUyghurcheSoz;
-						gImla.SpellCheker = new SymSpell(gImlaSozSani);
-						gImla.SpellCheker.LoadDictionary(imlastrem,0,1,0);
-						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,0,1,0);
-						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,0);
+						gImla.SpellCheker = new KenjiSpell();
+						gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.UEY);
+						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,Uyghur.YEZIQ.UEY);
+						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,Uyghur.YEZIQ.UEY);
 						menuImlaUEY.Checked=true;
 					}
 					else if(yeziq.Equals("ULY") && gLatincheSoz != gImla.WordFinder){
 						gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
 						gMenuSozToghra.Header   = "Bu söz toghra";
 						gImla.WordFinder = gLatincheSoz;
-						gImla.SpellCheker = new SymSpell(gImlaSozSani);
-						gImla.SpellCheker.LoadDictionary(imlastrem,0,1,1);
-						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,0,1,1);
-						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,1);
+						gImla.SpellCheker = new KenjiSpell();
+						gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.ULY);
+						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,Uyghur.YEZIQ.ULY);
+						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,Uyghur.YEZIQ.ULY);
 						menuImlaULY.Checked = true;
 					}
 					else if(yeziq.Equals("USY") && gSlawyancheSoz != gImla.WordFinder){
 						gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
 						gMenuSozToghra.Header   = Uyghur.ULY2USY("Bu söz toghra");
 						gImla.WordFinder = gSlawyancheSoz;
-						gImla.SpellCheker = new SymSpell(gImlaSozSani);
-						gImla.SpellCheker.LoadDictionary(imlastrem,0,1,2);//Imla mbirini slawyanchigha ozgertip ishlitidu
-						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,0,1,2);
-						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,2);
+						gImla.SpellCheker = new KenjiSpell();
+						gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.USY);//Imla mbirini slawyanchigha ozgertip ishlitidu
+						gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,Uyghur.YEZIQ.USY);
+						gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,Uyghur.YEZIQ.USY);
 						menuImlaUSY.Checked = true;
 					}
 					imlastrem.Close();

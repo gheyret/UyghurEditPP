@@ -78,7 +78,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <Prefer32Bit>True</Prefer32Bit>
+    <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -275,6 +275,7 @@
     <Compile Include="Json\JsonParser.cs" />
     <Compile Include="Json\ReflectiveOperation.cs" />
     <Compile Include="Json\TypeDictionary.cs" />
+    <Compile Include="KenjiSpell\KenjiSpell.cs" />
     <Compile Include="KenjiTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -387,8 +388,6 @@
       <DependentUpon>DocumentLine.cs</DependentUpon>
     </Compile>
     <Compile Include="Document\TextDocument.cs" />
-    <Compile Include="SymSpell\EditDistance.cs" />
-    <Compile Include="SymSpell\SymSpell.cs" />
     <Compile Include="TextEditor\AvalonEditCommands.cs" />
     <Compile Include="TextEditor\TextEditor.cs" />
     <Compile Include="TextEditor\TextEditorAutomationPeer.cs" />
@@ -490,6 +489,9 @@
     <None Include="uyghur_imla.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KenjiSpell" />
   </ItemGroup>
   <Import Project="packages\Tesseract.4.1.1\build\Tesseract.targets" Condition="Exists('packages\Tesseract.4.1.1\build\Tesseract.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

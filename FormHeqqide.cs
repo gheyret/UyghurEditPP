@@ -18,7 +18,6 @@ namespace UyghurEditPP
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.LinkLabel linkLabel1;
-		private System.Windows.Forms.LinkLabel linkLabel2;
 		private System.Windows.Forms.LinkLabel linkLabel3;
 		private System.Windows.Forms.LinkLabel linkLabel4;
 
@@ -60,7 +59,6 @@ namespace UyghurEditPP
 			this.label3 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
 			this.linkLabel3 = new System.Windows.Forms.LinkLabel();
 			this.linkLabel4 = new System.Windows.Forms.LinkLabel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -133,7 +131,7 @@ namespace UyghurEditPP
 			// 
 			this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLabel1.Location = new System.Drawing.Point(38, 123);
+			this.linkLabel1.Location = new System.Drawing.Point(38, 134);
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.Size = new System.Drawing.Size(399, 23);
 			this.linkLabel1.TabIndex = 10;
@@ -142,24 +140,11 @@ namespace UyghurEditPP
 			this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1LinkClicked);
 			// 
-			// linkLabel2
-			// 
-			this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLabel2.Location = new System.Drawing.Point(38, 148);
-			this.linkLabel2.Name = "linkLabel2";
-			this.linkLabel2.Size = new System.Drawing.Size(399, 23);
-			this.linkLabel2.TabIndex = 11;
-			this.linkLabel2.TabStop = true;
-			this.linkLabel2.Text = "https://github.com/wolfgarbe/SymSpell";
-			this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1LinkClicked);
-			// 
 			// linkLabel3
 			// 
 			this.linkLabel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLabel3.Location = new System.Drawing.Point(38, 173);
+			this.linkLabel3.Location = new System.Drawing.Point(38, 166);
 			this.linkLabel3.Name = "linkLabel3";
 			this.linkLabel3.Size = new System.Drawing.Size(399, 23);
 			this.linkLabel3.TabIndex = 12;
@@ -172,7 +157,7 @@ namespace UyghurEditPP
 			// 
 			this.linkLabel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-			this.linkLabel4.Location = new System.Drawing.Point(38, 196);
+			this.linkLabel4.Location = new System.Drawing.Point(38, 198);
 			this.linkLabel4.Name = "linkLabel4";
 			this.linkLabel4.Size = new System.Drawing.Size(399, 23);
 			this.linkLabel4.TabIndex = 13;
@@ -187,7 +172,6 @@ namespace UyghurEditPP
 			this.ClientSize = new System.Drawing.Size(442, 231);
 			this.Controls.Add(this.linkLabel4);
 			this.Controls.Add(this.linkLabel3);
-			this.Controls.Add(this.linkLabel2);
 			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label3);

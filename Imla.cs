@@ -57,7 +57,7 @@ namespace UyghurEditPP
 			set;
 		}
 		
-		public SymSpell SpellCheker{
+		public KenjiSpell SpellCheker{
 			get;
 			set;
 		}

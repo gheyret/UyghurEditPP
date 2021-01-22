@@ -52,235 +52,235 @@ public class Uyghur
 	
 	// Uyghurce Unicode (kona yeziq heriplerning Unicodesi)
 	//A
-	const char  UYG_UN_A_6='\u0627';	//Yalghuz
-	const char  UYG_UN_A_Y='\uFE8D';	//Yalghuz
-	const char  UYG_UN_A_A='\uFE8E';	//Ayaq
+	public const char UYG_UN_A_6='\u0627';	//Yalghuz
+	public const char UYG_UN_A_Y='\uFE8D';	//Yalghuz
+	public const char UYG_UN_A_A='\uFE8E';	//Ayaq
 	// E Heripi
-	const char  UYG_UN_E_6='\u06D5';	//Yalghuz;
-	const char  UYG_UN_E_Y='\uFEE9';	//Yalghuz;
-	const char  UYG_UN_E_A='\uFEEA';	//Ayaq;
+	public const char UYG_UN_E_6='\u06D5';	//Yalghuz;
+	public const char UYG_UN_E_Y='\uFEE9';	//Yalghuz;
+	public const char UYG_UN_E_A='\uFEEA';	//Ayaq;
 	// B
-	const char  UYG_UN_B_6='\u0628';	//Yalghuz;
-	const char  UYG_UN_B_Y='\uFE8F';	//Yalghuz;
-	const char  UYG_UN_B_A='\uFE90';	//Ayaq;
-	const char  UYG_UN_B_B='\uFE91';	//Bax;
-	const char  UYG_UN_B_O='\uFE92';	//Ottura;
+	public const char UYG_UN_B_6='\u0628';	//Yalghuz;
+	public const char UYG_UN_B_Y='\uFE8F';	//Yalghuz;
+	public const char UYG_UN_B_A='\uFE90';	//Ayaq;
+	public const char UYG_UN_B_B='\uFE91';	//Bax;
+	public const char UYG_UN_B_O='\uFE92';	//Ottura;
 	//P
-	const char  UYG_UN_P_6='\u067E';  //Yalghuz;
-	const char  UYG_UN_P_Y='\uFB56';  //Yalghuz;
-	const char  UYG_UN_P_A='\uFB57';	//Ayaq;
-	const char  UYG_UN_P_B='\uFB58';	//Bax;
-	const char  UYG_UN_P_O='\uFB59';	//Ottura;
+	public const char UYG_UN_P_6='\u067E';  //Yalghuz;
+	public const char UYG_UN_P_Y='\uFB56';  //Yalghuz;
+	public const char UYG_UN_P_A='\uFB57';	//Ayaq;
+	public const char UYG_UN_P_B='\uFB58';	//Bax;
+	public const char UYG_UN_P_O='\uFB59';	//Ottura;
 	//T
-	const char  UYG_UN_T_6='\u062A';  //Yalghuz;
-	const char  UYG_UN_T_Y='\uFE95';  //Yalghuz;
-	const char  UYG_UN_T_A='\uFE96';	//Ayaq;
-	const char  UYG_UN_T_B='\uFE97';	//Bax;
-	const char  UYG_UN_T_O='\uFE98';	//Ottura;
+	public const char UYG_UN_T_6='\u062A';  //Yalghuz;
+	public const char UYG_UN_T_Y='\uFE95';  //Yalghuz;
+	public const char UYG_UN_T_A='\uFE96';	//Ayaq;
+	public const char UYG_UN_T_B='\uFE97';	//Bax;
+	public const char UYG_UN_T_O='\uFE98';	//Ottura;
 	//J
-	const char  UYG_UN_J_6='\u062C';  //Yalghuz;
-	const char  UYG_UN_J_Y='\uFE9D';  //Yalghuz;
-	const char  UYG_UN_J_A='\uFE9E';	//Ayaq;
-	const char  UYG_UN_J_B='\uFE9F';	//Bax;
-	const char  UYG_UN_J_O='\uFEA0';	//Ottura;
+	public const char UYG_UN_J_6='\u062C';  //Yalghuz;
+	public const char UYG_UN_J_Y='\uFE9D';  //Yalghuz;
+	public const char UYG_UN_J_A='\uFE9E';	//Ayaq;
+	public const char UYG_UN_J_B='\uFE9F';	//Bax;
+	public const char UYG_UN_J_O='\uFEA0';	//Ottura;
 	//Ch
-	const char  UYG_UN_CH_6='\u0686';  //Yalghuz;
-	const char  UYG_UN_CH_Y='\uFB7A';  //Yalghuz;
-	const char  UYG_UN_CH_A='\uFB7B';	//Ayaq;
-	const char  UYG_UN_CH_B='\uFB7C';	//Bax;
-	const char  UYG_UN_CH_O='\uFB7D';	//Ottura;
+	public const char UYG_UN_CH_6='\u0686';  //Yalghuz;
+	public const char UYG_UN_CH_Y='\uFB7A';  //Yalghuz;
+	public const char UYG_UN_CH_A='\uFB7B';	//Ayaq;
+	public const char UYG_UN_CH_B='\uFB7C';	//Bax;
+	public const char UYG_UN_CH_O='\uFB7D';	//Ottura;
 	//X
-	const char  UYG_UN_X_6='\u062E';  //Yalghuz;
-	const char  UYG_UN_X_Y='\uFEA5'; //Yalghuz;
-	const char  UYG_UN_X_A='\uFEA6';	//Ayaq;
-	const char  UYG_UN_X_B='\uFEA7';	//Bax;
-	const char  UYG_UN_X_O='\uFEA8';	//Ottura;
+	public const char UYG_UN_X_6='\u062E';  //Yalghuz;
+	public const char UYG_UN_X_Y='\uFEA5'; //Yalghuz;
+	public const char UYG_UN_X_A='\uFEA6';	//Ayaq;
+	public const char UYG_UN_X_B='\uFEA7';	//Bax;
+	public const char UYG_UN_X_O='\uFEA8';	//Ottura;
 	//D
-	const char  UYG_UN_D_6='\u062F';  //Yalghuz;
-	const char  UYG_UN_D_Y='\uFEA9';  //Yalghuz;
-	const char  UYG_UN_D_A='\uFEAA';	//Ayaq;
+	public const char UYG_UN_D_6='\u062F';  //Yalghuz;
+	public const char UYG_UN_D_Y='\uFEA9';  //Yalghuz;
+	public const char UYG_UN_D_A='\uFEAA';	//Ayaq;
 	//R
-	const char  UYG_UN_R_6='\u0631';  //Yalghuz;
-	const char  UYG_UN_R_Y='\uFEAD';  //Yalghuz;
-	const char  UYG_UN_R_A='\uFEAE';	//Ayaq;
+	public const char UYG_UN_R_6='\u0631';  //Yalghuz;
+	public const char UYG_UN_R_Y='\uFEAD';  //Yalghuz;
+	public const char UYG_UN_R_A='\uFEAE';	//Ayaq;
 	//Z
-	const char  UYG_UN_Z_6='\u0632';  //Yalghuz;
-	const char  UYG_UN_Z_Y='\uFEAF';  //Yalghuz;
-	const char  UYG_UN_Z_A='\uFEB0';	//Ayaq;
+	public const char UYG_UN_Z_6='\u0632';  //Yalghuz;
+	public const char UYG_UN_Z_Y='\uFEAF';  //Yalghuz;
+	public const char UYG_UN_Z_A='\uFEB0';	//Ayaq;
 	//Z..
-	const char  UYG_UN_ZZ_6='\u0698';  //Yalghuz;
-	const char  UYG_UN_ZZ_Y='\uFB8A';  //Yalghuz;
-	const char  UYG_UN_ZZ_A='\uFB8B';	//Ayaq;
+	public const char UYG_UN_ZZ_6='\u0698';  //Yalghuz;
+	public const char UYG_UN_ZZ_Y='\uFB8A';  //Yalghuz;
+	public const char UYG_UN_ZZ_A='\uFB8B';	//Ayaq;
 	//S
-	const char  UYG_UN_S_6='\u0633';  //Yalghuz;
-	const char  UYG_UN_S_Y='\uFEB1';  //Yalghuz;
-	const char  UYG_UN_S_A='\uFEB2';	//Ayaq;
-	const char  UYG_UN_S_B='\uFEB3';	//Bax;
-	const char  UYG_UN_S_O='\uFEB4';	//Ottura;
+	public const char UYG_UN_S_6='\u0633';  //Yalghuz;
+	public const char UYG_UN_S_Y='\uFEB1';  //Yalghuz;
+	public const char UYG_UN_S_A='\uFEB2';	//Ayaq;
+	public const char UYG_UN_S_B='\uFEB3';	//Bax;
+	public const char UYG_UN_S_O='\uFEB4';	//Ottura;
 	//SH
-	const char  UYG_UN_SH_6='\u0634';  //Yalghuz;
-	const char  UYG_UN_SH_Y='\uFEB5';  //Yalghuz;
-	const char  UYG_UN_SH_A='\uFEB6';	//Ayaq;
-	const char  UYG_UN_SH_B='\uFEB7';	//Bax;
-	const char  UYG_UN_SH_O='\uFEB8';	//Ottura;
+	public const char UYG_UN_SH_6='\u0634';  //Yalghuz;
+	public const char UYG_UN_SH_Y='\uFEB5';  //Yalghuz;
+	public const char UYG_UN_SH_A='\uFEB6';	//Ayaq;
+	public const char UYG_UN_SH_B='\uFEB7';	//Bax;
+	public const char UYG_UN_SH_O='\uFEB8';	//Ottura;
 	//GH
-	const char  UYG_UN_GH_6='\u063A';  //Yalghuz;
-	const char  UYG_UN_GH_Y='\uFECD';  //Yalghuz;
-	const char  UYG_UN_GH_A='\uFECE';	//Ayaq;
-	const char  UYG_UN_GH_B='\uFECF';	//Bax;
-	const char  UYG_UN_GH_O='\uFED0';	//Ottura;
+	public const char UYG_UN_GH_6='\u063A';  //Yalghuz;
+	public const char UYG_UN_GH_Y='\uFECD';  //Yalghuz;
+	public const char UYG_UN_GH_A='\uFECE';	//Ayaq;
+	public const char UYG_UN_GH_B='\uFECF';	//Bax;
+	public const char UYG_UN_GH_O='\uFED0';	//Ottura;
 	//F
-	const char  UYG_UN_F_6='\u0641';  //Yalghuz;
-	const char  UYG_UN_F_Y='\uFED1';  //Yalghuz;
-	const char  UYG_UN_F_A='\uFED2';	//Ayaq;
-	const char  UYG_UN_F_B='\uFED3';	//Bax;
-	const char  UYG_UN_F_O='\uFED4';	//Ottura;
+	public const char UYG_UN_F_6='\u0641';  //Yalghuz;
+	public const char UYG_UN_F_Y='\uFED1';  //Yalghuz;
+	public const char UYG_UN_F_A='\uFED2';	//Ayaq;
+	public const char UYG_UN_F_B='\uFED3';	//Bax;
+	public const char UYG_UN_F_O='\uFED4';	//Ottura;
 	//Q
-	const char  UYG_UN_Q_6='\u0642';  //Yalghuz;
-	const char  UYG_UN_Q_Y='\uFED5';  //Yalghuz;
-	const char  UYG_UN_Q_A='\uFED6';	//Ayaq;
-	const char  UYG_UN_Q_B='\uFED7';	//Bax;
-	const char  UYG_UN_Q_O='\uFED8';	//Ottura;
+	public const char UYG_UN_Q_6='\u0642';  //Yalghuz;
+	public const char UYG_UN_Q_Y='\uFED5';  //Yalghuz;
+	public const char UYG_UN_Q_A='\uFED6';	//Ayaq;
+	public const char UYG_UN_Q_B='\uFED7';	//Bax;
+	public const char UYG_UN_Q_O='\uFED8';	//Ottura;
 	//K
-	const char  UYG_UN_K_6='\u0643';  //Yalghuz;
-	const char  UYG_UN_K_Y='\uFED9';  //Yalghuz;
-	const char  UYG_UN_K_A='\uFEDA';	//Ayaq;
-	const char  UYG_UN_K_B='\uFEDB';	//Bax;
-	const char  UYG_UN_K_O='\uFEDC';	//Ottura;
+	public const char UYG_UN_K_6='\u0643';  //Yalghuz;
+	public const char UYG_UN_K_Y='\uFED9';  //Yalghuz;
+	public const char UYG_UN_K_A='\uFEDA';	//Ayaq;
+	public const char UYG_UN_K_B='\uFEDB';	//Bax;
+	public const char UYG_UN_K_O='\uFEDC';	//Ottura;
 	//G
-	const char  UYG_UN_G_6='\u06AF';  //Yalghuz;
-	const char  UYG_UN_G_Y='\uFB92';  //Yalghuz;
-	const char  UYG_UN_G_A='\uFB93';	//Ayaq;
-	const char  UYG_UN_G_B='\uFB94';	//Bax;
-	const char  UYG_UN_G_O='\uFB95';	//Ottura;
+	public const char UYG_UN_G_6='\u06AF';  //Yalghuz;
+	public const char UYG_UN_G_Y='\uFB92';  //Yalghuz;
+	public const char UYG_UN_G_A='\uFB93';	//Ayaq;
+	public const char UYG_UN_G_B='\uFB94';	//Bax;
+	public const char UYG_UN_G_O='\uFB95';	//Ottura;
 	//NG
-	const char  UYG_UN_NG_6='\u06AD';  //Yalghuz;
-	const char  UYG_UN_NG_Y='\uFBD3';  //Yalghuz;
-	const char  UYG_UN_NG_A='\uFBD4';	//Ayaq;
-	const char  UYG_UN_NG_B='\uFBD5';	//Bax;
-	const char  UYG_UN_NG_O='\uFBD6';	//Ottura;
+	public const char UYG_UN_NG_6='\u06AD';  //Yalghuz;
+	public const char UYG_UN_NG_Y='\uFBD3';  //Yalghuz;
+	public const char UYG_UN_NG_A='\uFBD4';	//Ayaq;
+	public const char UYG_UN_NG_B='\uFBD5';	//Bax;
+	public const char UYG_UN_NG_O='\uFBD6';	//Ottura;
 	//L
-	const char  UYG_UN_L_6='\u0644';  //Yalghuz;
-	const char  UYG_UN_L_Y='\uFEDD';  //Yalghuz;
-	const char  UYG_UN_L_A='\uFEDE';	//Ayaq;
-	const char  UYG_UN_L_B='\uFEDF';	//Bax;
-	const char  UYG_UN_L_O='\uFEE0';	//Ottura;
+	public const char UYG_UN_L_6='\u0644';  //Yalghuz;
+	public const char UYG_UN_L_Y='\uFEDD';  //Yalghuz;
+	public const char UYG_UN_L_A='\uFEDE';	//Ayaq;
+	public const char UYG_UN_L_B='\uFEDF';	//Bax;
+	public const char UYG_UN_L_O='\uFEE0';	//Ottura;
 	//M
-	const char  UYG_UN_M_6='\u0645';  //Yalghuz;
-	const char  UYG_UN_M_Y='\uFEE1';  //Yalghuz;
-	const char  UYG_UN_M_A='\uFEE2';	//Ayaq;
-	const char  UYG_UN_M_B='\uFEE3';	//Bax;
-	const char  UYG_UN_M_O='\uFEE4';	//Ottura;
+	public const char UYG_UN_M_6='\u0645';  //Yalghuz;
+	public const char UYG_UN_M_Y='\uFEE1';  //Yalghuz;
+	public const char UYG_UN_M_A='\uFEE2';	//Ayaq;
+	public const char UYG_UN_M_B='\uFEE3';	//Bax;
+	public const char UYG_UN_M_O='\uFEE4';	//Ottura;
 	//N
-	const char  UYG_UN_N_6='\u0646';  //Yalghuz;
-	const char  UYG_UN_N_Y='\uFEE5';  //Yalghuz;
-	const char  UYG_UN_N_A='\uFEE6';	//Ayaq;
-	const char  UYG_UN_N_B='\uFEE7';	//Bax;
-	const char  UYG_UN_N_O='\uFEE8';	//Ottura;
+	public const char UYG_UN_N_6='\u0646';  //Yalghuz;
+	public const char UYG_UN_N_Y='\uFEE5';  //Yalghuz;
+	public const char UYG_UN_N_A='\uFEE6';	//Ayaq;
+	public const char UYG_UN_N_B='\uFEE7';	//Bax;
+	public const char UYG_UN_N_O='\uFEE8';	//Ottura;
 	//H..
-	const char  UYG_UN_H_6='\u06BE';  //Yalghuz;
-	const char  UYG_UN_H_Y='\uFBAA';  //Yalghuz;
-	const char  UYG_UN_H_A='\uFBAB';	//Ayaq;
-	const char  UYG_UN_H_B='\uFBAC';	//Bax;
-	const char  UYG_UN_H_O='\uFBAD';	//Ottura;
+	public const char UYG_UN_H_6='\u06BE';  //Yalghuz;
+	public const char UYG_UN_H_Y='\uFBAA';  //Yalghuz;
+	public const char UYG_UN_H_A='\uFBAB';	//Ayaq;
+	public const char UYG_UN_H_B='\uFBAC';	//Bax;
+	public const char UYG_UN_H_O='\uFBAD';	//Ottura;
 
 	//O
-	const char  UYG_UN_O_6='\u0648';  //Yalghuz;
-	const char  UYG_UN_O_Y='\uFEED';  //Yalghuz;
-	const char  UYG_UN_O_A='\uFEEE';	//Ayaq;
+	public const char UYG_UN_O_6='\u0648';  //Yalghuz;
+	public const char UYG_UN_O_Y='\uFEED';  //Yalghuz;
+	public const char UYG_UN_O_A='\uFEEE';	//Ayaq;
 	//U
-	const char  UYG_UN_U_6='\u06C7';  //Yalghuz;
-	const char  UYG_UN_U_Y='\uFBD7';  //Yalghuz;
-	const char  UYG_UN_U_A='\uFBD8';	//Ayaq;
+	public const char UYG_UN_U_6='\u06C7';  //Yalghuz;
+	public const char UYG_UN_U_Y='\uFBD7';  //Yalghuz;
+	public const char UYG_UN_U_A='\uFBD8';	//Ayaq;
 	//O..
-	const char  UYG_UN_OO_6='\u06C6';  //Yalghuz;
-	const char  UYG_UN_OO_Y='\uFBD9';  //Yalghuz;
-	const char  UYG_UN_OO_A='\uFBDA';	//Ayaq;
+	public const char UYG_UN_OO_6='\u06C6';  //Yalghuz;
+	public const char UYG_UN_OO_Y='\uFBD9';  //Yalghuz;
+	public const char UYG_UN_OO_A='\uFBDA';	//Ayaq;
 	//U..
-	const char  UYG_UN_UU_6='\u06C8';  //Yalghuz;
-	const char  UYG_UN_UU_Y='\uFBDB';  //Yalghuz;
-	const char  UYG_UN_UU_A='\uFBDC';	//Ayaq;
+	public const char UYG_UN_UU_6='\u06C8';  //Yalghuz;
+	public const char UYG_UN_UU_Y='\uFBDB';  //Yalghuz;
+	public const char UYG_UN_UU_A='\uFBDC';	//Ayaq;
 	//W
-	const char  UYG_UN_W_6='\u06CB';  //Yalghuz;
-	const char  UYG_UN_W_Y='\uFBDE'; //Yalghuz;
-	const char  UYG_UN_W_A='\uFBDF';	//Ayaq;
+	public const char UYG_UN_W_6='\u06CB';  //Yalghuz;
+	public const char UYG_UN_W_Y='\uFBDE'; //Yalghuz;
+	public const char UYG_UN_W_A='\uFBDF';	//Ayaq;
 	//E..
-	const char  UYG_UN_EE_6='\u06D0';  //Yalghuz;
-	const char  UYG_UN_EE_Y='\uFBE4';  //Yalghuz;
-	const char  UYG_UN_EE_A='\uFBE5';	//Ayaq;
-	const char  UYG_UN_EE_B='\uFBE6';	//Bax;
-	const char  UYG_UN_EE_O='\uFBE7';	//Ottura;
+	public const char UYG_UN_EE_6='\u06D0';  //Yalghuz;
+	public const char UYG_UN_EE_Y='\uFBE4';  //Yalghuz;
+	public const char UYG_UN_EE_A='\uFBE5';	//Ayaq;
+	public const char UYG_UN_EE_B='\uFBE6';	//Bax;
+	public const char UYG_UN_EE_O='\uFBE7';	//Ottura;
 	//I
-	const char  UYG_UN_I_6='\u0649';  //Yalghuz;
-	const char  UYG_UN_I_Y='\uFEEF';  //Yalghuz;
-	const char  UYG_UN_I_A='\uFEF0';	//Ayaq;
-	const char  UYG_UN_I_B='\uFBE8';	//Bax;
-	const char  UYG_UN_I_O='\uFBE9';	//Ottura;
+	public const char UYG_UN_I_6='\u0649';  //Yalghuz;
+	public const char UYG_UN_I_Y='\uFEEF';  //Yalghuz;
+	public const char UYG_UN_I_A='\uFEF0';	//Ayaq;
+	public const char UYG_UN_I_B='\uFBE8';	//Bax;
+	public const char UYG_UN_I_O='\uFBE9';	//Ottura;
 	//Y
-	const char  UYG_UN_Y_6='\u064A';  //Yalghuz;
-	const char  UYG_UN_Y_Y='\uFEF1';  //Yalghuz;
-	const char  UYG_UN_Y_A='\uFEF2';	//Ayaq;
-	const char  UYG_UN_Y_B='\uFEF3';	//Bax;
-	const char  UYG_UN_Y_O='\uFEF4';	//Ottura;
+	public const char UYG_UN_Y_6='\u064A';  //Yalghuz;
+	public const char UYG_UN_Y_Y='\uFEF1';  //Yalghuz;
+	public const char UYG_UN_Y_A='\uFEF2';	//Ayaq;
+	public const char UYG_UN_Y_B='\uFEF3';	//Bax;
+	public const char UYG_UN_Y_O='\uFEF4';	//Ottura;
 
 	//La
-	const char  UYG_UN_LA_6='\uFEFB';  //Yalghuz;
-	const char  UYG_UN_LA_Y='\uFEFB';  //Yalghuz;
-	const char  UYG_UN_LA_A='\uFEFC';	//Ayaq;
+	public const char UYG_UN_LA_6='\uFEFB';  //Yalghuz;
+	public const char UYG_UN_LA_Y='\uFEFB';  //Yalghuz;
+	public const char UYG_UN_LA_A='\uFEFC';	//Ayaq;
 
 	//Amza
-	public const char  UYG_UN_HM_6='\u0626';  //Yalghuz;
-	const char  UYG_UN_HM_Y='\uFE8B';  //Yalghuz;
-	const char  UYG_UN_HM_O='\uFE8C';	//Ottura;
+	public const char UYG_UN_HM_6='\u0626';  //Yalghuz;
+	public const char UYG_UN_HM_Y='\uFE8B';  //Yalghuz;
+	public const char UYG_UN_HM_O='\uFE8C';	//Ottura;
 
 	// Towendikiler Uyghurche Heripler
 	// Biraq ular KeyBord Arqiliq kirguzgende ishlitilmidi
 
 	//hemze bilen A
-	const char  UYGE_UN_HA_Y='\uFBEA';  //Yalghuz;
-	const char  UYGE_UN_HA_A='\uFBEB';	//Ayaq;
+	public const char UYGE_UN_HA_Y='\uFBEA';  //Yalghuz;
+	public const char UYGE_UN_HA_A='\uFBEB';	//Ayaq;
 
 	//hemze bilen E
-	const char  UYGE_UN_HE_Y='\uFBEC';  //Yalghuz;
-	const char  UYGE_UN_HE_A='\uFBED';	//Ayaq;
+	public const char UYGE_UN_HE_Y='\uFBEC';  //Yalghuz;
+	public const char UYGE_UN_HE_A='\uFBED';	//Ayaq;
 
 	//hemze bilen O
-	const char  UYGE_UN_HO_Y='\uFBEE';  //Yalghuz;
-	const char  UYGE_UN_HO_A='\uFBEF';	//Ayaq;
+	public const char UYGE_UN_HO_Y='\uFBEE';  //Yalghuz;
+	public const char UYGE_UN_HO_A='\uFBEF';	//Ayaq;
 
 	//hemze bilen U
-	const char  UYGE_UN_HU_Y='\uFBF0';  //Yalghuz;
-	const char  UYGE_UN_HU_A='\uFBF1';  //Ayaq;
+	public const char UYGE_UN_HU_Y='\uFBF0';  //Yalghuz;
+	public const char UYGE_UN_HU_A='\uFBF1';  //Ayaq;
 
 	//hemze bilen OO
-	const char  UYGE_UN_HOO_Y='\uFBF2';  //Yalghuz;
-	const char  UYGE_UN_HOO_A='\uFBF3';  //Ayaq;
+	public const char UYGE_UN_HOO_Y='\uFBF2';  //Yalghuz;
+	public const char UYGE_UN_HOO_A='\uFBF3';  //Ayaq;
 
 	//hemze bilen UU
-	const char  UYGE_UN_HUU_Y='\uFBF4';  //Yalghuz;
-	const char  UYGE_UN_HUU_A='\uFBF5';  //Ayaq;
+	public const char UYGE_UN_HUU_Y='\uFBF4';  //Yalghuz;
+	public const char UYGE_UN_HUU_A='\uFBF5';  //Ayaq;
 
 	//hemze bilen EE
-	const char  UYGE_UN_HEE_Y='\uFBF6';  //Yalghuz;
-	const char  UYGE_UN_HEE_A='\uFBF7';  //Ayaq;
-	const char  UYGE_UN_HEE_B='\uFBF8';  //Ayaq;
+	public const char UYGE_UN_HEE_Y='\uFBF6';  //Yalghuz;
+	public const char UYGE_UN_HEE_A='\uFBF7';  //Ayaq;
+	public const char UYGE_UN_HEE_B='\uFBF8';  //Ayaq;
 
 	//hemze bilen I
-	const char  UYGE_UN_HI_Y='\uFBF9';  //Yalghuz;
-	const char  UYGE_UN_HI_A='\uFBFA';  //Ayaq;
-	const char  UYGE_UN_HI_B='\uFBFB';  //Ayaq;
+	public const char UYGE_UN_HI_Y='\uFBF9';  //Yalghuz;
+	public const char UYGE_UN_HI_A='\uFBFA';  //Ayaq;
+	public const char UYGE_UN_HI_B='\uFBFB';  //Ayaq;
 	
-	const char  UYG_UN_PESH       = '\u060C'; //Pesh
-	const char  UYG_UN_SOZUSH     = '\u0640'; //Sozlerni tengshesh belgisi
-	const char  UYG_UN_CHEKITPESH = '\u061B'; // Chekitlik Pesh
-	const char  UYG_UN_CHONG      = '\u203A'; // ChongBelgisi
-	const char  UYG_UN_KICHIK     = '\u2039'; // Kichik Belgisi
-	const char  UYG_UN_SOAL       = '\u061F'; // Soal Belgisi
-	const char  UYG_UN_KOPCHEKIT  = '\u2026'; // kop chekit
-	const char  UYG_UN_SIZIQ      = '\u2014'; // Siziq
-	const char  UYG_UN_SOL_QOSH_TIRNAQ='\u00AB'; // Qosh Tirnaq<<
-	const char  UYG_UN_ONG_QOSH_TIRNAQ='\u00BB'; // Qosh Tirnaq>>
-	const char  UYG_UN_YULTUZ      ='\u066D'; //Yultuz belgisi
+	public const char UYG_UN_PESH       = '\u060C'; //Pesh
+	public const char UYG_UN_SOZUSH     = '\u0640'; //Sozlerni tengshesh belgisi
+	public const char UYG_UN_CHEKITPESH = '\u061B'; // Chekitlik Pesh
+	public const char UYG_UN_CHONG      = '\u203A'; // ChongBelgisi
+	public const char UYG_UN_KICHIK     = '\u2039'; // Kichik Belgisi
+	public const char UYG_UN_SOAL       = '\u061F'; // Soal Belgisi
+	public const char UYG_UN_KOPCHEKIT  = '\u2026'; // kop chekit
+	public const char UYG_UN_SIZIQ      = '\u2014'; // Siziq
+	public const char UYG_UN_SOL_QOSH_TIRNAQ='\u00AB'; // Qosh Tirnaq<<
+	public const char UYG_UN_ONG_QOSH_TIRNAQ='\u00BB'; // Qosh Tirnaq>>
+	public const char UYG_UN_YULTUZ      ='\u066D'; //Yultuz belgisi
 	
 	public enum YEZIQ{UEY,ULY,USY,YOQ};
 	
@@ -382,6 +382,45 @@ public class Uyghur
 		}
 		return ret;
 	}
+	
+	public static bool IsSozuq(char Herp)
+	{
+		bool ret=false;
+		switch(Herp)
+		{
+			case  UYG_UN_A_6  :
+			case  UYG_UN_E_6  :
+			case  UYG_UN_O_6  :
+			case  UYG_UN_U_6  :
+			case  UYG_UN_OO_6 :
+			case  UYG_UN_UU_6 :
+			case  UYG_UN_EE_6 :
+			case  UYG_UN_I_6  :
+			case  'a':
+			case  'e'  :
+			case  'o'  :
+			case  'u'  :
+			case  'i' :
+			case  'ö' :
+			case  'ü' :
+			case  'é':
+			case  'а':
+			case  'ә'  :
+			case  'о'  :
+			case  'у'  :
+			case  'и' :
+			case  'ө' :
+			case  'ү' :
+			case  'е':
+				ret=true;
+				break;
+			default:
+				ret=false;
+				break;
+		}
+		return ret;
+	}
+	
 	
 	public static int GetUnicodeIndex(char Herp)
 	{
@@ -618,6 +657,7 @@ public class Uyghur
 		StringBuilder unicode=new StringBuilder();
 		int len=0;
 		int pos=0;
+		uyghurkona = uyghurkona.Replace(Uyghur.Sozghuch,"");
 		int size=uyghurkona.Length;
 		if(size==0) return "";
 		char Herp;
@@ -711,6 +751,7 @@ public class Uyghur
 		StringBuilder unicode=new StringBuilder();
 		int len=0;
 		int pos=0;
+		uyghurkona = uyghurkona.Replace(Uyghur.Sozghuch,"");
 		int size=uyghurkona.Length;
 		if(size==0) return "";
 		char Herp;
@@ -1605,11 +1646,10 @@ public class Uyghur
 		UInt32 cntUEY = 0;
 		UInt32 cntULY = 0;
 		UInt32 cntUSY = 0;
-		
 		if(eslitxt.Length>5000){
 			eslitxt = eslitxt.Substring(0,5000);
 		}
-		
+		eslitxt = eslitxt.Replace(Uyghur.Sozghuch,"");
 		foreach(char Herp in eslitxt)
 		{
 			if((Herp>=0x0041&&Herp<=0x005A) || (Herp>=0x0060 && Herp<=0x007a))
