@@ -595,7 +595,7 @@ namespace UyghurEditPP
 			this.menuYengi.Image = ((System.Drawing.Image)(resources.GetObject("menuYengi.Image")));
 			this.menuYengi.Name = "menuYengi";
 			this.menuYengi.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.menuYengi.Size = new System.Drawing.Size(180, 22);
+			this.menuYengi.Size = new System.Drawing.Size(181, 22);
 			this.menuYengi.Text = "Yengi Hojet";
 			this.menuYengi.Click += new System.EventHandler(this.MenuYengiClick);
 			// 
@@ -604,7 +604,7 @@ namespace UyghurEditPP
 			this.menuAch.Image = ((System.Drawing.Image)(resources.GetObject("menuAch.Image")));
 			this.menuAch.Name = "menuAch";
 			this.menuAch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.menuAch.Size = new System.Drawing.Size(180, 22);
+			this.menuAch.Size = new System.Drawing.Size(181, 22);
 			this.menuAch.Text = "Ach";
 			this.menuAch.Click += new System.EventHandler(this.ToolOpenClick);
 			// 
@@ -613,7 +613,7 @@ namespace UyghurEditPP
 			this.menuSaqla.Image = ((System.Drawing.Image)(resources.GetObject("menuSaqla.Image")));
 			this.menuSaqla.Name = "menuSaqla";
 			this.menuSaqla.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.menuSaqla.Size = new System.Drawing.Size(180, 22);
+			this.menuSaqla.Size = new System.Drawing.Size(181, 22);
 			this.menuSaqla.Text = "Saqla";
 			this.menuSaqla.Click += new System.EventHandler(this.MenuSaqlaClick);
 			// 
@@ -621,7 +621,7 @@ namespace UyghurEditPP
 			// 
 			this.menuBSaqla.Image = ((System.Drawing.Image)(resources.GetObject("menuBSaqla.Image")));
 			this.menuBSaqla.Name = "menuBSaqla";
-			this.menuBSaqla.Size = new System.Drawing.Size(180, 22);
+			this.menuBSaqla.Size = new System.Drawing.Size(181, 22);
 			this.menuBSaqla.Text = "Bashqa Isimda Saqla";
 			this.menuBSaqla.Click += new System.EventHandler(this.MenuBSaqlaClick);
 			this.menuBSaqla.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
@@ -631,31 +631,32 @@ namespace UyghurEditPP
 			this.menuBas.Image = ((System.Drawing.Image)(resources.GetObject("menuBas.Image")));
 			this.menuBas.Name = "menuBas";
 			this.menuBas.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-			this.menuBas.Size = new System.Drawing.Size(180, 22);
+			this.menuBas.Size = new System.Drawing.Size(181, 22);
 			this.menuBas.Text = "Besip Chiqar";
 			this.menuBas.Click += new System.EventHandler(this.MenuBasClick);
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
 			// 
 			// menuHKod
 			// 
 			this.menuHKod.Name = "menuHKod";
-			this.menuHKod.Size = new System.Drawing.Size(180, 22);
+			this.menuHKod.Size = new System.Drawing.Size(181, 22);
 			this.menuHKod.Text = "Hojjet Kodi";
+			this.menuHKod.DropDownOpened += new System.EventHandler(this.MenuHKodDropDownOpened);
 			this.menuHKod.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(178, 6);
 			// 
 			// menuIzlar
 			// 
 			this.menuIzlar.Name = "menuIzlar";
-			this.menuIzlar.Size = new System.Drawing.Size(180, 22);
+			this.menuIzlar.Size = new System.Drawing.Size(181, 22);
 			this.menuIzlar.Text = "Izlar...";
 			this.menuIzlar.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
 			// 
@@ -663,7 +664,7 @@ namespace UyghurEditPP
 			// 
 			this.menuAxirlashtur.Image = ((System.Drawing.Image)(resources.GetObject("menuAxirlashtur.Image")));
 			this.menuAxirlashtur.Name = "menuAxirlashtur";
-			this.menuAxirlashtur.Size = new System.Drawing.Size(180, 22);
+			this.menuAxirlashtur.Size = new System.Drawing.Size(181, 22);
 			this.menuAxirlashtur.Text = "Axirlashtur";
 			this.menuAxirlashtur.Click += new System.EventHandler(this.MenuAxirlashturClick);
 			// 
@@ -704,21 +705,21 @@ namespace UyghurEditPP
 			this.menuFont.Image = ((System.Drawing.Image)(resources.GetObject("menuFont.Image")));
 			this.menuFont.Name = "menuFont";
 			this.menuFont.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-			this.menuFont.Size = new System.Drawing.Size(310, 22);
+			this.menuFont.Size = new System.Drawing.Size(312, 22);
 			this.menuFont.Text = "Xet Nusxisi";
 			this.menuFont.Click += new System.EventHandler(this.MenuFontClick);
 			// 
 			// toolStripSeparator18
 			// 
 			this.toolStripSeparator18.Name = "toolStripSeparator18";
-			this.toolStripSeparator18.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator18.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuYeniwal
 			// 
 			this.menuYeniwal.Image = ((System.Drawing.Image)(resources.GetObject("menuYeniwal.Image")));
 			this.menuYeniwal.Name = "menuYeniwal";
 			this.menuYeniwal.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-			this.menuYeniwal.Size = new System.Drawing.Size(310, 22);
+			this.menuYeniwal.Size = new System.Drawing.Size(312, 22);
 			this.menuYeniwal.Text = "Yeniwal";
 			this.menuYeniwal.Click += new System.EventHandler(this.ToolYeniwalClick);
 			// 
@@ -727,21 +728,21 @@ namespace UyghurEditPP
 			this.menuYPushayman.Image = ((System.Drawing.Image)(resources.GetObject("menuYPushayman.Image")));
 			this.menuYPushayman.Name = "menuYPushayman";
 			this.menuYPushayman.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-			this.menuYPushayman.Size = new System.Drawing.Size(310, 22);
+			this.menuYPushayman.Size = new System.Drawing.Size(312, 22);
 			this.menuYPushayman.Text = "Pushayman Qil";
 			this.menuYPushayman.Click += new System.EventHandler(this.ToolYPushaymanClick);
 			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuOchur
 			// 
 			this.menuOchur.Image = ((System.Drawing.Image)(resources.GetObject("menuOchur.Image")));
 			this.menuOchur.Name = "menuOchur";
 			this.menuOchur.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-			this.menuOchur.Size = new System.Drawing.Size(310, 22);
+			this.menuOchur.Size = new System.Drawing.Size(312, 22);
 			this.menuOchur.Text = "Ochur";
 			this.menuOchur.Click += new System.EventHandler(this.ToolOchurClick);
 			// 
@@ -750,7 +751,7 @@ namespace UyghurEditPP
 			this.menuKes.Image = ((System.Drawing.Image)(resources.GetObject("menuKes.Image")));
 			this.menuKes.Name = "menuKes";
 			this.menuKes.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-			this.menuKes.Size = new System.Drawing.Size(310, 22);
+			this.menuKes.Size = new System.Drawing.Size(312, 22);
 			this.menuKes.Text = "Kes";
 			this.menuKes.Click += new System.EventHandler(this.ToolKesClick);
 			// 
@@ -759,7 +760,7 @@ namespace UyghurEditPP
 			this.menuKochur.Image = ((System.Drawing.Image)(resources.GetObject("menuKochur.Image")));
 			this.menuKochur.Name = "menuKochur";
 			this.menuKochur.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-			this.menuKochur.Size = new System.Drawing.Size(310, 22);
+			this.menuKochur.Size = new System.Drawing.Size(312, 22);
 			this.menuKochur.Text = "Kochur";
 			this.menuKochur.Click += new System.EventHandler(this.ToolKochurClick);
 			// 
@@ -768,71 +769,71 @@ namespace UyghurEditPP
 			this.menuChapla.Image = ((System.Drawing.Image)(resources.GetObject("menuChapla.Image")));
 			this.menuChapla.Name = "menuChapla";
 			this.menuChapla.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-			this.menuChapla.Size = new System.Drawing.Size(310, 22);
+			this.menuChapla.Size = new System.Drawing.Size(312, 22);
 			this.menuChapla.Text = "Chapla";
 			this.menuChapla.Click += new System.EventHandler(this.ToolChaplaClick);
 			// 
 			// toolStripSeparator8
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator8.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuHemme
 			// 
 			this.menuHemme.Name = "menuHemme";
 			this.menuHemme.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-			this.menuHemme.Size = new System.Drawing.Size(310, 22);
+			this.menuHemme.Size = new System.Drawing.Size(312, 22);
 			this.menuHemme.Text = "Hemmini Talla";
 			this.menuHemme.Click += new System.EventHandler(this.MenuHemmeClick);
 			// 
 			// toolStripSeparator13
 			// 
 			this.toolStripSeparator13.Name = "toolStripSeparator13";
-			this.toolStripSeparator13.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator13.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuChaplaUighursoft
 			// 
 			this.menuChaplaUighursoft.Name = "menuChaplaUighursoft";
-			this.menuChaplaUighursoft.Size = new System.Drawing.Size(310, 22);
+			this.menuChaplaUighursoft.Size = new System.Drawing.Size(312, 22);
 			this.menuChaplaUighursoft.Text = "Uighursoftningkini Chapla";
 			this.menuChaplaUighursoft.Click += new System.EventHandler(this.MenuChaplaUighursoftClick);
 			// 
 			// menuChaplaDuldul
 			// 
 			this.menuChaplaDuldul.Name = "menuChaplaDuldul";
-			this.menuChaplaDuldul.Size = new System.Drawing.Size(310, 22);
+			this.menuChaplaDuldul.Size = new System.Drawing.Size(312, 22);
 			this.menuChaplaDuldul.Text = "Duldulningkini Chapla";
 			this.menuChaplaDuldul.Click += new System.EventHandler(this.MenuChaplaDuldulClick);
 			// 
 			// menuChaplaBashqilar
 			// 
 			this.menuChaplaBashqilar.Name = "menuChaplaBashqilar";
-			this.menuChaplaBashqilar.Size = new System.Drawing.Size(310, 22);
+			this.menuChaplaBashqilar.Size = new System.Drawing.Size(312, 22);
 			this.menuChaplaBashqilar.Text = "Bashqilarningkini Chapla";
 			this.menuChaplaBashqilar.Click += new System.EventHandler(this.MenuChaplaBashqilarClick);
 			// 
 			// toolStripSeparator11
 			// 
 			this.toolStripSeparator11.Name = "toolStripSeparator11";
-			this.toolStripSeparator11.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator11.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuQurNomur
 			// 
 			this.menuQurNomur.Name = "menuQurNomur";
-			this.menuQurNomur.Size = new System.Drawing.Size(310, 22);
+			this.menuQurNomur.Size = new System.Drawing.Size(312, 22);
 			this.menuQurNomur.Text = "Qur Nomurini Korsetsun";
 			this.menuQurNomur.Click += new System.EventHandler(this.ButQurNomurClick);
 			// 
 			// toolStripSeparator17
 			// 
 			this.toolStripSeparator17.Name = "toolStripSeparator17";
-			this.toolStripSeparator17.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator17.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuHojjetBash
 			// 
 			this.menuHojjetBash.Name = "menuHojjetBash";
 			this.menuHojjetBash.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Home)));
-			this.menuHojjetBash.Size = new System.Drawing.Size(310, 22);
+			this.menuHojjetBash.Size = new System.Drawing.Size(312, 22);
 			this.menuHojjetBash.Text = "Hojjetning Beshigha Yotkel";
 			this.menuHojjetBash.Click += new System.EventHandler(this.MenuHojjetBashClick);
 			// 
@@ -840,7 +841,7 @@ namespace UyghurEditPP
 			// 
 			this.menuHojjetAxir.Name = "menuHojjetAxir";
 			this.menuHojjetAxir.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.End)));
-			this.menuHojjetAxir.Size = new System.Drawing.Size(310, 22);
+			this.menuHojjetAxir.Size = new System.Drawing.Size(312, 22);
 			this.menuHojjetAxir.Text = "Hojjetning Axirigha Yotkel";
 			this.menuHojjetAxir.Click += new System.EventHandler(this.MenuHojjetAxirClick);
 			// 
@@ -848,20 +849,20 @@ namespace UyghurEditPP
 			// 
 			this.menuQuryotkel.Name = "menuQuryotkel";
 			this.menuQuryotkel.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
-			this.menuQuryotkel.Size = new System.Drawing.Size(310, 22);
+			this.menuQuryotkel.Size = new System.Drawing.Size(312, 22);
 			this.menuQuryotkel.Text = "Qurgha Yotkel";
 			this.menuQuryotkel.Click += new System.EventHandler(this.MenuQuryotkelClick);
 			// 
 			// toolStripSeparator14
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
-			this.toolStripSeparator14.Size = new System.Drawing.Size(307, 6);
+			this.toolStripSeparator14.Size = new System.Drawing.Size(309, 6);
 			// 
 			// menuChong
 			// 
 			this.menuChong.Name = "menuChong";
 			this.menuChong.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-			this.menuChong.Size = new System.Drawing.Size(310, 22);
+			this.menuChong.Size = new System.Drawing.Size(312, 22);
 			this.menuChong.Text = "Chong Yezilishqa Ozgert";
 			this.menuChong.Click += new System.EventHandler(this.ChongYaz);
 			// 
@@ -869,7 +870,7 @@ namespace UyghurEditPP
 			// 
 			this.menuKichik.Name = "menuKichik";
 			this.menuKichik.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-			this.menuKichik.Size = new System.Drawing.Size(310, 22);
+			this.menuKichik.Size = new System.Drawing.Size(312, 22);
 			this.menuKichik.Text = "Kichik Yezilishqa Ozgert";
 			this.menuKichik.Click += new System.EventHandler(this.KichikYaz);
 			// 
@@ -877,7 +878,7 @@ namespace UyghurEditPP
 			// 
 			this.menuMawzu.Name = "menuMawzu";
 			this.menuMawzu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-			this.menuMawzu.Size = new System.Drawing.Size(310, 22);
+			this.menuMawzu.Size = new System.Drawing.Size(312, 22);
 			this.menuMawzu.Text = "Bash Heripni Chong Yezilishqa Ozgert";
 			this.menuMawzu.Click += new System.EventHandler(this.MawzuYaz);
 			// 
@@ -894,7 +895,7 @@ namespace UyghurEditPP
 			this.toolStripSeparator16,
 			this.menuBelge});
 			this.menuImla.Name = "menuImla";
-			this.menuImla.Size = new System.Drawing.Size(41, 19);
+			this.menuImla.Size = new System.Drawing.Size(42, 19);
 			this.menuImla.Text = "Imla";
 			this.menuImla.DropDownOpened += new System.EventHandler(this.MenuImlaClick);
 			// 
@@ -981,7 +982,6 @@ namespace UyghurEditPP
 			this.menuTiz.Size = new System.Drawing.Size(210, 22);
 			this.menuTiz.Text = "Elipbbe Tertipi Boyiche Tiz";
 			this.menuTiz.DropDownOpened += new System.EventHandler(this.MenuTizClick);
-			
 			// 
 			// menuTekrar
 			// 
@@ -1012,7 +1012,7 @@ namespace UyghurEditPP
 			this.menuEnglish,
 			this.menuJapanese});
 			this.menuTil.Name = "menuTil";
-			this.menuTil.Size = new System.Drawing.Size(62, 19);
+			this.menuTil.Size = new System.Drawing.Size(63, 19);
 			this.menuTil.Text = "Til-Yeziq";
 			// 
 			// menuUyghurA
@@ -1062,7 +1062,7 @@ namespace UyghurEditPP
 			this.menuULElipbe,
 			this.menuHeqqide});
 			this.menuYardem.Name = "menuYardem";
-			this.menuYardem.Size = new System.Drawing.Size(58, 19);
+			this.menuYardem.Size = new System.Drawing.Size(59, 19);
 			this.menuYardem.Text = "Yardem";
 			// 
 			// menuKunupka
@@ -1134,7 +1134,7 @@ namespace UyghurEditPP
 			this.stBarUchur.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.stBarUchur.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.stBarUchur.Name = "stBarUchur";
-			this.stBarUchur.Size = new System.Drawing.Size(1031, 19);
+			this.stBarUchur.Size = new System.Drawing.Size(1030, 19);
 			this.stBarUchur.Spring = true;
 			this.stBarUchur.Text = "Uchur";
 			this.stBarUchur.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1170,7 +1170,7 @@ namespace UyghurEditPP
 			this.stKunupka.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
 			this.stKunupka.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.stKunupka.Name = "stKunupka";
-			this.stKunupka.Size = new System.Drawing.Size(48, 19);
+			this.stKunupka.Size = new System.Drawing.Size(49, 19);
 			this.stKunupka.Text = "System";
 			this.stKunupka.Click += new System.EventHandler(this.KunupkaClick);
 			// 

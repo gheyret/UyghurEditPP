@@ -288,7 +288,7 @@ namespace UyghurEditPP
 				curEdit.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
 				
 				gContextMenu.FontFamily = curEdit.FontFamily;
-				gContextMenu.FontSize = curEdit.FontSize;
+				gContextMenu.FontSize = 20; //curEdit.FontSize;
 				gContextMenu.FontStyle = curEdit.FontStyle;
 				
 				curEdit.WordWrap = true;
@@ -998,7 +998,7 @@ namespace UyghurEditPP
 			menuChaplaBashqilar.Enabled = toolChapla.Enabled;
 			
 			menuQuryotkel.Enabled = gEditor.LineCount>5;
-			menuQurNomur.Checked = gEditor.ShowLineNumbers;			
+			menuQurNomur.Checked = gEditor.ShowLineNumbers;
 		}
 		
 		public static String GetVersion()
@@ -1044,18 +1044,6 @@ namespace UyghurEditPP
 				}
 				
 				gEditor.TextArea.TextView.Redraw();
-				
-				if(gEditor.Encoding!=null){
-					foreach(var itm in menuHKod.DropDownItems){
-						var curitm = itm as ToolStripMenuItem;
-						if(curitm!=null){
-							curitm.Checked = false;
-							if(gEditor.CodePage == (int)curitm.Tag){
-								curitm.Checked = true;
-							}
-						}
-					}
-				}
 				
 				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
 				if(curYeziq == Uyghur.YEZIQ.UEY || curYeziq == Uyghur.YEZIQ.YOQ)
@@ -1526,12 +1514,12 @@ namespace UyghurEditPP
 				menuBelge.Enabled = true;
 			}
 			else{
-				menuBelge.Enabled = false;
+				menuBelge.Enabled = true;
 			}
 			
 			if((menuImlaUEY.Checked && curYeziq == Uyghur.YEZIQ.UEY)||
-			  (menuImlaULY.Checked && curYeziq == Uyghur.YEZIQ.ULY)||
-			  (menuImlaUSY.Checked && curYeziq == Uyghur.YEZIQ.USY)
+			   (menuImlaULY.Checked && curYeziq == Uyghur.YEZIQ.ULY)||
+			   (menuImlaUSY.Checked && curYeziq == Uyghur.YEZIQ.USY)
 			  )
 			{
 				menuImlaAuto.Enabled = true;
@@ -1696,7 +1684,7 @@ namespace UyghurEditPP
 		void MenuBelgeClick(object sender, EventArgs e)
 		{
 			Regex  regkopbosh= new Regex("[ ]{2,}",RegexOptions.Compiled);
-			Regex  regaxir= new Regex("[ \t]*([!\\)›»\\]؟،؛])",RegexOptions.Compiled); //Axirlashqan tinish belgiler
+			Regex  regaxir= new Regex("[ \t]*([!\\)›»\\]؟،؛?,;])",RegexOptions.Compiled); //Axirlashqan tinish belgiler
 			Regex  regbash= new Regex("([‹«\\(\\[])[ \t]*",RegexOptions.Compiled); //Axirlashqan tinish belgiler
 
 			Regex  siziq = new Regex("[ ]*[-–][ ]*",RegexOptions.Compiled);
@@ -1707,7 +1695,12 @@ namespace UyghurEditPP
 			txt = regkopbosh.Replace(txt," ");
 			MenuYengiClick(null,null);
 			gEditor.Text = txt;
-			gEditor.RightToLeft = true;
+			if(Uyghur.Detect(txt) == Uyghur.YEZIQ.UEY){
+				gEditor.RightToLeft = true;
+			}
+			else{
+				gEditor.RightToLeft = false;
+			}
 		}
 		
 		string bash(Match mm){
@@ -1913,7 +1906,7 @@ namespace UyghurEditPP
 				gEditor.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
 				
 				gContextMenu.FontFamily = gEditor.FontFamily;
-				gContextMenu.FontSize = gEditor.FontSize;
+				gContextMenu.FontSize = 20;
 				gContextMenu.FontStyle = gEditor.FontStyle;
 				
 			}
@@ -1936,7 +1929,20 @@ namespace UyghurEditPP
 				menuTiz.Enabled = false;
 			}
 		}
-		
+		void MenuHKodDropDownOpened(object sender, EventArgs e)
+		{
+			if(gEditor.Encoding!=null){
+				foreach(var itm in menuHKod.DropDownItems){
+					var curitm = itm as ToolStripMenuItem;
+					if(curitm!=null){
+						curitm.Checked = false;
+						if(gEditor.CodePage == (int)curitm.Tag){
+							curitm.Checked = true;
+						}
+					}
+				}
+			}			
+		}
 		
 		class NGram:IComparer<string>
 		{
