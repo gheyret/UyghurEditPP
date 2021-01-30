@@ -18,7 +18,7 @@ namespace UyghurEditPP
 	public class UNode
 	{
 		public char   mHerp='\0';
-		public int   mFreq=0;
+		public short  mFreq=0;
 		public UNode  mNext=null;
 		public UNode  mAlter=null;
 	}

@@ -24,18 +24,22 @@ namespace UyghurEditPP
 	/// <summary>
 	/// Description of TstTree.
 	/// </summary>
-	public class KenjiSpell
+	public class KenjiSpell: UyghurSpell,IComparer<NamzatQelip>
 	{
 		private UNode m_RootNode=null;
 		private  int  m_SozSani=0;
 		private int   nodeCnt=0;
-		Dictionary<string,string> XataToghra = new Dictionary<string, string>();
-		List<string> Namzatlar = new List<string>();
+		
+
+		HashSet<string>  tmpNam = new HashSet<string>();
+		List<NamzatQelip>     _namzatlar = new List<NamzatQelip>();
+		List<string>     Namzatlar = new List<string>();
+		
 		public KenjiSpell()
 		{
 		}
 
-		public int Add(String soz,  Int64 tekrar=1)
+		public override Int64 Add(String soz,  Int64 tekrar=1)
 		{
 			string szWord = soz.Replace(Uyghur.Sozghuch,"").Trim().ToLower();
 			if(szWord.Trim().Length==0){
@@ -85,10 +89,10 @@ namespace UyghurEditPP
 			return curNode.mFreq;
 		}
 
-		public bool IsListed(String szWord)
+		public override bool IsListed(String szWord)
 		{
 			if (m_RootNode == null) return false;
-			bool ret=_IsWordListed(m_RootNode,szWord.ToLower());
+			bool ret=_IsWordListed(m_RootNode,szWord.Trim().Replace(Uyghur.Sozghuch,"").ToLower());
 			return ret;
 		}
 		
@@ -123,21 +127,22 @@ namespace UyghurEditPP
 		}
 		
 
-		public int WordCount{
+		public override int WordCount{
 			get{
 				return m_SozSani;
 			}
 		}
 		
-		public bool LoadDictionary(string corpus, Uyghur.YEZIQ yeziq)
+		public override bool LoadDictionary(string corpus, Uyghur.YEZIQ yeziq)
 		{
 			
 			if (!File.Exists(corpus)) return false;
 			return LoadDictionary(File.OpenRead(corpus), yeziq);
 		}
 		
-		public bool LoadDictionary(Stream instr,Uyghur.YEZIQ yeziq)
+		public override bool LoadDictionary(Stream instr,Uyghur.YEZIQ yeziq)
 		{
+			gYeziq = yeziq;
 			using (StreamReader sr = new StreamReader(instr,System.Text.Encoding.UTF8))
 			{
 				String line;
@@ -165,39 +170,6 @@ namespace UyghurEditPP
 		}
 
 		
-		public bool LoadXataToghra(string xatatoghra, Uyghur.YEZIQ yeziq)
-		{
-			if (!File.Exists(xatatoghra)) return false;
-			using (StreamReader sr = new StreamReader(File.OpenRead(xatatoghra),System.Text.Encoding.UTF8))
-			{
-				String qur;
-				while ((qur = sr.ReadLine()) != null)
-				{
-					if(yeziq==Uyghur.YEZIQ.ULY){
-						qur = Uyghur.UEY2ULY(qur).ToLower();
-					}
-					else if(yeziq==Uyghur.YEZIQ.USY){
-						qur = Uyghur.UEY2USY(qur).ToLower();
-					}
-					string[] tx = qur.Split('=');
-					if(tx.Length==2){
-						XataToghra[tx[0].Trim()]=tx[1].Trim();
-					}
-				}
-			}
-			return true;
-		}
-		
-		public void AddXataToghra(string xata, string toghra){
-			XataToghra[xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower()]=toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
-		}
-		
-		public string Toghrisi(string xatasi){
-			string toghrisi = null;
-			XataToghra.TryGetValue(xatasi.ToLower().Replace(Uyghur.Sozghuch,""), out toghrisi);
-			return toghrisi;
-		}
-		
 		
 		private void _GetSuggestions(String qelip)
 		{
@@ -205,16 +177,6 @@ namespace UyghurEditPP
 			//System.Diagnostics.Debug.WriteLine(qelip + " --> " + Namzatlar.Count);
 			return;
 		}
-
-		public List<string> TestNamzat(String qelip)
-		{
-			Namzatlar.Clear();
-			if (m_RootNode != null){
-				_GetSuggestions(m_RootNode,qelip+'\0',0,"");
-			}
-			return Namzatlar;
-		}
-
 
 		private void _GetSuggestions(UNode curNode,String Soz,int pos,String namzat)
 		{
@@ -224,8 +186,13 @@ namespace UyghurEditPP
 			{
 				if(curNode.mHerp==0x0 && Herp=='\0')
 				{
-					if(!Namzatlar.Contains(namzat)){
-						Namzatlar.Add(namzat);
+					if(!tmpNam.Contains(namzat))
+					{
+						tmpNam.Add(namzat);
+						NamzatQelip nm = new NamzatQelip();
+						nm.soz = namzat;
+						nm.tekrar = curNode.mFreq;
+						_namzatlar.Add(nm);
 					}
 				}
 				else if(Herp=='*'){
@@ -253,14 +220,18 @@ namespace UyghurEditPP
 			}
 		}
 		
+		
 		//Namzat Sozlerni tepip chiqidu
-		public List<string> Lookup(string Soz)
+		public override List<string> Lookup(string Soz)
 		{
 			Namzatlar.Clear();
+			tmpNam.Clear();
+			_namzatlar.Clear();
+			
 			if (m_RootNode == null) return Namzatlar;
 			char[] herpler;
 			String yasSoz;
-			Soz = Soz.ToLower();
+			Soz = Soz.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 			int lenSoz=Soz.Length;
 			int i;
 
@@ -273,116 +244,143 @@ namespace UyghurEditPP
 			}
 			yasSoz=new String(herpler);
 			_GetSuggestions(yasSoz);
-			//if(Namzatlar.Count!=0) return Namzatlar;
 
 			//Yuqiridiki barliq sozuq tawushlar xata dep qarap, andin bir bir herpning arqisidin birdin soz chushup qalghan dep qarisaq
 			//Herp Bir Herpning aldida birdin herp chushup qalghan dep perez qilsaq
+			string tmp;
 			for(i=lenSoz;i>=0;i--)
 			{
-				_GetSuggestions(yasSoz.Insert(i,"?"));
+				tmp = yasSoz.Insert(i,"?");
+				_GetSuggestions(tmp);
+				if(i<yasSoz.Length){
+					tmp = yasSoz.Remove(i,1);
+					_GetSuggestions(tmp);
+					tmp = yasSoz.Remove(i,1).Insert(i,"?");
+					_GetSuggestions(tmp);
+				}
 			}
-
-			//Her bir herp xatalashqan dep perz qilghanda
+			
+			
 			for(i=lenSoz-1;i>=0;i--)
 			{
+				yasSoz = Soz.Insert(i,"?"); // Bir herp chsuhup qalghan
+				_GetSuggestions(yasSoz);
+
 				herpler=Soz.ToCharArray();
-				herpler[i]='?';
+				herpler[i]='?';    //Birdin herp hata
 				yasSoz=new String(herpler);
 				_GetSuggestions(yasSoz);
-			}
 
-			//Her bir herpni artuqche daep perez qilghanda
-			for(i=lenSoz-1;i>=0;i--)
-			{
-				yasSoz=Soz.Remove(i,1);
+				yasSoz = yasSoz.Insert(i,"?");
 				_GetSuggestions(yasSoz);
-			}
-			
-			//Herp Bir Herpning aldida birdin herp chushup qalghan dep perez qilsaq
-			for(i=lenSoz;i>=0;i--)
-			{
-				yasSoz = Soz.Insert(i,"?");
-				_GetSuggestions(yasSoz);
-			}
-			
-			//Her bir herpning iki yenidiki herp xata
-			for(i=lenSoz-2;i>=1;i--)
-			{
-				herpler=Soz.ToCharArray();
-				herpler[i-1]='?';
-				herpler[i+1]='?';
-				yasSoz=new String(herpler);
-				_GetSuggestions(yasSoz);
-			}
-			
-			//Qoshna ikki herp xatalashqan dep perz qilghanda
-			for(i=lenSoz-2;i>=0;i--)
-			{
-				herpler=Soz.ToCharArray();
-				herpler[i]='?';
-				herpler[i+1]='?';
-				yasSoz=new String(herpler);
-				_GetSuggestions(yasSoz);
-			}
+				
+				
+				if((i-1)>=0){
+					herpler[i-1]='?';  //xoshana ikki herp xata
+					yasSoz=new String(herpler);
+					_GetSuggestions(yasSoz);
+				}
+				
+				if((i-2)>=0){
+					herpler=Soz.ToCharArray();
+					herpler[i]='?';    //Birdin herp hata
+					herpler[i-2]='?';  //birin herpni atalap xatamu qaraydu
+					yasSoz=new String(herpler);
+					_GetSuggestions(yasSoz);
+				}
 
-			//Her Bir Herpning ikki yenidin birdin herp chushup qalghan
-			for(i=lenSoz;i>=1;i--)
-			{
-				yasSoz = Soz.Insert(i-1,"?").Insert(i+1,"?");
-				_GetSuggestions(yasSoz);
-			}
-			
-			//Her ikki Herpning ikki yenidin birdin herp chushup qalghan
-			for(i=lenSoz-1;i>=1;i--)
-			{
-				yasSoz = Soz.Insert(i+1,"?").Insert(i-1,"?");
-				_GetSuggestions(yasSoz);
-			}
-
-			if(Namzatlar.Count!=0) return Namzatlar;
-			
-			//Qoshna 3 herp xatalashqan dep perz qilghanda
-			for(i=lenSoz-3;i>=0;i--)
-			{
-				herpler=Soz.ToCharArray();
-				herpler[i]='?';
-				herpler[i+1]='?';
-				herpler[i+2]='?';
-				yasSoz=new String(herpler);
-				_GetSuggestions(yasSoz);
-			}
-									
-			//Qoshna ikki herp esli birla herp idi
-			for(i=lenSoz-2;i>=0;i--)
-			{
-				yasSoz=Soz.Remove(i,2).Insert(i,"?");
-				_GetSuggestions(yasSoz);
-			}
-
-			//Oz-ara Qoshna ikki herp artuqche daep perez qilghanda
-			for(i=lenSoz-2;i>=0;i--)
-			{
-				yasSoz=Soz.Remove(i,2);
-				_GetSuggestions(yasSoz);
-			}
-
-			//Qoshna 3 herp esli ikki herp idi
-			for(i=lenSoz-3;i>=0;i--)
-			{
-				yasSoz=Soz.Remove(i,3).Insert(i,"??");
-				_GetSuggestions(yasSoz);
-			}
-			
-			//Belkim qoshumche xata, shunga eng keynidin 4 heripni ochuruwetip korup baqidu
-			//Oz-ara Qoshna 3 herp artuqche daep perez qilghanda
-			if(lenSoz>6){
-				for(i=1;i<4;i++)
-				{
-					yasSoz=Soz.Substring(0,lenSoz-i);
+				if((i-3)>=0){
+					herpler=Soz.ToCharArray();
+					herpler[i]='?';    //Birdin herp hata
+					herpler[i-3]='?';  //birin herpni atalap xatamu qaraydu
+					yasSoz=new String(herpler);
 					_GetSuggestions(yasSoz);
 				}
 			}
+			
+			NamzatQelip yiltiz = null;
+			int tmpCnt = _namzatlar.Count;
+			i=1;
+			while(i<lenSoz && lenSoz-i>=3)
+			{
+				yasSoz=Soz.Substring(0,lenSoz-i);
+				_GetSuggestions(yasSoz);
+				if(tmpCnt!=_namzatlar.Count){
+					yiltiz = _namzatlar[_namzatlar.Count-1];
+					_namzatlar.RemoveAt(_namzatlar.Count-1);
+					break;
+				}
+				i++;
+			}
+			
+			if(yiltiz!=null){
+				_namzatlar.Add(yiltiz);
+			}
+			foreach(NamzatQelip qlp in _namzatlar)
+			{
+				short dist= (short)GetDistance(Soz,qlp.soz);
+				qlp.ariliq = dist;
+			}
+			_namzatlar.Sort(this);
+			
+			Namzatlar.Clear();
+			
+			foreach(NamzatQelip qlp in _namzatlar)
+			{
+				if(Namzatlar.Count>10){
+					break;
+				}
+				Namzatlar.Add(qlp.soz);
+			}
+			
 			return Namzatlar;
 		}
+		
+		public int Compare(NamzatQelip a,NamzatQelip b){
+			if(a.ariliq==b.ariliq)
+			{
+				return b.tekrar-a.tekrar;
+			}
+			return a.ariliq-b.ariliq;
+		}
+		
+		
+		int GetDistance(string s, string t)
+		{
+			var bounds = new { Height = s.Length + 1, Width = t.Length + 1 };
+			
+			int[,] matrix = new int[bounds.Height, bounds.Width];
+			
+			for (int height = 0; height < bounds.Height; height++) { matrix[height, 0] = height; };
+			for (int width = 0; width < bounds.Width; width++) { matrix[0, width] = width; };
+			
+			for (int height = 1; height < bounds.Height; height++)
+			{
+				for (int width = 1; width < bounds.Width; width++)
+				{
+					int cost = (s[height - 1] == t[width - 1]) ? 0 : 1;
+					int insertion = matrix[height, width - 1] + 1;
+					int deletion = matrix[height - 1, width] + 1;
+					int substitution = matrix[height - 1, width - 1] + cost;
+					
+					int distance = Math.Min(insertion, Math.Min(deletion, substitution));
+					
+					if (height > 1 && width > 1 && s[height - 1] == t[width - 2] && s[height - 2] == t[width - 1])
+					{
+						distance = Math.Min(distance, matrix[height - 2, width - 2] + cost);
+					}
+					
+					matrix[height, width] = distance;
+				}
+			}
+			
+			return matrix[bounds.Height - 1, bounds.Width - 1];
+		}
+	}
+	
+	public class NamzatQelip{
+		public string soz=null;
+		public short  tekrar=-1;
+		public short  ariliq=-1;
 	}
 }

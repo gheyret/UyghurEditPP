@@ -48,7 +48,9 @@ namespace UyghurEditPP
 				{
 					if(Herp=='\0')
 					{
-						if(curNode.mFreq<ushort.MaxValue)curNode.mFreq++;
+						if(curNode.mFreq<short.MaxValue){
+							curNode.mFreq++;
+						}
 						if(curNode.mFreq==1)
 						{
 							m_SozSani++;
@@ -133,7 +135,7 @@ namespace UyghurEditPP
 			}
 		}
 		
-		public int Add(String szWord, int frq)
+		public int Add(String szWord, short frq)
 		{
 			szWord+='\0';
 			if(m_RootNode==null)

@@ -210,11 +210,13 @@ namespace UyghurEditPP.FindReplace
 				Regex regex = GetRegEx(txtFind.Text, true);
 				int offset = 0; //Editor.CaretOffset;
 				Editor.BeginChange();
-				MatchCollection finds =  regex.Matches(Editor.Text, offset);
-				foreach (Match match in finds)
+				//MatchCollection finds =  regex.Matches(Editor.Text, offset);
+				Match match = regex.Match(Editor.Text, offset);
+				while(match.Success)
 				{
-					Editor.Document.Replace(offset + match.Index, match.Length, txtReplace.Text);
-					offset += txtReplace.Text.Length - match.Length;
+					Editor.Document.Replace(match.Index, match.Length, txtReplace.Text);
+					offset = match.Index+ txtReplace.Text.Length;
+					match = regex.Match(Editor.Text, offset);
 					repCount++;
 				}
 				Editor.EndChange();
