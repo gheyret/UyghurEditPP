@@ -388,6 +388,8 @@
       <DependentUpon>DocumentLine.cs</DependentUpon>
     </Compile>
     <Compile Include="Document\TextDocument.cs" />
+    <Compile Include="SymSpell\EditDistance.cs" />
+    <Compile Include="SymSpell\SymSpell.cs" />
     <Compile Include="TextEditor\AvalonEditCommands.cs" />
     <Compile Include="TextEditor\TextEditor.cs" />
     <Compile Include="TextEditor\TextEditorAutomationPeer.cs" />
@@ -425,6 +427,7 @@
     <Compile Include="Utils\ThrowUtil.cs" />
     <Compile Include="Utils\Win32.cs" />
     <Compile Include="Uyghur.cs" />
+    <Compile Include="UyghurSpell.cs" />
     <Resource Include="themes\RightArrow.cur" />
   </ItemGroup>
   <ItemGroup>
@@ -486,12 +489,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="UyghurEditPP.ICO" />
-    <None Include="uyghur_imla.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="uyghur_imla.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KenjiSpell" />
+    <Folder Include="SymSpell" />
   </ItemGroup>
   <Import Project="packages\Tesseract.4.1.1\build\Tesseract.targets" Condition="Exists('packages\Tesseract.4.1.1\build\Tesseract.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

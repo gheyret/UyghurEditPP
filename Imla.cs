@@ -57,7 +57,7 @@ namespace UyghurEditPP
 			set;
 		}
 		
-		public KenjiSpell SpellCheker{
+		public UyghurSpell SpellCheker{
 			get;
 			set;
 		}
