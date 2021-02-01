@@ -60,10 +60,11 @@ namespace UyghurEditPP.FindReplace
 			
 			this.cbCaseSensitive.Content = MainForm.gLang.GetText("Chong-kichik yézilishini perqlendürsun");
 			this.cbWholeWord.Content     = MainForm.gLang.GetText("Pütün söz");
+			this.cbSearchUp.Content     = MainForm.gLang.GetText("Üstige qarap izdisun");
 
 			this.cbRegex.Content     = MainForm.gLang.GetText("Muntizim ipade")+" (Regular Expression)";
 			this.cbWildcards.Content     = MainForm.gLang.GetText("Alahide belgiler") + "(\\t,\\n,\\r...)";
-			this.cbSearchUp.Content     = MainForm.gLang.GetText("Üstige qarap izdisun");
+			this.cbNormal.Content = MainForm.gLang.GetText("Normal");
 			
 			this.ToolTip = "<Ctrl>+<K> " + MainForm.gLang.GetText("ni bassa kunupka almiship, Uyghurche kirgüzgili bolidu");
 			this.labKun.Text = "<Ctrl>+<K> " + MainForm.gLang.GetText("ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
@@ -71,18 +72,25 @@ namespace UyghurEditPP.FindReplace
 		
 		void window1_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine(e.Key.ToString());
 			if (e.Key == Key.K && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
 			{
 				if(gKunupka == KUNUPKA.System){
 					gKunupka = KUNUPKA.Uyghur;
+					this.labKun.Text = "ئۇيغۇرچە";
 				}
 				else
 				{
 					gKunupka = KUNUPKA.System;
+					this.labKun.Text = "System";
 				}
 				e.Handled = true;
 			}
-			this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
+			else if(e.Key == Key.Return){
+				e.Handled = true;
+				FindNextClick(null,null);
+			}
+			//this.labKun.Text = MainForm.gLang.GetText("<Ctrl>+<K> ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu");
 		}
 		
 		
@@ -234,6 +242,7 @@ namespace UyghurEditPP.FindReplace
 
 			if (!match.Success)  // start again from beginning or end
 			{
+				SystemSounds.Beep.Play();
 				if (regex.Options.HasFlag(RegexOptions.RightToLeft))
 					match = regex.Match(Editor.Text, Editor.Text.Length);
 				else
@@ -246,7 +255,10 @@ namespace UyghurEditPP.FindReplace
 				Editor.CaretOffset = match.Index;
 				Editor.BringCaretToView();
 			}
-
+			else{
+				SystemSounds.Beep.Play();
+				this.labKun.Text=MainForm.gLang.GetText("Tépilmidi");
+			}
 			return match.Success;
 		}
 
@@ -258,19 +270,18 @@ namespace UyghurEditPP.FindReplace
 			if (cbCaseSensitive.IsChecked == false)
 				options |= RegexOptions.IgnoreCase;
 
-			if (cbRegex.IsChecked == true)
-			{
-				return new Regex(textToFind, options);
+			string pattern = textToFind;
+			if(cbNormal.IsChecked==true){
+				pattern = Regex.Escape(pattern);
 			}
-			else
-			{
-				string pattern = Regex.Escape(textToFind);
-				if (cbWildcards.IsChecked == true)
-					pattern = pattern.Replace("\\*", ".*").Replace("\\?", ".");
-				if (cbWholeWord.IsChecked == true)
-					pattern = "\\b" + pattern + "\\b";
-				return new Regex(pattern, options);
+			else if(cbWildcards.IsChecked == true){
+				pattern = Regex.Escape(pattern);
+				pattern = pattern.Replace("\\*", ".*").Replace("\\?", ".");
 			}
+
+			if (cbWholeWord.IsChecked == true)
+				pattern = "\\b" + pattern + "\\b";
+			return new Regex(pattern, options);
 		}
 	}
 }
