@@ -1193,6 +1193,7 @@ namespace UyghurEditPP
 			this.Text = "UyghurEdit++";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
 			this.Load += new System.EventHandler(this.MainFormLoad);
+			this.Shown += new System.EventHandler(this.MainFormShown);
 			this.SizeChanged += new System.EventHandler(this.MainFormSizeChanged);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainFormPaint);
 			this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MainFormMouseDoubleClick);

@@ -24,7 +24,13 @@ namespace UyghurEditPP
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			System.Diagnostics.Debug.WriteLine("Buyruq Quri: " +args.Length);
+			MainForm frm = new MainForm();
+			frm.Show();
+			if(args.Length==1){
+				frm.OpenaFile(args[0]);
+			}
+			Application.Run(frm);
 //			KenjiSpell kImla = new KenjiSpell();
 //			kImla.LoadDictionary("uyghur_imla.txt",Uyghur.YEZIQ.ULY);
 //			System.Diagnostics.Debug.WriteLine(kImla.WordCount);

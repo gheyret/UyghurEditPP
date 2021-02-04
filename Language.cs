@@ -80,9 +80,9 @@ namespace UyghurEditPP
 			return ret;
 		}
 		
-		public void Save(){
+		public void Save(string filename){
 			string jstr = "{" + gBuf.ToString()+ "}";
-			File.WriteAllText("langdata.txt",jstr,Encoding.UTF8);
+			File.WriteAllText(filename,jstr,Encoding.UTF8);
 		}
 	}
 }
