@@ -313,6 +313,98 @@ public class Uyghur
 		}
 	}
 	
+	
+	public static string ULYJumleChongYaz(string newtext)
+	{
+		string qur;
+		Regex jumle = new Regex(@"([\.\?!][\'\""\u2018\u2019\u201c\u201d\)\]]*\s*(?<!\w\.\w.)(?<![A-ZÉÖÜ][a-z][a-z]\.)(?<![A-ZÉÖÜ][a-z]\.)(?<![A-ZÉÖÜ]\.)\s+)",RegexOptions.Compiled);
+		string[] sp = {"\r\n"};
+		string[] qurlar = newtext.Split(sp,StringSplitOptions.None);
+		for(int i=0;i<qurlar.Length;i++){
+			if(qurlar[i].Length>0){
+				qur = qurlar[i];
+				int stind = 0;
+				Match match = jumle.Match(qur, stind);
+				char herp;
+				while(match.Success){
+					stind = match.Index;
+					herp = qur[stind];
+					while(Uyghur.ULYHerpler.IndexOf(herp)==-1){
+						stind++;
+						if(stind>=qur.Length){
+							break;
+						}
+						herp = qur[stind];
+					}
+					if(stind<qur.Length){
+						qur = qur.Remove(stind,1).Insert(stind,char.ToUpper(herp).ToString());
+					}
+					match = jumle.Match(qur, stind);
+				}
+				stind =0;
+				herp  = qur[stind];
+				while(Uyghur.ULYHerpler.IndexOf(herp)==-1){
+					stind++;
+					if(stind>=qur.Length){
+						break;
+					}
+					herp = qur[stind];
+				}
+				if(stind<qur.Length && char.IsLower(qur[stind])){
+					qur = qur.Remove(stind,1).Insert(stind,char.ToUpper(herp).ToString());
+				}
+				qurlar[i] = qur;
+			}
+		}
+		return string.Join(sp[0],qurlar);
+	}
+	
+
+	public static string USYJumleChongYaz(string newtext)
+	{
+		string qur;
+		Regex jumle = new Regex(@"([\.\?!][\'\""\u2018\u2019\u201c\u201d\)\]]*\s*(?<!\w\.\w.)(?<![АБВГДЕЖЗИЙКЛМНОПРСТУФХЧШҒҖҚҢҮҺӘӨ][абвгдежзийклмнопрстуфхчшғҗқңүһәө][абвгдежзийклмнопрстуфхчшғҗқңүһәө]\.)(?<![АБВГДЕЖЗИЙКЛМНОПРСТУФХЧШҒҖҚҢҮҺӘӨ][абвгдежзийклмнопрстуфхчшғҗқңүһәө]\.)(?<![АБВГДЕЖЗИЙКЛМНОПРСТУФХЧШҒҖҚҢҮҺӘӨ]\.)\s+)",RegexOptions.Compiled);
+		string[] sp = {"\r\n"};
+		string[] qurlar = newtext.Split(sp,StringSplitOptions.None);
+		for(int i=0;i<qurlar.Length;i++){
+			if(qurlar[i].Length>0){
+				qur = qurlar[i];
+				int stind = 0;
+				Match match = jumle.Match(qur, stind);
+				char herp;
+				while(match.Success){
+					stind = match.Index;
+					herp = qur[stind];
+					while(Uyghur.USYHerpler.IndexOf(herp)==-1){
+						stind++;
+						if(stind>=qur.Length){
+							break;
+						}
+						herp = qur[stind];
+					}
+					if(stind<qur.Length){
+						qur = qur.Remove(stind,1).Insert(stind,char.ToUpper(herp).ToString());
+					}
+					match = jumle.Match(qur, stind);
+				}
+				stind =0;
+				herp  = qur[stind];
+				while(Uyghur.USYHerpler.IndexOf(herp)==-1){
+					stind++;
+					if(stind>=qur.Length){
+						break;
+					}
+					herp = qur[stind];
+				}
+				if(stind<qur.Length && char.IsLower(qur[stind])){
+					qur = qur.Remove(stind,1).Insert(stind,char.ToUpper(herp).ToString());
+				}
+				qurlar[i] = qur;
+			}
+		}
+		return string.Join(sp[0],qurlar);
+	}
+
 	public static bool IsUyghurcheHerp(char Herp)
 	{
 		bool ret=false;

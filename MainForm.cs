@@ -895,7 +895,7 @@ namespace UyghurEditPP
 			menuYardem.Text = gLang.GetText("Yardem");
 			menuKunupka.Text = gLang.GetText("Kona Yéziq Kunupka Orunlashturulushi");
 			menuULElipbe.Text = gLang.GetText("Uyghur Latin Yéziqi Élipbesi");
-			menuHeqqide.Text = gLang.GetText("Uyghur Édit Heqqide");
+			menuHeqqide.Text = "UyghurEdit++" + gLang.GetText("Heqqide");
 			
 			toolYengi.ToolTipText = gLang.GetText("Yéngi höjjet yasaydu");
 			toolAch.ToolTipText=gLang.GetText("Diskidiki höjjetni oqup tehrirleydu");
@@ -1299,7 +1299,7 @@ namespace UyghurEditPP
 				string newtext = Uyghur.ToULY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
-					gEditor.Text = newtext;
+					gEditor.Text = Uyghur.ULYJumleChongYaz(newtext);
 					gEditor.RightToLeft = false;
 					TabControl1SelectedIndexChanged(null,null);
 				}
@@ -1319,7 +1319,7 @@ namespace UyghurEditPP
 				string newtext = Uyghur.ToUSY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
-					gEditor.Text = newtext;
+					gEditor.Text = Uyghur.USYJumleChongYaz(newtext);
 					gEditor.RightToLeft = false;
 					TabControl1SelectedIndexChanged(null,null);
 					
@@ -1405,7 +1405,7 @@ namespace UyghurEditPP
 				string newtext = Uyghur.UEY2ULY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
-					gEditor.Text = newtext;
+					gEditor.Text = Uyghur.ULYJumleChongYaz(newtext);
 					gEditor.RightToLeft = false;
 					TabControl1SelectedIndexChanged(null,null);
 				}
@@ -1448,7 +1448,7 @@ namespace UyghurEditPP
 				string newtext = Uyghur.UEY2USY(gEditor.Text);
 				if(newtext!=null){
 					MenuYengiClick(null,null);
-					gEditor.Text = newtext;
+					gEditor.Text = Uyghur.USYJumleChongYaz(newtext);
 					gEditor.RightToLeft = false;
 					TabControl1SelectedIndexChanged(null,null);
 				}
