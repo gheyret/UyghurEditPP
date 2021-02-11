@@ -36,7 +36,6 @@ namespace UyghurEditPP
 		int         gFileNum = 1;
 		
 		public static Language gLang = new Language();
-//		Microsoft.Win32.RegistryKey         gRegKey=Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"Software\kenjisoft\UyghurEditPP");
 
 		Imla          gImla;
 		List<String>  gIzlar=new List<String>();
@@ -61,10 +60,7 @@ namespace UyghurEditPP
 		System.Windows.Controls.MenuItem   gMenuSozToghra;
 		System.Windows.Controls.MenuItem   gMenuSozTekshurme;
 		System.Windows.Controls.Separator  gMenuSplit;
-		
-		string gImlaIshletkuchi = @"imla_ishletkuchi.txt";
-		string gImlaXataToghra = @"imla_xatatoghra.txt";
-		
+				
 		int[]  gCodePages = {-3,-2,-1,65000,65001,1200,1201,932, 51932, 936, 950, 1250,1251,1252,1253,1254,1255,1256,1257};
 		
 		public    static string gImgexts = "";
@@ -132,11 +128,7 @@ namespace UyghurEditPP
 			gMenuSozTekshurme.FontWeight = System.Windows.FontWeights.Bold;
 			gMenuSozTekshurme.Click += menuSozImla;
 			
-			gConfName = Path.Combine(Application.StartupPath, gConfName);
-			
-			gImlaIshletkuchi =Path.Combine(Application.StartupPath, gImlaIshletkuchi);
-			gImlaXataToghra =Path.Combine(Application.StartupPath, gImlaXataToghra);
-			
+			gConfName = Path.Combine(Application.StartupPath, gConfName);			
 		}
 		
 		private bool IsFontInstalled(string fontName) {
@@ -225,16 +217,9 @@ namespace UyghurEditPP
 			string soz = (string)menuNamzat.Tag;
 			gImla.SpellCheker.Add(soz,1);
 			gEditor.TextArea.TextView.Redraw();
-			if(menuNamzat == gMenuSozToghra){
-				try{
-					soz = Uyghur.ToUEY(soz);
-					if(soz ==null){
-						soz = (string)menuNamzat.Tag;
-					}
-					File.AppendAllText(gImlaIshletkuchi, soz + " 1"+System.Environment.NewLine,System.Text.Encoding.UTF8);
-				}catch{
-					
-				}
+			if(menuNamzat == gMenuSozToghra)
+			{
+				gImla.SpellCheker.AddToIshletkuchi(soz);
 			}
 		}
 		
@@ -544,17 +529,7 @@ namespace UyghurEditPP
 			gEditor.Document.Replace(txtPos.X,txtPos.Y,nsoz);
 			gEditor.CaretOffset = txtPos.X + nsoz.Length;
 
-			gImla.SpellCheker.AddXataToghra(xatasoz,nsoz);
-			try{
-				string tx = Uyghur.ToUEY(xatasoz+"="+nsoz);
-				if(tx==null){
-					tx = xatasoz+"="+nsoz;
-				}
-				File.AppendAllText(gImlaXataToghra,tx+System.Environment.NewLine,System.Text.Encoding.UTF8);
-			}catch{
-				
-			}
-			
+			gImla.SpellCheker.AddXataToghra(xatasoz,nsoz);			
 			
 			//Barliq Xatani izdep tepip almashturidu
 			//string qelip = "\b"+xatasoz+"\b";
@@ -717,12 +692,6 @@ namespace UyghurEditPP
 				kun=KUNUPKA.System;
 			}
 			
-//			if(gConfig.Contains("RTL")){
-//				gRTL=(bool)gConfig["RTL"];
-//			}
-//			else{
-//				gRTL=true;
-//			}
 			
 			if(gConfig.Contains("FONTNAME") && gConfig.Contains("FONTSIZE") && gConfig.Contains("FONTSTYLE") && gConfig.Contains("FONTWEIGHT")){
 				gFontName     = (String)gConfig["FONTNAME"];
@@ -741,9 +710,7 @@ namespace UyghurEditPP
 				gConfig["FONTSTYLE"] = gFontStyle;
 				gConfig["FONTWEIGHT"] = gFontWeight;
 				
-			}
-			
-			ImlaniAktipla(imyeziq);
+			}			
 			SetKunupka(kun);
 		}
 		
@@ -1634,19 +1601,14 @@ namespace UyghurEditPP
 					gImla.WordFinder = gUyghurcheSoz;
 					gImla.SpellCheker = new KenjiSpell();
 					//gImla.SpellCheker = new SymSpell();
-					gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.UEY);
-					gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,Uyghur.YEZIQ.UEY);
-					gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,Uyghur.YEZIQ.UEY);
+					gImla.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.UEY);
 				}
 				else if(yeziq.Equals("ULY") && gLatincheSoz != gImla.WordFinder){
 					gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
 					gMenuSozToghra.Header   = "Bu söz toghra";
 					gImla.WordFinder = gLatincheSoz;
 					gImla.SpellCheker = new KenjiSpell();
-					gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.ULY);
-					gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,Uyghur.YEZIQ.ULY);
-					gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,Uyghur.YEZIQ.ULY);
-					
+					gImla.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.ULY);
 				}
 				else if( yeziq.Equals("USY") && gSlawyancheSoz != gImla.WordFinder){
 					gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
@@ -1654,15 +1616,12 @@ namespace UyghurEditPP
 					gImla.WordFinder = gSlawyancheSoz;
 					gImla.SpellCheker = new KenjiSpell();
 					gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.USY);//Imla mbirini slawyanchigha ozgertip ishlitidu
-					gImla.SpellCheker.LoadDictionary(gImlaIshletkuchi,Uyghur.YEZIQ.USY);
-					gImla.SpellCheker.LoadXataToghra(gImlaXataToghra,Uyghur.YEZIQ.USY);
 				}
 				imlastrem.Close();
 				System.Diagnostics.Debug.WriteLine("Sozluk Sani = " + gImla.SpellCheker.WordCount);
 //				}
 			}
 			gConfig["IMLAYEZIQ"]=yeziq;
-
 		}
 		
 		
