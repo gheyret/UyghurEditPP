@@ -29,12 +29,18 @@ namespace UyghurEditPP
 		
 		protected Uyghur.YEZIQ gYeziq;
 
-		const string gImlaIshletkuchi = @"imla_ishletkuchi.txt";
-		const string gImlaXataToghra = @"imla_xatatoghra.txt";
+		string gImlaIshletkuchi = @"imla_ishletkuchi.txt";
+		string gImlaXataToghra = @"imla_xatatoghra.txt";
 		
+		
+		internal UyghurSpell(){
+			gImlaIshletkuchi = Path.Combine(Application.StartupPath, gImlaIshletkuchi);
+			gImlaXataToghra = Path.Combine(Application.StartupPath, gImlaXataToghra);
+		}
 		
 		public bool Load(Stream instr, Uyghur.YEZIQ yeziq)
 		{
+			gYeziq = yeziq;
 			bool ret = LoadDictionary(instr,yeziq);
 			if(IshletkuchiDic.Count==0){
 				ReadIshletkuchiDic();
@@ -78,9 +84,8 @@ namespace UyghurEditPP
 		
 		void ReadIshletkuchiDic()
 		{
-			string filenm =Path.Combine(Application.StartupPath, gImlaIshletkuchi);
-			if(!File.Exists(filenm)) return;
-			using (StreamReader sr = new StreamReader(File.OpenRead(filenm),System.Text.Encoding.UTF8))
+			if(!File.Exists(gImlaIshletkuchi)) return;
+			using (StreamReader sr = new StreamReader(File.OpenRead(gImlaIshletkuchi),true))
 			{
 				String line;
 				while ((line = sr.ReadLine()) != null)
@@ -97,10 +102,10 @@ namespace UyghurEditPP
 		
 		void ReadXataToghra()
 		{
-			string filenm =Path.Combine(Application.StartupPath, gImlaXataToghra);
-			if (!File.Exists(filenm)) return;
+
+			if (!File.Exists(gImlaXataToghra)) return;
 			XataToghra.Clear();
-			using (StreamReader sr = new StreamReader(File.OpenRead(filenm),System.Text.Encoding.UTF8))
+			using (StreamReader sr = new StreamReader(File.OpenRead(gImlaXataToghra),true))
 			{
 				String qur;
 				while ((qur = sr.ReadLine()) != null)

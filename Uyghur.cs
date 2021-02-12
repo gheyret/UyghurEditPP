@@ -285,7 +285,7 @@ public class Uyghur
 	public enum YEZIQ{UEY,ULY,USY,YOQ};
 	
 	
-	public  Uyghur()
+	public Uyghur()
 	{
 		System.Diagnostics.Debug.WriteLine("Keldi");
 	}

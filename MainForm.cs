@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using System.Linq;
 
 namespace UyghurEditPP
 {
@@ -60,7 +61,7 @@ namespace UyghurEditPP
 		System.Windows.Controls.MenuItem   gMenuSozToghra;
 		System.Windows.Controls.MenuItem   gMenuSozTekshurme;
 		System.Windows.Controls.Separator  gMenuSplit;
-				
+		
 		int[]  gCodePages = {-3,-2,-1,65000,65001,1200,1201,932, 51932, 936, 950, 1250,1251,1252,1253,1254,1255,1256,1257};
 		
 		public    static string gImgexts = "";
@@ -128,7 +129,7 @@ namespace UyghurEditPP
 			gMenuSozTekshurme.FontWeight = System.Windows.FontWeights.Bold;
 			gMenuSozTekshurme.Click += menuSozImla;
 			
-			gConfName = Path.Combine(Application.StartupPath, gConfName);			
+			gConfName = Path.Combine(Application.StartupPath, gConfName);
 		}
 		
 		private bool IsFontInstalled(string fontName) {
@@ -255,7 +256,6 @@ namespace UyghurEditPP
 					curPg.Tag = fileName;
 					curPg.Text = Path.GetFileName(fileName);
 					mainTab.SelectedTab = curPg;
-					MainFormSizeChanged(null,null);
 					TabControl1SelectedIndexChanged(null,null);
 					Text = fileName + " - UyghurEdit++";
 					UpdateIzlar(fileName);
@@ -334,7 +334,6 @@ namespace UyghurEditPP
 			UpdateIzlar(fileName);
 			
 			mainTab.SelectedTab = curPg;
-			MainFormSizeChanged(null,null);
 			Text = fileName + " - UyghurEdit++";
 			TabControl1SelectedIndexChanged(null,null);
 			if(!gIzOffset.TryGetValue(fileName,out offset)){
@@ -405,7 +404,6 @@ namespace UyghurEditPP
 
 		}
 
-		
 		void KeyboardTextInput(object sender,System.Windows.Input.TextCompositionEventArgs e)
 		{
 			string newtxt="";
@@ -434,10 +432,6 @@ namespace UyghurEditPP
 //			}
 		}
 		
-		void MouseHoverStop(object sender, System.Windows.Input.MouseEventArgs e)
-		{
-			System.Diagnostics.Debug.WriteLine("Ustige Kelip Toxtidi");
-		}
 		
 		//Mouse besilghanda, besilgan orundiki sozni elip, uning imlasi toghrimu?
 		//Xata bolsa namzat we bashqa munasiwetlik uchurni korsitidu
@@ -529,7 +523,7 @@ namespace UyghurEditPP
 			gEditor.Document.Replace(txtPos.X,txtPos.Y,nsoz);
 			gEditor.CaretOffset = txtPos.X + nsoz.Length;
 
-			gImla.SpellCheker.AddXataToghra(xatasoz,nsoz);			
+			gImla.SpellCheker.AddXataToghra(xatasoz,nsoz);
 			
 			//Barliq Xatani izdep tepip almashturidu
 			//string qelip = "\b"+xatasoz+"\b";
@@ -620,6 +614,7 @@ namespace UyghurEditPP
 			if(this.WindowState == FormWindowState.Minimized){
 				this.gFindReplace.HideMe();
 			}
+			gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
 		}
 		
 		
@@ -710,8 +705,13 @@ namespace UyghurEditPP
 				gConfig["FONTSTYLE"] = gFontStyle;
 				gConfig["FONTWEIGHT"] = gFontWeight;
 				
-			}			
+			}
 			SetKunupka(kun);
+			
+			if(!gConfig.Contains("CHONGLUQI")){
+				Rectangle rc = new Rectangle(100,100,1024, 768);
+				gConfig["CHONGLUQI"] = rc;
+			}
 		}
 		
 		void MainFormShown(object sender, EventArgs e)
@@ -769,8 +769,10 @@ namespace UyghurEditPP
 			gMenuSplit = new System.Windows.Controls.Separator();
 			
 			LoadConfigurations();
+			Rectangle rc = (Rectangle)gConfig["CHONGLUQI"];
+			this.Location = new Point(rc.X,rc.Y);
+			this.Size = new Size(rc.Width,rc.Height);
 			MenuYengiClick(null,null);
-			MainFormSizeChanged(null,null);
 		}
 		
 		void CheckLangMenu(string lang){
@@ -1487,6 +1489,7 @@ namespace UyghurEditPP
 			gConfig["ORUNLAR"] = gIzOffset;
 			try
 			{
+				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
 				using(FileStream fs = new FileStream(gConfName, FileMode.Create)){
 					BinaryFormatter formatter = new BinaryFormatter();
 					formatter.Serialize(fs, gConfig);
