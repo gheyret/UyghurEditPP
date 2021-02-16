@@ -9,8 +9,7 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 # Addiy Ishlitish Qollanmisi:
 
-1. Yéziqlarni aylandurush usuli:
-
+##Yéziqlarni aylandurush usuli:
 Qoral baldaqtiki "ئاي" ni chekse Uyghur Ereb yéziqigha, "Ay" chekse Uyghur latin yéziqigha, "Ай" chekse Uyghur Slawyan yéziqigha aylandurup yéngi bir köznekte netijini körsitidu. Eger melum da’ire tallan’ghan bolsa shu yernila oz jayida aylanduridu.
 
 
