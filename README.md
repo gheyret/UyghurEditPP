@@ -7,4 +7,6 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu yaki ht
 64 bitliq Windows üchün yuqiridiki yerdiki UyghurEditPP.zip ni ishliting. 32 bitliq Windows üchün UyghurEditPP32.zip ni ishliting.
 
 Ékran körünüshliri:
-
+<p>
+  <img src="./screenshot/uey.png"/>
+</p>
