@@ -10,3 +10,12 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu yaki ht
 <p>
   <img src="./screenshot/uey.png"/>
 </p>
+<p>
+  <img src="./screenshot/uly.png"/>
+</p>
+<p>
+  <img src="./screenshot/usy.png"/>
+</p>
+<p>
+  <img src="./screenshot/ocr.png"/>
+</p>
