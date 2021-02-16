@@ -7,7 +7,12 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu yaki ht
 64 bitliq Windows üchün yuqiridiki yerdiki UyghurEditPP.zip ni ishliting. 32 bitliq Windows üchün UyghurEditPP32.zip ni ishliting.
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
-Ékran körünüshliri:
+## Addiy Ishlitish Qollanmisi:
+# Yéziqlarni aylandurush usuli:
+Qoral baldaqtiki "ئاي" ni chekse, Uyghur Ereb yéziqigha, "Ay" chekse Uyghur latin yéziqigha, "Ай" chekse Uyghur Slawyan yéziqigha aylandurup yéngi bir köznekte netijini körsitidu. Eger melum da’ire tallan’ghan bolsa shu yernila oz jayida aylanduridu.
+
+
+# Ékran körünüshliri:
 <p>
   <img src="./screenshot/uey.png"/>
 </p>
