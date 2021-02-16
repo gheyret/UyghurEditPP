@@ -22,5 +22,7 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu yaki ht
 
 # Ishlitilgen ochuq kodlar
 Avalonedit: https://github.com/icsharpcode/AvalonEdit
+
 DynaJson: https://github.com/fujieda/DynaJson
+
 Tesseract .Net: https://github.com/charlesw/tesseract
