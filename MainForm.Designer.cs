@@ -119,6 +119,8 @@ namespace UyghurEditPP
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
 		private System.Windows.Forms.ToolStripMenuItem menuYeziqAuto;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
+		private System.Windows.Forms.ToolStripMenuItem menuImlaAmbar;
 		
 		
 		
@@ -217,6 +219,8 @@ namespace UyghurEditPP
 			this.menuImlaAuto = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuBelge = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuImlaAmbar = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuQoral = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuTiz = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuTekrar = new System.Windows.Forms.ToolStripMenuItem();
@@ -893,7 +897,9 @@ namespace UyghurEditPP
 			this.toolStripSeparator12,
 			this.menuImlaAuto,
 			this.toolStripSeparator16,
-			this.menuBelge});
+			this.menuBelge,
+			this.toolStripSeparator20,
+			this.menuImlaAmbar});
 			this.menuImla.Name = "menuImla";
 			this.menuImla.Size = new System.Drawing.Size(41, 19);
 			this.menuImla.Text = "Imla";
@@ -961,6 +967,18 @@ namespace UyghurEditPP
 			this.menuBelge.Text = "Tinish Belgilerning Aldi Keynidiki Boshluqni Tengshe";
 			this.menuBelge.Click += new System.EventHandler(this.MenuBelgeClick);
 			this.menuBelge.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+			// 
+			// toolStripSeparator20
+			// 
+			this.toolStripSeparator20.Name = "toolStripSeparator20";
+			this.toolStripSeparator20.Size = new System.Drawing.Size(345, 6);
+			// 
+			// menuImlaAmbar
+			// 
+			this.menuImlaAmbar.Name = "menuImlaAmbar";
+			this.menuImlaAmbar.Size = new System.Drawing.Size(348, 22);
+			this.menuImlaAmbar.Text = "Ishletkuchi Ambarlirini Korset";
+			this.menuImlaAmbar.Click += new System.EventHandler(this.MenuImlaAmbarClick);
 			// 
 			// menuQoral
 			// 
@@ -1082,7 +1100,7 @@ namespace UyghurEditPP
 			// 
 			this.menuHeqqide.Name = "menuHeqqide";
 			this.menuHeqqide.Size = new System.Drawing.Size(279, 22);
-			this.menuHeqqide.Text = "Uyghur Edit Heqqide";
+			this.menuHeqqide.Text = "UyghurEdit++ Heqqide";
 			this.menuHeqqide.Click += new System.EventHandler(this.MenuHeqqideClick);
 			// 
 			// menuU

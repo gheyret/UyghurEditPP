@@ -38,6 +38,18 @@ namespace UyghurEditPP
 			gImlaXataToghra = Path.Combine(Application.StartupPath, gImlaXataToghra);
 		}
 		
+		public string IshletkcuhiAmbarIsimi{
+			get{
+				return gImlaIshletkuchi;
+			}
+		}
+		
+		public string XataToghraAmbarIsimi{
+			get{
+				return gImlaXataToghra;
+			}
+		}
+		
 		public bool Load(Stream instr, Uyghur.YEZIQ yeziq)
 		{
 			gYeziq = yeziq;
@@ -143,7 +155,7 @@ namespace UyghurEditPP
 			soz = Uyghur.ToUEY(soz)?? soz;			
 			IshletkuchiDic.Add(soz);
 			try{
-				File.AppendAllText(filenm, soz +System.Environment.NewLine,System.Text.Encoding.UTF8);
+				File.AppendAllText(filenm, soz+ " 1" +System.Environment.NewLine,System.Text.Encoding.UTF8);
 			}catch{
 				
 			}

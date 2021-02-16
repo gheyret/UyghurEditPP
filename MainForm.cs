@@ -709,7 +709,7 @@ namespace UyghurEditPP
 			SetKunupka(kun);
 			
 			if(!gConfig.Contains("CHONGLUQI")){
-				Rectangle rc = new Rectangle(100,100,1024, 768);
+				Rectangle rc = new Rectangle(100,100,1200, 768);
 				gConfig["CHONGLUQI"] = rc;
 			}
 		}
@@ -851,6 +851,7 @@ namespace UyghurEditPP
 			menuBelge.Text = gLang.GetText("Tinish Belgiler we Boshluqni Tengshe");
 			menuImlaAuto.Text = gLang.GetText("Aptomatik Tekshür");
 			
+			menuImlaAmbar.Text = gLang.GetText("Ishletküchi Ambirini Körset");
 			
 			menuQoral.Text  = gLang.GetText("Qorallar");
 			menuTiz.Text  = gLang.GetText("Élipbe Tertipi Boyiche Tiz");
@@ -1988,6 +1989,16 @@ namespace UyghurEditPP
 						}
 					}
 				}
+			}
+		}
+		void MenuImlaAmbarClick(object sender, EventArgs e)
+		{
+			if(File.Exists(gImla.SpellCheker.IshletkcuhiAmbarIsimi)){
+				AddNew(gImla.SpellCheker.IshletkcuhiAmbarIsimi);
+			}
+			
+			if(File.Exists(gImla.SpellCheker.XataToghraAmbarIsimi)){
+				AddNew(gImla.SpellCheker.XataToghraAmbarIsimi);
 			}
 		}
 		
