@@ -19,3 +19,8 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu yaki ht
 <p>
   <img src="./screenshot/ocr.png"/>
 </p>
+
+# Ishlitilgen ochuq kodlar
+Avalonedit: https://github.com/icsharpcode/AvalonEdit
+DynaJson: https://github.com/fujieda/DynaJson
+Tesseract .Net: https://github.com/charlesw/tesseract
