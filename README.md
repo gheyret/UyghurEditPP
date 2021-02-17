@@ -7,7 +7,7 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu yaki ht
 64 bitliq Windows üchün yuqiridiki yerdiki UyghurEditPP.zip ni ishliting. 32 bitliq Windows üchün UyghurEditPP32.zip ni ishliting.
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
-Ishlitish usuli uchun bu yerge merhemet.
+Ishlitish qollanmidi[https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi]
 
 # Ékran körünüshliri:
 <p>
