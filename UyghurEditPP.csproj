@@ -65,7 +65,6 @@
     <DefineTrace>True</DefineTrace>
     <StartAction>Project</StartAction>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <StartArguments>F:\gheyret\Imla\uspell\shundaqzaman.txt</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -75,12 +74,13 @@
     <DebugType>None</DebugType>
     <DefineTrace>True</DefineTrace>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <Prefer32Bit>True</Prefer32Bit>
+    <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -474,7 +474,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="imla_xatatoghra.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="langdata.json" />
     <None Include="packages.config" />
@@ -494,6 +494,12 @@
     <EmbeddedResource Include="uyghur_imla.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="UKIJTuz.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UKIJTuzBold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KenjiSpell" />
