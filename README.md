@@ -9,10 +9,18 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 # Addiy Ishlitish Qollanmisi
 
-### Yéziqlarni aylandurush usuli:
-  Qoral baldaqtiki "ئاي" ni chekse Uyghur Ereb yéziqigha, "Ay" chekse Uyghur latin yéziqigha, "Ай" chekse Uyghur Slawyan yéziqigha aylandurup yéngi bir köznekte netijini körsitidu. Eger melum da’ire tallan’ghan bolsa shu yernila oz jayida aylanduridu.
+UyghurEdit++ ning qollanmisini toluq qilmayla élan qiliwétip, bezi bir qulaysizliqlar sadir boldi. 
+Chüshürüsh, ishlitish usuli qatarliqlarni az-azdin bu yerge yézishni pilan qiliwatimen.
 
-### Tehrir köznikidiki xetlerning chong kichiklikini téz ozgertish:
+### Chüshürüsh:
+https://drive.google.com/drive/folders/0B3OaZ1ZVPcTXVzJ0VnFWeUhGNFE 
+din UyghurEditPP.zip(yaki UyghurditPP32.zip) ni chüshürüp, yéyipla, uning ichidiki UyghurEditPP.exe ni ijra qilsa bolidu. 
+Yayghanda hasil bolghan höjjet qisquchini USB gha köchürüp, USB da turghuzup ijra qilishqimu bolidu.
+
+### Yéziqlarni aylandurush usuli:
+  Qoral baldaqtiki "ئاي" ni chekse Uyghur Ereb yéziqigha, "Ay" chekse Uyghur latin yéziqigha, "Ай" chekse Uyghur Slawyan yéziqigha aylandurup yéngi bir köznekte netijini körsitidu. Eger melum da’ire tallan’ghan bolsa shu yernila öz jayida aylanduridu.
+
+### Tehrir köznikidiki xetlerning chong-kichiklikini téz özgertish:
   ```<Ctrl>``` kunupkisini bésip turup, chashqinek(mouse) ning ghaltikini chörgiletse bolidu.
   
 # Ékran körünüshliri:
