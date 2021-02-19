@@ -2841,7 +2841,7 @@ public class Uyghur
 	
 	
 	public static string KeyToUEY(string key){
-		string ueykey="";
+		string ueykey=key;
 		switch (key){
 			case "q":
 			case "Q":

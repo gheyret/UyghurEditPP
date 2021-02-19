@@ -287,46 +287,55 @@ namespace UyghurEditPP
 			// 
 			// toolYengi
 			// 
+			this.toolYengi.AutoSize = false;
 			this.toolYengi.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolYengi.Image = ((System.Drawing.Image)(resources.GetObject("toolYengi.Image")));
+			this.toolYengi.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolYengi.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolYengi.Name = "toolYengi";
-			this.toolYengi.Size = new System.Drawing.Size(28, 29);
+			this.toolYengi.Size = new System.Drawing.Size(40, 29);
 			this.toolYengi.Text = "Yengi Hojjet";
 			this.toolYengi.ToolTipText = "Yengidin quruq hojjet yasaydu";
 			this.toolYengi.Click += new System.EventHandler(this.MenuYengiClick);
 			// 
 			// toolAch
 			// 
+			this.toolAch.AutoSize = false;
 			this.toolAch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolAch.Image = ((System.Drawing.Image)(resources.GetObject("toolAch.Image")));
+			this.toolAch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolAch.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolAch.Name = "toolAch";
-			this.toolAch.Size = new System.Drawing.Size(28, 29);
+			this.toolAch.Size = new System.Drawing.Size(40, 29);
 			this.toolAch.Text = "toolStripButton1";
 			this.toolAch.ToolTipText = "Diskidiki hojjetni oqup kiridu.";
 			this.toolAch.Click += new System.EventHandler(this.ToolOpenClick);
 			// 
 			// toolSaqla
 			// 
+			this.toolSaqla.AutoSize = false;
 			this.toolSaqla.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolSaqla.Image = ((System.Drawing.Image)(resources.GetObject("toolSaqla.Image")));
+			this.toolSaqla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolSaqla.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolSaqla.Name = "toolSaqla";
-			this.toolSaqla.Size = new System.Drawing.Size(28, 29);
+			this.toolSaqla.Size = new System.Drawing.Size(40, 29);
 			this.toolSaqla.Text = "toolStripButton2";
 			this.toolSaqla.ToolTipText = "Hojjetni Saqlaydu";
 			this.toolSaqla.Click += new System.EventHandler(this.MenuSaqlaClick);
 			// 
 			// toolBas
 			// 
+			this.toolBas.AutoSize = false;
 			this.toolBas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolBas.Image = ((System.Drawing.Image)(resources.GetObject("toolBas.Image")));
+			this.toolBas.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolBas.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolBas.Name = "toolBas";
-			this.toolBas.Size = new System.Drawing.Size(28, 29);
+			this.toolBas.Size = new System.Drawing.Size(40, 29);
 			this.toolBas.Text = "toolStripButton2";
 			this.toolBas.ToolTipText = "Hojjetni besip chiqiridu";
+			this.toolBas.Visible = false;
 			// 
 			// toolStripSeparator4
 			// 
@@ -335,44 +344,52 @@ namespace UyghurEditPP
 			// 
 			// toolKes
 			// 
+			this.toolKes.AutoSize = false;
 			this.toolKes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolKes.Image = ((System.Drawing.Image)(resources.GetObject("toolKes.Image")));
+			this.toolKes.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolKes.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolKes.Name = "toolKes";
-			this.toolKes.Size = new System.Drawing.Size(28, 29);
+			this.toolKes.Size = new System.Drawing.Size(40, 29);
 			this.toolKes.Text = "Kes";
 			this.toolKes.ToolTipText = "Tallanghanni kesip eliwalidu";
 			this.toolKes.Click += new System.EventHandler(this.ToolKesClick);
 			// 
 			// toolKochur
 			// 
+			this.toolKochur.AutoSize = false;
 			this.toolKochur.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolKochur.Image = ((System.Drawing.Image)(resources.GetObject("toolKochur.Image")));
+			this.toolKochur.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolKochur.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolKochur.Name = "toolKochur";
-			this.toolKochur.Size = new System.Drawing.Size(28, 29);
+			this.toolKochur.Size = new System.Drawing.Size(40, 29);
 			this.toolKochur.Text = "Kochur";
 			this.toolKochur.ToolTipText = "Tallanghanni kochuruwalidu";
 			this.toolKochur.Click += new System.EventHandler(this.ToolKochurClick);
 			// 
 			// toolChapla
 			// 
+			this.toolChapla.AutoSize = false;
 			this.toolChapla.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolChapla.Image = ((System.Drawing.Image)(resources.GetObject("toolChapla.Image")));
+			this.toolChapla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolChapla.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolChapla.Name = "toolChapla";
-			this.toolChapla.Size = new System.Drawing.Size(28, 29);
+			this.toolChapla.Size = new System.Drawing.Size(40, 29);
 			this.toolChapla.Text = "Chapla";
 			this.toolChapla.ToolTipText = "Kochuruwelinghan mezmunni chaplaydu";
 			this.toolChapla.Click += new System.EventHandler(this.ToolChaplaClick);
 			// 
 			// toolOchur
 			// 
+			this.toolOchur.AutoSize = false;
 			this.toolOchur.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolOchur.Image = ((System.Drawing.Image)(resources.GetObject("toolOchur.Image")));
+			this.toolOchur.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolOchur.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolOchur.Name = "toolOchur";
-			this.toolOchur.Size = new System.Drawing.Size(28, 29);
+			this.toolOchur.Size = new System.Drawing.Size(40, 29);
 			this.toolOchur.Text = "Ochur";
 			this.toolOchur.ToolTipText = "Tallanghan rayonni ochuridu.";
 			this.toolOchur.Click += new System.EventHandler(this.ToolOchurClick);
@@ -384,22 +401,26 @@ namespace UyghurEditPP
 			// 
 			// toolYeniwal
 			// 
+			this.toolYeniwal.AutoSize = false;
 			this.toolYeniwal.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolYeniwal.Image = ((System.Drawing.Image)(resources.GetObject("toolYeniwal.Image")));
+			this.toolYeniwal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolYeniwal.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolYeniwal.Name = "toolYeniwal";
-			this.toolYeniwal.Size = new System.Drawing.Size(28, 29);
+			this.toolYeniwal.Size = new System.Drawing.Size(40, 29);
 			this.toolYeniwal.Text = "Yeniwal";
 			this.toolYeniwal.ToolTipText = "Qilghan mesghulattin yeniwalidu";
 			this.toolYeniwal.Click += new System.EventHandler(this.ToolYeniwalClick);
 			// 
 			// toolYPushayman
 			// 
+			this.toolYPushayman.AutoSize = false;
 			this.toolYPushayman.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolYPushayman.Image = ((System.Drawing.Image)(resources.GetObject("toolYPushayman.Image")));
+			this.toolYPushayman.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolYPushayman.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolYPushayman.Name = "toolYPushayman";
-			this.toolYPushayman.Size = new System.Drawing.Size(28, 29);
+			this.toolYPushayman.Size = new System.Drawing.Size(40, 29);
 			this.toolYPushayman.Text = "toolStripButton3";
 			this.toolYPushayman.ToolTipText = "Yeniwalghangha pushayman qilidu";
 			this.toolYPushayman.Click += new System.EventHandler(this.ToolYPushaymanClick);
@@ -411,11 +432,13 @@ namespace UyghurEditPP
 			// 
 			// toolDawam
 			// 
+			this.toolDawam.AutoSize = false;
 			this.toolDawam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolDawam.Image = ((System.Drawing.Image)(resources.GetObject("toolDawam.Image")));
+			this.toolDawam.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolDawam.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolDawam.Name = "toolDawam";
-			this.toolDawam.Size = new System.Drawing.Size(28, 29);
+			this.toolDawam.Size = new System.Drawing.Size(40, 29);
 			this.toolDawam.Text = "Izdewer";
 			this.toolDawam.Click += new System.EventHandler(this.ToolIzdeDawamClick);
 			// 
@@ -426,14 +449,14 @@ namespace UyghurEditPP
 			// 
 			// toolQatla
 			// 
+			this.toolQatla.AutoSize = false;
 			this.toolQatla.BackColor = System.Drawing.Color.Transparent;
 			this.toolQatla.CheckOnClick = true;
 			this.toolQatla.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolQatla.Image = ((System.Drawing.Image)(resources.GetObject("toolQatla.Image")));
-			this.toolQatla.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolQatla.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolQatla.Name = "toolQatla";
-			this.toolQatla.Size = new System.Drawing.Size(38, 29);
+			this.toolQatla.Size = new System.Drawing.Size(40, 29);
 			this.toolQatla.Text = "Qatla";
 			this.toolQatla.ToolTipText = "Ekran kenglikidin eship ketmigen tehrirlesh haliti";
 			this.toolQatla.Click += new System.EventHandler(this.ToolQatlaClick);
@@ -445,12 +468,12 @@ namespace UyghurEditPP
 			// 
 			// toolOngSol
 			// 
+			this.toolOngSol.AutoSize = false;
 			this.toolOngSol.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolOngSol.Image = ((System.Drawing.Image)(resources.GetObject("toolOngSol.Image")));
-			this.toolOngSol.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolOngSol.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolOngSol.Name = "toolOngSol";
-			this.toolOngSol.Size = new System.Drawing.Size(38, 29);
+			this.toolOngSol.Size = new System.Drawing.Size(40, 29);
 			this.toolOngSol.Text = "Ong-Sol";
 			this.toolOngSol.ToolTipText = "Ongdin yaki Soldin yezishni ozgertidu.";
 			this.toolOngSol.Click += new System.EventHandler(this.ToolOngSolClick);
@@ -474,6 +497,7 @@ namespace UyghurEditPP
 			// 
 			// toolUEY
 			// 
+			this.toolUEY.AutoSize = false;
 			this.toolUEY.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolUEY.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolULY2UEY,
@@ -503,6 +527,7 @@ namespace UyghurEditPP
 			// 
 			// toolULY
 			// 
+			this.toolULY.AutoSize = false;
 			this.toolULY.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolULY.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolUEY2ULY,
@@ -533,6 +558,7 @@ namespace UyghurEditPP
 			// 
 			// toolUSY
 			// 
+			this.toolUSY.AutoSize = false;
 			this.toolUSY.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolUSY.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolUEY2USY,
@@ -637,6 +663,7 @@ namespace UyghurEditPP
 			this.menuBas.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
 			this.menuBas.Size = new System.Drawing.Size(180, 22);
 			this.menuBas.Text = "Besip Chiqar";
+			this.menuBas.Visible = false;
 			this.menuBas.Click += new System.EventHandler(this.MenuBasClick);
 			// 
 			// toolStripSeparator1

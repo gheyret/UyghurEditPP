@@ -90,6 +90,9 @@ namespace UyghurEditPP
 				if(tx.Length==2){
 					XataToghra[tx[0].Trim()]=tx[1].Trim();
 				}
+				if(!IsListed(tx[1].Trim())){
+					Add(tx[1].Trim());
+				}
 			}
 			return ret;
 		}
@@ -128,17 +131,21 @@ namespace UyghurEditPP
 			return;
 		}
 		
-		public void AddXataToghra(string xata, string toghra){
-			string filenm =Path.Combine(Application.StartupPath, gImlaXataToghra);
-			string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
-			string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
-			string bk = xt+"="+togh;
-			bk= Uyghur.ToUEY(bk)?? bk;
-			XataToghraBuf.Add(bk);
-			try{
-				File.AppendAllText(filenm,bk+System.Environment.NewLine,System.Text.Encoding.UTF8);
-			}catch{
-				
+		public void SaveToXataToghra(string xata, string toghra)
+		{
+			if(!XataToghra.ContainsKey(xata))
+			{
+				string filenm =Path.Combine(Application.StartupPath, gImlaXataToghra);
+				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+				string bk = xt+"="+togh;
+				bk= Uyghur.ToUEY(bk)?? bk;
+				XataToghraBuf.Add(bk);
+				try{
+					File.AppendAllText(filenm,bk+System.Environment.NewLine,System.Text.Encoding.UTF8);
+				}catch{
+					
+				}
 			}
 		}
 		
@@ -148,11 +155,11 @@ namespace UyghurEditPP
 			return toghrisi;
 		}
 		
-		public void AddToIshletkuchi(string soz)
+		public void SaveToIshletkuchi(string soz)
 		{
 			string filenm =Path.Combine(Application.StartupPath, gImlaIshletkuchi);
 			soz = soz.ToLower().Replace(Uyghur.Sozghuch,"");
-			soz = Uyghur.ToUEY(soz)?? soz;			
+			soz = Uyghur.ToUEY(soz)?? soz;
 			IshletkuchiDic.Add(soz);
 			try{
 				File.AppendAllText(filenm, soz+ " 1" +System.Environment.NewLine,System.Text.Encoding.UTF8);

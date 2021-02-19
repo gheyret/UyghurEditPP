@@ -60,7 +60,7 @@ namespace UyghurEditPP
 		
 		System.Windows.Controls.MenuItem   gMenuSozToghra;
 		System.Windows.Controls.MenuItem   gMenuSozTekshurme;
-		System.Windows.Controls.Separator  gMenuSplit;
+		System.Windows.Controls.Separator  gMenuSplit, gMenuSplitToghrisi;
 		
 		int[]  gCodePages = {-3,-2,-1,65000,65001,1200,1201,932, 51932, 936, 950, 1250,1251,1252,1253,1254,1255,1256,1257};
 		
@@ -220,7 +220,7 @@ namespace UyghurEditPP
 			gEditor.TextArea.TextView.Redraw();
 			if(menuNamzat == gMenuSozToghra)
 			{
-				gImla.SpellCheker.AddToIshletkuchi(soz);
+				gImla.SpellCheker.SaveToIshletkuchi(soz);
 			}
 		}
 		
@@ -409,27 +409,18 @@ namespace UyghurEditPP
 			string newtxt="";
 			if(gKunupka == KUNUPKA.Uyghur){
 				newtxt = Uyghur.KeyToUEY(e.Text);
-				if(newtxt.Length>0)
+				e.Handled = true;
+				if(Uyghur.IsUSozuq(newtxt[0]))
 				{
-					e.Handled = true;
-					if(Uyghur.IsUSozuq(newtxt[0]))
+					if((gEditor.CaretOffset==0) ||
+					   (gEditor.CaretOffset>0 && (Uyghur.IsUSozuq(gEditor.Document.GetCharAt(gEditor.CaretOffset-1))||!Uyghur.IsUyghurcheHerp(gEditor.Document.GetCharAt(gEditor.CaretOffset-1))))
+					  )
 					{
-						if((gEditor.CaretOffset==0) ||
-						   (gEditor.CaretOffset>0 && (Uyghur.IsUSozuq(gEditor.Document.GetCharAt(gEditor.CaretOffset-1))||!Uyghur.IsUyghurcheHerp(gEditor.Document.GetCharAt(gEditor.CaretOffset-1))))
-						  )
-						{
-							gEditor.Document.Insert(gEditor.CaretOffset,Uyghur.UYG_UN_HM_6+"");
-						}
+						gEditor.Document.Insert(gEditor.CaretOffset,Uyghur.UYG_UN_HM_6+"");
 					}
-					gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
 				}
+				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
 			}
-//			else if(gKunupka == KUNUPKA.UyghurLY)
-//			{
-//				e.Handled = true;
-//				newtxt = Uyghur.KeyToULY(e.Text);
-//				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
-//			}
 		}
 		
 		
@@ -469,16 +460,34 @@ namespace UyghurEditPP
 			Match usoz = gImla.WordFinder.Match(curDoc.Text,offsetStart);
 			System.Windows.Controls.MenuItem  menuNamzat;
 			string strNamzat;
+			string toghrisi=null;
 			if(usoz.Success && gImla.SpellCheker.IsListed(usoz.Value)==false){
 				//gEditor.Select(usoz.Index,usoz.Length);
 				gEditor.CaretOffset = usoz.Index;
+
+				Point txtPos = new Point(usoz.Index,usoz.Length);
 				gContextMenu.Items.Clear();
 				gContextMenu.BeginInit();
 				gContextMenu.FlowDirection = gEditor.FlowDirection;
+				toghrisi = gImla.SpellCheker.Toghrisi(usoz.Value);
+				if(toghrisi!=null){
+					strNamzat = toghrisi;
+					if(char.IsUpper(usoz.Value[0])){
+						strNamzat=char.ToUpper(strNamzat[0])+strNamzat.Substring(1);
+					}
+					menuNamzat = new System.Windows.Controls.MenuItem{Header=strNamzat,Tag=txtPos};
+					menuNamzat.HorizontalContentAlignment = gMenuSozToghra.HorizontalAlignment;
+					menuNamzat.VerticalContentAlignment = gMenuSozToghra.VerticalAlignment;
+					menuNamzat.FontWeight = System.Windows.FontWeights.Bold;
+					menuNamzat.Click += namzat_Click;
+					gContextMenu.Items.Add(menuNamzat);
+					gContextMenu.Items.Add(gMenuSplitToghrisi);
+				}
+				
 				var namzatlar = gImla.SpellCheker.Lookup(usoz.Value);
 				System.Diagnostics.Debug.WriteLine("Symspell Namzat Sani = " + namzatlar.Count);
-				Point txtPos = new Point(usoz.Index,usoz.Length);
 				foreach(var namzat in namzatlar){
+					if(namzat.Equals(toghrisi))continue;
 					strNamzat= namzat;
 					//System.Diagnostics.Debug.WriteLine(strNamzat);
 					if(char.IsUpper(usoz.Value[0])){
@@ -489,11 +498,11 @@ namespace UyghurEditPP
 					menuNamzat.VerticalContentAlignment = gMenuSozToghra.VerticalAlignment;
 					menuNamzat.Click += namzat_Click;
 					gContextMenu.Items.Add(menuNamzat);
-					if(gContextMenu.Items.Count>=13){
+					if(gContextMenu.Items.Count>=14){
 						break;
 					}
 				}
-				if(gContextMenu.Items.Count>0){
+				if(namzatlar.Count>0){
 					gContextMenu.Items.Add(gMenuSplit);
 				}
 				gMenuSozToghra.Tag = usoz.Value;
@@ -523,7 +532,7 @@ namespace UyghurEditPP
 			gEditor.Document.Replace(txtPos.X,txtPos.Y,nsoz);
 			gEditor.CaretOffset = txtPos.X + nsoz.Length;
 
-			gImla.SpellCheker.AddXataToghra(xatasoz,nsoz);
+			gImla.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
 			
 			//Barliq Xatani izdep tepip almashturidu
 			//string qelip = "\b"+xatasoz+"\b";
@@ -766,7 +775,8 @@ namespace UyghurEditPP
 				}
 			}
 			
-			gMenuSplit = new System.Windows.Controls.Separator();
+			gMenuSplit         = new System.Windows.Controls.Separator();
+			gMenuSplitToghrisi = new System.Windows.Controls.Separator();
 			
 			LoadConfigurations();
 			Rectangle rc = (Rectangle)gConfig["CHONGLUQI"];
