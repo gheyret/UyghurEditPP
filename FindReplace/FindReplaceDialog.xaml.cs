@@ -194,11 +194,12 @@ namespace UyghurEditPP.FindReplace
 			gLastIsFind = false;
 			Regex regex = GetRegEx(txtFind.Text);
 			//string input = editor.Text.Substring(editor.SelectionStart, editor.SelectionLength);
+			string repText = Regex.Unescape(txtReplace.Text);
 			Match match = regex.Match(Editor.Text,Editor.SelectionStart);
 			if (match.Success)
 			{
-				Editor.Document.Replace(match.Index, txtFind.Text.Length, txtReplace.Text);
-				Editor.CaretOffset　= match.Index+txtReplace.Text.Length;
+				Editor.Document.Replace(match.Index, txtFind.Text.Length, repText);
+				Editor.CaretOffset　= match.Index+repText.Length;
 				Editor.BringCaretToView();
 				Editor.Focus();
 				repCount++;
@@ -212,6 +213,7 @@ namespace UyghurEditPP.FindReplace
 
 		private void ReplaceAllClick(object sender, RoutedEventArgs e)
 		{
+			string repText = Regex.Unescape(txtReplace.Text);
 			string msg = MainForm.gLang.GetText("Rastla barliq «") + txtFind.Text + MainForm.gLang.GetText("» ni «") +  txtReplace.Text + MainForm.gLang.GetText("» gha alamshturamsiz?");
 			if (MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -222,8 +224,8 @@ namespace UyghurEditPP.FindReplace
 				Match match = regex.Match(Editor.Text, offset);
 				while(match.Success)
 				{
-					Editor.Document.Replace(match.Index, match.Length, txtReplace.Text);
-					offset = match.Index+ txtReplace.Text.Length;
+					Editor.Document.Replace(match.Index, match.Length, repText);
+					offset = match.Index+ repText.Length;
 					match = regex.Match(Editor.Text, offset);
 					repCount++;
 				}
@@ -275,7 +277,6 @@ namespace UyghurEditPP.FindReplace
 				pattern = Regex.Escape(pattern);
 			}
 			else if(cbWildcards.IsChecked == true){
-				pattern = Regex.Escape(pattern);
 				pattern = pattern.Replace("\\*", ".*").Replace("\\?", ".");
 			}
 
