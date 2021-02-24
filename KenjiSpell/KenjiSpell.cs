@@ -31,9 +31,8 @@ namespace UyghurEditPP
 		private int   nodeCnt=0;
 		
 
-		HashSet<string>  tmpNam = new HashSet<string>();
-		List<NamzatQelip>     _namzatlar = new List<NamzatQelip>();
-		List<string>     Namzatlar = new List<string>();
+		HashSet<string>   tmpNam = new HashSet<string>();
+		List<NamzatQelip> _namzatlar = new List<NamzatQelip>();
 		
 		public KenjiSpell()
 		{
@@ -126,7 +125,6 @@ namespace UyghurEditPP
 			return ret;
 		}
 		
-
 		public override int WordCount{
 			get{
 				return m_SozSani;
@@ -135,14 +133,12 @@ namespace UyghurEditPP
 		
 		public override bool LoadDictionary(string corpus, Uyghur.YEZIQ yeziq)
 		{
-			
 			if (!File.Exists(corpus)) return false;
 			return LoadDictionary(File.OpenRead(corpus), yeziq);
 		}
 		
 		public override bool LoadDictionary(Stream instr,Uyghur.YEZIQ yeziq)
 		{
-			gYeziq = yeziq;
 			using (StreamReader sr = new StreamReader(instr,System.Text.Encoding.UTF8))
 			{
 				String line;
@@ -213,7 +209,7 @@ namespace UyghurEditPP
 		private void _SearchAll(UNode curNode,String Soz){
 			if(curNode!=null){
 				if(curNode.mHerp==0x0){
-					if(!Namzatlar.Contains(Soz))Namzatlar.Add(Soz);
+					if(!tmpNam.Contains(Soz))tmpNam.Add(Soz);
 				}
 				_SearchAll(curNode.mNext, Soz+curNode.mHerp);
 				_SearchAll(curNode.mAlter, Soz);
@@ -224,10 +220,9 @@ namespace UyghurEditPP
 		//Namzat Sozlerni tepip chiqidu
 		public override List<string> Lookup(string Soz)
 		{
-			Namzatlar.Clear();
 			tmpNam.Clear();
 			_namzatlar.Clear();
-			
+			List<string> Namzatlar = new List<string>();
 			if (m_RootNode == null) return Namzatlar;
 			char[] herpler;
 			String yasSoz;
@@ -297,42 +292,34 @@ namespace UyghurEditPP
 					_GetSuggestions(yasSoz);
 				}
 			}
-			
-			NamzatQelip yiltiz = null;
-			int tmpCnt = _namzatlar.Count;
-			i=1;
-			while(i<lenSoz && lenSoz-i>=3)
-			{
-				yasSoz=Soz.Substring(0,lenSoz-i);
-				_GetSuggestions(yasSoz);
-				if(tmpCnt!=_namzatlar.Count){
-					yiltiz = _namzatlar[_namzatlar.Count-1];
-					_namzatlar.RemoveAt(_namzatlar.Count-1);
-					break;
-				}
-				i++;
-			}
-			
-			if(yiltiz!=null){
-				_namzatlar.Add(yiltiz);
-			}
+						
 			foreach(NamzatQelip qlp in _namzatlar)
 			{
 				short dist= (short)GetDistance(Soz,qlp.soz);
 				qlp.ariliq = dist;
 			}
 			_namzatlar.Sort(this);
-			
-			Namzatlar.Clear();
-			
+						
 			foreach(NamzatQelip qlp in _namzatlar)
 			{
-				if(Namzatlar.Count>10){
+				if(Namzatlar.Count>=10){
 					break;
 				}
 				Namzatlar.Add(qlp.soz);
 			}
-			
+
+			i=1;
+			while(i<lenSoz && lenSoz-i>=3)
+			{
+				yasSoz=Soz.Substring(0,lenSoz-i);
+				if(IsListed(yasSoz)){
+					if(!Namzatlar.Contains(yasSoz)){
+						Namzatlar.Add(yasSoz);
+					}
+					break;
+				}
+				i++;
+			}
 			return Namzatlar;
 		}
 		
