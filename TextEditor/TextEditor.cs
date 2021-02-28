@@ -1201,7 +1201,8 @@ namespace UyghurEditPP
 		}
 		
 		public void BringCaretToView(){
-			ScrollTo(TextArea.Caret.Line, TextArea.Caret.Line, VisualYPosition.TextMiddle, scrollViewer.ViewportHeight/2, 0.3);
+			TextArea.Caret.BringCaretToView();
+			ScrollTo(TextArea.Caret.Line, TextArea.Caret.Column, VisualYPosition.TextMiddle, scrollViewer.ViewportHeight/2, 0.3);
 		}
 		
 		int gCodePage;
