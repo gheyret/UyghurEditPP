@@ -420,6 +420,7 @@ namespace UyghurEditPP
 					}
 				}
 				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				gEditor.TextArea.Caret.BringCaretToView();
 			}
 		}
 		
