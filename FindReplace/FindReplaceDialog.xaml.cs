@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Media;
+
 namespace UyghurEditPP.FindReplace
 {
 	/// <summary>
@@ -98,13 +99,20 @@ namespace UyghurEditPP.FindReplace
 		{
 			string newtxt="";
 			TextBox curBox = sender as TextBox;
-			if(gKunupka == KUNUPKA.Uyghur){
+			if(InputLanguageManager.Current.CurrentInputLanguage.ThreeLetterISOLanguageName.Equals("uig")){
+				
+			}
+			else if(gKunupka == KUNUPKA.Uyghur){
 				newtxt = Uyghur.KeyToUEY(e.Text);
 				if(newtxt.Length>0)
 				{
 					e.Handled = true;
 					InputText(curBox,newtxt);
 				}
+			}
+			else if(curEditor.RightToLeft){
+				e.Handled = true;
+				InputText(curBox,e.Text);
 			}
 		}
 		
@@ -122,6 +130,7 @@ namespace UyghurEditPP.FindReplace
 					inc++;
 				}
 			}
+			newtxt = Uyghur.Tirnaqlar(newtxt,curEditor.RightToLeft);
 			txt = txt.Insert(oldpos+inc,newtxt);
 			inc++;
 			curBox.Text = txt;

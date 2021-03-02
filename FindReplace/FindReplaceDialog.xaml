@@ -12,15 +12,15 @@
 	FontSize="14"
 	Closed="Window_Closed"
 	x:Name="window1"
-	MinHeight="273"
+	MinHeight="275"
 	ResizeMode="NoResize"
 	PreviewKeyDown="window1_PreviewKeyDown"
-	MinWidth="600"
-	Width="600"
-	Height="273"
-	FontWeight="Bold">
-	<Grid
-		Height="244">
+	MinWidth="550"
+	FontWeight="Bold"
+	VerticalAlignment="Top"
+	Height="275"
+	Width="550">
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition
 				Height="Auto" />
@@ -49,9 +49,9 @@
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
-				Width="124.480519480519*" />
+				Width="*" />
 			<ColumnDefinition
-				Width="96.530612244898*" />
+				Width="*" />
 		</Grid.ColumnDefinitions>
 		<TextBlock
 			Name="labIzde1"
@@ -70,14 +70,17 @@
 			Content="Find Next"
 			Click="FindNextClick"
 			x:Name="butFind1"
-			Margin="0,2,10,2" />
+			HorizontalAlignment="Stretch"
+			Grid.ColumnSpan="2"
+			Margin="30,2,30,2" />
 		<Button
 			Grid.Row="3"
 			Content="Sani"
 			Click="CountClick"
 			x:Name="butCount"
-			Margin="0,2,10,2"
-			Grid.Column="2" />
+			HorizontalAlignment="Stretch"
+			Grid.Column="3"
+			Margin="30,2,30,2" />
 		<TextBlock
 			Grid.Row="4"
 			Grid.Column="0"
@@ -96,7 +99,9 @@
 			Click="ReplaceClick"
 			x:Name="butRep"
 			VerticalAlignment="Bottom"
-			Margin="0,2,10,2" />
+			HorizontalAlignment="Stretch"
+			Grid.ColumnSpan="2"
+			Margin="30,2,30,2" />
 		<Button
 			Grid.Row="6"
 			Grid.Column="1"
@@ -104,7 +109,9 @@
 			Click="ReplaceAllClick"
 			x:Name="butRepAll"
 			VerticalAlignment="Bottom"
-			Margin="0,2,10,2" />
+			HorizontalAlignment="Stretch"
+			Grid.ColumnSpan="2"
+			Margin="30,2,30,2" />
 		<CheckBox
 			Name="cbCaseSensitive"
 			Content="Match case"
@@ -119,36 +126,31 @@
 			Grid.Row="8"
 			Grid.Column="0"
 			Margin="5,3,0,0" />
-
 		<CheckBox
 			Name="cbSearchUp"
 			Content="Search up"
 			Grid.Row="9"
 			Grid.Column="0"
 			Margin="5,3,0,0" />
-
-		<RadioButton 
+		<RadioButton
 			Name="cbNormal"
 			Content="Normal"
 			IsChecked="True"
 			Grid.Row="7"
 			Grid.Column="1"
-			Margin="0,3,0,0" />
-
-		<RadioButton 
+			Margin="10,2,0,2" />
+		<RadioButton
 			Name="cbWildcards"
 			Content="Wildcards"
-			Margin="0,3,0,0"
+			Margin="10,2,0,2"
 			Grid.Row="8"
 			Grid.Column="1" />
-		
-		<RadioButton 
+		<RadioButton
 			Name="cbRegex"
 			Content="Regular Expression"
 			Grid.Row="9"
 			Grid.Column="1"
-			Margin="0,3,0,0" />
-
+			Margin="10,2,0,2" />
 		<TextBlock
 			Grid.Row="10"
 			Grid.Column="0"
