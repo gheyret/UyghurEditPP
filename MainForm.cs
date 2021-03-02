@@ -419,17 +419,27 @@ namespace UyghurEditPP
 					   (gEditor.CaretOffset>0 && (Uyghur.IsUSozuq(gEditor.Document.GetCharAt(gEditor.CaretOffset-1))||!Uyghur.IsUyghurcheHerp(gEditor.Document.GetCharAt(gEditor.CaretOffset-1))))
 					  )
 					{
-						gEditor.Document.Insert(gEditor.CaretOffset,Uyghur.UYG_UN_HM_6+"");
+						newtxt = Uyghur.UYG_UN_HM_6+newtxt;
 					}
 				}
 				newtxt = Uyghur.Tirnaqlar(newtxt, gEditor.RightToLeft);
-				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				if(gEditor.SelectionLength>0){
+					gEditor.TextArea.Selection.ReplaceSelectionWithText(newtxt);
+				}
+				else{
+					gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				}
 				gEditor.TextArea.Caret.BringCaretToView();
 			}
 			else if(gEditor.RightToLeft){
 				e.Handled = true;
 				newtxt = Uyghur.Tirnaqlar(e.Text, gEditor.RightToLeft);
-				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				if(gEditor.SelectionLength>0){
+					gEditor.TextArea.Selection.ReplaceSelectionWithText(newtxt);
+				}
+				else{
+					gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				}
 				gEditor.TextArea.Caret.BringCaretToView();
 			}
 		}
