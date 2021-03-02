@@ -1802,7 +1802,7 @@ namespace UyghurEditPP
 					}
 					if(gImla.WordFinder == gLatincheSoz)
 					{
-						toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('é','e');
+						toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é');
 						if(gImla.SpellCheker.IsListed(toghrisi)){
 							if(char.IsUpper(soz.Value[0])){
 								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
