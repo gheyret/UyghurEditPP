@@ -407,7 +407,10 @@ namespace UyghurEditPP
 		void KeyboardTextInput(object sender,System.Windows.Input.TextCompositionEventArgs e)
 		{
 			string newtxt="";
-			if(gKunupka == KUNUPKA.Uyghur){
+			if(InputLanguage.CurrentInputLanguage.Culture.ThreeLetterISOLanguageName.Equals("uig")){
+				
+			}
+			else if(gKunupka == KUNUPKA.Uyghur){
 				newtxt = Uyghur.KeyToUEY(e.Text);
 				e.Handled = true;
 				if(Uyghur.IsUSozuq(newtxt[0]))
@@ -419,6 +422,13 @@ namespace UyghurEditPP
 						gEditor.Document.Insert(gEditor.CaretOffset,Uyghur.UYG_UN_HM_6+"");
 					}
 				}
+				newtxt = Uyghur.Tirnaqlar(newtxt, gEditor.RightToLeft);
+				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				gEditor.TextArea.Caret.BringCaretToView();
+			}
+			else if(gEditor.RightToLeft){
+				e.Handled = true;
+				newtxt = Uyghur.Tirnaqlar(e.Text, gEditor.RightToLeft);
 				gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
 				gEditor.TextArea.Caret.BringCaretToView();
 			}

@@ -3024,6 +3024,55 @@ public class Uyghur
 		return ueykey;
 	}
 	
+	public static string Tirnaqlar(string tirnaq, bool R2L)
+	{
+		string ueykey=tirnaq;
+		if(!R2L) return ueykey;
+		switch (tirnaq)
+		{
+			case "(":
+				ueykey=")";
+				break;
+			case ")":
+				ueykey="(";
+				break;
+
+			case "[":
+				ueykey="]";
+				break;
+			case "]":
+				ueykey="[";
+				break;
+			case "«":
+				ueykey = "»";
+				break;
+			case "»":
+				ueykey = "«";
+				break;
+			case ">":
+				ueykey = "<";
+				break;
+			case "<":
+				ueykey = ">";
+				break;
+			case "{":
+				ueykey = "}";
+				break;
+			case "}":
+				ueykey = "{";
+				break;
+			case "‹":
+				ueykey = "›";
+				break;
+			case "›":
+				ueykey = "‹";
+				break;
+
+		}
+		return ueykey;
+	}
+	
+	
 	public static string KeyToULY(string key){
 		string ulykey=key;
 		switch (key){
