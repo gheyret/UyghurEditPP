@@ -120,21 +120,25 @@ namespace UyghurEditPP.FindReplace
 		{
 			int oldpos = curBox.CaretIndex;
 			string txt = curBox.Text;
-			int inc = 0;
+			if(curBox.SelectionLength>0){
+				oldpos = curBox.SelectionStart;
+				txt = txt.Remove(oldpos,curBox.SelectionLength);
+				curBox.SelectionLength = 0;
+			}
+			
 			if(Uyghur.IsUSozuq(newtxt[0]))
 			{
 				if((oldpos==0) || (oldpos>0 && (Uyghur.IsUSozuq(txt[oldpos-1])||!Uyghur.IsUyghurcheHerp(txt[oldpos-1])))
 				  )
 				{
-					txt = txt.Insert(txtFind.CaretIndex,Uyghur.UYG_UN_HM_6+"");
-					inc++;
+					//txt = txt.Insert(txtFind.CaretIndex,Uyghur.UYG_UN_HM_6+"");
+					newtxt = Uyghur.UYG_UN_HM_6 + newtxt;
 				}
 			}
 			newtxt = Uyghur.Tirnaqlar(newtxt,curEditor.RightToLeft);
-			txt = txt.Insert(oldpos+inc,newtxt);
-			inc++;
+			txt = txt.Insert(oldpos,newtxt);
 			curBox.Text = txt;
-			curBox.CaretIndex =  oldpos+inc;
+			curBox.CaretIndex =  oldpos+newtxt.Length;
 		}
 		
 		public TextEditor Editor{
