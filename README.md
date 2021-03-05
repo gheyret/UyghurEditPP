@@ -1,9 +1,9 @@
 # UyghurEdit++
+
+Text Editor with Spell Check Ability for Uyghur
 <p align="center">
   <img src="./Images/uyghur.png" width="200" height="200"/>
 </p>
-
-Text Editor with Spell Check Ability for Uyghur
 
 # UyghurEdit++
 Mexsus Uyghurche tehrirlesh üchün tüzülgen, Imla tekshürüsh(Imlasi xata sözlerning astigha qizil siziq bilen dawamliq körsitip bérish), Yéziqlarni almashturush, OCR(Resimdiki tékistlerni tonush) iqtidari bolghan, heqsiz tehrirligüch.
