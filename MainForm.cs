@@ -295,6 +295,7 @@ namespace UyghurEditPP
 				
 				curEdit.Padding = new System.Windows.Thickness(2,0,0,0);
 				curEdit.ShowLineNumbers = true;
+				//curEdit.Options.ShowEndOfLine = true;
 				
 				curEdit.FontFamily = new System.Windows.Media.FontFamily(gFontName);
 				curEdit.FontSize   = gFontSize;
@@ -767,7 +768,7 @@ namespace UyghurEditPP
 					cpMenu.Click += menuCodePageClick;
 					cpMenu.Tag = codepage;
 					menuHKod.DropDownItems.Add(cpMenu);
-					cpMenu.Enabled = true;
+					cpMenu.Enabled = false;
 				}
 				else if(codepage == -2){
 					cpMenu = new ToolStripMenuItem("Weifang-WIN");
@@ -782,7 +783,7 @@ namespace UyghurEditPP
 					cpMenu.Tag = codepage;
 					menuHKod.DropDownItems.Add(cpMenu);
 					menuHKod.DropDownItems.Add(new ToolStripSeparator());
-					//cpMenu.Enabled = false;
+					cpMenu.Enabled = false;
 				}
 				else{
 					Encoding enc = Encoding.GetEncoding(codepage);
@@ -1201,7 +1202,7 @@ namespace UyghurEditPP
 			if(dr == DialogResult.OK){
 				curEdit.Save(sfd.FileName);
 				UpdateIzlar(sfd.FileName);
-				TabControl1SelectedIndexChanged(null,null);
+				//TabControl1SelectedIndexChanged(null,null);
 				return sfd.FileName;
 			}
 			else{
@@ -1687,6 +1688,10 @@ namespace UyghurEditPP
 					tooltip = gLang.GetText("Imla tekshürüsh üchün chéking.");
 				}
 			}
+			else if(curMenu == menuMakeHTML){
+				tooltip = gLang.GetText("Hazirqi tékisttin addiy") + " HTML " + gLang.GetText("hasil qilidu.");
+			}
+			
 			else if(curMenu == menuYeziqAuto){
 				tooltip = curMenu.ToolTipText;
 			}
@@ -1782,6 +1787,8 @@ namespace UyghurEditPP
 			string toghrisi;
 			int stpos = 0;
 			Match soz;
+			System.Windows.Input.Cursor old = System.Windows.Input.Mouse.OverrideCursor;
+			System.Windows.Input.Mouse.OverrideCursor= System.Windows.Input.Cursors.Wait;
 			while((soz = gImla.WordFinder.Match(alltext,stpos)).Success)
 			{
 				sani++;
@@ -1825,22 +1832,10 @@ namespace UyghurEditPP
 				float toghriliq = (float)(sani-xatasani)/(float)sani;
 				stBarUchur.Text = gLang.GetText("Tekshürülgen söz: ") + sani + "; " + gLang.GetText("Xata söz: ") + xatasani + "; " + gLang.GetText("Tüzitilgen söz: ") + tuz + "; "+ gLang.GetText("Toghriliqi: ")+toghriliq.ToString("0.0%");
 			}
+			System.Windows.Input.Mouse.OverrideCursor= old;
 		}
 		
 		
-//		string SanlarniOqu(string esli){
-//			string oqughan=esli;
-//			Regex reg = new Regex("[0-9]+[ ]*[-]?"); //(@"^\d$");
-//			oqughan=reg.Replace(esli,match=>
-//			                    {
-//			                    	string san = match.ToString();
-//			                    	return numstr2str(san);
-//			                    });
-//			return oqughan;
-//		}
-		
-
-
 		private void menuCodePageClick(object sender, System.EventArgs e)
 		{
 			ToolStripMenuItem menu = sender as ToolStripMenuItem;
@@ -1886,7 +1881,7 @@ namespace UyghurEditPP
 		void MainFormDragEnter(object sender, System.Windows.DragEventArgs e)
 		{
 			String[] file=(String[])e.Data.GetData(DataFormats.FileDrop);
-			String  baseName = Path.GetFileName(file[0]).ToLower();
+			//String  baseName = Path.GetFileName(file[0]).ToLower();
 			
 			e.Effects=  System.Windows.DragDropEffects.All;
 		}
@@ -1894,8 +1889,9 @@ namespace UyghurEditPP
 		void MainFormDragDrop(object sender, System.Windows.DragEventArgs e)
 		{
 			String[] files=(String[])e.Data.GetData(DataFormats.FileDrop);
-			string 	file=files[0];
-			OpenaFile(file);
+			foreach(string file in files){
+				OpenaFile(file);
+			}
 		}
 		
 		void MenuHeqqideClick(object sender, EventArgs e)
@@ -1930,7 +1926,6 @@ namespace UyghurEditPP
 				gEditor.Text = ngramtext;
 				gEditor.RightToLeft = false;
 			}
-			TabControl1SelectedIndexChanged(null,null);
 		}
 		
 		void MenuTizClick(object sender, EventArgs e)
@@ -1944,7 +1939,6 @@ namespace UyghurEditPP
 			MenuYengiClick(null,null);
 			gEditor.WordWrap = false;
 			gEditor.Text = sortedabzaslar;
-			TabControl1SelectedIndexChanged(null,null);
 		}
 		
 		void MenuOCRClick(object sender, EventArgs e)
@@ -2033,6 +2027,63 @@ namespace UyghurEditPP
 			}
 		}
 		
+		void MenuMakeHTMLClick(object sender, EventArgs e)
+		{
+			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			string strhtml = MakeHtml(gEditor.Document.Lines,curYeziq);
+			MenuYengiClick(null,null);
+			gEditor.WordWrap = false;
+			gEditor.RightToLeft = false;
+			gEditor.Text = strhtml;
+		}
+		
+		
+		string MakeHtml(IList<DocumentLine> lines , Uyghur.YEZIQ yeziq)
+		{
+			StringBuilder htmlBuf = new StringBuilder();
+			htmlBuf.AppendLine("<!doctype html>");
+			if(yeziq==Uyghur.YEZIQ.UEY){
+				htmlBuf.AppendLine("<html lang=\"ug\" dir=\"rtl\">");
+			}
+			else{
+				htmlBuf.AppendLine("<html lang=\"ug\">");
+			}
+			//Tunji Qurni HTML ning Title qilip ishlitimiz
+			string title="";
+			int    tline = 0;
+			for(int i= 0; i<lines.Count;i++){
+				title = gEditor.Document.GetText(lines[i].Offset,lines[i].Length);
+				if(!string.IsNullOrWhiteSpace(title)){
+					tline = i;
+					break;
+				}
+			}
+			
+			htmlBuf.AppendLine("<head>");
+			htmlBuf.AppendLine("	<title>" + title + "</title>");
+			htmlBuf.AppendLine("	<meta charset=\"utf-8\">");
+			htmlBuf.AppendLine("	<meta name=\"description\" content=\"UyghurEdit++ da hasil qilinghan addiy HTML\">");
+			htmlBuf.AppendLine("	<meta name=\"author\" content=\"UyghurEdit++\">");
+			htmlBuf.AppendLine("	<style type=\"text/css\">");
+			htmlBuf.AppendLine("	<!--");
+			htmlBuf.AppendLine("		p {color:blue; line-height:1.5;text-align:justify;font-family: \"UKIJ Tuz\", \"UKIJ Tuz Tom\";}");
+			htmlBuf.AppendLine("		h2 {text-transform: capitalize;text-align:center;font-family: \"UKIJ Tuz\", \"UKIJ Tuz Tom\";}");
+			htmlBuf.AppendLine("	-->");
+			htmlBuf.AppendLine("	</style>");
+			htmlBuf.AppendLine("</head>");
+			htmlBuf.AppendLine("<body>");
+			htmlBuf.AppendLine("<h2>" + title + "</h2>");
+			for(int i= tline+1; i<lines.Count;i++){
+				title = gEditor.Document.GetText(lines[i].Offset,lines[i].Length);
+				htmlBuf.AppendLine("<p>" + title + "</p>");
+			}
+			
+			htmlBuf.AppendLine("</body>");
+			htmlBuf.AppendLine("</html>");
+			return htmlBuf.ToString();
+		}
+
+
 		class NGram:IComparer<string>
 		{
 			int N = 1;
@@ -2104,7 +2155,7 @@ namespace UyghurEditPP
 				return frq2-frq1;
 			}
 		}
-		
+
 		class USort:IComparer<string>
 		{
 			public USort(){

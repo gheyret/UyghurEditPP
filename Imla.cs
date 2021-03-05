@@ -95,7 +95,7 @@ namespace UyghurEditPP
 					}
 					start = index + 1; // search for next occurrence
 				}
-			}
+			}			
 		}
 		
 		void ApplyChanges(VisualLineElement element)

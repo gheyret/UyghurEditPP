@@ -103,7 +103,7 @@ namespace UyghurEditPP
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(324, 25);
 			this.label2.TabIndex = 2;
-			this.label2.Text = "2021/01/01";
+			this.label2.Text = "2021/03/28";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label3

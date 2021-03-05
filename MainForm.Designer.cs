@@ -121,6 +121,8 @@ namespace UyghurEditPP
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
 		private System.Windows.Forms.ToolStripMenuItem menuImlaAmbar;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+		private System.Windows.Forms.ToolStripMenuItem menuMakeHTML;
 		
 		
 		
@@ -226,6 +228,8 @@ namespace UyghurEditPP
 			this.menuTekrar = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuOCR = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+			this.menuMakeHTML = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuTil = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuUyghurA = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuUyghurL = new System.Windows.Forms.ToolStripMenuItem();
@@ -435,7 +439,6 @@ namespace UyghurEditPP
 			this.toolDawam.AutoSize = false;
 			this.toolDawam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolDawam.Image = ((System.Drawing.Image)(resources.GetObject("toolDawam.Image")));
-			this.toolDawam.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.toolDawam.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolDawam.Name = "toolDawam";
 			this.toolDawam.Size = new System.Drawing.Size(40, 29);
@@ -1013,7 +1016,9 @@ namespace UyghurEditPP
 			this.menuTiz,
 			this.menuTekrar,
 			this.toolStripSeparator15,
-			this.menuOCR});
+			this.menuOCR,
+			this.toolStripSeparator21,
+			this.menuMakeHTML});
 			this.menuQoral.Name = "menuQoral";
 			this.menuQoral.Size = new System.Drawing.Size(61, 19);
 			this.menuQoral.Text = "Qorallar";
@@ -1046,6 +1051,19 @@ namespace UyghurEditPP
 			this.menuOCR.Text = "OCR";
 			this.menuOCR.ToolTipText = "Resimni yeziqqa aylanduridu";
 			this.menuOCR.Click += new System.EventHandler(this.MenuOCRClick);
+			// 
+			// toolStripSeparator21
+			// 
+			this.toolStripSeparator21.Name = "toolStripSeparator21";
+			this.toolStripSeparator21.Size = new System.Drawing.Size(207, 6);
+			// 
+			// menuMakeHTML
+			// 
+			this.menuMakeHTML.Name = "menuMakeHTML";
+			this.menuMakeHTML.Size = new System.Drawing.Size(210, 22);
+			this.menuMakeHTML.Text = "Addiy HTML Yasa";
+			this.menuMakeHTML.Click += new System.EventHandler(this.MenuMakeHTMLClick);
+			this.menuMakeHTML.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
 			// 
 			// menuTil
 			// 
