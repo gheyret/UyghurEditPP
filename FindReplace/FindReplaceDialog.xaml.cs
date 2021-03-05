@@ -230,6 +230,7 @@ namespace UyghurEditPP.FindReplace
 			string msg = MainForm.gLang.GetText("Rastla barliq «") + txtFind.Text + MainForm.gLang.GetText("» ni «") +  txtReplace.Text + MainForm.gLang.GetText("» gha alamshturamsiz?");
 			if (MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
+				Mouse.OverrideCursor = Cursors.Wait;
 				Regex regex = GetRegEx(txtFind.Text, true);
 				int offset = 0; //Editor.CaretOffset;
 				Editor.BeginChange();
@@ -246,6 +247,7 @@ namespace UyghurEditPP.FindReplace
 				Editor.CaretOffset = offset;
 				Editor.BringCaretToView();
 				labKun.Text = MainForm.gLang.GetText("Jemiy ") + repCount + MainForm.gLang.GetText(" qétim almashturuldi");
+				Mouse.OverrideCursor = Cursors.Arrow;
 			}
 		}
 
