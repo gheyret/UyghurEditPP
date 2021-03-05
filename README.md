@@ -19,9 +19,12 @@ Teyyarsi mushu yergimu qoyuldi.
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
-# Yengiliqlar
-1. 2021/03/05 : UyghurEdit++ ning tughi ozgertildi.(lahiyelep bergen qerindishimizgh kop rehmet).
-2. 
+# Yéngiliqlar
+  2021/03/05 
+    UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
+    Izdesh we Almashturush iqtidari yaxshilandi.
+    Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
+ 
 [Ishlitish qollanmisi](https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi)
 
 # Ékran körünüshliri:
