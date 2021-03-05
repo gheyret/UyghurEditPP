@@ -1,6 +1,6 @@
 # UyghurEdit++
 <p align="center">
-  <img src="./Images/uyghur.png"/>
+  <img src="./Images/uyghur.png" width="200" height="200"/>
 </p>
 
 Text Editor with Spell Check Ability for Uyghur
