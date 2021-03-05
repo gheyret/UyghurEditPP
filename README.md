@@ -17,9 +17,11 @@ Teyyarsi mushu yergimu qoyuldi.
 ### [64 bitliq Windows üchün bu yerni chéking.](https://github.com/gheyret/UyghurEditPP/raw/main/UyghurEditPP/UyghurEditPP.zip)
 ### [32 bitliq Windows üchün bu yerni chéking.](https://github.com/gheyret/UyghurEditPP/raw/main/UyghurEditPP/UyghurEditPP32.zip)
 
-
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
+# Yengiliqlar
+1. 2021/03/05 : UyghurEdit++ ning tughi ozgertildi.(lahiyelep bergen qerindishimizgh kop rehmet).
+2. 
 [Ishlitish qollanmisi](https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi)
 
 # Ékran körünüshliri:
