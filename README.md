@@ -14,8 +14,8 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu, https:
 32 bitliq Windows üchün UyghurEditPP32.zip ni ishliting.
 
 Teyyarsi mushu yergimu qoyuldi. 
-### [64 bitliq Windows üchün bu yerni chéking(V.02)](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP.zip)
-### [32 bitliq Windows üchün bu yerni chéking(V.02)](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP32.zip)
+### [64 bitliq Windows üchün bu yerni chéking](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP.zip)
+### [32 bitliq Windows üchün bu yerni chéking](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP32.zip)
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
