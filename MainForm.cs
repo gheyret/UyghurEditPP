@@ -1809,8 +1809,56 @@ namespace UyghurEditPP
 					}
 					if(gImla.WordFinder == gLatincheSoz)
 					{
-						toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é');
-						if(gImla.SpellCheker.IsListed(toghrisi)){
+						if(gImla.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é'))){
+							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é');
+							if(char.IsUpper(soz.Value[0])){
+								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+							}
+							gEditor.CaretOffset = soz.Index;
+							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
+							alltext = gEditor.Text.ToLower();
+							stpos = soz.Index+toghrisi.Length;
+							tuz++;
+							continue;
+						}
+						if(gImla.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü'))){
+							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü');
+							if(char.IsUpper(soz.Value[0])){
+								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+							}
+							gEditor.CaretOffset = soz.Index;
+							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
+							alltext = gEditor.Text.ToLower();
+							stpos = soz.Index+toghrisi.Length;
+							tuz++;
+							continue;
+						}
+						if(gImla.SpellCheker.IsListed(soz.Value.Replace('o','ö'))){
+							toghrisi = soz.Value.Replace('o','ö');
+							if(char.IsUpper(soz.Value[0])){
+								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+							}
+							gEditor.CaretOffset = soz.Index;
+							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
+							alltext = gEditor.Text.ToLower();
+							stpos = soz.Index+toghrisi.Length;
+							tuz++;
+							continue;
+						}
+						if(gImla.SpellCheker.IsListed(soz.Value.Replace('u','ü'))){
+							toghrisi = soz.Value.Replace('u','ü');
+							if(char.IsUpper(soz.Value[0])){
+								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+							}
+							gEditor.CaretOffset = soz.Index;
+							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
+							alltext = gEditor.Text.ToLower();
+							stpos = soz.Index+toghrisi.Length;
+							tuz++;
+							continue;
+						}
+						if(gImla.SpellCheker.IsListed(soz.Value.Replace('e','é'))){
+							toghrisi = soz.Value.Replace('e','é');
 							if(char.IsUpper(soz.Value[0])){
 								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
 							}

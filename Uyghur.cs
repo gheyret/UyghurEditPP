@@ -2216,7 +2216,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_A_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'e':
 				case  'E':
@@ -2225,7 +2225,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_E_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'é':
 				case  'É':
@@ -2236,7 +2236,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_EE_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'i':
 				case  'I':
@@ -2245,7 +2245,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_I_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'o':
 				case  'O':
@@ -2254,7 +2254,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_O_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'u':
 				case  'U':
@@ -2263,7 +2263,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_U_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'ö':
 				case  'Ö':
@@ -2272,7 +2272,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_OO_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'ü':
 				case  'Ü':
@@ -2281,7 +2281,7 @@ public class Uyghur
 						newBuf.Append(UYG_UN_HM_6);
 					}
 					newBuf.Append(UYG_UN_UU_6);
-					alUEY=false;
+					alUEY=true;
 					break;
 				case  'b':
 				case  'B':
