@@ -20,11 +20,12 @@ namespace UyghurEditPP
 	/// </summary>
 	public partial class OCRForm : Form
 	{
-		Random           grand = new System.Random();
-		TesseractEngine  gOcr;
+		TesseractEngine  gOcr = null;
 		TextEditor       gEditor;
 		string           gImgFile = null;
 		ToolTip          gTip;
+		bool             gRunning = false;
+		
 		public OCRForm(TextEditor curedit, string imgFile = null)
 		{
 			//
@@ -37,12 +38,26 @@ namespace UyghurEditPP
 			gTip = new ToolTip();
 		}
 		
+		string Til{
+			get;
+			set;
+		}
 		
+		void OCRFormPaint(object sender, PaintEventArgs e)
+		{
+			if(Til.Length==0 || ramka.Image == null){
+				butTonu.Enabled = false;
+			}
+			else{
+				butAch.Enabled = !gRunning;
+				butTonu.Enabled = !gRunning;
+			}
+		}
 		
 		async void ButtonRight(object sender, EventArgs e)
 		{
-			butTonu.Enabled = false;
-			butAch.Enabled = false;
+			gRunning = true;
+			Invalidate();
 			Bitmap roibmp;
 			Pix    roipix;
 			Rectangle roi = ramka.getRoi();
@@ -56,11 +71,11 @@ namespace UyghurEditPP
 			Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
 			string txt = await ocr;
 			roipix.Dispose();
-			gEditor.AppendText(txt);
-			butTonu.Enabled = true;
-			butAch.Enabled = true;
-			Cursor=Cursors.Default;
+			gRunning = false;
 			ramka.Enabled = true;
+			gEditor.AppendText(txt);
+			Cursor=Cursors.Default;
+			Invalidate();
 		}
 		
 		
@@ -75,14 +90,23 @@ namespace UyghurEditPP
 		
 		void MainFormLoad(object sender, EventArgs e)
 		{
-			//string lang = "ukij+eng";
-			string lang = "ukij";
-			gOcr= new TesseractEngine(@".\tessdata",lang,EngineMode.LstmOnly);
-			Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+			
+		}
+		
+		void OCRFormShown(object sender, EventArgs e)
+		{
 			butAch.Text = MainForm.gLang.GetText("Ach");
 			gTip.SetToolTip(butAch,MainForm.gLang.GetText("Bu yerni chékip resimni éching yaki resimni tutup bu köznekke tashlang."));
 			gTip.SetToolTip(ramka,MainForm.gLang.GetText("Resim körün’gende, Chashqinek bilen tonutidighan da’irini tallang."));
 			butTonu.Text = MainForm.gLang.GetText("Tonu");
+			
+			label1.Text = MainForm.gLang.GetText("Tonuydighan Tillar");
+			chkUyghur.Text = MainForm.gLang.GetText("Uyghurche");
+			chkEng.Text = MainForm.gLang.GetText("In’glizche");
+			chkChi.Text = MainForm.gLang.GetText("Xenzuche");
+			chkRus.Text = MainForm.gLang.GetText("Slawyanche");
+			
+			chkUyghur.Checked = true;
 			
 			if(gImgFile!=null){
 				Bitmap bimg = new Bitmap(gImgFile);
@@ -91,7 +115,7 @@ namespace UyghurEditPP
 			
 			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
 			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
-			this.Location = new Point(startx,starty);						
+			this.Location = new Point(startx,starty);
 		}
 		
 		
@@ -111,6 +135,8 @@ namespace UyghurEditPP
 			gImgFile=file[0];
 			Bitmap bimg = new Bitmap(gImgFile);
 			ramka.Image=bimg;
+			
+			Invalidate();
 		}
 		void ButAchClick(object sender, EventArgs e)
 		{
@@ -122,6 +148,44 @@ namespace UyghurEditPP
 				Bitmap bimg = new Bitmap(opnFileDlg.FileName);
 				ramka.Image=bimg;
 			}
+			Invalidate();
 		}
+		
+		void CheckedChanged(object sender, EventArgs e)
+		{
+			this.Cursor = Cursors.WaitCursor;
+			char[] tr = {'+'};
+			string lang = "";
+			if(chkUyghur.Checked){
+				lang += "ukij+uig";
+			}
+
+			if(chkEng.Checked){
+				lang += "+eng";
+			}
+			if(chkChi.Checked){
+				lang += "+chi_sim";
+			}
+
+			if(chkRus.Checked){
+				lang += "+rus";
+			}
+			lang = lang.Trim(tr);
+			System.Diagnostics.Debug.WriteLine(lang);
+			if(gOcr!=null){
+				gOcr.Dispose();
+				gOcr = null;
+			}
+			Til = lang;
+			
+			if(lang.Length >=3){
+				gOcr= new TesseractEngine(@".\tessdata",lang,EngineMode.LstmOnly);
+				gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
+				Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+			}
+			this.Cursor = Cursors.Default;
+			Invalidate();
+		}
+		
 	}
 }
