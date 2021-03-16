@@ -26,7 +26,7 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <FileAlignment>4096</FileAlignment>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -475,7 +475,19 @@
     </None>
     <EmbeddedResource Include="langdata.json" />
     <None Include="packages.config" />
+    <None Include="tessdata\chi_sim.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="tessdata\Configs\bazzar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\eng.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\eng.user-patterns">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\eng.user-words">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="tessdata\osd.traineddata">
@@ -484,10 +496,15 @@
     <None Include="tessdata\pdf.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="tessdata\rus.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="tessdata\uig.traineddata">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="tessdata\ukij.traineddata">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="UyghurEditPP.ICO" />
     <EmbeddedResource Include="uyghur_imla.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
