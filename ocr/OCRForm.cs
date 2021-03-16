@@ -70,23 +70,28 @@ namespace UyghurEditPP
 				gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
 			}
 			Invalidate();
-			Bitmap roibmp;
-			Pix    roipix;
-			Rectangle roi = ramka.getRoi();
-			Cursor=Cursors.WaitCursor;
-			ramka.Enabled = false;
-			roibmp = ramka.Image.Clone(roi,ramka.Image.PixelFormat);
-			roipix = PixConverter.ToPix(roibmp);
-			roibmp.Dispose();
-			roipix = roipix.Deskew();
-			
-			Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
-			string txt = await ocr;
-			roipix.Dispose();
+			try{
+				Bitmap roibmp;
+				Pix    roipix;
+				Rectangle roi = ramka.getRoi();
+				Cursor=Cursors.WaitCursor;
+				ramka.Enabled = false;
+				roibmp = ramka.Image.Clone(roi,ramka.Image.PixelFormat);
+				roipix = PixConverter.ToPix(roibmp);
+				roibmp.Dispose();
+				roipix = roipix.Deskew();
+				
+				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
+				string txt = await ocr;
+				roipix.Dispose();
+				ramka.Enabled = true;
+				gEditor.AppendText(txt);
+				Cursor=Cursors.Default;
+			}
+			catch(Exception ee){
+				System.Diagnostics.Debug.WriteLine(ee.Message);
+			}
 			gRunning = false;
-			ramka.Enabled = true;
-			gEditor.AppendText(txt);
-			Cursor=Cursors.Default;
 			Invalidate();
 		}
 		

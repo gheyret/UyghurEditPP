@@ -214,7 +214,7 @@ namespace UyghurEditPP
 		}
 		
 		public Rectangle getRoi(){
-			if(_fW!=-1 && _fH!=-1)
+			if(_fW>0 && _fH>0)
 			{
 				return new Rectangle(_selX,_selY,_fW,_fH);
 			}
