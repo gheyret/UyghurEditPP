@@ -45,6 +45,9 @@ namespace UyghurEditPP
 			this.chkEng = new System.Windows.Forms.CheckBox();
 			this.chkChi = new System.Windows.Forms.CheckBox();
 			this.chkRus = new System.Windows.Forms.CheckBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.radAuto = new System.Windows.Forms.RadioButton();
+			this.radSingle = new System.Windows.Forms.RadioButton();
 			this.SuspendLayout();
 			// 
 			// butTonu
@@ -140,12 +143,45 @@ namespace UyghurEditPP
 			this.chkRus.UseVisualStyleBackColor = true;
 			this.chkRus.CheckedChanged += new System.EventHandler(this.CheckedChanged);
 			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(8, 179);
+			this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(170, 27);
+			this.label2.TabIndex = 50;
+			this.label2.Text = "Bet Qurulmisi:";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// radAuto
+			// 
+			this.radAuto.Checked = true;
+			this.radAuto.Location = new System.Drawing.Point(25, 209);
+			this.radAuto.Name = "radAuto";
+			this.radAuto.Size = new System.Drawing.Size(153, 30);
+			this.radAuto.TabIndex = 51;
+			this.radAuto.TabStop = true;
+			this.radAuto.Text = "Ozung Tap";
+			this.radAuto.UseVisualStyleBackColor = true;
+			// 
+			// radSingle
+			// 
+			this.radSingle.Location = new System.Drawing.Point(25, 245);
+			this.radSingle.Name = "radSingle";
+			this.radSingle.Size = new System.Drawing.Size(153, 30);
+			this.radSingle.TabIndex = 52;
+			this.radSingle.Text = "Birla Bolek";
+			this.radSingle.UseVisualStyleBackColor = true;
+			// 
 			// OCRForm
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(804, 578);
+			this.Controls.Add(this.radSingle);
+			this.Controls.Add(this.radAuto);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.chkRus);
 			this.Controls.Add(this.chkChi);
 			this.Controls.Add(this.chkEng);
@@ -161,6 +197,7 @@ namespace UyghurEditPP
 			this.Name = "OCRForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Simple Uyghur OCR using Tessract";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OCRFormFormClosing);
 			this.Load += new System.EventHandler(this.MainFormLoad);
 			this.Shown += new System.EventHandler(this.OCRFormShown);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainFormDragDrop);
@@ -177,5 +214,8 @@ namespace UyghurEditPP
 		private System.Windows.Forms.CheckBox chkEng;
 		private System.Windows.Forms.CheckBox chkChi;
 		private System.Windows.Forms.CheckBox chkRus;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.RadioButton radAuto;
+		private System.Windows.Forms.RadioButton radSingle;
 	}
 }

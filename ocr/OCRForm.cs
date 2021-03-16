@@ -51,12 +51,24 @@ namespace UyghurEditPP
 			else{
 				butAch.Enabled = !gRunning;
 				butTonu.Enabled = !gRunning;
+				chkUyghur.Enabled = !gRunning;
+				chkEng.Enabled = !gRunning;
+				chkRus.Enabled = !gRunning;
+				chkChi.Enabled = !gRunning;
+				radAuto.Enabled = !gRunning;
+				radSingle.Enabled = !gRunning;
 			}
 		}
 		
 		async void ButtonRight(object sender, EventArgs e)
 		{
 			gRunning = true;
+			if(radAuto.Checked){
+				gOcr.DefaultPageSegMode = PageSegMode.Auto;
+			}
+			else{
+				gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
+			}
 			Invalidate();
 			Bitmap roibmp;
 			Pix    roipix;
@@ -105,8 +117,13 @@ namespace UyghurEditPP
 			chkEng.Text = MainForm.gLang.GetText("In’glizche");
 			chkChi.Text = MainForm.gLang.GetText("Xenzuche");
 			chkRus.Text = MainForm.gLang.GetText("Slawyanche");
+			radAuto.Text = MainForm.gLang.GetText("Özüng Tap");
+			radSingle.Text = MainForm.gLang.GetText("Birla Bölek");
 			
 			chkUyghur.Checked = true;
+			radAuto.Checked = true;
+			
+			
 			
 			if(gImgFile!=null){
 				Bitmap bimg = new Bitmap(gImgFile);
@@ -180,11 +197,21 @@ namespace UyghurEditPP
 			
 			if(lang.Length >=3){
 				gOcr= new TesseractEngine(@".\tessdata",lang,EngineMode.LstmOnly);
-				gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
 				Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
 			}
 			this.Cursor = Cursors.Default;
 			Invalidate();
+		}
+		void OCRFormFormClosing(object sender, FormClosingEventArgs e)
+		{
+			if(gRunning){
+				e.Cancel = true;
+			}
+			else{
+				if(gOcr!=null){
+					gOcr.Dispose();
+				}
+			}
 		}
 		
 	}
