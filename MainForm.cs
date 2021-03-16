@@ -742,7 +742,7 @@ namespace UyghurEditPP
 			if(!gConfig.Contains("CHONGLUQI")){
 				Rectangle rc = new Rectangle(100,100,1200, 768);
 				gConfig["CHONGLUQI"] = rc;
-			}
+			}			
 		}
 		
 		void MainFormShown(object sender, EventArgs e)
@@ -929,7 +929,7 @@ namespace UyghurEditPP
 			this.toolUEY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Latinchigha aylanduridu");
 			this.toolUSY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Slawyanchini Latinchigha aylanduridu");
 			this.toolUEY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Slawyanchigha aylanduridu");
-			this.toolULY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu");
+			this.toolULY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu");			
 		}
 		
 		
@@ -2130,8 +2130,7 @@ namespace UyghurEditPP
 			htmlBuf.AppendLine("</html>");
 			return htmlBuf.ToString();
 		}
-
-
+		
 		class NGram:IComparer<string>
 		{
 			int N = 1;
