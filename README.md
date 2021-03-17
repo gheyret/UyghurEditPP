@@ -43,22 +43,14 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 [Ishlitish qollanmisi](https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi)
 
 
+# Ékran körünüshliri:
 ![](screenshot/uey.png)
 
+![](screenshot/uly.png)
 
-# Ékran körünüshliri:
-<p>
-  <img src="./screenshot/uey.png"/>
-</p>
-<p>
-  <img src="./screenshot/uly.png"/>
-</p>
-<p>
-  <img src="./screenshot/usy.png"/>
-</p>
-<p>
-  <img src="./screenshot/ocrnew.png"/>
-</p>
+![](screenshot/usy.png)
+
+![](screenshot/ocrnew.png)
 
 # Ishlitilgen ochuq kodlar
 Avalonedit: https://github.com/icsharpcode/AvalonEdit
