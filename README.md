@@ -36,8 +36,7 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
    * Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
 
    **Chüshürüsh**:
-   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP.zip)
-   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP32.zip)
+   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP.zip) , [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP32.zip)
  
 [Ishlitish qollanmisi](https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi)
 
