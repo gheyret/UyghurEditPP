@@ -117,7 +117,9 @@ namespace UyghurEditPP
 			gTip.SetToolTip(ramka,MainForm.gLang.GetText("Resim körün’gende, Chashqinek bilen tonutidighan da’irini tallang."));
 			butTonu.Text = MainForm.gLang.GetText("Tonu");
 			
-			label1.Text = MainForm.gLang.GetText("Tonuydighan Tillar");
+			label1.Text = MainForm.gLang.GetText("Tonuydighan Tillar")+":";
+			label2.Text = MainForm.gLang.GetText("Bet Qurulmisi")+":";
+			
 			chkUyghur.Text = MainForm.gLang.GetText("Uyghurche");
 			chkEng.Text = MainForm.gLang.GetText("In’glizche");
 			chkChi.Text = MainForm.gLang.GetText("Xenzuche");
