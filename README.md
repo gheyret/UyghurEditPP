@@ -18,8 +18,8 @@ Teyyarsi mushu yergimu qoyuldi(Eng Yéngisi)
 ### [32 bitliq Windows üchün bu yerni chéking](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
-<hr></hr>
 
+<hr></hr>
 ### V.03 neshri(2021/03/17)
    * OCR da Uyghurche, In’glizche, Xenzuche yéziqlarni tonush iqtidari qoshuldi. 
      buning bilen arilash yéziqlarni tonush emelge ashuruldi.
