@@ -20,11 +20,11 @@ Teyyarsi mushu yergimu qoyuldi(Eng Yéngisi)
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 # Yéngiliqlar
-  *V.03 neshri(2021/03/17)*
-    1. OCR da Uyghurche, In’glizche, Xenzuche yéziqlarni tonush iqtidari qoshuldi. 
-     buning bilen arilash yéziqlarni tonush emelge ashuruldi.
-    2. Bir qisim xataliqlar tüzitildi.
-    3. Bir qisim körsetme uchurlar tüzitildi.
+  * V.03 neshri(2021/03/17)
+     1. OCR da Uyghurche, In’glizche, Xenzuche yéziqlarni tonush iqtidari qoshuldi. 
+        buning bilen arilash yéziqlarni tonush emelge ashuruldi.
+     2. Bir qisim xataliqlar tüzitildi.
+     3. Bir qisim körsetme uchurlar tüzitildi.
     
 ### Chüshürüsh
   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip)
