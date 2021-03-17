@@ -9,13 +9,10 @@ Text Editor with Spell Check Ability for Uyghur
 Mexsus Uyghurche tehrirlesh üchün tüzülgen, Imla tekshürüsh(Imlasi xata sözlerning astigha qizil siziq bilen dawamliq körsitip bérish), Yéziqlarni almashturush, OCR(Resimdiki tékistlerni tonush) iqtidari bolghan, heqsiz tehrirligüch.
 
 
-Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingizmu, https://drive.google.com/drive/folders/0B3OaZ1ZVPcTXVzJ0VnFWeUhGNFE din teyyarni chüshürüp ishletsingizmu bolidu.
-64 bitliq Windows üchün yuqiridiki yerdiki UyghurEditPP.zip ni ishliting. 
-32 bitliq Windows üchün UyghurEditPP32.zip ni ishliting.
+Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingiz bolidu. Eger teyyarsini ishletmekchi bolsingiz töwendiki ulanmidin chüshürüp ishliting.
 
-Teyyarsi mushu yergimu qoyuldi(Eng Yéngisi)
-### [64 bitliq Windows üchün bu yerni chéking](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip)
-### [32 bitliq Windows üchün bu yerni chéking](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
+ [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip),
+ [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
