@@ -929,7 +929,9 @@ namespace UyghurEditPP
 			this.toolUEY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Latinchigha aylanduridu");
 			this.toolUSY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Slawyanchini Latinchigha aylanduridu");
 			this.toolUEY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Slawyanchigha aylanduridu");
-			this.toolULY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu");			
+			this.toolULY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu");
+			
+			menuMakeHTML.Text = gLang.GetText("Addiy") + " HTML " + gLang.GetText("Yasa");
 		}
 		
 		
