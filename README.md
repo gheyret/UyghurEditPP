@@ -19,7 +19,15 @@ Teyyarsi mushu yergimu qoyuldi.
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
-# Yéngiliqlar(V.02)
+# Yéngiliqlar
+V.03 neshri:
+  * 2021/03/17
+    * OCR da Uyghurche, In’glizche, Xenzuche yéziqlarni tonush iqtidari qoshuldi. 
+     buning bilen arilash yéziqlarni tonush emelge ashuruldi.
+    * Bir qisim xataliqlar tüzitildi.
+    * Bir qisim körsetme uchurlar tüzitildi.
+
+V.02 neshri:
   * 2021/03/05 
     * UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
     * Izdesh we Almashturush iqtidari yaxshilandi.
