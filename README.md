@@ -46,7 +46,7 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
   <img src="./screenshot/usy.png"/>
 </p>
 <p>
-  <img src="./screenshot/ocr.png"/>
+  <img src="./screenshot/ocrnew.png"/>
 </p>
 
 # Ishlitilgen ochuq kodlar
