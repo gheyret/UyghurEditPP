@@ -19,24 +19,25 @@ Teyyarsi mushu yergimu qoyuldi(Eng Yéngisi)
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
-# Yéngiliqlar
-  * V.03 neshri(2021/03/17)
+### V.03 neshri(2021/03/17)
       * OCR da Uyghurche, In’glizche, Xenzuche yéziqlarni tonush iqtidari qoshuldi. 
         buning bilen arilash yéziqlarni tonush emelge ashuruldi.
       * Bir qisim xataliqlar tüzitildi.
       * Bir qisim körsetme uchurlar tüzitildi.
-    
-### Chüshürüsh
+       
+Chüshürüsh:
   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip)
+  
   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
 
-  *V.02 neshri(2021/03/05)*
-    1. UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
-    2. Izdesh we Almashturush iqtidari yaxshilandi.
-    3. Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
+### V.02 neshri(2021/03/05)
+    * UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
+    * Izdesh we Almashturush iqtidari yaxshilandi.
+    * Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
 
-### Chüshürüsh
+    **Chüshürüsh**
   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP.zip)
+  
   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP32.zip)
  
 [Ishlitish qollanmisi](https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi)
