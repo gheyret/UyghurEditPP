@@ -42,6 +42,8 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 [Ishlitish qollanmisi](https://github.com/gheyret/UyghurEditPP/wiki/Addiy-Ishlitish-Qollanmisi)
 
+![](./screenshot/uey.png)
+
 # Ékran körünüshliri:
 <p>
   <img src="./screenshot/uey.png"/>
