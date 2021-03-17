@@ -31,11 +31,11 @@ Chüshürüsh:
   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
 
 ### V.02 neshri(2021/03/05)
-    * UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
-    * Izdesh we Almashturush iqtidari yaxshilandi.
-    * Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
+   * UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
+   * Izdesh we Almashturush iqtidari yaxshilandi.
+   * Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
 
-    **Chüshürüsh**
+   **Chüshürüsh**
   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP.zip)
   
   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.2/UyghurEditPP32.zip)
