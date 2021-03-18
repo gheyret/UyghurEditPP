@@ -31,7 +31,7 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 <hr></hr>
 
 ### V.02 neshri(2021/03/05)
-   * UyghurEdit++ ning tughi özgertildi.(lahiyelep bergen qérindishimizgha kop rehmet).
+   * UyghurEdit++ ning tughi özgertildi.(layihilep bergen qérindishimizgha köp rehmet).
    * Izdesh we Almashturush iqtidari yaxshilandi.
    * Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
 
