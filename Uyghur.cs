@@ -554,7 +554,7 @@ public class Uyghur
 			case  UYG_UN_LA_Y:
 			case  UYG_UN_LA_A:
 			case  UYG_UN_HM_Y:
-			case  UYG_UN_HM_O:				
+			case  UYG_UN_HM_O:
 				ret=true;
 				break;
 			default:
@@ -3136,6 +3136,44 @@ public class Uyghur
 		return ueykey;
 	}
 	
+	public static string KeyToULY(string key){
+		string ulykey=key;
+		switch (key){
+			case "O":
+				ulykey = "ö";
+				break;
+			case "U":
+				ulykey = "ü";
+				break;
+			case "E":
+				ulykey = "é";
+				break;
+			case "`":
+				ulykey = "’";
+				break;
+			case "{":
+				ulykey = UYG_UN_SOL_QOSH_TIRNAQ+"";
+				break;
+			case "}":
+				ulykey = UYG_UN_ONG_QOSH_TIRNAQ+"";
+				break;
+			case "<":
+				ulykey = UYG_UN_KICHIK + "";
+				break;
+			case ">":
+				ulykey = UYG_UN_CHONG + "";
+				break;
+			case "\\":
+				ulykey = UYG_UN_SIZIQ + "";
+				break;
+			case "|":
+				ulykey = UYG_UN_KOPCHEKIT + "";
+				break;
+		}
+		return ulykey;
+	}
+	
+	
 	public static string Tirnaqlar(string tirnaq, bool R2L)
 	{
 		string ueykey=tirnaq;
@@ -3184,35 +3222,7 @@ public class Uyghur
 		return ueykey;
 	}
 	
-	
-	public static string KeyToULY(string key){
-		string ulykey=key;
-		switch (key){
-			case "<":
-				ulykey = UYG_UN_KICHIK + "";
-				break;
-			case ">":
-				ulykey = UYG_UN_CHONG + "";
-				break;
-			case "`":
-				ulykey = "’";
-				break;
-			case "\\":
-				ulykey = UYG_UN_SIZIQ + "";
-				break;
-			case "|":
-				ulykey = UYG_UN_KOPCHEKIT + "";
-				break;
-			case "}":
-				ulykey = UYG_UN_ONG_QOSH_TIRNAQ+"";
-				break;
-			case "{":
-				ulykey = UYG_UN_SOL_QOSH_TIRNAQ+"";
-				break;
-		}
-		return ulykey;
-	}
-	
+		
 	static char BGD_WEItoUnicode(char inWei)
 	{
 		char ret = inWei;

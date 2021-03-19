@@ -432,6 +432,18 @@ namespace UyghurEditPP
 				}
 				gEditor.TextArea.Caret.BringCaretToView();
 			}
+			else if(gKunupka == KUNUPKA.UyghurLY){
+				e.Handled = true;
+				newtxt = Uyghur.KeyToULY(e.Text);
+				newtxt = Uyghur.Tirnaqlar(newtxt, gEditor.RightToLeft);
+				if(gEditor.SelectionLength>0){
+					gEditor.TextArea.Selection.ReplaceSelectionWithText(newtxt);
+				}
+				else{
+					gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
+				}
+				gEditor.TextArea.Caret.BringCaretToView();				
+			}
 			else if(gEditor.RightToLeft){
 				e.Handled = true;
 				newtxt = Uyghur.Tirnaqlar(e.Text, gEditor.RightToLeft);
@@ -1086,9 +1098,9 @@ namespace UyghurEditPP
 				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
 				if(curYeziq == Uyghur.YEZIQ.UEY || curYeziq == Uyghur.YEZIQ.YOQ)
 				{
-					menuChong.Enabled = false;
-					menuKichik.Enabled = false;
-					menuMawzu.Enabled = false;
+//					menuChong.Enabled = false;
+//					menuKichik.Enabled = false;
+//					menuMawzu.Enabled = false;
 					gEditor.RightToLeft = true;
 					
 					if(gYeziqAuto){
@@ -1096,11 +1108,10 @@ namespace UyghurEditPP
 					}
 				}
 				else if(curYeziq == Uyghur.YEZIQ.ULY || curYeziq == Uyghur.YEZIQ.USY){
-					menuChong.Enabled = true;
-					menuKichik.Enabled = true;
-					menuMawzu.Enabled = true;
-					gEditor.RightToLeft = false;
-					
+//					menuChong.Enabled = true;
+//					menuKichik.Enabled = true;
+//					menuMawzu.Enabled = true;
+					gEditor.RightToLeft = false;					
 					if(gYeziqAuto)
 					{
 						if(curYeziq == Uyghur.YEZIQ.ULY){
@@ -1714,6 +1725,9 @@ namespace UyghurEditPP
 			if(gKunupka == KUNUPKA.System){
 				kun = KUNUPKA.Uyghur;
 			}
+			else if(gKunupka == KUNUPKA.Uyghur){
+				kun = KUNUPKA.UyghurLY;
+			}
 			else{
 				kun = KUNUPKA.System;
 			}
@@ -1724,6 +1738,9 @@ namespace UyghurEditPP
 			gKunupka = kun;
 			if(gKunupka == KUNUPKA.System){
 				stKunupka.Text = "System";
+			}
+			else if(gKunupka == KUNUPKA.UyghurLY){
+				stKunupka.Text = "Uyghurche";
 			}
 			else{
 				stKunupka.Text = "ئۇيغۇرچە";
