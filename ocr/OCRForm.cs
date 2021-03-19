@@ -62,15 +62,15 @@ namespace UyghurEditPP
 		
 		async void ButtonRight(object sender, EventArgs e)
 		{
-			gRunning = true;
-			if(radAuto.Checked){
-				gOcr.DefaultPageSegMode = PageSegMode.Auto;
-			}
-			else{
-				gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
-			}
-			Invalidate();
 			try{
+				gRunning = true;
+				if(radAuto.Checked){
+					gOcr.DefaultPageSegMode = PageSegMode.Auto;
+				}
+				else{
+					gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
+				}
+				Invalidate();
 				Bitmap roibmp;
 				Pix    roipix;
 				Rectangle roi = ramka.getRoi();
@@ -90,6 +90,7 @@ namespace UyghurEditPP
 			}
 			catch(Exception ee){
 				System.Diagnostics.Debug.WriteLine(ee.Message);
+				MessageBox.Show(ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			gRunning = false;
 			Invalidate();
