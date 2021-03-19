@@ -464,11 +464,11 @@ namespace UyghurEditPP
 			stBarUchur.Text = "";
 			var pp = e.GetPosition(gEditor);
 			TextDocument curDoc = gEditor.Document;
-			if(curDoc.Text.Length==0 || gImla.WordFinder == null){
+			var mousePosition = gEditor.GetPositionFromPoint(pp);
+			if(curDoc.Text.Length==0 || gImla.WordFinder == null || mousePosition==null){
 				return;
 			}
 			
-			var mousePosition = gEditor.GetPositionFromPoint(pp);
 			var line = mousePosition.Value.Line;
 			var column = mousePosition.Value.Column;
 			var offset = curDoc.GetOffset(line, column);
