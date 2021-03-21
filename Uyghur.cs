@@ -1057,6 +1057,7 @@ public class Uyghur
 	{
 		bool aldiN=false;
 		bool skip=true;
+		bool aldiz = false;
 		StringBuilder uly=new StringBuilder();
 		foreach(char Herp in token.ToString())
 		{
@@ -1066,6 +1067,7 @@ public class Uyghur
 				case  UYG_UN_HM_Y:
 				case  UYG_UN_HM_O:
 					aldiN=false;
+					aldiz = false;
 					if(skip==true)
 					{
 					}
@@ -1077,6 +1079,7 @@ public class Uyghur
 				case  UYG_UN_A_6:
 				case  UYG_UN_A_Y:
 				case  UYG_UN_A_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("a");
@@ -1084,6 +1087,7 @@ public class Uyghur
 				case  UYG_UN_E_6:
 				case  UYG_UN_E_Y:
 				case  UYG_UN_E_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("e");
@@ -1093,6 +1097,7 @@ public class Uyghur
 				case  UYG_UN_B_B:
 				case  UYG_UN_B_O:
 				case  UYG_UN_B_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("b");
@@ -1102,6 +1107,7 @@ public class Uyghur
 				case  UYG_UN_P_B:
 				case  UYG_UN_P_O:
 				case  UYG_UN_P_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("p");
@@ -1111,6 +1117,7 @@ public class Uyghur
 				case  UYG_UN_T_B:
 				case  UYG_UN_T_O:
 				case  UYG_UN_T_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("t");
@@ -1120,6 +1127,7 @@ public class Uyghur
 				case  UYG_UN_J_B:
 				case  UYG_UN_J_O:
 				case  UYG_UN_J_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("j");
@@ -1129,6 +1137,7 @@ public class Uyghur
 				case  UYG_UN_CH_B:
 				case  UYG_UN_CH_O:
 				case  UYG_UN_CH_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("ch");
@@ -1138,6 +1147,7 @@ public class Uyghur
 				case  UYG_UN_X_B:
 				case  UYG_UN_X_O:
 				case  UYG_UN_X_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("x");
@@ -1145,6 +1155,7 @@ public class Uyghur
 				case  UYG_UN_D_6:
 				case  UYG_UN_D_Y:
 				case  UYG_UN_D_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("d");
@@ -1152,6 +1163,7 @@ public class Uyghur
 				case  UYG_UN_R_6:
 				case  UYG_UN_R_Y:
 				case  UYG_UN_R_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("r");
@@ -1160,6 +1172,7 @@ public class Uyghur
 				case  UYG_UN_Z_Y:
 				case  UYG_UN_Z_A:
 					aldiN=false;
+					aldiz = true;
 					skip=false;
 					uly.Append("z");
 					break;
@@ -1176,6 +1189,7 @@ public class Uyghur
 				case  UYG_UN_S_O:
 				case  UYG_UN_S_A:
 					aldiN=false;
+					aldiz = false;
 					skip=false;
 					uly.Append("s");
 					break;
@@ -1184,6 +1198,7 @@ public class Uyghur
 				case  UYG_UN_SH_B:
 				case  UYG_UN_SH_O:
 				case  UYG_UN_SH_A:
+					aldiz = false;
 					aldiN=false;
 					skip=false;
 					uly.Append("sh");
@@ -1193,6 +1208,7 @@ public class Uyghur
 				case  UYG_UN_GH_B:
 				case  UYG_UN_GH_O:
 				case  UYG_UN_GH_A:
+					aldiz = false;
 					skip=false;
 					if(aldiN==true)
 					{
@@ -1209,6 +1225,7 @@ public class Uyghur
 				case  UYG_UN_F_B:
 				case  UYG_UN_F_O:
 				case  UYG_UN_F_A:
+					aldiz = false;
 					uly.Append("f");
 					skip=false;
 					aldiN=false;
@@ -1219,6 +1236,7 @@ public class Uyghur
 				case  UYG_UN_Q_O:
 				case  UYG_UN_Q_A:
 					uly.Append("q");
+					aldiz = false;
 					skip=false;
 					aldiN=false;
 					break;
@@ -1230,6 +1248,7 @@ public class Uyghur
 					uly.Append("k");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_G_6:
 				case  UYG_UN_G_Y:
@@ -1244,6 +1263,7 @@ public class Uyghur
 					{
 						uly.Append("g");
 					}
+					aldiz = false;
 					skip=false;
 					aldiN=false;
 					break;
@@ -1253,6 +1273,7 @@ public class Uyghur
 				case  UYG_UN_NG_O:
 				case  UYG_UN_NG_A:
 					uly.Append("ng");
+					aldiz = false;
 					skip=false;
 					aldiN=false;
 					break;
@@ -1264,6 +1285,7 @@ public class Uyghur
 					uly.Append("l");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_M_6:
 				case  UYG_UN_M_Y:
@@ -1273,6 +1295,7 @@ public class Uyghur
 					uly.Append("m");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_N_6:
 				case  UYG_UN_N_Y:
@@ -1281,6 +1304,7 @@ public class Uyghur
 				case  UYG_UN_N_A:
 					uly.Append("n");
 					skip=false;
+					aldiz = false;
 					aldiN=true;
 					break;
 				case  UYG_UN_H_6:
@@ -1290,7 +1314,15 @@ public class Uyghur
 				case  UYG_UN_H_O:
 					//case  UYGE_UN_H_Y:   // Yulghunda Ishlitilgen
 					//case  UYGE_UN_H_A:   // Yulghunda ishlitilgen
-					uly.Append("h");
+					if(aldiz==true)
+					{
+						uly.Append("’h");
+					}
+					else
+					{
+						uly.Append("h");
+					}
+					aldiz = false;
 					skip=false;
 					aldiN=false;
 					break;
@@ -1300,11 +1332,13 @@ public class Uyghur
 					uly.Append("o");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_U_6:
 				case  UYG_UN_U_Y:
 				case  UYG_UN_U_A:
 					uly.Append("u");
+					aldiz = false;
 					skip=false;
 					aldiN=false;
 					break;
@@ -1314,6 +1348,7 @@ public class Uyghur
 					uly.Append("ö");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_UU_6:
 				case  UYG_UN_UU_Y:
@@ -1321,6 +1356,7 @@ public class Uyghur
 					uly.Append("ü");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_W_6:
 				case  UYG_UN_W_Y:
@@ -1328,6 +1364,7 @@ public class Uyghur
 					uly.Append("w");
 					skip=false;
 					aldiN=false;
+					aldiz = false;
 					break;
 				case  UYG_UN_EE_6:
 				case  UYG_UN_EE_Y:
@@ -1336,6 +1373,7 @@ public class Uyghur
 				case  UYG_UN_EE_A:
 					uly.Append("é");
 					skip=false;
+					aldiz = false;
 					aldiN=false;
 					break;
 				case  UYG_UN_I_6:
@@ -1345,6 +1383,7 @@ public class Uyghur
 				case  UYG_UN_I_A:
 					uly.Append("i");
 					skip=false;
+					aldiz = false;
 					aldiN=false;
 					break;
 				case  UYG_UN_Y_6:
@@ -1354,12 +1393,14 @@ public class Uyghur
 				case  UYG_UN_Y_A:
 					uly.Append("y");
 					skip=false;
+					aldiz = false;
 					aldiN=false;
 					break;
 				default:
 					skip=true;
 					uly.Append(U2LSBelge(Herp+""));
 					aldiN=false;
+					aldiz = false;
 					break;
 			}
 		}
@@ -3222,7 +3263,7 @@ public class Uyghur
 		return ueykey;
 	}
 	
-		
+	
 	static char BGD_WEItoUnicode(char inWei)
 	{
 		char ret = inWei;
