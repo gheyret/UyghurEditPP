@@ -20,15 +20,13 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 ### 0.4 neshri(2021/03/xx, téxi élan qilinmidi, emmma ozingiz yughurup ishletsingiz bolidu)
    * Bir qisim xataliqlar tüzitildi. bolupmu, birer soz kirgüzüpla chashqinekning ong teriponi bassa, axirliship kétidighan xataliq tüzitildi.
-   * Latinche kirgüzüsh iqtidari qoshuldi(```<Ctrl>+<K>``` bassa, kunupka almishidu).
-   
-       Latinche kirgüzüsh halitide töwendikidek alahide kirgüzüsh qollinildi.
+   * Latinche kirgüzüsh iqtidari qoshuldi(```<Ctrl>+<K>``` bassa, kunupka almishidu). Latinche kirgüzüsh halitide töwendikidek alahide kirgüzüsh qollinildi.
        
-         ```<Shift> + <o>``` -> ö
+         * ```<Shift> + <o>``` -> ö
             
-         ```<Shift> + <u>``` -> ü
+         * ```<Shift> + <u>``` -> ü
             
-         ```<Shift> + <e>``` -> é 
+         * ```<Shift> + <e>``` -> é 
             
        
    **Chüshürüsh**: 
