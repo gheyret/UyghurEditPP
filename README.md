@@ -18,7 +18,20 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 <hr></hr>
 
-### V.03 neshri(2021/03/17)
+### 0.4 neshri(2021/03/xx, texi elan qilinmidi)
+   * Bir qisim xataliqlar tüzitildi. bolupmu, birer soz kirguzupla chashqinekning ong teriponi bassa, axirliship ketidighan xataliq tuzitildi.
+   * Latchinche kirguzush iqtidari qoshuldi(<Ctrl>+<K> bassa, kunupka almishidu).
+       Latinche kirguzush halitide: 
+            <Shift> + <o> -> ö
+            <Shift> + <u> -> ü
+            <Shift> + <e> -> é 
+       
+   **Chüshürüsh**: 
+   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip),
+   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
+
+
+### 0.3 neshri(2021/03/17)
    * OCR da Uyghurche, In’glizche, Xenzuche yéziqlarni tonush iqtidari qoshuldi. 
      buning bilen arilash yéziqlarni tonush emelge ashuruldi.
    * Bir qisim xataliqlar tüzitildi.
@@ -30,7 +43,7 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 <hr></hr>
 
-### V.02 neshri(2021/03/05)
+### 0.2 neshri(2021/03/05)
    * UyghurEdit++ ning tughi özgertildi.(layihilep bergen qérindishimizgha köp rehmet).
    * Izdesh we Almashturush iqtidari yaxshilandi.
    * Tehrirlewatqan höjjettin HTML yasash iqtidari qoshuldi.
