@@ -18,17 +18,17 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 <hr></hr>
 
-### 0.4 neshri(2021/03/xx, téxi élan qilinmidi, emmma ozingiz yughurup ishletsingiz bolidu)
-   * Bir qisim xataliqlar tüzitildi. bolupmu, birer soz kirgüzüpla chashqinekning ong teriponi bassa, axirliship kétidighan xataliq tüzitildi.
-   * Latinche kirgüzüsh iqtidari qoshuldi(```<Ctrl>+<K>``` bassa, kunupka almishidu). Latinche kirgüzüsh halitide töwendikidek alahide kirgüzüsh qollinildi.    
+### 0.4 neshri(2021/03/21)
+   * Bir qisim xataliqlar tüzitildi. bolupmu, birer soz kirgüzüpla chashqinekning ong teripini bassa, axirliship kétidighan xataliq tüzitildi.
+   * Latinche kirgüzüsh iqtidari qoshuldi(```<Ctrl>+<K>``` bassa, kunupka almishidu). Latinche kirgüzüsh halitide ö, ü, é lerni töwendiki usul arqiliq kirgüzgili bolidu.    
      * ```<Shift> + <o>``` -> ö         
      * ```<Shift> + <u>``` -> ü
      * ```<Shift> + <e>``` -> é 
             
        
    **Chüshürüsh**: 
-   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip),
-   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
+   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.4/UyghurEditPP.zip),
+   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.4/UyghurEditPP32.zip)
 
 
 ### 0.3 neshri(2021/03/17)
