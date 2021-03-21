@@ -11,8 +11,8 @@ Mexsus Uyghurche tehrirlesh üchün tüzülgen, Imla tekshürüsh(Imlasi xata s�
 
 Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingiz bolidu. Eger teyyarsini ishletmekchi bolsingiz töwendiki ulanmidin chüshürüp ishliting.
 
- [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP.zip),
- [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.3/UyghurEditPP32.zip)
+ [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.4/UyghurEditPP.zip),
+ [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.4/UyghurEditPP32.zip)
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
