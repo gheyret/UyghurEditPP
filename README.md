@@ -65,6 +65,8 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 ![](screenshot/ocrnew.png)
 
+# Diqqet
+Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://visualstudio.microsoft.com/downloads/) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
 # Ishlitilgen ochuq kodlar
 Avalonedit: https://github.com/icsharpcode/AvalonEdit
 
