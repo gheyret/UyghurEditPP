@@ -16,6 +16,9 @@ Esli kodini chüshürüp özingiz yughurup(compile) qilip ishletsingiz bolidu. E
 
 Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
+# Diqqet
+Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://visualstudio.microsoft.com/downloads/) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
+
 <hr></hr>
 
 ### 0.4 neshri(2021/03/21)
@@ -65,8 +68,6 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 
 ![](screenshot/ocrnew.png)
 
-# Diqqet
-Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://visualstudio.microsoft.com/downloads/) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
 # Ishlitilgen ochuq kodlar
 Avalonedit: https://github.com/icsharpcode/AvalonEdit
 
