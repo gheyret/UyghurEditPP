@@ -27,8 +27,7 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
      * ```<Shift> + <o>``` -> ö         
      * ```<Shift> + <u>``` -> ü
      * ```<Shift> + <e>``` -> é 
-     
-o,u,e,ö,ü,é larning chong yézilishini kirgüzüsh nur belgisining aldidiki herpni chong yézilishqa özgertidighan tézletme kunupka ```Ctl+U``` ni ishletsingiz bolidu.     
+     o,u,e,ö,ü,é larning chong yézilishini kirgüzüsh nur belgisining aldidiki herpni chong yézilishqa özgertidighan tézletme kunupka ```Ctl+U``` ni ishletsingiz bolidu.     
      
        
    **Chüshürüsh**: 
