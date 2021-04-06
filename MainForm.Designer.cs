@@ -738,7 +738,6 @@ namespace UyghurEditPP
 			// 
 			this.menuFont.Image = ((System.Drawing.Image)(resources.GetObject("menuFont.Image")));
 			this.menuFont.Name = "menuFont";
-			this.menuFont.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
 			this.menuFont.Size = new System.Drawing.Size(310, 22);
 			this.menuFont.Text = "Xet Nusxisi";
 			this.menuFont.Click += new System.EventHandler(this.MenuFontClick);

@@ -24,32 +24,16 @@ namespace UyghurEditPP
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			System.Diagnostics.Debug.WriteLine("Buyruq Quri: " +args.Length);
-			MainForm frm = new MainForm();
-			frm.Show();
-			if(args.Length==1){
-				frm.OpenaFile(args[0]);
+			try{
+				MainForm frm = new MainForm();
+				frm.Show();
+				if(args.Length==1){
+					frm.OpenaFile(args[0]);
+				}
+				Application.Run(frm);
+			}catch(Exception ee){
+				MessageBox.Show(ee.Message,"UyghurEdit++",MessageBoxButtons.OK,MessageBoxIcon.Error);
 			}
-			Application.Run(frm);
-//			KenjiSpell kImla = new KenjiSpell();
-//			kImla.LoadDictionary("uyghur_imla.txt",Uyghur.YEZIQ.ULY);
-//			System.Diagnostics.Debug.WriteLine(kImla.WordCount);
-//			if(kImla.IsListed("dédeklermu")){
-//				System.Diagnostics.Debug.WriteLine("bügün barken");
-//			}
-//			else{
-//				System.Diagnostics.Debug.WriteLine("bügün yoqken");
-//			}
-//			if(kImla.IsListed("bugun")){
-//				System.Diagnostics.Debug.WriteLine("bugun barken");
-//			}
-//			else{
-//				System.Diagnostics.Debug.WriteLine("bugun yoqken");
-//				List<string> namzat = kImla.Lookup("aghzini");
-//				foreach(string nn in namzat){
-//					System.Diagnostics.Debug.WriteLine(nn);
-//				}
-//			}
 		}
 	}
 }

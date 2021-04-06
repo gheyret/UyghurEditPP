@@ -372,11 +372,11 @@ namespace UyghurEditPP
 			if(gEditor.SelectionLength>0){
 				gEditor.SelectedText = gEditor.SelectedText.ToUpper();
 			}
-			else{
-				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset);
+			else if((gEditor.CaretOffset-1)>=0){
+				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset-1);
 				if(char.IsLower(nurHerp)){
 					string txt=char.ToUpper(nurHerp)+"";
-					gEditor.Document.Replace(gEditor.CaretOffset,1,txt);
+					gEditor.Document.Replace(gEditor.CaretOffset-1,1,txt);
 				}
 			}
 		}
@@ -387,11 +387,11 @@ namespace UyghurEditPP
 			if(gEditor.SelectionLength>0){
 				gEditor.SelectedText = gEditor.SelectedText.ToLower();
 			}
-			else{
-				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset);
+			else if((gEditor.CaretOffset-1)>=0){
+				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset-1);
 				if(char.IsUpper(nurHerp)){
 					string txt=char.ToLower(nurHerp)+"";
-					gEditor.Document.Replace(gEditor.CaretOffset,1,txt);
+					gEditor.Document.Replace(gEditor.CaretOffset-1,1,txt);
 				}
 			}
 		}

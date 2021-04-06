@@ -319,7 +319,7 @@ public class Uyghur
 		string qur;
 		Regex jumle = new Regex(@"([\.\?!][\'\""\u2018\u2019\u201c\u201d\)\]]*\s*(?<!\w\.\w.)(?<![A-ZÉÖÜ][a-z][a-z]\.)(?<![A-ZÉÖÜ][a-z]\.)(?<![A-ZÉÖÜ]\.)\s+)",RegexOptions.Compiled);
 		string[] sp = {"\r\n"};
-		string[] qurlar = newtext.Split(sp,StringSplitOptions.None);
+		string[] qurlar = newtext.Replace("uyghur","Uyghur").Replace("amérik","Amérik").Split(sp,StringSplitOptions.None);
 		for(int i=0;i<qurlar.Length;i++){
 			if(qurlar[i].Length>0){
 				qur = qurlar[i];
@@ -365,7 +365,7 @@ public class Uyghur
 		string qur;
 		Regex jumle = new Regex(@"([\.\?!][\'\""\u2018\u2019\u201c\u201d\)\]]*\s*(?<!\w\.\w.)(?<![АБВГДЕЖЗИЙКЛМНОПРСТУФХЧШҒҖҚҢҮҺӘӨ][абвгдежзийклмнопрстуфхчшғҗқңүһәө][абвгдежзийклмнопрстуфхчшғҗқңүһәө]\.)(?<![АБВГДЕЖЗИЙКЛМНОПРСТУФХЧШҒҖҚҢҮҺӘӨ][абвгдежзийклмнопрстуфхчшғҗқңүһәө]\.)(?<![АБВГДЕЖЗИЙКЛМНОПРСТУФХЧШҒҖҚҢҮҺӘӨ]\.)\s+)",RegexOptions.Compiled);
 		string[] sp = {"\r\n"};
-		string[] qurlar = newtext.Split(sp,StringSplitOptions.None);
+		string[] qurlar = newtext.Replace("уйғур","Уйғур").Replace("америк","Америк").Split(sp,StringSplitOptions.None);
 		for(int i=0;i<qurlar.Length;i++){
 			if(qurlar[i].Length>0){
 				qur = qurlar[i];
@@ -1694,11 +1694,11 @@ public class Uyghur
 		}
 		else if("“"==Herp || "„"==Herp || "&#8220;"==Herp || "&#8222;"==Herp)
 		{
-			ret="«";
+			ret="»";
 		}
 		else if("”"==Herp || "‟"==Herp|| "&#8221;"==Herp || "&#8223;"==Herp)
 		{
-			ret="»";
+			ret="«";
 		}
 		else {
 			ret=Herp;
