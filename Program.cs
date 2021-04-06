@@ -32,7 +32,7 @@ namespace UyghurEditPP
 				}
 				Application.Run(frm);
 			}catch(Exception ee){
-				MessageBox.Show(ee.Message,"UyghurEdit++",MessageBoxButtons.OK,MessageBoxIcon.Error);
+				MessageBox.Show(ee.StackTrace,"UyghurEdit++",MessageBoxButtons.OK,MessageBoxIcon.Error);
 			}
 		}
 	}
