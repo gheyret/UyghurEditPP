@@ -80,6 +80,10 @@ namespace UyghurEditPP.FindReplace
 					gKunupka = KUNUPKA.Uyghur;
 					this.labKun.Text = "ئۇيغۇرچە";
 				}
+				else if(gKunupka == KUNUPKA.Uyghur){
+					gKunupka = KUNUPKA.UyghurLY;
+					this.labKun.Text = "Uyghurche";
+				}
 				else
 				{
 					gKunupka = KUNUPKA.System;
@@ -109,6 +113,14 @@ namespace UyghurEditPP.FindReplace
 					e.Handled = true;
 					InputText(curBox,newtxt);
 				}
+			}
+			else if(gKunupka == KUNUPKA.UyghurLY){
+				newtxt = Uyghur.KeyToULY(e.Text);
+				if(newtxt.Length>0)
+				{
+					e.Handled = true;
+					InputText(curBox,newtxt);
+				}				
 			}
 			else if(curEditor.RightToLeft){
 				e.Handled = true;
@@ -230,7 +242,8 @@ namespace UyghurEditPP.FindReplace
 			string msg = MainForm.gLang.GetText("Rastla barliq «") + txtFind.Text + MainForm.gLang.GetText("» ni «") +  txtReplace.Text + MainForm.gLang.GetText("» gha alamshturamsiz?");
 			if (MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
-				Mouse.OverrideCursor = Cursors.Wait;
+				Cursor old = Mouse.OverrideCursor;
+				Mouse.OverrideCursor= Cursors.Wait;
 				Regex regex = GetRegEx(txtFind.Text, true);
 				int offset = 0; //Editor.CaretOffset;
 				Editor.BeginChange();
@@ -247,7 +260,7 @@ namespace UyghurEditPP.FindReplace
 				Editor.CaretOffset = offset;
 				Editor.BringCaretToView();
 				labKun.Text = MainForm.gLang.GetText("Jemiy ") + repCount + MainForm.gLang.GetText(" qétim almashturuldi");
-				Mouse.OverrideCursor = Cursors.Arrow;
+				Mouse.OverrideCursor = old;
 			}
 		}
 
