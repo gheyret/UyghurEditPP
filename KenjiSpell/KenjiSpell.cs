@@ -91,7 +91,8 @@ namespace UyghurEditPP
 		public override bool IsListed(String szWord)
 		{
 			if (m_RootNode == null) return false;
-			bool ret=_IsWordListed(m_RootNode,szWord.Trim().Replace(Uyghur.Sozghuch,"").ToLower());
+			string inSoz = szWord.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+			bool ret=_IsWordListed(m_RootNode,inSoz);
 			return ret;
 		}
 		
@@ -139,6 +140,10 @@ namespace UyghurEditPP
 		
 		public override bool LoadDictionary(Stream instr,Uyghur.YEZIQ yeziq)
 		{
+			if(m_RootNode!=null){
+				m_RootNode = null;
+			}
+			
 			using (StreamReader sr = new StreamReader(instr,System.Text.Encoding.UTF8))
 			{
 				String line;
