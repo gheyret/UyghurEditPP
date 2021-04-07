@@ -98,13 +98,14 @@ namespace UyghurEditPP
 			gSlawyancheSoz = new Regex(pattern,RegexOptions.Compiled);
 			
 			gImla = new Imla();
+			gImla.SpellCheker = new KenjiSpell();
 			mainTab.RemoveTab += DeleteTab;
 			
-			string fontpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "UKIJTuz.ttf".ToUpper());
-			System.Diagnostics.Debug.WriteLine(fontpath);
+			//string fontpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "UKIJTuz.ttf".ToUpper());
+			//System.Diagnostics.Debug.WriteLine(fontpath);
 
-			bool isexsit = File.Exists(fontpath);
-			System.Diagnostics.Debug.WriteLine(isexsit);
+			//bool isexsit = File.Exists(fontpath);
+			//System.Diagnostics.Debug.WriteLine(isexsit);
 			
 			System.Diagnostics.Debug.WriteLine(IsFontInstalled("UKIJ Tuz"));
 			
@@ -122,12 +123,18 @@ namespace UyghurEditPP
 			gMenuSozToghra    = new System.Windows.Controls.MenuItem();
 			gMenuSozToghra.Name="TOGHRA";
 			gMenuSozToghra.FontWeight = System.Windows.FontWeights.Bold;
+			gMenuSozToghra.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
+			gMenuSozToghra.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
 			gMenuSozToghra.Click += menuSozImla;
 			
 			gMenuSozTekshurme = new System.Windows.Controls.MenuItem();
 			gMenuSozTekshurme.Name="OTKUZUWET";
 			gMenuSozTekshurme.FontWeight = System.Windows.FontWeights.Bold;
+			gMenuSozTekshurme.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
+			gMenuSozTekshurme.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
 			gMenuSozTekshurme.Click += menuSozImla;
+			
+			
 			
 			gConfName = Path.Combine(Application.StartupPath, gConfName);
 		}
@@ -442,7 +449,7 @@ namespace UyghurEditPP
 				else{
 					gEditor.Document.Insert(gEditor.CaretOffset,newtxt);
 				}
-				gEditor.TextArea.Caret.BringCaretToView();				
+				gEditor.TextArea.Caret.BringCaretToView();
 			}
 			else if(gEditor.RightToLeft){
 				e.Handled = true;
@@ -754,7 +761,7 @@ namespace UyghurEditPP
 			if(!gConfig.Contains("CHONGLUQI")){
 				Rectangle rc = new Rectangle(100,100,1200, 768);
 				gConfig["CHONGLUQI"] = rc;
-			}			
+			}
 		}
 		
 		void MainFormShown(object sender, EventArgs e)
@@ -1111,7 +1118,7 @@ namespace UyghurEditPP
 //					menuChong.Enabled = true;
 //					menuKichik.Enabled = true;
 //					menuMawzu.Enabled = true;
-					gEditor.RightToLeft = false;					
+					gEditor.RightToLeft = false;
 					if(gYeziqAuto)
 					{
 						if(curYeziq == Uyghur.YEZIQ.ULY){
@@ -1642,33 +1649,22 @@ namespace UyghurEditPP
 				if(yeziq.Equals("UEY") && gUyghurcheSoz != gImla.WordFinder){
 					gMenuSozTekshurme.Header= Uyghur.ULY2UEY("Bu sözni ötküzüwet");
 					gMenuSozToghra.Header   = Uyghur.ULY2UEY("Bu söz toghra");
-					gMenuSozTekshurme.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
-					gMenuSozTekshurme.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
-					gMenuSozToghra.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
-					gMenuSozToghra.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
-
 					gImla.WordFinder = gUyghurcheSoz;
-					gImla.SpellCheker = new KenjiSpell();
-					//gImla.SpellCheker = new SymSpell();
 					gImla.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.UEY);
 				}
 				else if(yeziq.Equals("ULY") && gLatincheSoz != gImla.WordFinder){
 					gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
 					gMenuSozToghra.Header   = "Bu söz toghra";
 					gImla.WordFinder = gLatincheSoz;
-					gImla.SpellCheker = new KenjiSpell();
 					gImla.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.ULY);
 				}
 				else if( yeziq.Equals("USY") && gSlawyancheSoz != gImla.WordFinder){
 					gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
 					gMenuSozToghra.Header   = Uyghur.ULY2USY("Bu söz toghra");
 					gImla.WordFinder = gSlawyancheSoz;
-					gImla.SpellCheker = new KenjiSpell();
-					gImla.SpellCheker.LoadDictionary(imlastrem,Uyghur.YEZIQ.USY);//Imla mbirini slawyanchigha ozgertip ishlitidu
+					gImla.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.USY);//Imla mbirini slawyanchigha ozgertip ishlitidu
 				}
 				imlastrem.Close();
-				System.Diagnostics.Debug.WriteLine("Sozluk Sani = " + gImla.SpellCheker.WordCount);
-//				}
 			}
 			gConfig["IMLAYEZIQ"]=yeziq;
 		}

@@ -29,8 +29,8 @@ namespace UyghurEditPP
 		
 		protected Uyghur.YEZIQ gYeziq;
 
-		string gImlaIshletkuchi = @"imla_ishletkuchi.txt";
-		string gImlaXataToghra = @"imla_xatatoghra.txt";
+		string gImlaIshletkuchi = "imla_ishletkuchi.txt";
+		string gImlaXataToghra = "imla_xatatoghra.txt";
 		
 		
 		internal UyghurSpell(){
@@ -53,6 +53,8 @@ namespace UyghurEditPP
 		public bool Load(Stream instr, Uyghur.YEZIQ yeziq)
 		{
 			gYeziq = yeziq;
+			XataToghra.Clear();
+			
 			bool ret = LoadDictionary(instr,yeziq);
 			if(IshletkuchiDic.Count==0){
 				ReadIshletkuchiDic();
