@@ -1694,11 +1694,11 @@ public class Uyghur
 		}
 		else if("“"==Herp || "„"==Herp || "&#8220;"==Herp || "&#8222;"==Herp)
 		{
-			ret="»";
+			ret="«";
 		}
 		else if("”"==Herp || "‟"==Herp|| "&#8221;"==Herp || "&#8223;"==Herp)
 		{
-			ret="«";
+			ret="»";
 		}
 		else {
 			ret=Herp;
