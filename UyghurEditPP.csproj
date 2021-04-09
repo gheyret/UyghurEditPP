@@ -257,7 +257,7 @@
     <Compile Include="Highlighting\RichTextColorizer.cs" />
     <Compile Include="Highlighting\RichTextModel.cs" />
     <Compile Include="Highlighting\RichTextModelWriter.cs" />
-    <Compile Include="Imla.cs" />
+    <Compile Include="ImlaBoya.cs" />
     <Compile Include="Indentation\CSharp\IndentationReformatter.cs" />
     <Compile Include="Indentation\CSharp\CSharpIndentationStrategy.cs" />
     <Compile Include="Indentation\CSharp\DocumentAccessor.cs" />
@@ -387,8 +387,6 @@
       <DependentUpon>DocumentLine.cs</DependentUpon>
     </Compile>
     <Compile Include="Document\TextDocument.cs" />
-    <Compile Include="SymSpell\EditDistance.cs" />
-    <Compile Include="SymSpell\SymSpell.cs" />
     <Compile Include="TextEditor\AvalonEditCommands.cs" />
     <Compile Include="TextEditor\TextEditor.cs" />
     <Compile Include="TextEditor\TextEditorAutomationPeer.cs" />
@@ -517,7 +515,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KenjiSpell" />
-    <Folder Include="SymSpell" />
   </ItemGroup>
   <Import Project="packages\Tesseract.4.1.1\build\Tesseract.targets" Condition="Exists('packages\Tesseract.4.1.1\build\Tesseract.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
