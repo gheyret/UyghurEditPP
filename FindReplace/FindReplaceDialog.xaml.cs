@@ -220,10 +220,12 @@ namespace UyghurEditPP.FindReplace
 			Regex regex = GetRegEx(txtFind.Text);
 			//string input = editor.Text.Substring(editor.SelectionStart, editor.SelectionLength);
 			string repText = Regex.Unescape(txtReplace.Text);
+			string fndText = Regex.Unescape(txtFind.Text);
+			
 			Match match = regex.Match(Editor.Text,Editor.SelectionStart);
 			if (match.Success)
 			{
-				Editor.Document.Replace(match.Index, txtFind.Text.Length, repText);
+				Editor.Document.Replace(match.Index, fndText.Length, repText);
 				Editor.CaretOffset　= match.Index+repText.Length;
 				Editor.BringCaretToView();
 				Editor.Focus();
