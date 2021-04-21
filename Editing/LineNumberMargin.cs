@@ -78,13 +78,22 @@ namespace UyghurEditPP.Editing
 			TextView textView = this.TextView;
 			Size renderSize = this.RenderSize;
 			if (textView != null && textView.VisualLinesValid) {
+				var nforeground = Brushes.DarkBlue;
 				var foreground = (Brush)GetValue(Control.ForegroundProperty);
+				Brush cforeground;
 				foreach (VisualLine line in textView.VisualLines) {
 					int lineNumber = line.FirstDocumentLine.LineNumber;
+					if(lineNumber == textArea.Caret.Line){
+						cforeground = nforeground;
+					}
+					else{
+						cforeground = foreground;
+					}
+
 					FormattedText text = TextFormatterFactory.CreateFormattedText(
 						this,
 						lineNumber.ToString(CultureInfo.CurrentCulture),
-						typeface, emSize, foreground
+						typeface, emSize, cforeground
 					);
 					double y = line.GetTextLineVisualYPosition(line.TextLines[0], VisualYPosition.TextTop);
 					y =  y - textView.VerticalOffset;
