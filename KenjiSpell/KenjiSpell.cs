@@ -132,13 +132,13 @@ namespace UyghurEditPP
 			}
 		}
 		
-		public override bool LoadDictionary(string corpus, Uyghur.YEZIQ yeziq)
+		protected override bool LoadDictionary(string corpus, Uyghur.YEZIQ yeziq)
 		{
 			if (!File.Exists(corpus)) return false;
 			return LoadDictionary(File.OpenRead(corpus), yeziq);
 		}
 		
-		public override bool LoadDictionary(Stream instr,Uyghur.YEZIQ yeziq)
+		protected override bool LoadDictionary(Stream instr,Uyghur.YEZIQ yeziq)
 		{
 			if(m_RootNode!=null){
 				m_RootNode = null;
