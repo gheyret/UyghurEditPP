@@ -584,7 +584,7 @@ namespace UyghurEditPP
 			int oldPos = gEditor.CaretOffset;
 			while((soz = finder.Match(alltext,stpos)).Success)
 			{
-				gEditor.CaretOffset = soz.Index;
+				//gEditor.CaretOffset = soz.Index;
 				gEditor.Document.Replace(soz.Index,xatasoz.Length,nsoz);
 				alltext = gEditor.Text.ToLower();
 				stpos = soz.Index+nsoz.Length;
@@ -593,8 +593,8 @@ namespace UyghurEditPP
 			
 			if(sani>0){
 				stBarUchur.Text = gLang.GetText("Oxshash xataliqlar tüzitildi") + "["+sani+"]";
-				gEditor.CaretOffset = oldPos;
-				gEditor.BringCaretToView();
+//				gEditor.CaretOffset = oldPos;
+//				gEditor.BringCaretToView();
 			}
 		}
 		
