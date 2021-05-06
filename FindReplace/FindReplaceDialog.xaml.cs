@@ -225,7 +225,7 @@ namespace UyghurEditPP.FindReplace
 			Match match = regex.Match(Editor.Text,Editor.SelectionStart);
 			if (match.Success)
 			{
-				Editor.Document.Replace(match.Index, fndText.Length, repText);
+				Editor.Document.Replace(match.Index, match.Length, repText);
 				Editor.CaretOffset　= match.Index+repText.Length;
 				Editor.BringCaretToView();
 				Editor.Focus();
