@@ -166,7 +166,11 @@ namespace UyghurEditPP.FindReplace
 		
 		public void ShowMe()
 		{
+			window1.FlowDirection = curEditor.FlowDirection;
 			UpdateMessages();
+			if(curEditor.SelectionLength>0){
+				txtFind.Text=curEditor.SelectedText;
+			}
 			Show();
 			Topmost=true;
 			Activate();
