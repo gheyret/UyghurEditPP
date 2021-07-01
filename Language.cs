@@ -20,16 +20,16 @@ namespace UyghurEditPP
 
 	public class Language
 	{
-		String gLang_Code;
 		dynamic gLangJson = null;
 		public Language()
 		{
 			LoadLanguageData();
-			gLang_Code ="uly";
+			LanguaID ="uly";
 		}
 		
-		public void SetLangId(String id){
-			gLang_Code=id;
+		public String LanguaID{
+			get;
+			set;
 		}
 
 		void LoadLanguageData(){
@@ -54,9 +54,9 @@ namespace UyghurEditPP
 		{
 			
 			String ret=key;
-			if(gLangJson!=null && (gLang_Code.Equals("jpn")||gLang_Code.Equals("eng"))){
+			if(gLangJson!=null && (LanguaID.Equals("jpn")||LanguaID.Equals("eng"))){
 				if(gLangJson.IsDefined(key)){
-					ret = gLangJson[key][gLang_Code];
+					ret = gLangJson[key][LanguaID];
 					if(string.IsNullOrEmpty(ret)){
 						ret = key;
 					}
@@ -70,10 +70,10 @@ namespace UyghurEditPP
 				}
 			}
 			else{
-				if(gLang_Code.Equals("uey")){
+				if(LanguaID.Equals("uey")){
 					ret = Uyghur.ULY2UEY(key);
 				}
-				else if(gLang_Code.Equals("usy")){
+				else if(LanguaID.Equals("usy")){
 					ret = Uyghur.ULY2USY(key);
 				}
 			}

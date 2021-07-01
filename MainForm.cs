@@ -179,6 +179,8 @@ namespace UyghurEditPP
 			}
 			else if(gModkey == 0 && e.Key== System.Windows.Input.Key.F3){
 				ToolIzdeDawamClick(null,null);
+//				gEditor.SearchPanel.Open();
+//				gEditor.SearchPanel.FindNext();
 				e.Handled = true;
 			}
 		}
@@ -584,7 +586,7 @@ namespace UyghurEditPP
 			int oldPos = gEditor.CaretOffset;
 			while((soz = finder.Match(alltext,stpos)).Success)
 			{
-				//gEditor.CaretOffset = soz.Index;
+				gEditor.CaretOffset = soz.Index;
 				gEditor.Document.Replace(soz.Index,xatasoz.Length,nsoz);
 				alltext = gEditor.Text.ToLower();
 				stpos = soz.Index+nsoz.Length;
@@ -593,8 +595,8 @@ namespace UyghurEditPP
 			
 			if(sani>0){
 				stBarUchur.Text = gLang.GetText("Oxshash xataliqlar tüzitildi") + "["+sani+"]";
-//				gEditor.CaretOffset = oldPos;
-//				gEditor.BringCaretToView();
+				gEditor.CaretOffset = oldPos;
+				gEditor.BringCaretToView();
 			}
 		}
 		
@@ -822,7 +824,30 @@ namespace UyghurEditPP
 			this.Location = new Point(rc.X,rc.Y);
 			this.Size = new Size(rc.Width,rc.Height);
 			MenuYengiClick(null,null);
+			
+//			DOCXUEYUSY();
+			
 		}
+		
+//		void DOCXUEYUSY(){
+//			string esli, newtext;
+//			esli = File.ReadAllText(@"F:\gheyret\nabijan\footnotes.xml",Encoding.UTF8);
+//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>","").Replace("<w:lang w:bidi=\"ug-CN\"/>","");
+//			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+//			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+//			newtext = Uyghur.UEY2ULY(esli);
+//			newtext = Uyghur.ULYJumleChongYazXML(newtext);
+//			File.WriteAllText(@"F:\gheyret\nabijan\beshi\word\footnotes.xml",newtext,Encoding.UTF8);
+//
+//			esli = File.ReadAllText(@"F:\gheyret\nabijan\document.xml",Encoding.UTF8);
+//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>","").Replace("<w:lang w:bidi=\"ug-CN\"/>","");
+//			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+//			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+//			newtext = Uyghur.UEY2ULY(esli);
+//			newtext = Uyghur.ULYJumleChongYazXML(newtext);
+//			File.WriteAllText(@"F:\gheyret\nabijan\beshi\word\document.xml",newtext,Encoding.UTF8);
+//
+//		}
 		
 		void CheckLangMenu(string lang){
 			foreach(ToolStripMenuItem itm in menuTil.DropDownItems){
@@ -832,7 +857,7 @@ namespace UyghurEditPP
 				}
 			}
 			gConfig["LANG"] = lang;
-			gLang.SetLangId(lang);
+			gLang.LanguaID = lang;
 			if("uey".Equals(lang)){
 				this.menuBar.RightToLeft = RightToLeft.Yes;
 				//this.menuBar.Font = new Font("UKIJ Tuz",14.0f);
