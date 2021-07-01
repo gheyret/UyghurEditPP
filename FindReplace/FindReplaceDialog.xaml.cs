@@ -166,7 +166,7 @@ namespace UyghurEditPP.FindReplace
 		
 		public void ShowMe()
 		{
-			window1.FlowDirection = curEditor.FlowDirection;
+			window1.FlowDirection = MainForm.gLang.LanguaID.Equals("uey")?FlowDirection.RightToLeft:FlowDirection.LeftToRight;
 			UpdateMessages();
 			if(curEditor.SelectionLength>0){
 				txtFind.Text=curEditor.SelectedText;
