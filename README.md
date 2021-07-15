@@ -24,6 +24,7 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
 ### 0.5 neshri(2021/07/15)
    * Izdesh we almashturushtiki bezi xataliqlar tüzitildi.
    * OCR gha Türkche qoshuldi. Buning bilen Türkche yaki Türkche bilen Uyghurche arilash kelgen resimlik höjjetlerni tékistke aylandurushqa bolidu.
+   
    **Chüshürüsh**: 
    [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.5/UyghurEditPP.zip),
    [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.5/UyghurEditPP32.zip)
