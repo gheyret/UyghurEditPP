@@ -123,6 +123,7 @@ namespace UyghurEditPP
 			
 			chkUyghur.Text = MainForm.gLang.GetText("Uyghurche");
 			chkEng.Text = MainForm.gLang.GetText("In’glizche");
+			chkTur.Text = MainForm.gLang.GetText("Türkche");
 			chkChi.Text = MainForm.gLang.GetText("Xenzuche");
 			chkRus.Text = MainForm.gLang.GetText("Slawyanche");
 			radAuto.Text = MainForm.gLang.GetText("Özüng Tap");
@@ -188,6 +189,11 @@ namespace UyghurEditPP
 			if(chkEng.Checked){
 				lang += "+eng";
 			}
+			
+			if(chkTur.Checked){
+				lang += "+tur";
+			}
+
 			if(chkChi.Checked){
 				lang += "+chi_sim";
 			}

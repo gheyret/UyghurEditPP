@@ -48,6 +48,7 @@ namespace UyghurEditPP
 			this.label2 = new System.Windows.Forms.Label();
 			this.radAuto = new System.Windows.Forms.RadioButton();
 			this.radSingle = new System.Windows.Forms.RadioButton();
+			this.chkTur = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// butTonu
@@ -112,7 +113,7 @@ namespace UyghurEditPP
 			// 
 			// chkEng
 			// 
-			this.chkEng.Location = new System.Drawing.Point(25, 68);
+			this.chkEng.Location = new System.Drawing.Point(25, 66);
 			this.chkEng.Margin = new System.Windows.Forms.Padding(0);
 			this.chkEng.Name = "chkEng";
 			this.chkEng.Size = new System.Drawing.Size(155, 26);
@@ -123,7 +124,7 @@ namespace UyghurEditPP
 			// 
 			// chkChi
 			// 
-			this.chkChi.Location = new System.Drawing.Point(25, 103);
+			this.chkChi.Location = new System.Drawing.Point(25, 132);
 			this.chkChi.Margin = new System.Windows.Forms.Padding(0);
 			this.chkChi.Name = "chkChi";
 			this.chkChi.Size = new System.Drawing.Size(155, 26);
@@ -134,7 +135,7 @@ namespace UyghurEditPP
 			// 
 			// chkRus
 			// 
-			this.chkRus.Location = new System.Drawing.Point(25, 138);
+			this.chkRus.Location = new System.Drawing.Point(25, 165);
 			this.chkRus.Margin = new System.Windows.Forms.Padding(0);
 			this.chkRus.Name = "chkRus";
 			this.chkRus.Size = new System.Drawing.Size(155, 26);
@@ -145,7 +146,7 @@ namespace UyghurEditPP
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 179);
+			this.label2.Location = new System.Drawing.Point(8, 212);
 			this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(170, 27);
@@ -156,7 +157,7 @@ namespace UyghurEditPP
 			// radAuto
 			// 
 			this.radAuto.Checked = true;
-			this.radAuto.Location = new System.Drawing.Point(25, 209);
+			this.radAuto.Location = new System.Drawing.Point(25, 242);
 			this.radAuto.Name = "radAuto";
 			this.radAuto.Size = new System.Drawing.Size(153, 30);
 			this.radAuto.TabIndex = 51;
@@ -166,12 +167,23 @@ namespace UyghurEditPP
 			// 
 			// radSingle
 			// 
-			this.radSingle.Location = new System.Drawing.Point(25, 245);
+			this.radSingle.Location = new System.Drawing.Point(25, 278);
 			this.radSingle.Name = "radSingle";
 			this.radSingle.Size = new System.Drawing.Size(153, 30);
 			this.radSingle.TabIndex = 52;
 			this.radSingle.Text = "Birla Bolek";
 			this.radSingle.UseVisualStyleBackColor = true;
+			// 
+			// chkTur
+			// 
+			this.chkTur.Location = new System.Drawing.Point(23, 99);
+			this.chkTur.Margin = new System.Windows.Forms.Padding(0);
+			this.chkTur.Name = "chkTur";
+			this.chkTur.Size = new System.Drawing.Size(155, 26);
+			this.chkTur.TabIndex = 53;
+			this.chkTur.Text = "Türkche";
+			this.chkTur.UseVisualStyleBackColor = true;
+			this.chkTur.CheckedChanged += new System.EventHandler(this.CheckedChanged);
 			// 
 			// OCRForm
 			// 
@@ -179,6 +191,7 @@ namespace UyghurEditPP
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(804, 578);
+			this.Controls.Add(this.chkTur);
 			this.Controls.Add(this.radSingle);
 			this.Controls.Add(this.radAuto);
 			this.Controls.Add(this.label2);
@@ -217,5 +230,6 @@ namespace UyghurEditPP
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.RadioButton radAuto;
 		private System.Windows.Forms.RadioButton radSingle;
+		private System.Windows.Forms.CheckBox chkTur;
 	}
 }
