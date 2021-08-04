@@ -19,6 +19,7 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
 
 ### 0.6 neshri(2021/08/04)
    * Chapla ni ishletkende, eger Saqlash Taxtisi(ClipBoard) da resim bolsa, aptomatik halda OCR ni qozghitilidighan qilindi.
+   * Yene OCR koznikidimu Ctrl+V arqiliq Saqlash Taxtisi(ClipBoard) diki resimni chaplashqa bolidighan qilindi.
    
    **Chüshürüsh**: 
    [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.6/UyghurEditPP.zip),
