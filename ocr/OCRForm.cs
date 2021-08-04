@@ -55,6 +55,7 @@ namespace UyghurEditPP
 				chkEng.Enabled = !gRunning;
 				chkRus.Enabled = !gRunning;
 				chkChi.Enabled = !gRunning;
+				chkTur.Enabled = !gRunning;
 				radAuto.Enabled = !gRunning;
 				radSingle.Enabled = !gRunning;
 			}
@@ -175,6 +176,13 @@ namespace UyghurEditPP
 				ramka.Image=bimg;
 			}
 			Invalidate();
+		}
+		
+		public Image Resim{
+			set{
+				ramka.Image=new Bitmap(value);		
+				Invalidate();
+			}
 		}
 		
 		void CheckedChanged(object sender, EventArgs e)
