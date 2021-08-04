@@ -17,6 +17,14 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
 
 <hr></hr>
 
+### 0.6 neshri(2021/08/04)
+   * Chapla ni ishletkende, eger Saqlash Taxtisi(ClipBoard) da resim bolsa, aptomatik halda OCR ni qozghitilidighan qilindi.
+   
+   **Chüshürüsh**: 
+   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.6/UyghurEditPP.zip),
+   [32 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.6/UyghurEditPP32.zip)
+
+
 ### 0.5 neshri(2021/07/15)
    * Izdesh we almashturushtiki bezi xataliqlar tüzitildi.
    * OCR gha Türkche qoshuldi. Buning bilen Türkche yaki Türkche bilen Uyghurche arilash kelgen resimlik höjjetlerni tékistke aylandurushqa bolidu.
