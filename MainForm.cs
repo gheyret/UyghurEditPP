@@ -178,21 +178,14 @@ namespace UyghurEditPP
 				}
 			}
 			else if(gModkey == 0 && e.Key== System.Windows.Input.Key.F3){
-				ToolIzdeDawamClick(null,null);
-//				gEditor.SearchPanel.Open();
-//				gEditor.SearchPanel.FindNext();
+				gFindReplace.ContinueLastOperation();
 				e.Handled = true;
 			}
 		}
 
 		void ToolIzdeDawamClick(object sender, EventArgs e)
 		{
-			if(string.IsNullOrEmpty(gFindReplace.txtFind.Text)){
-				FindReplace();
-			}
-			else{
-				gFindReplace.ContinueLastOperation();
-			}
+			FindReplace();
 		}
 		
 		
@@ -201,14 +194,14 @@ namespace UyghurEditPP
 			gEditor.TextArea.TextView.Redraw();
 			gFindReplace.ShowMe();
 
-			if (!gEditor.TextArea.Selection.IsMultiline)
-			{
-				gFindReplace.txtFind.FlowDirection = gEditor.FlowDirection;
-				gFindReplace.txtFind.Text = gEditor.TextArea.Selection.GetText();
-				gFindReplace.txtReplace.FlowDirection = gEditor.FlowDirection;
-				gFindReplace.txtFind.SelectAll();
-				gFindReplace.txtFind.Focus();
-			}
+//			if (!gEditor.TextArea.Selection.IsMultiline)
+//			{
+//				gFindReplace.txtFind.FlowDirection = gEditor.FlowDirection;
+//				gFindReplace.txtFind.Text = gEditor.TextArea.Selection.GetText();
+//				gFindReplace.txtReplace.FlowDirection = gEditor.FlowDirection;
+//				gFindReplace.txtFind.SelectAll();
+//				gFindReplace.txtFind.Focus();
+//			}
 		}
 		
 		void FindReplaceClosing(object sender, System.ComponentModel.CancelEventArgs e){
@@ -657,6 +650,12 @@ namespace UyghurEditPP
 		
 		void MainFormSizeChanged(object sender, EventArgs e)
 		{
+			System.Diagnostics.Debug.WriteLine("this.WindowState: " +this.WindowState);
+			System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
+		}
+		
+		void MainFormResize(object sender, EventArgs e)
+		{
 			mainTab.Location = new Point(0,toolBar.Bottom);
 			mainTab.Width = ClientSize.Width;
 			mainTab.Height = ClientSize.Height-(toolBar.Height + stBar.Height+menuBar.Height);
@@ -759,7 +758,7 @@ namespace UyghurEditPP
 			SetKunupka(kun);
 			
 			if(!gConfig.Contains("CHONGLUQI")){
-				Rectangle rc = new Rectangle(100,100,1200, 768);
+				Rectangle rc = new Rectangle(100,100,1024, 768);
 				gConfig["CHONGLUQI"] = rc;
 			}
 		}
@@ -1100,8 +1099,7 @@ namespace UyghurEditPP
 				
 			}
 			stBarLs.Text = gEditor.TextArea.Caret.Line+" : "+gEditor.TextArea.Caret.Column + " : U" + herpcode;
-			
-			//stBarLs.Text = "1000000"+":"+"1000" + " [" + herpcode+"]";
+			//this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
 		}
 		
 		void TabControl1SelectedIndexChanged(object sender, EventArgs e)
@@ -1128,9 +1126,6 @@ namespace UyghurEditPP
 				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
 				if(curYeziq == Uyghur.YEZIQ.UEY || curYeziq == Uyghur.YEZIQ.YOQ)
 				{
-//					menuChong.Enabled = false;
-//					menuKichik.Enabled = false;
-//					menuMawzu.Enabled = false;
 					gEditor.RightToLeft = true;
 					
 					if(gYeziqAuto){
@@ -1138,9 +1133,6 @@ namespace UyghurEditPP
 					}
 				}
 				else if(curYeziq == Uyghur.YEZIQ.ULY || curYeziq == Uyghur.YEZIQ.USY){
-//					menuChong.Enabled = true;
-//					menuKichik.Enabled = true;
-//					menuMawzu.Enabled = true;
 					gEditor.RightToLeft = false;
 					if(gYeziqAuto)
 					{
@@ -1184,11 +1176,25 @@ namespace UyghurEditPP
 		{
 			gEditor.Copy();
 		}
+
 		void ToolChaplaClick(object sender, EventArgs e)
 		{
-			gEditor.Paste();
-			gEditor.BringCaretToView();
+			IDataObject dataObject = Clipboard.GetDataObject();
+			if(dataObject==null) return;
+			if(dataObject.GetDataPresent(DataFormats.UnicodeText)){
+				gEditor.Paste();
+				gEditor.BringCaretToView();
+			}
+			else if(dataObject.GetDataPresent(DataFormats.Bitmap)){
+				Image img = (Image)dataObject.GetData(DataFormats.Bitmap);
+				OCRForm ocr = new OCRForm(gEditor);
+				ocr.Owner = this;
+				ocr.ShowInTaskbar = false;
+				ocr.Show(this);	
+				ocr.Resim = img;
+			}
 		}
+		
 		void ToolOchurClick(object sender, EventArgs e)
 		{
 			gEditor.Delete();
