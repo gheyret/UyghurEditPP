@@ -206,6 +206,7 @@ namespace UyghurEditPP
 			this.Font = new System.Drawing.Font("UKIJ Tuz", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
 			this.Name = "OCRForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -216,6 +217,7 @@ namespace UyghurEditPP
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainFormDragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainFormDragEnter);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.OCRFormPaint);
+			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OCRFormKeyUp);
 			this.ResumeLayout(false);
 
 		}

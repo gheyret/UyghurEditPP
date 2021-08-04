@@ -180,7 +180,7 @@ namespace UyghurEditPP
 		
 		public Image Resim{
 			set{
-				ramka.Image=new Bitmap(value);		
+				ramka.Image=new Bitmap(value);
 				Invalidate();
 			}
 		}
@@ -235,6 +235,19 @@ namespace UyghurEditPP
 				}
 			}
 		}
-		
+		void OCRFormKeyUp(object sender, KeyEventArgs e)
+		{
+			int gModkey =(int)Control.ModifierKeys;
+			gModkey = (gModkey>>16) &0x000f;
+			if(gModkey == 2 && e.KeyCode == Keys.V) {
+				System.Diagnostics.Debug.WriteLine("OCR Key UP");
+				IDataObject dataObject = Clipboard.GetDataObject();
+				if(dataObject==null) return;
+				if(dataObject.GetDataPresent(DataFormats.Bitmap)){
+					Image img = (Image)dataObject.GetData(DataFormats.Bitmap);
+					this.Resim = img;
+				}
+			}
+		}
 	}
 }
