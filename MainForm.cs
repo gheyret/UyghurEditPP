@@ -650,8 +650,6 @@ namespace UyghurEditPP
 		
 		void MainFormSizeChanged(object sender, EventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine("this.WindowState: " +this.WindowState);
-			System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
 		}
 		
 		void MainFormResize(object sender, EventArgs e)
@@ -663,7 +661,6 @@ namespace UyghurEditPP
 			if(this.WindowState == FormWindowState.Minimized){
 				this.gFindReplace.HideMe();
 			}
-			gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
 		}
 		
 		
@@ -1099,7 +1096,7 @@ namespace UyghurEditPP
 				
 			}
 			stBarLs.Text = gEditor.TextArea.Caret.Line+" : "+gEditor.TextArea.Caret.Column + " : U" + herpcode;
-			//this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
+			this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
 		}
 		
 		void TabControl1SelectedIndexChanged(object sender, EventArgs e)
@@ -1190,7 +1187,7 @@ namespace UyghurEditPP
 				OCRForm ocr = new OCRForm(gEditor);
 				ocr.Owner = this;
 				ocr.ShowInTaskbar = false;
-				ocr.Show(this);	
+				ocr.Show(this);
 				ocr.Resim = img;
 			}
 		}
@@ -1571,6 +1568,7 @@ namespace UyghurEditPP
 			gConfig["ORUNLAR"] = gIzOffset;
 			try
 			{
+				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);				
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
 				using(FileStream fs = new FileStream(gConfName, FileMode.Create)){
 					BinaryFormatter formatter = new BinaryFormatter();
