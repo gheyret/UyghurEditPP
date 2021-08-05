@@ -1096,7 +1096,7 @@ namespace UyghurEditPP
 				
 			}
 			stBarLs.Text = gEditor.TextArea.Caret.Line+" : "+gEditor.TextArea.Caret.Column + " : U" + herpcode;
-			this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
+			//this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
 		}
 		
 		void TabControl1SelectedIndexChanged(object sender, EventArgs e)
