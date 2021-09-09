@@ -120,7 +120,7 @@ namespace UyghurEditPP.FindReplace
 				{
 					e.Handled = true;
 					InputText(curBox,newtxt);
-				}				
+				}
 			}
 			else if(curEditor.RightToLeft){
 				e.Handled = true;
@@ -167,10 +167,14 @@ namespace UyghurEditPP.FindReplace
 		public void ShowMe()
 		{
 			window1.FlowDirection = MainForm.gLang.LanguaID.Equals("uey")?FlowDirection.RightToLeft:FlowDirection.LeftToRight;
+			txtFind.FlowDirection = window1.FlowDirection;
+			txtReplace.FlowDirection = window1.FlowDirection;
 			UpdateMessages();
 			if(curEditor.SelectionLength>0){
 				txtFind.Text=curEditor.SelectedText;
 			}
+			txtFind.SelectAll();
+			txtFind.Focus();
 			Show();
 			Topmost=true;
 			Activate();
@@ -224,7 +228,6 @@ namespace UyghurEditPP.FindReplace
 			Regex regex = GetRegEx(txtFind.Text);
 			//string input = editor.Text.Substring(editor.SelectionStart, editor.SelectionLength);
 			string repText = Regex.Unescape(txtReplace.Text);
-			string fndText = Regex.Unescape(txtFind.Text);
 			
 			Match match = regex.Match(Editor.Text,Editor.SelectionStart);
 			if (match.Success)
