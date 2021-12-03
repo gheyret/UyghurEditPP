@@ -3696,16 +3696,130 @@ public class Uyghur
 
 	public static string BoghdaToUnicode(byte[] Buffer)
 	{
-		return "";
+		Encoding gbEnc = Encoding.GetEncoding("gb2312");
+		byte[] tmpBuff = new byte[2];
+		StringBuilder strBuf    = new StringBuilder();
+		int i = 0;
+		char   Herp;
+		char   nHerp;
+		while(i<Buffer.Length)
+		{
+			tmpBuff[0]=Buffer[i++];
+			if(tmpBuff[0]>=0xA1)
+			{
+				tmpBuff[1]=Buffer[i++];
+				if(tmpBuff[1]>=0xA1)
+				{
+					Herp = (char)((tmpBuff[0]<<8)|(tmpBuff[1]));
+					if(Herp>=0xf9a1 && Herp<0xfba1)
+					{
+						if(Herp==0xf9aa || Herp==0xfaaa)
+						{
+							strBuf.Append(UYG_UN_L_6);
+							strBuf.Append(UYG_UN_A_6);
+						}
+						else
+						{
+							nHerp = BGD_WEItoUnicode(Herp);
+							if(nHerp != Herp){
+								strBuf.Append(nHerp);
+							}
+							else
+							{
+								strBuf.Append(gbEnc.GetChars(tmpBuff)[0]);
+							}
+						}
+					}
+					else
+					{
+						strBuf.Append(gbEnc.GetChars(tmpBuff)[0]);
+					}
+					
+				}
+			}
+			else if(tmpBuff[0]<0x80)
+			{
+				Herp = (char)tmpBuff[0];
+				strBuf.Append(Herp);
+			}
+		}
+		string cleaned = CleanBgd(strBuf.ToString());
+		return ReverseNumber(cleaned);
+	}
+	
+	static string CleanBgd(string bgdctl)
+	{
+		Regex reg1 = new Regex("〖.*?〗");
+		string pattern = Regex.Escape("[") + ".*?"+ Regex.Escape("]"); 
+		Regex reg2 = new Regex(pattern);
+		Regex reg3 = new Regex("［.*?］");
+		
+		string newbgd = bgdctl.Replace("　"," ").Replace("\ue008"," ").Replace("\ue009"," "); //Chinese Space
+		newbgd = newbgd.Replace("\r","").Replace("\n","").Replace("\u3013",""); //.Replace("\u2212","");
+
+		newbgd = reg1.Replace(newbgd,"");
+		newbgd = reg2.Replace(newbgd,"");
+		newbgd = reg3.Replace(newbgd,"");
+
+		//newbgd = newbgd.Replace("\ue003","\r\n").Replace("\ue004","\r\n\r\n").Replace("\ue005","\r\n\r\n\r\n");
+		newbgd = newbgd.Replace("\ue005","\r\n").Replace("\ue004","\r\n\r\n").Replace("\ue003","\r\n\r\n\r\n");
+		
+		return newbgd;
+	}
+	
+	static string ReverseNumber(String bgdtxt){
+		Regex reg = new Regex("[0-9]+"); //(@"^\d$");
+
+		string newbgdtxt=reg.Replace(bgdtxt, match=>
+		                             {
+		                             	string san = match.ToString();
+		                             	return choru(san);
+		                             });
+		return newbgdtxt;
+	}
+	
+	//1234 --> 4321 qilip ozgertidu
+	static string choru(string reqem){
+		char[] revchar = reqem.ToCharArray();
+		Array.Reverse(revchar);
+		string yengi = string.Join("", revchar);
+		return yengi;
+	}
+	
+	static string almash(string tir){
+		string ytir=tir;
+		switch(tir){
+			case "(":
+				ytir=")";
+				break;
+			case ")":
+				ytir="(";
+				break;
+
+			case "«":
+				ytir="»";
+				break;
+			case "»":
+				ytir="«";
+				break;
+			case "‹":
+				ytir="›";
+				break;
+			case "›":
+				ytir="‹";
+				break;
+		}
+		return ytir;
 	}
 
-	public static string WeifangWinToUnicode(byte[] Buffer)
+	
+	public static string WeifangDosToUnicode(byte[] Buffer)
 	{
 		return "";
 	}
 
 	
-	public static string WeifangDosToUnicode(byte[] Buffer)
+	public static string WeifangWinToUnicode(byte[] Buffer)
 	{
 		Encoding gbEnc = Encoding.GetEncoding("gb2312");
 		byte[] tmpBuff = new byte[2];

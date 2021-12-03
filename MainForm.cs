@@ -783,7 +783,7 @@ namespace UyghurEditPP
 					cpMenu.Click += menuCodePageClick;
 					cpMenu.Tag = codepage;
 					menuHKod.DropDownItems.Add(cpMenu);
-					cpMenu.Enabled = false;
+					cpMenu.Enabled = true;
 				}
 				else if(codepage == -2){
 					cpMenu = new ToolStripMenuItem("Weifang-WIN");
@@ -995,7 +995,7 @@ namespace UyghurEditPP
 		
 		public void OpenaFile(string filename){
 			String  extName = Path.GetExtension(filename);
-			if(gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
+			if(extName.Length>0 && gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
 			{
 				UpdateIzlar(filename);
 				OCRForm ocr = new OCRForm(gEditor, filename);
@@ -1096,7 +1096,7 @@ namespace UyghurEditPP
 				
 			}
 			stBarLs.Text = gEditor.TextArea.Caret.Line+" : "+gEditor.TextArea.Caret.Column + " : U" + herpcode;
-			//this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
+			this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
 		}
 		
 		void TabControl1SelectedIndexChanged(object sender, EventArgs e)
@@ -1949,11 +1949,11 @@ namespace UyghurEditPP
 						gEditor.IsModified = false;
 						break;
 					case -2:
-						gEditor.Text = Uyghur.WeifangDosToUnicode(Buffer);
+						gEditor.Text = Uyghur.WeifangWinToUnicode(Buffer);
 						gEditor.IsModified = false;
 						break;
 					case -3:
-						gEditor.Text=Uyghur.WeifangDosToUnicode(Buffer);
+						gEditor.Text=Uyghur.BoghdaToUnicode(Buffer);
 						gEditor.IsModified = false;
 						break;
 				}
