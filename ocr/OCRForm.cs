@@ -78,9 +78,9 @@ namespace UyghurEditPP
 				Cursor=Cursors.WaitCursor;
 				ramka.Enabled = false;
 				roibmp = ramka.Image.Clone(roi,ramka.Image.PixelFormat);
-				roipix = PixConverter.ToPix(roibmp);
+				roibmp.SetResolution(400,400);
+				roipix = PixConverter.ToPix(roibmp).Deskew().Scale(4.3f,4.3f);
 				roibmp.Dispose();
-				roipix = roipix.Deskew();
 				
 				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
 				string txt = await ocr;
