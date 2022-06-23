@@ -17,6 +17,12 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
 
 <hr></hr>
 
+### 0.7 neshri(2022/06/23)
+   * Uyghurche OCR ning tonush iqtidari yaxshilandi.
+   
+   **Chüshürüsh**: 
+   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.7/UyghurEditPP.zip),
+
 ### 0.6 neshri(2021/08/04)
    * Chapla ni ishletkende, eger Chaplash Taxtisi(ClipBoard) da resim bolsa, aptomatik halda OCR ni qozghitilidighan qilindi.
    * Yene OCR köznikidimu Ctrl+V arqiliq Chaplash Taxtisi(ClipBoard) diki resimni chaplashqa bolidighan qilindi.
