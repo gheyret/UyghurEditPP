@@ -26,16 +26,26 @@ namespace UyghurEditPP
 		ToolTip          gTip;
 		bool             gRunning = false;
 		
-		public OCRForm(TextEditor curedit, string imgFile = null)
+		public OCRForm(TextEditor curedit)
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			gEditor = curedit;
-			gImgFile = imgFile;
 			InitializeComponent();
 			System.Reflection.Assembly asm =System.Reflection.Assembly.GetExecutingAssembly();
 			gTip = new ToolTip();
+		}
+		
+		public string ImageFile{
+			set{
+				gImgFile= value;
+				if(gImgFile!=null){
+					Bitmap bimg = new Bitmap(gImgFile);
+					ramka.Image=bimg;
+					Invalidate();
+				}
+			}
 		}
 		
 		string Til{
@@ -132,13 +142,6 @@ namespace UyghurEditPP
 			
 			chkUyghur.Checked = true;
 			radAuto.Checked = true;
-			
-			
-			
-			if(gImgFile!=null){
-				Bitmap bimg = new Bitmap(gImgFile);
-				ramka.Image=bimg;
-			}
 			
 			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
 			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
