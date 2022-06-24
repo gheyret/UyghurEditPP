@@ -75,6 +75,8 @@ namespace UyghurEditPP
 		
 		FindReplaceDialog gFindReplace = null;
 		
+		OCRForm gOCR = null;
+		
 		public MainForm()
 		{
 			//
@@ -826,22 +828,26 @@ namespace UyghurEditPP
 		}
 		
 //		void DOCXUEYUSY(){
+//			Regex reg = new Regex("<w:lang.*?/>");
 //			string esli, newtext;
-//			esli = File.ReadAllText(@"F:\gheyret\nabijan\footnotes.xml",Encoding.UTF8);
-//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>","").Replace("<w:lang w:bidi=\"ug-CN\"/>","");
-//			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
-//			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
-//			newtext = Uyghur.UEY2ULY(esli);
-//			newtext = Uyghur.ULYJumleChongYazXML(newtext);
-//			File.WriteAllText(@"F:\gheyret\nabijan\beshi\word\footnotes.xml",newtext,Encoding.UTF8);
+//			esli = File.ReadAllText(@"S:\Nebijan Tursun\nabijan\word\footnotes.xml",Encoding.UTF8);
+//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
+//			esli = reg.Replace(esli,"");
 //
-//			esli = File.ReadAllText(@"F:\gheyret\nabijan\document.xml",Encoding.UTF8);
-//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>","").Replace("<w:lang w:bidi=\"ug-CN\"/>","");
 //			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
 //			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
-//			newtext = Uyghur.UEY2ULY(esli);
-//			newtext = Uyghur.ULYJumleChongYazXML(newtext);
-//			File.WriteAllText(@"F:\gheyret\nabijan\beshi\word\document.xml",newtext,Encoding.UTF8);
+//			newtext = Uyghur.UEY2USY(esli);
+//			newtext = Uyghur.USYJumleChongYaz(newtext);
+//			File.WriteAllText(@"S:\Nebijan Tursun\nabijan_usy\word\footnotes.xml",newtext,Encoding.UTF8);
+//
+//			esli = File.ReadAllText(@"S:\Nebijan Tursun\nabijan\word\document.xml",Encoding.UTF8);
+//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
+//			esli = reg.Replace(esli,"");
+//			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+//			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+//			newtext = Uyghur.UEY2USY(esli);
+//			newtext = Uyghur.USYJumleChongYaz(newtext);
+//			File.WriteAllText(@"S:\Nebijan Tursun\nabijan_usy\word\document.xml",newtext,Encoding.UTF8);
 //
 //		}
 		
@@ -998,13 +1004,23 @@ namespace UyghurEditPP
 			if(extName.Length>0 && gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
 			{
 				UpdateIzlar(filename);
-				OCRForm ocr = new OCRForm(gEditor, filename);
-				ocr.Owner = this;
-				ocr.ShowInTaskbar = false;
-				ocr.Show();
+				MenuOCRClick(null,null);
+				gOCR.ImageFile = filename;
 			}
 			else{
 				AddNew(filename);
+				/*****Bu Yerdin bashlap OCR da tonutulghan imla lughtini tehrirlesh******/
+//				string basenm = Path.GetFileName(filename);
+//				if(basenm.StartsWith("imla_ocr_",StringComparison.OrdinalIgnoreCase)){
+//					string txt = gEditor.Text.Replace("\r\n\r\n","\r\n").Replace("([","(").Replace("[","(").Replace("{","(").Replace("}",")").Replace("]",")");
+//					txt = txt.Replace("؛\r\n",")\r\n").Replace("،\r\n",")\r\n").Replace(":\r\n",")\r\n").Replace(" - ","-").Replace("((","(").Replace("))",")");
+//					gEditor.Text=txt;
+//					gEditor.CaretOffset = 0;
+//					MenuImlaAutoClick(null,null);
+//					gEditor.CaretOffset = 0;
+//				}
+				/***BU yerde axirlishidu****/
+
 			}
 		}
 		
@@ -1096,7 +1112,7 @@ namespace UyghurEditPP
 				
 			}
 			stBarLs.Text = gEditor.TextArea.Caret.Line+" : "+gEditor.TextArea.Caret.Column + " : U" + herpcode;
-			this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
+//			this.stBarUchur.Text = "Soz Sani = " + (object) this.gEditor.Document.GetText((ISegment) this.gEditor.Document.GetLineByOffset(this.gEditor.TextArea.Caret.Offset)).Split().Length;
 		}
 		
 		void TabControl1SelectedIndexChanged(object sender, EventArgs e)
@@ -1184,11 +1200,8 @@ namespace UyghurEditPP
 			}
 			else if(dataObject.GetDataPresent(DataFormats.Bitmap)){
 				Image img = (Image)dataObject.GetData(DataFormats.Bitmap);
-				OCRForm ocr = new OCRForm(gEditor);
-				ocr.Owner = this;
-				ocr.ShowInTaskbar = false;
-				ocr.Show(this);
-				ocr.Resim = img;
+				MenuOCRClick(null,null);
+				gOCR.Resim = img;
 			}
 		}
 		
@@ -1568,7 +1581,7 @@ namespace UyghurEditPP
 			gConfig["ORUNLAR"] = gIzOffset;
 			try
 			{
-				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);				
+				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
 				using(FileStream fs = new FileStream(gConfName, FileMode.Create)){
 					BinaryFormatter formatter = new BinaryFormatter();
@@ -1793,7 +1806,7 @@ namespace UyghurEditPP
 
 			Regex  siziq = new Regex("[ ]*[-–][ ]*",RegexOptions.Compiled);
 
-			string txt = siziq.Replace(gEditor.Text, "-");
+			string txt = siziq.Replace(gEditor.Text, "-").Replace('“','«').Replace('”','»');
 			txt = regbash.Replace(txt, new MatchEvaluator(bash));
 			txt = regaxir.Replace(txt, new MatchEvaluator(axir));
 			txt = regkopbosh.Replace(txt," ");
@@ -2033,10 +2046,12 @@ namespace UyghurEditPP
 		
 		void MenuOCRClick(object sender, EventArgs e)
 		{
-			OCRForm ocr = new OCRForm(gEditor);
-			ocr.Owner = this;
-			ocr.ShowInTaskbar = false;
-			ocr.Show(this);
+			if (gOCR==null || gOCR.IsDisposed){
+				gOCR = new OCRForm(gEditor);
+				gOCR.Owner = this;
+				gOCR.ShowInTaskbar = false;
+				gOCR.Show(this);
+			}
 		}
 		
 		void MenuFontClick(object sender, EventArgs e)
