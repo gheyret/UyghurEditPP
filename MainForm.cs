@@ -1013,7 +1013,8 @@ namespace UyghurEditPP
 //				string basenm = Path.GetFileName(filename);
 //				if(basenm.StartsWith("imla_ocr_",StringComparison.OrdinalIgnoreCase)){
 //					string txt = gEditor.Text.Replace("\r\n\r\n","\r\n").Replace("([","(").Replace("[","(").Replace("{","(").Replace("}",")").Replace("]",")");
-//					txt = txt.Replace("؛\r\n",")\r\n").Replace("،\r\n",")\r\n").Replace(":\r\n",")\r\n").Replace(" - ","-").Replace("((","(").Replace("))",")");
+//					txt = txt.Replace("؛\r\n",")\r\n").Replace("،\r\n",")\r\n").Replace(":\r\n",")\r\n").Replace("((","(").Replace("))",")");
+//					txt = txt.Replace(" - ","-").Replace("- ","-").Replace(" -","-").Replace("( ","(").Replace(" )",")").Replace("< ","<").Replace(" >",">").Trim();
 //					gEditor.Text=txt;
 //					gEditor.CaretOffset = 0;
 //					MenuImlaAutoClick(null,null);
@@ -1202,6 +1203,7 @@ namespace UyghurEditPP
 				Image img = (Image)dataObject.GetData(DataFormats.Bitmap);
 				MenuOCRClick(null,null);
 				gOCR.Resim = img;
+				img.Dispose();
 			}
 		}
 		
