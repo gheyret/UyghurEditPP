@@ -238,6 +238,7 @@ namespace UyghurEditPP
 				}
 			}
 		}
+		
 		void OCRFormKeyUp(object sender, KeyEventArgs e)
 		{
 			int gModkey =(int)Control.ModifierKeys;
@@ -249,6 +250,7 @@ namespace UyghurEditPP
 				if(dataObject.GetDataPresent(DataFormats.Bitmap)){
 					Image img = (Image)dataObject.GetData(DataFormats.Bitmap);
 					this.Resim = img;
+					img.Dispose();
 				}
 			}
 		}
