@@ -183,6 +183,24 @@ namespace UyghurEditPP
 				gFindReplace.ContinueLastOperation();
 				e.Handled = true;
 			}
+			else if(gModkey == 0 && e.Key== System.Windows.Input.Key.F1){
+				double vertOffset = (gEditor.TextArea.TextView.DefaultLineHeight) * 33.0;
+				gEditor.ScrollToVerticalOffset(vertOffset);
+				gEditor.TextArea.Caret.Line = 35;
+				gEditor.TextArea.Caret.Column = 0;
+			}
+			else if(gModkey == 0 && e.Key== System.Windows.Input.Key.F2){
+				double vertOffset = (gEditor.TextArea.TextView.DefaultLineHeight) * 66.0;
+				gEditor.ScrollToVerticalOffset(vertOffset);
+				gEditor.TextArea.Caret.Line = 68;
+				gEditor.TextArea.Caret.Column = 0;
+			}
+			else if(gModkey == 0 && e.Key== System.Windows.Input.Key.F4){
+				string txt = gEditor.Text;
+				string arabic_region = Uyghur.FilterArabic(txt);
+				MenuYengiClick(null,null);
+				gEditor.Text = arabic_region;
+			}			
 		}
 
 		void ToolIzdeDawamClick(object sender, EventArgs e)
@@ -591,7 +609,7 @@ namespace UyghurEditPP
 			if(sani>0){
 				stBarUchur.Text = gLang.GetText("Oxshash xataliqlar tüzitildi") + "["+sani+"]";
 				gEditor.CaretOffset = oldPos;
-				gEditor.BringCaretToView();
+//				gEditor.BringCaretToView();
 			}
 		}
 		
@@ -819,6 +837,12 @@ namespace UyghurEditPP
 			
 			LoadConfigurations();
 			Rectangle rc = (Rectangle)gConfig["CHONGLUQI"];
+			if (rc.X<0 || rc.Y<0){
+				rc.X = 100;
+				rc.Y = 100;
+				rc.Width=1024;
+				rc.Height=768;
+			}
 			this.Location = new Point(rc.X,rc.Y);
 			this.Size = new Size(rc.Width,rc.Height);
 			MenuYengiClick(null,null);
@@ -826,6 +850,29 @@ namespace UyghurEditPP
 //			DOCXUEYUSY();
 			
 		}
+
+//		void DOCXUEYUSY(){
+//			Regex reg = new Regex("<w:lang.*?/>");
+//			string esli, newtext;
+//			string esli_folder =@"S:\Nebijan Tursun\nabijan\word";
+//			string nishan_folder =@"S:\Nebijan Tursun\nabijan_usy\word";
+//			string[] allfiles = Directory.GetFiles(esli_folder,"*.xml");
+//			string newfilenm;
+//			foreach(string afile in allfiles)
+//			{
+//				esli = File.ReadAllText(afile,Encoding.UTF8);
+//				esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
+//				esli = reg.Replace(esli,"");
+//				esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+//				esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+//				newtext = Uyghur.UEY2USY(esli);
+//				newtext = Uyghur.USYJumleChongYaz(newtext);
+//				newfilenm = afile.Replace(esli_folder,nishan_folder);
+//				File.WriteAllText(newfilenm,newtext,Encoding.UTF8);
+//			}
+//		}
+		
+
 		
 //		void DOCXUEYUSY(){
 //			Regex reg = new Regex("<w:lang.*?/>");
@@ -1015,10 +1062,43 @@ namespace UyghurEditPP
 //					string txt = gEditor.Text.Replace("\r\n\r\n","\r\n").Replace("([","(").Replace("[","(").Replace("{","(").Replace("}",")").Replace("]",")");
 //					txt = txt.Replace("؛\r\n",")\r\n").Replace("،\r\n",")\r\n").Replace(":\r\n",")\r\n").Replace("((","(").Replace("))",")");
 //					txt = txt.Replace(" - ","-").Replace("- ","-").Replace(" -","-").Replace("( ","(").Replace(" )",")").Replace("< ","<").Replace(" >",">").Trim();
+//					txt = txt.Replace("*"," ").Replace("!"," ").Replace("؛"," ").Replace("."," ").Replace("-\r\n","\r\n").Replace("\nم ","\n").Replace(" م\r\n","\r\n");
+//					txt = txt.Replace("  "," ");
+//					txt = txt.Replace("ئىنتېرۋال","ئېنتېرۋال");
+//					txt = txt.Replace("ئىنتېرۋالى","ئېنتېرۋالى");
+//					txt = txt.Replace("(نۇرغۇن)","(تۇرغۇن)");
+//					txt = txt.Replace("(تۇرخۇن)","(تۇرغۇن)");
+//					txt = txt.Replace("(تۇرخۇن)","(تۇرغۇن)");
+//					txt = txt.Replace("(نۇرغۈن)","(تۇرغۇن)");
+//
+//					txt = txt.Replace("‹","(");
+//					txt = txt.Replace("›",")");
+//					txt = txt.Replace("<دىئالېكت>","<دىيالېكت>");
+//					
 //					gEditor.Text=txt;
 //					gEditor.CaretOffset = 0;
 //					MenuImlaAutoClick(null,null);
 //					gEditor.CaretOffset = 0;
+//					gEditor.BringCaretToView();
+//				}
+
+
+//				string basenm = Path.GetFileName(filename);
+//				string birqur;
+//				int ll;
+//				if(basenm.Equals("sents.txt",StringComparison.OrdinalIgnoreCase)){
+//					StringBuilder     wBuf=new StringBuilder();
+//					foreach(DocumentLine qur in gEditor.Document.Lines){
+//						birqur = gEditor.Document.GetText(qur.Offset,qur.Length);
+//						ll = birqur.Split().Length;
+//						if(ll>=5 && ll<=20){
+//							wBuf.AppendLine(birqur);
+//						}
+//					}
+//					MenuYengiClick(null,null);
+//					gEditor.Text= wBuf.ToString();
+//					gEditor.CaretOffset = 0;
+//					gEditor.BringCaretToView();
 //				}
 				/***BU yerde axirlishidu****/
 
@@ -1197,7 +1277,7 @@ namespace UyghurEditPP
 			if(dataObject==null) return;
 			if(dataObject.GetDataPresent(DataFormats.UnicodeText)){
 				gEditor.Paste();
-				gEditor.BringCaretToView();
+//				gEditor.BringCaretToView();
 			}
 			else if(dataObject.GetDataPresent(DataFormats.Bitmap)){
 				Image img = (Image)dataObject.GetData(DataFormats.Bitmap);

@@ -9,7 +9,7 @@
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using System.Collections.Generic;
 /// <summary>
 /// Description of Uyghur.
 /// </summary>
@@ -3884,4 +3884,18 @@ public class Uyghur
 		                               });
 		return newStr;
 	}
+	
+
+	public static string FilterArabic(string eslitxt){
+		SortedSet<string> buf = new SortedSet<string>();
+		foreach(char Herp in eslitxt)
+		{
+			if(Herp>=0x0600 && Herp<=0x06FF)
+			{
+				int iHerp = Convert.ToInt32(Herp);
+				buf.Add(iHerp.ToString("X4")+"\t"+Herp);
+			}
+		}
+		return string.Join("\r\n",buf);
+	}	
 }
