@@ -33,6 +33,7 @@ namespace UyghurEditPP
 
 		HashSet<string>   tmpNam = new HashSet<string>();
 		List<NamzatQelip> _namzatlar = new List<NamzatQelip>();
+		HashSet<string>   tmpQeliplar = new HashSet<string>();
 		
 		public KenjiSpell()
 		{
@@ -93,6 +94,23 @@ namespace UyghurEditPP
 			if (m_RootNode == null) return false;
 			string inSoz = szWord.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 			bool ret=_IsWordListed(m_RootNode,inSoz);
+			if(ret==false && inSoz.IndexOf("-")>0){
+				int ind = inSoz.IndexOf("-");
+				string keyni = inSoz.Substring(ind+1);
+				string aldi = inSoz.Substring(0,ind);
+				switch("-"+keyni){
+					case "-ھە":
+					case "-دە":
+					case "-يۇ":
+					case "-يا":
+					case "-يە":
+						ret=_IsWordListed(m_RootNode,aldi);
+						break;
+//					default:
+//						ret = _IsWordListed(m_RootNode,aldi) && _IsWordListed(m_RootNode,keyni);
+//						break;
+				}
+			}
 			return ret;
 		}
 		
@@ -174,6 +192,7 @@ namespace UyghurEditPP
 		
 		private void _GetSuggestions(String qelip)
 		{
+			//System.Diagnostics.Debug.WriteLine(qelip);
 			_GetSuggestions(m_RootNode,qelip+'\0',0,"");
 			//System.Diagnostics.Debug.WriteLine(qelip + " --> " + Namzatlar.Count);
 			return;
@@ -223,11 +242,14 @@ namespace UyghurEditPP
 		
 		
 		//Namzat Sozlerni tepip chiqidu
+		//Namzat Sozlerni tepip chiqidu
 		public override List<string> Lookup(string Soz)
 		{
 			tmpNam.Clear();
 			_namzatlar.Clear();
+			tmpQeliplar.Clear();
 			List<string> Namzatlar = new List<string>();
+			List<char> uly = new List<char>();
 			if (m_RootNode == null) return Namzatlar;
 			char[] herpler;
 			String yasSoz;
@@ -236,49 +258,54 @@ namespace UyghurEditPP
 			int i;
 
 			//Barliq sozuq tashuwshlarni xatalashqan dep perez qilsaq
-			herpler = Soz.ToCharArray();
-			for(i = 0;i<herpler.Length;i++){
-				if(Uyghur.IsSozuq(herpler[i])){
-					herpler[i]='?';
-				}
-			}
-			yasSoz=new String(herpler);
-			_GetSuggestions(yasSoz);
-
-			//Yuqiridiki barliq sozuq tawushlar xata dep qarap, andin bir bir herpning arqisidin birdin soz chushup qalghan dep qarisaq
+//			herpler = Soz.ToCharArray();
+//			for(i = 1;i<herpler.Length;i++){
+//				if(Uyghur.IsSozuq(herpler[i])){
+//					herpler[i]='?';
+//				}
+//			}
+//			yasSoz=new String(herpler);
+//			tmpQeliplar.Add(yasSoz);
+			
+			//Yuqiridiki barliq sozuq tawushlar xata dep qarap, andin bir bir herpning arqisidin birdin herp chushup qalghan dep qarisaq
 			//Herp Bir Herpning aldida birdin herp chushup qalghan dep perez qilsaq
 			string tmp;
+			yasSoz = Soz;
+//			tmpQeliplar.Add(Soz+"?"); //Eng axirida bir herp chushup qalghan dep perez qilsaq
 			for(i=lenSoz;i>=0;i--)
 			{
 				tmp = yasSoz.Insert(i,"?");
-				_GetSuggestions(tmp);
+				tmpQeliplar.Add(tmp);
 				if(i<yasSoz.Length){
 					tmp = yasSoz.Remove(i,1);
-					_GetSuggestions(tmp);
+					tmpQeliplar.Add(tmp);
 					tmp = yasSoz.Remove(i,1).Insert(i,"?");
-					_GetSuggestions(tmp);
+					tmpQeliplar.Add(tmp);
+				}
+
+				if(i<yasSoz.Length-1){
+					tmp = yasSoz.Remove(i,2).Insert(i,"?"); // qoshna Ikki herpni bir herp dep qarap izdep baqidu
+					tmpQeliplar.Add(tmp);
 				}
 			}
-			
 			
 			for(i=lenSoz-1;i>=0;i--)
 			{
 				yasSoz = Soz.Insert(i,"?"); // Bir herp chsuhup qalghan
-				_GetSuggestions(yasSoz);
+				tmpQeliplar.Add(yasSoz);
 
 				herpler=Soz.ToCharArray();
 				herpler[i]='?';    //Birdin herp hata
 				yasSoz=new String(herpler);
-				_GetSuggestions(yasSoz);
+				tmpQeliplar.Add(yasSoz);
 
 				yasSoz = yasSoz.Insert(i,"?");
-				_GetSuggestions(yasSoz);
-				
+				tmpQeliplar.Add(yasSoz);
 				
 				if((i-1)>=0){
 					herpler[i-1]='?';  //xoshana ikki herp xata
 					yasSoz=new String(herpler);
-					_GetSuggestions(yasSoz);
+					tmpQeliplar.Add(yasSoz);
 				}
 				
 				if((i-2)>=0){
@@ -286,7 +313,7 @@ namespace UyghurEditPP
 					herpler[i]='?';    //Birdin herp hata
 					herpler[i-2]='?';  //birin herpni atalap xatamu qaraydu
 					yasSoz=new String(herpler);
-					_GetSuggestions(yasSoz);
+					tmpQeliplar.Add(yasSoz);
 				}
 
 				if((i-3)>=0){
@@ -294,8 +321,43 @@ namespace UyghurEditPP
 					herpler[i]='?';    //Birdin herp hata
 					herpler[i-3]='?';  //birin herpni atalap xatamu qaraydu
 					yasSoz=new String(herpler);
-					_GetSuggestions(yasSoz);
+					tmpQeliplar.Add(yasSoz);
 				}
+			}
+			
+			if(this.gYeziq == Uyghur.YEZIQ.ULY){
+				herpler = Soz.ToCharArray();
+				for(i = 0;i<herpler.Length;i++){
+					if(Uyghur.IsSozuq(herpler[i])){
+						herpler[i]='?';
+					}
+				}
+				yasSoz=new String(herpler);
+				foreach(char herp in yasSoz){
+					if(herp == 'x'){
+						uly.Add('s');
+						uly.Add('h');
+					}
+					else if(herp == 'h'){
+						uly.Add('x');
+					}
+					else if(herp == 'k'){
+						uly.Add('q');
+					}
+					else if(herp=='u' || herp == 'o' || herp == 'a'){
+						uly.Add('?');
+					}
+					else{
+						uly.Add(herp);
+					}
+				}
+				yasSoz=new string(uly.ToArray());
+				tmpQeliplar.Add(yasSoz);
+			}
+			
+			foreach(String kk in tmpQeliplar){
+				//System.Diagnostics.Debug.WriteLine(kk);
+				_GetSuggestions(kk);
 			}
 			
 			foreach(NamzatQelip qlp in _namzatlar)
@@ -307,28 +369,94 @@ namespace UyghurEditPP
 			
 			foreach(NamzatQelip qlp in _namzatlar)
 			{
-				if(Namzatlar.Count>=10){
-					break;
+				System.Diagnostics.Debug.WriteLine(qlp);
+				if(Namzatlar.Count<10){
+					Namzatlar.Add(qlp.soz);
 				}
-				Namzatlar.Add(qlp.soz);
 			}
-
-			i=1;
-			while(i<lenSoz && lenSoz-i>=3)
-			{
-				yasSoz=Soz.Substring(0,lenSoz-i);
-				if(IsListed(yasSoz)){
-					if(!Namzatlar.Contains(yasSoz)){
-						Namzatlar.Add(yasSoz);
-					}
-					break;
+			//Barliq sozuq tashuwshlarni xatalashqan dep perez qilsaq
+			//Adette sozuq tawushlarda kop xatalishish bolidu.
+			//shunga xataliq sozuq tawushlarda xataliq korulgen sozlerni aldigha tizip qoyayli
+			herpler = Soz.ToCharArray();
+			for(i = 0;i<herpler.Length;i++){
+				if(Uyghur.IsSozuq(herpler[i])){
+					herpler[i]='?';
 				}
-				i++;
+			}
+			yasSoz=new String(herpler);
+
+			tmpNam.Clear();
+			_namzatlar.Clear();
+			tmpQeliplar.Clear();
+
+			_GetSuggestions(yasSoz);
+
+			foreach(NamzatQelip qlp in _namzatlar)
+			{
+				if (Namzatlar.Contains(qlp.soz))
+				{
+					Namzatlar.Remove(qlp.soz);
+				}
+				Namzatlar.Insert(0,qlp.soz);
+			}
+			
+			//Sozning eng axiridki 3 herp we ularning ajizlishish prinsipini kozde tutup qoshuldi.
+			tmpNam.Clear();
+			_namzatlar.Clear();
+			tmpQeliplar.Clear();
+			if(Soz.EndsWith("سى") || Soz.EndsWith("si") || Soz.EndsWith("си"))
+			{
+				//kelgusi
+				yasSoz=Soz.Substring(0,lenSoz-2);
+				_GetSuggestions(yasSoz);
+				if(_namzatlar.Count==0)
+				{
+					yasSoz=Soz.Substring(0,lenSoz-3);
+					_GetSuggestions(yasSoz+"?");
+				}
+			}
+			else if(Soz.EndsWith("ى") || Soz.EndsWith("i") || Soz.EndsWith("и")){
+				//qedimi
+				yasSoz=Soz.Substring(0,lenSoz-1);
+				_GetSuggestions(yasSoz);
+				if(_namzatlar.Count==0)
+				{
+					yasSoz=Soz.Substring(0,lenSoz-3)+"?"+Soz[lenSoz-2];
+					_GetSuggestions(yasSoz); //qed?m
+				}
+			}
+			if (_namzatlar.Count>0)
+			{
+				foreach(NamzatQelip qlp in _namzatlar)
+				{
+					if (Namzatlar.Contains(qlp.soz))
+					{
+						Namzatlar.Remove(qlp.soz);
+					}
+					Namzatlar.Insert(0,qlp.soz);
+				}
+			}
+			else
+			{
+				//Eng axirigha xata soz dep qaralghan sozning beshi bilen oxshash sozni qoshup qoyidu
+				i=1;
+				while(i<lenSoz && lenSoz-i>=3)
+				{
+					yasSoz=Soz.Substring(0,lenSoz-i);
+					if(IsListed(yasSoz)){
+						if(!Namzatlar.Contains(yasSoz)){
+							Namzatlar.Add(yasSoz);
+						}
+						break;
+					}
+					i++;
+				}
 			}
 			return Namzatlar;
 		}
 		
-		public int Compare(NamzatQelip a,NamzatQelip b){
+		public int Compare(NamzatQelip a,NamzatQelip b)
+		{
 			if(a.ariliq==b.ariliq)
 			{
 				return b.tekrar-a.tekrar;
@@ -411,5 +539,9 @@ namespace UyghurEditPP
 		public string soz=null;
 		public short  tekrar=-1;
 		public short  ariliq=-1;
+		public override string ToString()
+		{
+			return soz+" " + tekrar + " " + ariliq;
+		}
 	}
 }

@@ -91,9 +91,9 @@ namespace UyghurEditPP
 				string[] tx = newsoz.Split('=');
 				if(tx.Length==2){
 					XataToghra[tx[0].Trim()]=tx[1].Trim();
-				}
-				if(!IsListed(tx[1].Trim())){
-					Add(tx[1].Trim());
+//					if(!IsListed(tx[1].Trim())){
+//						Add(tx[1].Trim());
+//					}
 				}
 			}
 			return ret;
@@ -141,6 +141,7 @@ namespace UyghurEditPP
 				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 				string bk = xt+"="+togh;
+				XataToghra[xt]=togh;				
 				bk= Uyghur.ToUEY(bk)?? bk;
 				XataToghraBuf.Add(bk);
 				try{
