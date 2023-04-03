@@ -847,56 +847,9 @@ namespace UyghurEditPP
 			this.Size = new Size(rc.Width,rc.Height);
 			MenuYengiClick(null,null);
 			
-//			DOCXUEYUSY();
 			
 		}
 
-//		void DOCXUEYUSY(){
-//			Regex reg = new Regex("<w:lang.*?/>");
-//			string esli, newtext;
-//			string esli_folder =@"S:\Nebijan Tursun\nabijan\word";
-//			string nishan_folder =@"S:\Nebijan Tursun\nabijan_usy\word";
-//			string[] allfiles = Directory.GetFiles(esli_folder,"*.xml");
-//			string newfilenm;
-//			foreach(string afile in allfiles)
-//			{
-//				esli = File.ReadAllText(afile,Encoding.UTF8);
-//				esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
-//				esli = reg.Replace(esli,"");
-//				esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
-//				esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
-//				newtext = Uyghur.UEY2USY(esli);
-//				newtext = Uyghur.USYJumleChongYaz(newtext);
-//				newfilenm = afile.Replace(esli_folder,nishan_folder);
-//				File.WriteAllText(newfilenm,newtext,Encoding.UTF8);
-//			}
-//		}
-		
-
-		
-//		void DOCXUEYUSY(){
-//			Regex reg = new Regex("<w:lang.*?/>");
-//			string esli, newtext;
-//			esli = File.ReadAllText(@"S:\Nebijan Tursun\nabijan\word\footnotes.xml",Encoding.UTF8);
-//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
-//			esli = reg.Replace(esli,"");
-//
-//			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
-//			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
-//			newtext = Uyghur.UEY2USY(esli);
-//			newtext = Uyghur.USYJumleChongYaz(newtext);
-//			File.WriteAllText(@"S:\Nebijan Tursun\nabijan_usy\word\footnotes.xml",newtext,Encoding.UTF8);
-//
-//			esli = File.ReadAllText(@"S:\Nebijan Tursun\nabijan\word\document.xml",Encoding.UTF8);
-//			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
-//			esli = reg.Replace(esli,"");
-//			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
-//			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
-//			newtext = Uyghur.UEY2USY(esli);
-//			newtext = Uyghur.USYJumleChongYaz(newtext);
-//			File.WriteAllText(@"S:\Nebijan Tursun\nabijan_usy\word\document.xml",newtext,Encoding.UTF8);
-//
-//		}
 		
 		void CheckLangMenu(string lang){
 			foreach(ToolStripMenuItem itm in menuTil.DropDownItems){
@@ -969,7 +922,7 @@ namespace UyghurEditPP
 			menuImla.Text = gLang.GetText("Imla");
 			menuImlaUEY.Text = gLang.GetText("Uyghurchining Imlasini Közetsun");
 			menuImlaULY.Text = gLang.GetText("Latinchining Imlasini Közetsun");
-			menuImlaUSY.Text = gLang.GetText("Slawyanchining Imlasini Közetsun");
+			menuImlaUSY.Text = gLang.GetText("Silawiyanchining Imlasini Közetsun");
 			
 			menuBelge.Text = gLang.GetText("Tinish Belgiler we Boshluqni Tengshe");
 			menuImlaAuto.Text = gLang.GetText("Aptomatik Tekshür");
@@ -1006,7 +959,7 @@ namespace UyghurEditPP
 			
 			toolUEY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayonni Uyghurchigha aylanduridu");
 			toolULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayonni Latinchigha aylanduridu");
-			toolUSY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayonni Slawyanchigha aylanduridu");
+			toolUSY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayonni Silawiyanchigha aylanduridu");
 			
 			
 			menuYeziqAuto.Text = gLang.GetText("Közitidighan Yéziqni Aptomatik Tallisun");
@@ -1016,11 +969,11 @@ namespace UyghurEditPP
 
 
 			this.toolULY2UEY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchini Uyghurchigha aylanduridu");
-			this.toolUSY2UEY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Slawyanchini Uyghurchigha aylanduridu");
+			this.toolUSY2UEY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Silawiyanchini Uyghurchigha aylanduridu");
 			this.toolUEY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Latinchigha aylanduridu");
-			this.toolUSY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Slawyanchini Latinchigha aylanduridu");
-			this.toolUEY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Slawyanchigha aylanduridu");
-			this.toolULY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchchini Slawyanchigha aylanduridu");
+			this.toolUSY2ULY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Silawiyanchini Latinchigha aylanduridu");
+			this.toolUEY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Uyghurchini Silawiyanchigha aylanduridu");
+			this.toolULY2USY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallanghan rayondiki Latinchchini Silawiyanchigha aylanduridu");
 			
 			menuMakeHTML.Text = gLang.GetText("Addiy") + " HTML " + gLang.GetText("Yasa");
 		}
