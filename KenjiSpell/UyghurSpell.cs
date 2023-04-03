@@ -14,7 +14,7 @@ namespace UyghurEditPP
 {
 	public abstract class UyghurSpell{
 		public abstract Int64 Add(String soz,  Int64 tekrar=1);
-		public abstract bool IsListed(String szWord);
+		public abstract bool IsListed(String szWord, bool siziqtekshur=true);
 		public abstract int WordCount{
 			get;
 		}
@@ -94,6 +94,9 @@ namespace UyghurEditPP
 //					if(!IsListed(tx[1].Trim())){
 //						Add(tx[1].Trim());
 //					}
+				}
+				else{
+					System.Diagnostics.Debug.WriteLine(newsoz);
 				}
 			}
 			return ret;
