@@ -34,7 +34,8 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 |hoyla-aran|hoyla-aram|
 |chet el|chet'el|
 |aq köngül|aqköngül|
-|biyologiye|bi’ologiye|</br>
+|biyologiye|bi’ologiye|
+</br>
 sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.</br>
    **Chüshürüsh**: 
    [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.8/UyghurEditPP.zip)
