@@ -16,6 +16,7 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
 
 <hr></hr>
+
 ### 0.8 neshri(2023/06/29)
 
 Bu qétimqi neshride asasliq imla ambirila özgerdi. UyghurEdit++ ta köp özgirish bolmidi.
