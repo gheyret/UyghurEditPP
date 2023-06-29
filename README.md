@@ -16,6 +16,25 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
 
 <hr></hr>
+### 0.8 neshri(2023/06/29)
+Bu qétimqi neshride asasliq imla ambirila özgerdi. UyghurEdit++ ta köp özgirish bolmidi.
+Burunqi imla ambirini bir tomluq «Uyghur Tilining Izahliq Lughiti» diki tüp sözlüklerni asas qilip, bu tüp sözlerni türlesh ariliq yasighan idim.
+Bu qétimqisi bolsa, [«Hazirqi Zaman Uyghur Edebiy Tilining Imla Lughiti (Imla we Teleppuz Qa’idisi) , 2009-yili 9-ay birinchi neshri»](https://github.com/gheyret/imlalughet) diki tüp sözlerni türlesh arqiliq yasidim. Esli bu lughetning tékist höjjitini burun tapalighan bolsam burunla imla ambirini yasighan bolattim. Tapalmighandin kéyin, mezkur lughetni Uyghurche OCR arqiliq tonutup, andin sözlerni birmubir tekshürüp tüzitish arqiliq tüp sözlerni yasiwaldim. buninggha bek köp zéhin we emgek ketti. chünki bir her bir sözning 100% toghra bolushi telep qilinatti. Andin bu sözlerni türlesh arqiliq imla ambirini yasidim. Yasalghan imla ambiri bek chong bolghachqa, tekrarliqi 10 din köp bolghan sözlernila tallap UyghurEdit++ ta ishlettim. Imla ambiridiki sözlerning sani 441 ming etrapida. Bu sözlüklerni xalighanche ishletsenglar bolidu. Ishletkende «UyghurEdit++ ning Imla Ambiri Paydilinildi» dégen ibarini qoshup qoysanglarla kupaye.
+Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilining Imla Lughiti (Imla we Teleppuz Qa’idisi) , 2009-yili 9-ay birinchi neshri»](https://github.com/gheyret/imlalughet) ning tékist höjjetlirining hemmisini github qa chiqirip qoydum. xalighanche paydilansanglar bolidu. 
+2009-yildiki imlada qandaq özgirishler boldi? bu yerde bu heqte köp toxtalmaymen. köp ishlitilidighan bir qanche sözlernila misal qilip ötey:
+
+Yéngisi	Burunqisi
+belbagh	belwagh
+radiyo	radi’o
+pirintér	printér
+pirogramma	programma
+diyamétir	di’ametir
+hoyla-aran	hoyla-aram
+chet el	chet'el
+aq köngül		aqköngül
+biyologiye	bi’ologiye
+
+sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
 
 ### 0.7 neshri(2022/06/23)
    * Uyghurche OCR ning tonush iqtidari yaxshilandi.
