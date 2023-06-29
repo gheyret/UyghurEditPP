@@ -29,16 +29,17 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 
 2009-yildiki imlada qandaq özgirishler boldi? bu yerde bu heqte köp toxtalmaymen. köp ishlitilidighan bir qanche sözlernila misal qilip ötey:
 
-Yéngisi	Burunqisi
-belbagh	belwagh
-radiyo	radi’o
-pirintér	printér
-pirogramma	programma
-diyamétir	di’ametir
-hoyla-aran	hoyla-aram
-chet el	chet'el
-aq köngül		aqköngül
-biyologiye	bi’ologiye
+|Yéngisi|Burunqisi|
+|----|----|
+|belbagh|belwagh|
+|radiyo|radi’o|
+|pirintér|printér|
+|pirogramma|programma|
+|diyamétir|di’ametir|
+|hoyla-aran|hoyla-aram|
+|chet el|chet'el|
+|aq köngül|aqköngül|
+|biyologiye|bi’ologiye|
 
 sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
 
