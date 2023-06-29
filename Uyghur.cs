@@ -10,6 +10,7 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.IO;
 /// <summary>
 /// Description of Uyghur.
 /// </summary>
@@ -3750,7 +3751,7 @@ public class Uyghur
 	static string CleanBgd(string bgdctl)
 	{
 		Regex reg1 = new Regex("〖.*?〗");
-		string pattern = Regex.Escape("[") + ".*?"+ Regex.Escape("]"); 
+		string pattern = Regex.Escape("[") + ".*?"+ Regex.Escape("]");
 		Regex reg2 = new Regex(pattern);
 		Regex reg3 = new Regex("［.*?］");
 		
@@ -3897,5 +3898,54 @@ public class Uyghur
 			}
 		}
 		return string.Join("\r\n",buf);
-	}	
+	}
+	
+	//Wordning DOCX hojjiti zip hojjet bolup, uni yeyip
+	//Yayghan hojjetni biwasite aylandurush uchun ishlitildi
+	public static void DOCX_UEY2USY(){
+		Regex reg = new Regex("<w:lang.*?/>");
+		string esli, newtext;
+		string esli_folder =@".\word";
+		string nishan_folder =@".\yeng\word";
+		if (Directory.Exists(nishan_folder)!=true){
+			Directory.CreateDirectory(nishan_folder);
+		}
+		string[] allfiles = Directory.GetFiles(esli_folder,"*.xml");
+		string newfilenm;
+		foreach(string afile in allfiles)
+		{
+			esli = File.ReadAllText(afile,Encoding.UTF8);
+			esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
+			esli = reg.Replace(esli,"");
+			esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+			esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+			newtext = Uyghur.UEY2USY(esli);
+			newtext = Uyghur.USYJumleChongYaz(newtext);
+			newfilenm = afile.Replace(esli_folder,nishan_folder);
+			File.WriteAllText(newfilenm,newtext,Encoding.UTF8);
+		}
+	}
+	
+	public static void DOCX_UEY2USY_sinaq(){
+		Regex reg = new Regex("<w:lang.*?/>");
+		string esli, newtext;
+		esli = File.ReadAllText(@".\word\footnotes.xml",Encoding.UTF8);
+		esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
+		esli = reg.Replace(esli,"");
+
+		esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+		esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+		newtext = Uyghur.UEY2USY(esli);
+		newtext = Uyghur.USYJumleChongYaz(newtext);
+		File.WriteAllText(@".\yengi\word\footnotes.xml",newtext,Encoding.UTF8);
+
+		esli = File.ReadAllText(@".\word\document.xml",Encoding.UTF8);
+		esli = esli.Replace("<w:bidi/>","").Replace("<w:rtl/>",""); //.Replace("<w:lang w:bidi=\"ug-CN\"/>","").Replace("<w:lang w:val=\"ar-SA\" w:bidi=\"ar-SA\"/>","");
+		esli = reg.Replace(esli,"");
+		esli = esli.Replace("&lt;&lt;","«").Replace("&gt;&gt;","»");
+		esli = esli.Replace("&lt;","‹").Replace("&gt;","›");
+		newtext = Uyghur.UEY2USY(esli);
+		newtext = Uyghur.USYJumleChongYaz(newtext);
+		File.WriteAllText(@".\yengi\word\document.xml",newtext,Encoding.UTF8);
+	}
 }
