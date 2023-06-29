@@ -35,7 +35,7 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 |chet el|chet'el|
 |aq köngül|aqköngül|
 |biyologiye|bi’ologiye|
-</br>
+
 sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
 
    **Chüshürüsh**: 
