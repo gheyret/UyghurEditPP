@@ -37,7 +37,7 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 |biyologiye|bi’ologiye|
 </br>
 sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.</br>
-   **Chüshürüsh**: 
+   **Chüshürüsh**: </br>
    [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.8/UyghurEditPP.zip)
 
 ### 0.7 neshri(2022/06/23)
