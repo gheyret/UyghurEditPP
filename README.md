@@ -41,7 +41,8 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 |aq köngül|aqköngül|
 |biyologiye|bi’ologiye|
 
-sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.</br>
+sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
+
    **Chüshürüsh**: 
    [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.8/UyghurEditPP.zip)
 
