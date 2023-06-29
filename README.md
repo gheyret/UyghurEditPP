@@ -42,6 +42,8 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 |biyologiye|bi’ologiye|
 
 sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
+   **Chüshürüsh**: 
+   [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.8/UyghurEditPP.zip)
 
 ### 0.7 neshri(2022/06/23)
    * Uyghurche OCR ning tonush iqtidari yaxshilandi.
