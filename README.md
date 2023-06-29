@@ -19,16 +19,11 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
 
 ### 0.8 neshri(2023/06/29)
 
-Bu qétimqi neshride asasliq imla ambirila özgerdi. UyghurEdit++ ta köp özgirish bolmidi.
-
-Burunqi imla ambirini bir tomluq «Uyghur Tilining Izahliq Lughiti» diki tüp sözlüklerni asas qilip, bu tüp sözlerni türlesh ariliq yasighan idim.
-
-Bu qétimqisi bolsa, [«Hazirqi Zaman Uyghur Edebiy Tilining Imla Lughiti (Imla we Teleppuz Qa’idisi) , 2009-yili 9-ay birinchi neshri»](https://github.com/gheyret/imlalughet) diki tüp sözlerni türlesh arqiliq yasidim. Esli bu lughetning tékist höjjitini burun tapalighan bolsam burunla imla ambirini yasighan bolattim. Tapalmighandin kéyin, mezkur lughetni Uyghurche OCR arqiliq tonutup, andin sözlerni birmubir tekshürüp tüzitish arqiliq tüp sözlerni yasiwaldim. buninggha bek köp zéhin we emgek ketti. chünki bir her bir sözning 100% toghra bolushi telep qilinatti. Andin bu sözlerni türlesh arqiliq imla ambirini yasidim. Yasalghan imla ambiri bek chong bolghachqa, tekrarliqi 10 din köp bolghan sözlernila tallap UyghurEdit++ ta ishlettim. Imla ambiridiki sözlerning sani 441 ming etrapida. Bu sözlüklerni xalighanche ishletsenglar bolidu. Ishletkende «UyghurEdit++ ning Imla Ambiri Paydilinildi» dégen ibarini qoshup qoysanglarla kupaye.
-
-Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilining Imla Lughiti (Imla we Teleppuz Qa’idisi) , 2009-yili 9-ay birinchi neshri»](https://github.com/gheyret/imlalughet) ning tékist höjjetlirining hemmisini github qa chiqirip qoydum. xalighanche paydilansanglar bolidu. 
-
-2009-yildiki imlada qandaq özgirishler boldi? bu yerde bu heqte köp toxtalmaymen. köp ishlitilidighan bir qanche sözlernila misal qilip ötey:
-
+Bu qétimqi neshride asasliq imla ambirila özgerdi. UyghurEdit++ ta köp özgirish bolmidi.</br>
+Burunqi imla ambirini bir tomluq «Uyghur Tilining Izahliq Lughiti» diki tüp sözlüklerni asas qilip, bu tüp sözlerni türlesh ariliq yasighan idim.</br>
+Bu qétimqisi bolsa, [«Hazirqi Zaman Uyghur Edebiy Tilining Imla Lughiti (Imla we Teleppuz Qa’idisi) , 2009-yili 9-ay birinchi neshri»](https://github.com/gheyret/imlalughet) diki tüp sözlerni türlesh arqiliq yasidim. Esli bu lughetning tékist höjjitini burun tapalighan bolsam burunla imla ambirini yasighan bolattim. Tapalmighandin kéyin, mezkur lughetni Uyghurche OCR arqiliq tonutup, andin sözlerni birmubir tekshürüp tüzitish arqiliq tüp sözlerni yasiwaldim. buninggha bek köp zéhin we emgek ketti. chünki bir her bir sözning 100% toghra bolushi telep qilinatti. Andin bu sözlerni türlesh arqiliq imla ambirini yasidim. Yasalghan imla ambiri bek chong bolghachqa, tekrarliqi 10 din köp bolghan sözlernila tallap UyghurEdit++ ta ishlettim. Imla ambiridiki sözlerning sani 441 ming etrapida. Bu sözlüklerni xalighanche ishletsenglar bolidu. Ishletkende «UyghurEdit++ ning Imla Ambiri Paydilinildi» dégen ibarini qoshup qoysanglarla kupaye.</br>
+Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilining Imla Lughiti (Imla we Teleppuz Qa’idisi) , 2009-yili 9-ay birinchi neshri»](https://github.com/gheyret/imlalughet) ning tékist höjjetlirining hemmisini github qa chiqirip qoydum. xalighanche paydilansanglar bolidu. </br>
+2009-yildiki imlada qandaq özgirishler boldi? bu yerde bu heqte köp toxtalmaymen. köp ishlitilidighan bir qanche sözlernila misal qilip ötey:</br>
 |Yéngisi|Burunqisi|
 |----|----|
 |belbagh|belwagh|
@@ -39,10 +34,8 @@ Emgekning tekrarlanmasliqini közde tutup, [«Hazirqi Zaman Uyghur Edebiy Tilini
 |hoyla-aran|hoyla-aram|
 |chet el|chet'el|
 |aq köngül|aqköngül|
-|biyologiye|bi’ologiye|
-
-sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
-
+|biyologiye|bi’ologiye|</br>
+sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.</br>
    **Chüshürüsh**: 
    [64 bitliq Windows üchün](https://github.com/gheyret/UyghurEditPP/releases/download/0.8/UyghurEditPP.zip)
 
