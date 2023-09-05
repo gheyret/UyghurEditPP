@@ -88,7 +88,7 @@ namespace UyghurEditPP
 				Cursor=Cursors.WaitCursor;
 				ramka.Enabled = false;
 				roibmp = ramka.Image.Clone(roi,ramka.Image.PixelFormat);
-				roibmp.SetResolution(400,400);
+//				roibmp.SetResolution(400,400);
 				roipix = PixConverter.ToPix(roibmp).Deskew().Scale(4.3f,4.3f);
 				roibmp.Dispose();
 				
@@ -194,7 +194,8 @@ namespace UyghurEditPP
 			char[] tr = {'+'};
 			string lang = "";
 			if(chkUyghur.Checked){
-				lang += "ukij+uig";
+//				lang += "ukij+uig";
+				lang += "ukij";
 			}
 
 			if(chkEng.Checked){
