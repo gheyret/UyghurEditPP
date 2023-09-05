@@ -62,6 +62,7 @@ namespace UyghurEditPP
 				butAch.Enabled = !gRunning;
 				butTonu.Enabled = !gRunning;
 				chkUyghurUKIJ.Enabled = !gRunning;
+				chkUyghur.Enabled = !gRunning;				
 				chkEng.Enabled = !gRunning;
 				chkRus.Enabled = !gRunning;
 				chkChi.Enabled = !gRunning;
