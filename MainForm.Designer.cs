@@ -230,6 +230,15 @@ namespace UyghurEditPP
             this.menuOCR = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.menuMakeHTML = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuSaveToDOCX = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordAylandur = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordUEY2ULY = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordUEY2USY = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordULY2UEY = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordULY2USY = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordUSY2UEY = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWordUSY2ULY = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTil = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUyghurA = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUyghurL = new System.Windows.Forms.ToolStripMenuItem();
@@ -241,13 +250,15 @@ namespace UyghurEditPP
             this.menuULElipbe = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHeqqide = new System.Windows.Forms.ToolStripMenuItem();
             this.menuU = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainTab = new UyghurEditPP.KenjiTab();
             this.stBar = new System.Windows.Forms.StatusStrip();
             this.stBarUchur = new System.Windows.Forms.ToolStripStatusLabel();
             this.stBarQur = new System.Windows.Forms.ToolStripStatusLabel();
             this.stBarLs = new System.Windows.Forms.ToolStripStatusLabel();
             this.stBarEncode = new System.Windows.Forms.ToolStripStatusLabel();
             this.stKunupka = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mainTab = new UyghurEditPP.KenjiTab();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.toolBar.SuspendLayout();
             this.menuBar.SuspendLayout();
             this.stBar.SuspendLayout();
@@ -633,6 +644,7 @@ namespace UyghurEditPP
             this.menuYengi.Size = new System.Drawing.Size(181, 22);
             this.menuYengi.Text = "Yengi Hojet";
             this.menuYengi.Click += new System.EventHandler(this.MenuYengiClick);
+            this.menuYengi.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuAch
             // 
@@ -642,6 +654,7 @@ namespace UyghurEditPP
             this.menuAch.Size = new System.Drawing.Size(181, 22);
             this.menuAch.Text = "Ach";
             this.menuAch.Click += new System.EventHandler(this.ToolOpenClick);
+            this.menuAch.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuSaqla
             // 
@@ -651,6 +664,7 @@ namespace UyghurEditPP
             this.menuSaqla.Size = new System.Drawing.Size(181, 22);
             this.menuSaqla.Text = "Saqla";
             this.menuSaqla.Click += new System.EventHandler(this.MenuSaqlaClick);
+            this.menuSaqla.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuBSaqla
             // 
@@ -670,6 +684,7 @@ namespace UyghurEditPP
             this.menuBas.Text = "Besip Chiqar";
             this.menuBas.Visible = false;
             this.menuBas.Click += new System.EventHandler(this.MenuBasClick);
+            this.menuBas.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator1
             // 
@@ -703,6 +718,7 @@ namespace UyghurEditPP
             this.menuAxirlashtur.Size = new System.Drawing.Size(181, 22);
             this.menuAxirlashtur.Text = "Axirlashtur";
             this.menuAxirlashtur.Click += new System.EventHandler(this.MenuAxirlashturClick);
+            this.menuAxirlashtur.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuTehrir
             // 
@@ -744,6 +760,7 @@ namespace UyghurEditPP
             this.menuFont.Size = new System.Drawing.Size(312, 22);
             this.menuFont.Text = "Xet Nusxisi";
             this.menuFont.Click += new System.EventHandler(this.MenuFontClick);
+            this.menuFont.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator18
             // 
@@ -758,6 +775,7 @@ namespace UyghurEditPP
             this.menuYeniwal.Size = new System.Drawing.Size(312, 22);
             this.menuYeniwal.Text = "Yeniwal";
             this.menuYeniwal.Click += new System.EventHandler(this.ToolYeniwalClick);
+            this.menuYeniwal.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuYPushayman
             // 
@@ -767,6 +785,7 @@ namespace UyghurEditPP
             this.menuYPushayman.Size = new System.Drawing.Size(312, 22);
             this.menuYPushayman.Text = "Pushayman Qil";
             this.menuYPushayman.Click += new System.EventHandler(this.ToolYPushaymanClick);
+            this.menuYPushayman.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator3
             // 
@@ -781,6 +800,7 @@ namespace UyghurEditPP
             this.menuOchur.Size = new System.Drawing.Size(312, 22);
             this.menuOchur.Text = "Ochur";
             this.menuOchur.Click += new System.EventHandler(this.ToolOchurClick);
+            this.menuOchur.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuKes
             // 
@@ -790,6 +810,7 @@ namespace UyghurEditPP
             this.menuKes.Size = new System.Drawing.Size(312, 22);
             this.menuKes.Text = "Kes";
             this.menuKes.Click += new System.EventHandler(this.ToolKesClick);
+            this.menuKes.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuKochur
             // 
@@ -799,6 +820,7 @@ namespace UyghurEditPP
             this.menuKochur.Size = new System.Drawing.Size(312, 22);
             this.menuKochur.Text = "Kochur";
             this.menuKochur.Click += new System.EventHandler(this.ToolKochurClick);
+            this.menuKochur.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuChapla
             // 
@@ -808,6 +830,7 @@ namespace UyghurEditPP
             this.menuChapla.Size = new System.Drawing.Size(312, 22);
             this.menuChapla.Text = "Chapla";
             this.menuChapla.Click += new System.EventHandler(this.ToolChaplaClick);
+            this.menuChapla.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator8
             // 
@@ -821,6 +844,7 @@ namespace UyghurEditPP
             this.menuHemme.Size = new System.Drawing.Size(312, 22);
             this.menuHemme.Text = "Hemmini Talla";
             this.menuHemme.Click += new System.EventHandler(this.MenuHemmeClick);
+            this.menuHemme.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator13
             // 
@@ -833,6 +857,7 @@ namespace UyghurEditPP
             this.menuChaplaUighursoft.Size = new System.Drawing.Size(312, 22);
             this.menuChaplaUighursoft.Text = "Uighursoftningkini Chapla";
             this.menuChaplaUighursoft.Click += new System.EventHandler(this.MenuChaplaUighursoftClick);
+            this.menuChaplaUighursoft.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuChaplaDuldul
             // 
@@ -840,6 +865,7 @@ namespace UyghurEditPP
             this.menuChaplaDuldul.Size = new System.Drawing.Size(312, 22);
             this.menuChaplaDuldul.Text = "Duldulningkini Chapla";
             this.menuChaplaDuldul.Click += new System.EventHandler(this.MenuChaplaDuldulClick);
+            this.menuChaplaDuldul.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuChaplaBashqilar
             // 
@@ -847,6 +873,7 @@ namespace UyghurEditPP
             this.menuChaplaBashqilar.Size = new System.Drawing.Size(312, 22);
             this.menuChaplaBashqilar.Text = "Bashqilarningkini Chapla";
             this.menuChaplaBashqilar.Click += new System.EventHandler(this.MenuChaplaBashqilarClick);
+            this.menuChaplaBashqilar.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator11
             // 
@@ -859,6 +886,7 @@ namespace UyghurEditPP
             this.menuQurNomur.Size = new System.Drawing.Size(312, 22);
             this.menuQurNomur.Text = "Qur Nomurini Korsetsun";
             this.menuQurNomur.Click += new System.EventHandler(this.ButQurNomurClick);
+            this.menuQurNomur.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator17
             // 
@@ -872,6 +900,7 @@ namespace UyghurEditPP
             this.menuHojjetBash.Size = new System.Drawing.Size(312, 22);
             this.menuHojjetBash.Text = "Hojjetning Beshigha Yotkel";
             this.menuHojjetBash.Click += new System.EventHandler(this.MenuHojjetBashClick);
+            this.menuHojjetBash.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuHojjetAxir
             // 
@@ -880,6 +909,7 @@ namespace UyghurEditPP
             this.menuHojjetAxir.Size = new System.Drawing.Size(312, 22);
             this.menuHojjetAxir.Text = "Hojjetning Axirigha Yotkel";
             this.menuHojjetAxir.Click += new System.EventHandler(this.MenuHojjetAxirClick);
+            this.menuHojjetAxir.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuQuryotkel
             // 
@@ -888,6 +918,7 @@ namespace UyghurEditPP
             this.menuQuryotkel.Size = new System.Drawing.Size(312, 22);
             this.menuQuryotkel.Text = "Qurgha Yotkel";
             this.menuQuryotkel.Click += new System.EventHandler(this.MenuQuryotkelClick);
+            this.menuQuryotkel.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator14
             // 
@@ -901,6 +932,7 @@ namespace UyghurEditPP
             this.menuChong.Size = new System.Drawing.Size(312, 22);
             this.menuChong.Text = "Chong Yezilishqa Ozgert";
             this.menuChong.Click += new System.EventHandler(this.ChongYaz);
+            this.menuChong.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuKichik
             // 
@@ -909,6 +941,7 @@ namespace UyghurEditPP
             this.menuKichik.Size = new System.Drawing.Size(312, 22);
             this.menuKichik.Text = "Kichik Yezilishqa Ozgert";
             this.menuKichik.Click += new System.EventHandler(this.KichikYaz);
+            this.menuKichik.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuMawzu
             // 
@@ -917,6 +950,7 @@ namespace UyghurEditPP
             this.menuMawzu.Size = new System.Drawing.Size(312, 22);
             this.menuMawzu.Text = "Bash Heripni Chong Yezilishqa Ozgert";
             this.menuMawzu.Click += new System.EventHandler(this.MawzuYaz);
+            this.menuMawzu.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuImla
             // 
@@ -1012,6 +1046,7 @@ namespace UyghurEditPP
             this.menuImlaAmbar.Size = new System.Drawing.Size(348, 22);
             this.menuImlaAmbar.Text = "Ishletkuchi Ambarlirini Korset";
             this.menuImlaAmbar.Click += new System.EventHandler(this.MenuImlaAmbarClick);
+            this.menuImlaAmbar.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuQoral
             // 
@@ -1021,7 +1056,10 @@ namespace UyghurEditPP
             this.toolStripSeparator15,
             this.menuOCR,
             this.toolStripSeparator21,
-            this.menuMakeHTML});
+            this.menuMakeHTML,
+            this.toolStripSeparator22,
+            this.menuSaveToDOCX,
+            this.menuWordAylandur});
             this.menuQoral.Name = "menuQoral";
             this.menuQoral.Size = new System.Drawing.Size(61, 19);
             this.menuQoral.Text = "Qorallar";
@@ -1035,6 +1073,7 @@ namespace UyghurEditPP
             this.menuTiz.Text = "Elipbbe Tertipi Boyiche Tiz";
             this.menuTiz.DropDownOpened += new System.EventHandler(this.MenuTizClick);
             this.menuTiz.Click += new System.EventHandler(this.MenuTizClick);
+            this.menuTiz.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuTekrar
             // 
@@ -1042,6 +1081,7 @@ namespace UyghurEditPP
             this.menuTekrar.Size = new System.Drawing.Size(210, 22);
             this.menuTekrar.Text = "Sozlerning Tekrarliqi";
             this.menuTekrar.Click += new System.EventHandler(this.MenuTekrarClick);
+            this.menuTekrar.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator15
             // 
@@ -1055,6 +1095,7 @@ namespace UyghurEditPP
             this.menuOCR.Text = "OCR";
             this.menuOCR.ToolTipText = "Resimni yeziqqa aylanduridu";
             this.menuOCR.Click += new System.EventHandler(this.MenuOCRClick);
+            this.menuOCR.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // toolStripSeparator21
             // 
@@ -1068,6 +1109,83 @@ namespace UyghurEditPP
             this.menuMakeHTML.Text = "Addiy HTML Yasa";
             this.menuMakeHTML.Click += new System.EventHandler(this.MenuMakeHTMLClick);
             this.menuMakeHTML.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(207, 6);
+            // 
+            // menuSaveToDOCX
+            // 
+            this.menuSaveToDOCX.Name = "menuSaveToDOCX";
+            this.menuSaveToDOCX.Size = new System.Drawing.Size(210, 22);
+            this.menuSaveToDOCX.Text = "Word Höjjitide Saqla";
+            this.menuSaveToDOCX.Click += new System.EventHandler(this.menuSaveToDOCX_Click);
+            this.menuSaveToDOCX.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordAylandur
+            // 
+            this.menuWordAylandur.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuWordUEY2ULY,
+            this.menuWordUEY2USY,
+            this.toolStripSeparator23,
+            this.menuWordULY2UEY,
+            this.menuWordULY2USY,
+            this.toolStripSeparator24,
+            this.menuWordUSY2UEY,
+            this.menuWordUSY2ULY});
+            this.menuWordAylandur.Name = "menuWordAylandur";
+            this.menuWordAylandur.Size = new System.Drawing.Size(210, 22);
+            this.menuWordAylandur.Text = "Word Höjjitini Aylandur";
+            this.menuWordAylandur.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordUEY2ULY
+            // 
+            this.menuWordUEY2ULY.Name = "menuWordUEY2ULY";
+            this.menuWordUEY2ULY.Size = new System.Drawing.Size(210, 22);
+            this.menuWordUEY2ULY.Text = "Uyghurche->Latinche";
+            this.menuWordUEY2ULY.Click += new System.EventHandler(this.menuWordAylandur_Click);
+            this.menuWordUEY2ULY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordUEY2USY
+            // 
+            this.menuWordUEY2USY.Name = "menuWordUEY2USY";
+            this.menuWordUEY2USY.Size = new System.Drawing.Size(210, 22);
+            this.menuWordUEY2USY.Text = "Uyghurche->Silawyanche";
+            this.menuWordUEY2USY.Click += new System.EventHandler(this.menuWordAylandur_Click);
+            this.menuWordUEY2USY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordULY2UEY
+            // 
+            this.menuWordULY2UEY.Name = "menuWordULY2UEY";
+            this.menuWordULY2UEY.Size = new System.Drawing.Size(210, 22);
+            this.menuWordULY2UEY.Text = "Latinche->Uyghurche";
+            this.menuWordULY2UEY.Click += new System.EventHandler(this.menuWordAylandur_Click);
+            this.menuWordULY2UEY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordULY2USY
+            // 
+            this.menuWordULY2USY.Name = "menuWordULY2USY";
+            this.menuWordULY2USY.Size = new System.Drawing.Size(210, 22);
+            this.menuWordULY2USY.Text = "Latinche->Silawyanche";
+            this.menuWordULY2USY.Click += new System.EventHandler(this.menuWordAylandur_Click);
+            this.menuWordULY2USY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordUSY2UEY
+            // 
+            this.menuWordUSY2UEY.Name = "menuWordUSY2UEY";
+            this.menuWordUSY2UEY.Size = new System.Drawing.Size(210, 22);
+            this.menuWordUSY2UEY.Text = "Silawyanche->Uyghurche";
+            this.menuWordUSY2UEY.Click += new System.EventHandler(this.menuWordAylandur_Click);
+            this.menuWordUSY2UEY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // menuWordUSY2ULY
+            // 
+            this.menuWordUSY2ULY.Name = "menuWordUSY2ULY";
+            this.menuWordUSY2ULY.Size = new System.Drawing.Size(210, 22);
+            this.menuWordUSY2ULY.Text = "Silawyanche->Latinche";
+            this.menuWordUSY2ULY.Click += new System.EventHandler(this.menuWordAylandur_Click);
+            this.menuWordUSY2ULY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuTil
             // 
@@ -1085,42 +1203,47 @@ namespace UyghurEditPP
             // menuUyghurA
             // 
             this.menuUyghurA.Name = "menuUyghurA";
-            this.menuUyghurA.Size = new System.Drawing.Size(180, 22);
+            this.menuUyghurA.Size = new System.Drawing.Size(136, 22);
             this.menuUyghurA.Tag = "uey";
             this.menuUyghurA.Text = "Uyghurche";
             this.menuUyghurA.Click += new System.EventHandler(this.MenuTilClick);
+            this.menuUyghurA.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuUyghurL
             // 
             this.menuUyghurL.Name = "menuUyghurL";
-            this.menuUyghurL.Size = new System.Drawing.Size(180, 22);
+            this.menuUyghurL.Size = new System.Drawing.Size(136, 22);
             this.menuUyghurL.Tag = "uly";
             this.menuUyghurL.Text = "Latinche";
             this.menuUyghurL.Click += new System.EventHandler(this.MenuTilClick);
+            this.menuUyghurL.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuUyghurS
             // 
             this.menuUyghurS.Name = "menuUyghurS";
-            this.menuUyghurS.Size = new System.Drawing.Size(180, 22);
+            this.menuUyghurS.Size = new System.Drawing.Size(136, 22);
             this.menuUyghurS.Tag = "usy";
             this.menuUyghurS.Text = "Slawyanche";
             this.menuUyghurS.Click += new System.EventHandler(this.MenuTilClick);
+            this.menuUyghurS.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuEnglish
             // 
             this.menuEnglish.Name = "menuEnglish";
-            this.menuEnglish.Size = new System.Drawing.Size(180, 22);
+            this.menuEnglish.Size = new System.Drawing.Size(136, 22);
             this.menuEnglish.Tag = "eng";
             this.menuEnglish.Text = "English";
             this.menuEnglish.Click += new System.EventHandler(this.MenuTilClick);
+            this.menuEnglish.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuJapanese
             // 
             this.menuJapanese.Name = "menuJapanese";
-            this.menuJapanese.Size = new System.Drawing.Size(180, 22);
+            this.menuJapanese.Size = new System.Drawing.Size(136, 22);
             this.menuJapanese.Tag = "jpn";
             this.menuJapanese.Text = "日本語";
             this.menuJapanese.Click += new System.EventHandler(this.MenuTilClick);
+            this.menuJapanese.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuYardem
             // 
@@ -1139,6 +1262,7 @@ namespace UyghurEditPP
             this.menuKunupka.Size = new System.Drawing.Size(279, 22);
             this.menuKunupka.Text = "Kona Yeziq Kunupka Orunlashturulushi";
             this.menuKunupka.Click += new System.EventHandler(this.MenuKunupkaClick);
+            this.menuKunupka.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuULElipbe
             // 
@@ -1146,6 +1270,7 @@ namespace UyghurEditPP
             this.menuULElipbe.Size = new System.Drawing.Size(279, 22);
             this.menuULElipbe.Text = "Uyghur Latin Yeziqi Elipbesi";
             this.menuULElipbe.Click += new System.EventHandler(this.MenuULElipbeClick);
+            this.menuULElipbe.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuHeqqide
             // 
@@ -1153,28 +1278,12 @@ namespace UyghurEditPP
             this.menuHeqqide.Size = new System.Drawing.Size(279, 22);
             this.menuHeqqide.Text = "UyghurEdit++ Heqqide";
             this.menuHeqqide.Click += new System.EventHandler(this.MenuHeqqideClick);
+            this.menuHeqqide.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
             // menuU
             // 
             this.menuU.Name = "menuU";
             this.menuU.Size = new System.Drawing.Size(32, 19);
-            // 
-            // mainTab
-            // 
-            this.mainTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainTab.Cursor = System.Windows.Forms.Cursors.Default;
-            this.mainTab.HotTrack = true;
-            this.mainTab.ItemSize = new System.Drawing.Size(0, 40);
-            this.mainTab.Location = new System.Drawing.Point(0, 70);
-            this.mainTab.Margin = new System.Windows.Forms.Padding(0);
-            this.mainTab.Name = "mainTab";
-            this.mainTab.Padding = new System.Drawing.Point(20, 0);
-            this.mainTab.SelectedIndex = 0;
-            this.mainTab.Size = new System.Drawing.Size(1006, 524);
-            this.mainTab.TabIndex = 3;
-            this.mainTab.SelectedIndexChanged += new System.EventHandler(this.TabControl1SelectedIndexChanged);
             // 
             // stBar
             // 
@@ -1242,6 +1351,33 @@ namespace UyghurEditPP
             this.stKunupka.Text = "System";
             this.stKunupka.Click += new System.EventHandler(this.KunupkaClick);
             // 
+            // mainTab
+            // 
+            this.mainTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.mainTab.Cursor = System.Windows.Forms.Cursors.Default;
+            this.mainTab.HotTrack = true;
+            this.mainTab.ItemSize = new System.Drawing.Size(0, 40);
+            this.mainTab.Location = new System.Drawing.Point(0, 70);
+            this.mainTab.Margin = new System.Windows.Forms.Padding(0);
+            this.mainTab.Name = "mainTab";
+            this.mainTab.Padding = new System.Drawing.Point(20, 0);
+            this.mainTab.SelectedIndex = 0;
+            this.mainTab.Size = new System.Drawing.Size(1006, 524);
+            this.mainTab.TabIndex = 3;
+            this.mainTab.SelectedIndexChanged += new System.EventHandler(this.TabControl1SelectedIndexChanged);
+            // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(207, 6);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(207, 6);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1276,5 +1412,20 @@ namespace UyghurEditPP
             this.PerformLayout();
 
 		}
-	}
+
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
+        private System.Windows.Forms.ToolStripMenuItem menuSaveToDOCX;
+        private System.Windows.Forms.ToolStripMenuItem menuWordAylandur;
+
+        private System.Windows.Forms.ToolStripMenuItem menuWordUEY2ULY;
+        private System.Windows.Forms.ToolStripMenuItem menuWordUEY2USY;
+
+        private System.Windows.Forms.ToolStripMenuItem menuWordULY2UEY;
+        private System.Windows.Forms.ToolStripMenuItem menuWordULY2USY;
+
+        private System.Windows.Forms.ToolStripMenuItem menuWordUSY2UEY;
+        private System.Windows.Forms.ToolStripMenuItem menuWordUSY2ULY;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
+    }
 }
