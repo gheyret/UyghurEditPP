@@ -61,7 +61,7 @@ namespace UyghurEditPP
 			else{
 				butAch.Enabled = !gRunning;
 				butTonu.Enabled = !gRunning;
-				chkUyghur.Enabled = !gRunning;
+				chkUyghurUKIJ.Enabled = !gRunning;
 				chkEng.Enabled = !gRunning;
 				chkRus.Enabled = !gRunning;
 				chkChi.Enabled = !gRunning;
@@ -132,15 +132,16 @@ namespace UyghurEditPP
 			label1.Text = MainForm.gLang.GetText("Tonuydighan Tillar")+":";
 			label2.Text = MainForm.gLang.GetText("Bet Qurulmisi")+":";
 			
+			chkUyghurUKIJ.Text = MainForm.gLang.GetText("Uyghurche")+"UKIJ";
 			chkUyghur.Text = MainForm.gLang.GetText("Uyghurche");
-			chkEng.Text = MainForm.gLang.GetText("In’glizche");
+            chkEng.Text = MainForm.gLang.GetText("In’glizche");
 			chkTur.Text = MainForm.gLang.GetText("Türkche");
 			chkChi.Text = MainForm.gLang.GetText("Xenzuche");
-			chkRus.Text = MainForm.gLang.GetText("Slawyanche");
+			chkRus.Text = MainForm.gLang.GetText("Silawiyanche");
 			radAuto.Text = MainForm.gLang.GetText("Özüng Tap");
 			radSingle.Text = MainForm.gLang.GetText("Birla Bölek");
 			
-			chkUyghur.Checked = true;
+			chkUyghurUKIJ.Checked = true;
 			radAuto.Checked = true;
 			
 			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
@@ -193,12 +194,17 @@ namespace UyghurEditPP
 			this.Cursor = Cursors.WaitCursor;
 			char[] tr = {'+'};
 			string lang = "";
-			if(chkUyghur.Checked){
+			if(chkUyghurUKIJ.Checked){
 //				lang += "ukij+uig";
 				lang += "ukij";
 			}
 
-			if(chkEng.Checked){
+            if (chkUyghur.Checked)
+            {
+                lang += "uig";
+            }
+
+            if (chkEng.Checked){
 				lang += "+eng";
 			}
 			
