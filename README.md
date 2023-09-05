@@ -17,6 +17,12 @@ Eger OCR da xataliq körülse, [ Visual Studio 2019 Runtime](https://support.mic
 
 <hr></hr>
 
+### 0.82 neshri(2023/09/05)
+
+  * Tesseeract ning Uyghurche modéli qayta ögitildi we tonush toghriliqi köp yaxshilandi.
+  * Tehrirlewatqan höjjetni Word formatida(.docx) saqlash iqtidari qoshuldi.
+  * Wordta yézilghan Uyghurche höjjetlerni(.docx formatidiki) eslidiki bet qurulmisini saqlap qalghan asasta bashqa yéziqqa(Uyghurche, Latinche we Silawiyanche) aylandurup bérish iqtidari qoshuldi.
+
 ### 0.8 neshri(2023/06/29)
 
 Bu qétimqi neshride asasliq imla ambirila özgerdi. UyghurEdit++ ta köp özgirish bolmidi.</br>
