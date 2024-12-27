@@ -190,8 +190,12 @@ public class Uyghur
 	public const char UYG_UN_H_B = '\uFBAC';    //Bax;
 	public const char UYG_UN_H_O = '\uFBAD';    //Ottura;
 
-	//O
-	public const char UYG_UN_O_6 = '\u0648';  //Yalghuz;
+    public const char UYG_UN_H_Y_YUL = '\uFEEB';    //Bax;
+    public const char UYG_UN_H_A_YUL = '\uFEEC';    //Ottura;
+
+
+    //O
+    public const char UYG_UN_O_6 = '\u0648';  //Yalghuz;
 	public const char UYG_UN_O_Y = '\uFEED';  //Yalghuz;
 	public const char UYG_UN_O_A = '\uFEEE';    //Ayaq;
 												//U
@@ -533,8 +537,8 @@ public class Uyghur
 			case UYG_UN_H_A:
 			case UYG_UN_H_B:
 			case UYG_UN_H_O:
-			//case  UYGE_UN_H_Y:   // Yulghunda Ishlitilgen
-			//case  UYGE_UN_H_A:   // Yulghunda ishlitilgen
+			case UYG_UN_H_Y_YUL:   // Yulghunda Ishlitilgen
+			case UYG_UN_H_A_YUL:   // Yulghunda ishlitilgen
 			case UYG_UN_O_Y:
 			case UYG_UN_O_A:
 			case UYG_UN_U_Y:
@@ -791,8 +795,8 @@ public class Uyghur
 			case UYG_UN_H_A:
 			case UYG_UN_H_B:
 			case UYG_UN_H_O:
-				//case  UYGE_UN_H_Y:   // Yulghunda Ishlitilgen
-				//case  UYGE_UN_H_A:   // Yulghunda ishlitilgen
+			case UYG_UN_H_Y_YUL:   // Yulghunda Ishlitilgen
+			case UYG_UN_H_A_YUL:   // Yulghunda ishlitilgen
 				ret = UYGIN_H;
 				break;
 			case UYG_UN_O_6:
@@ -1318,8 +1322,8 @@ public class Uyghur
 				case UYG_UN_H_A:
 				case UYG_UN_H_B:
 				case UYG_UN_H_O:
-					//case  UYGE_UN_H_Y:   // Yulghunda Ishlitilgen
-					//case  UYGE_UN_H_A:   // Yulghunda ishlitilgen
+				case UYG_UN_H_Y_YUL:   // Yulghunda Ishlitilgen
+				case UYG_UN_H_A_YUL:   // Yulghunda ishlitilgen
 					if (aldiz == true)
 					{
 						uly.Append("’h");
@@ -1402,6 +1406,15 @@ public class Uyghur
 					aldiz = false;
 					aldiN = false;
 					break;
+
+                case UYG_UN_LA_Y:
+                case UYG_UN_LA_A:
+                    uly.Append("la");
+                    skip = false;
+                    aldiz = false;
+                    aldiN = false;
+                    break;
+                
 				default:
 					skip = true;
 					uly.Append(U2LSBelge(Herp + ""));
@@ -1610,8 +1623,8 @@ public class Uyghur
 				case UYG_UN_H_A:
 				case UYG_UN_H_B:
 				case UYG_UN_H_O:
-					//case  UYGE_UN_H_Y:   // Yulghunda Ishlitilgen
-					//case  UYGE_UN_H_A:   // Yulghunda ishlitilgen
+				case UYG_UN_H_Y_YUL:   // Yulghunda Ishlitilgen
+				case UYG_UN_H_A_YUL:   // Yulghunda ishlitilgen
 					skip = false;
 					uly.Append('һ');//һ*/
 					break;
@@ -2251,6 +2264,7 @@ public class Uyghur
                         newesliBuf[i + 1] == 'É' || newesliBuf[i + 1] == 'é' ||
                         newesliBuf[i + 1] == 'Ë' || newesliBuf[i + 1] == 'ë' ||
                         newesliBuf[i + 1] == 'Ö' || newesliBuf[i + 1] == 'ö' ||
+                        newesliBuf[i + 1] == 'Ӧ' || newesliBuf[i + 1] == 'ӧ' ||
                         newesliBuf[i + 1] == 'Ü' || newesliBuf[i + 1] == 'ü'
                        )
                         {
@@ -2317,6 +2331,8 @@ public class Uyghur
                     break;
                 case 'ö':
                 case 'Ö':
+                case 'ӧ':
+                case 'Ӧ':
                     if (alUEY == false)
                     {
                         newBuf.Append(UYG_UN_HM_6);
@@ -2420,6 +2436,8 @@ public class Uyghur
                     break;
                 case 'w':
                 case 'W':
+                case 'v':
+                case 'V':
                     newBuf.Append(UYG_UN_W_6);
                     alUEY = true;
                     break;
