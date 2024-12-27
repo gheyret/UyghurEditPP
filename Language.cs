@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Created by SharpDevelop.
  * User: Gheyret Kenji
  * Date: 2009/06/15
@@ -71,7 +71,7 @@ namespace UyghurEditPP
 			}
 			else{
 				if(LanguaID.Equals("uey")){
-					ret = Uyghur.ULY2UEY(key);
+					ret = Uyghur.ULY2UEY(key).Replace("🠊", "🠈");
 				}
 				else if(LanguaID.Equals("usy")){
 					ret = Uyghur.ULY2USY(key);

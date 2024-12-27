@@ -235,8 +235,10 @@ namespace UyghurEditPP
             this.menuWordAylandur = new System.Windows.Forms.ToolStripMenuItem();
             this.menuWordUEY2ULY = new System.Windows.Forms.ToolStripMenuItem();
             this.menuWordUEY2USY = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
             this.menuWordULY2UEY = new System.Windows.Forms.ToolStripMenuItem();
             this.menuWordULY2USY = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.menuWordUSY2UEY = new System.Windows.Forms.ToolStripMenuItem();
             this.menuWordUSY2ULY = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTil = new System.Windows.Forms.ToolStripMenuItem();
@@ -257,8 +259,6 @@ namespace UyghurEditPP
             this.stBarEncode = new System.Windows.Forms.ToolStripStatusLabel();
             this.stKunupka = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainTab = new UyghurEditPP.KenjiTab();
-            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.toolBar.SuspendLayout();
             this.menuBar.SuspendLayout();
             this.stBar.SuspendLayout();
@@ -635,6 +635,7 @@ namespace UyghurEditPP
             this.menuHojjet.Size = new System.Drawing.Size(51, 19);
             this.menuHojjet.Text = "Hojjet";
             this.menuHojjet.DropDownClosed += new System.EventHandler(this.DropDownMenusClosed);
+            this.menuHojjet.DropDownOpened += new System.EventHandler(this.menuHojjetOpened);
             // 
             // menuYengi
             // 
@@ -752,6 +753,7 @@ namespace UyghurEditPP
             this.menuTehrir.Size = new System.Drawing.Size(73, 19);
             this.menuTehrir.Text = "Terhrirlesh";
             this.menuTehrir.DropDownClosed += new System.EventHandler(this.DropDownMenusClosed);
+            this.menuTehrir.DropDownOpened += new System.EventHandler(this.menuTehrirOpened);
             // 
             // menuFont
             // 
@@ -1155,6 +1157,11 @@ namespace UyghurEditPP
             this.menuWordUEY2USY.Click += new System.EventHandler(this.menuWordAylandur_Click);
             this.menuWordUEY2USY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
             // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(207, 6);
+            // 
             // menuWordULY2UEY
             // 
             this.menuWordULY2UEY.Name = "menuWordULY2UEY";
@@ -1170,6 +1177,11 @@ namespace UyghurEditPP
             this.menuWordULY2USY.Text = "Latinche->Silawyanche";
             this.menuWordULY2USY.Click += new System.EventHandler(this.menuWordAylandur_Click);
             this.menuWordULY2USY.MouseEnter += new System.EventHandler(this.MenuMouseEntered);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(207, 6);
             // 
             // menuWordUSY2UEY
             // 
@@ -1368,21 +1380,12 @@ namespace UyghurEditPP
             this.mainTab.TabIndex = 3;
             this.mainTab.SelectedIndexChanged += new System.EventHandler(this.TabControl1SelectedIndexChanged);
             // 
-            // toolStripSeparator23
-            // 
-            this.toolStripSeparator23.Name = "toolStripSeparator23";
-            this.toolStripSeparator23.Size = new System.Drawing.Size(207, 6);
-            // 
-            // toolStripSeparator24
-            // 
-            this.toolStripSeparator24.Name = "toolStripSeparator24";
-            this.toolStripSeparator24.Size = new System.Drawing.Size(207, 6);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(1006, 728);
             this.Controls.Add(this.stBar);
             this.Controls.Add(this.mainTab);
