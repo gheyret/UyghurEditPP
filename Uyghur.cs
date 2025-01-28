@@ -2796,9 +2796,11 @@ public class Uyghur
 					newBuf.Append('é');
 					break;
 				case 'Ә':
-					newBuf.Append('E');
+				case 'Э':
+                    newBuf.Append('E');
 					break;
 				case 'ә':
+				case 'э':
 					newBuf.Append('e');
 					break;
 				case 'Ф':
@@ -3774,25 +3776,30 @@ public class Uyghur
 		return ReverseNumber(cleaned);
 	}
 
-	static string CleanBgd(string bgdctl)
-	{
-		Regex reg1 = new Regex("〖.*?〗");
-		string pattern = Regex.Escape("[") + ".*?" + Regex.Escape("]");
-		Regex reg2 = new Regex(pattern);
-		Regex reg3 = new Regex("［.*?］");
+    static string CleanBgd(string bgdctl)
+    {
+        Regex reg1 = new Regex("〖.*?〗");
+        string pattern = Regex.Escape("[") + ".*?" + Regex.Escape("]");
+        Regex reg2 = new Regex(pattern);
+        Regex reg3 = new Regex("［.*?］");
 
-		string newbgd = bgdctl.Replace("　", " ").Replace("\ue008", " ").Replace("\ue009", " "); //Chinese Space
-		newbgd = newbgd.Replace("\r", "").Replace("\n", "").Replace("\u3013", ""); //.Replace("\u2212","");
+        string newbgd = reg1.Replace(bgdctl, "");
+        newbgd = reg2.Replace(newbgd, "");
+        newbgd = reg3.Replace(newbgd, "");
 
-		newbgd = reg1.Replace(newbgd, "");
-		newbgd = reg2.Replace(newbgd, "");
-		newbgd = reg3.Replace(newbgd, "");
+        newbgd = newbgd.Replace("　", " ").Replace("\ue008", " ").Replace("\ue009", " ").Replace("\u3013", ""); //Chinese Space
 
-		//newbgd = newbgd.Replace("\ue003","\r\n").Replace("\ue004","\r\n\r\n").Replace("\ue005","\r\n\r\n\r\n");
-		newbgd = newbgd.Replace("\ue005", "\r\n").Replace("\ue004", "\r\n\r\n").Replace("\ue003", "\r\n\r\n\r\n");
-
-		return newbgd;
-	}
+        if (newbgd.IndexOf("\x0d\x0a\x0a") != -1) //Izahliq lughetning hojjitide mushundaq iken
+		{
+			newbgd = newbgd.Replace("\x0d\x0a\x0a", "\x0a");
+		}
+		else
+		{
+            newbgd = newbgd.Replace("\r", "").Replace("\n", "").Replace("\u3013", ""); //.Replace("\u2212","");
+            newbgd = newbgd.Replace("\ue005", "\n").Replace("\ue004", "\n\n").Replace("\ue003", "\n\n\n");
+        }
+        return newbgd;
+    }
 
 	static string ReverseNumber(String bgdtxt) {
 		Regex reg = new Regex("[0-9]+"); //(@"^\d$");
