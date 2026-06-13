@@ -76,8 +76,12 @@ namespace UyghurEditPP
 		FindReplaceDialog gFindReplace = null;
 		
 		OCRForm gOCR = null;
-		
-		public MainForm()
+
+        // ① 記号群を定義（共通化してミスを防ぐ）
+        const string OPEN = @"‹«\(\[";
+        const string CLOSE = @"!›»\]؟،؛?,;:\.\)";
+
+        public MainForm()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -355,7 +359,8 @@ namespace UyghurEditPP
 				curEdit.FontSize   = gFontSize;
 				curEdit.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				curEdit.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
-				
+				curEdit.Options.InheritWordWrapIndentation = false;
+
 				gContextMenu.FontFamily = curEdit.FontFamily;
 				gContextMenu.FontSize = 20; //curEdit.FontSize;
 				gContextMenu.FontStyle = curEdit.FontStyle;
@@ -1835,7 +1840,7 @@ namespace UyghurEditPP
 			}
 		}
 		
-		void MenuBelgeClick(object sender, EventArgs e)
+		void MenuBelgeClick_org(object sender, EventArgs e)
 		{
 			Regex  regkopbosh= new Regex("[ ]{2,}",RegexOptions.Compiled);
             Regex  regbosh_qur = new Regex("[ ]*[\r\n][ ]*", RegexOptions.Compiled);
@@ -1870,6 +1875,68 @@ namespace UyghurEditPP
 			}
 			TabControl1SelectedIndexChanged(null,null);
 		}
+
+        void MenuBelgeClick(object sender, EventArgs e)
+        {
+            // ② 開き記号群の「後の空白」を除去
+            //    連続する開き記号をすべてまとめてキャプチャし、後続の空白を除去
+            Regex regbash = new Regex(
+                $@"([{OPEN}]+)[ \t]+",
+                RegexOptions.Compiled);
+
+            // ③ 閉じ記号群の「前の空白」を除去
+            //    空白の後に続く閉じ記号の連続をすべてキャプチャ
+            Regex regaxir = new Regex(
+                $@"[ \t]+([{CLOSE}]+)",
+                RegexOptions.Compiled);
+
+            // 閉じ記号の直後に非空白・非記号が続く場合にスペースを挿入
+            Regex regaxir_post = new Regex(
+                $@"([{CLOSE}])([^ \t\r\n{OPEN}{CLOSE}])",
+                RegexOptions.Compiled);
+
+            // ④ 連続空白の圧縮（変更なし）
+            Regex regkopbosh = new Regex(@"[ ]{2,}", RegexOptions.Compiled);
+
+            // ⑤ 改行前後の空白（変更なし）
+            Regex regbosh_qur = new Regex(@"[ ]*[\r\n][ ]*", RegexOptions.Compiled);
+
+            // ⑥ ダッシュ周りの空白（変更なし）
+            Regex siziq = new Regex(@"[ ]*[-–][ ]*", RegexOptions.Compiled);
+
+            // ⑦ 小数点の空白（変更なし）
+            Regex reqemarisiboshluq = new Regex(@"[\d]{1,}[.][ ][\d]{1,}", RegexOptions.Compiled);
+
+            // ⑧ URLの空白（変更なし）
+            Regex urlboshluq = new Regex(
+                @"https?:[ ]?//[\w/:%#\$&\?\(\)~\.=\+\- ]+",
+                RegexOptions.Compiled);
+
+            // --- 適用 ---
+            string txt = siziq.Replace(gEditor.Text, "-")
+                              .Replace('\u201C', '«')   // " → «
+                              .Replace('\u201D', '»');  // " → »
+
+            txt = regbash.Replace(txt, m => m.Groups[1].Value);
+            txt = regaxir.Replace(txt, m => m.Groups[1].Value);      // 前の空白を除去
+            txt = regaxir_post.Replace(txt, m => m.Groups[1].Value + " " + m.Groups[2].Value);         // 後ろにスペースを保証
+            txt = regkopbosh.Replace(txt, " ");
+            txt = regbosh_qur.Replace(txt, m => m.Value.Trim(' ', '\t')); // 改行のみ残す
+            txt = reqemarisiboshluq.Replace(txt, m => m.Value.Replace(" ", ""));
+            txt = urlboshluq.Replace(txt, m => m.Value.Replace(" ", ""));
+            MenuYengiClick(null, null);
+            gEditor.Text = txt;
+            if (Uyghur.Detect(txt) == Uyghur.YEZIQ.UEY)
+            {
+                gEditor.RightToLeft = true;
+            }
+            else
+            {
+                gEditor.RightToLeft = false;
+            }
+            TabControl1SelectedIndexChanged(null, null);
+        }
+
         string boshluqniyoqat(Match mm)
         {
             return mm.Value.Replace(" ","");
