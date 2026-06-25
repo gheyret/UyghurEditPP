@@ -1067,7 +1067,7 @@ public class Uyghur
 	{
 		bool aldiN = false;
 		bool skip = true;
-		bool aldiz = false;
+		bool aldiZS = false;
 		StringBuilder uly = new StringBuilder();
 		foreach (char Herp in token.ToString())
 		{
@@ -1077,7 +1077,7 @@ public class Uyghur
 				case UYG_UN_HM_Y:
 				case UYG_UN_HM_O:
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					if (skip == true)
 					{
 					}
@@ -1089,7 +1089,7 @@ public class Uyghur
 				case UYG_UN_A_6:
 				case UYG_UN_A_Y:
 				case UYG_UN_A_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("a");
@@ -1097,7 +1097,7 @@ public class Uyghur
 				case UYG_UN_E_6:
 				case UYG_UN_E_Y:
 				case UYG_UN_E_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("e");
@@ -1107,7 +1107,7 @@ public class Uyghur
 				case UYG_UN_B_B:
 				case UYG_UN_B_O:
 				case UYG_UN_B_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("b");
@@ -1117,7 +1117,7 @@ public class Uyghur
 				case UYG_UN_P_B:
 				case UYG_UN_P_O:
 				case UYG_UN_P_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("p");
@@ -1127,7 +1127,7 @@ public class Uyghur
 				case UYG_UN_T_B:
 				case UYG_UN_T_O:
 				case UYG_UN_T_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("t");
@@ -1137,7 +1137,7 @@ public class Uyghur
 				case UYG_UN_J_B:
 				case UYG_UN_J_O:
 				case UYG_UN_J_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("j");
@@ -1147,7 +1147,7 @@ public class Uyghur
 				case UYG_UN_CH_B:
 				case UYG_UN_CH_O:
 				case UYG_UN_CH_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("ch");
@@ -1157,7 +1157,7 @@ public class Uyghur
 				case UYG_UN_X_B:
 				case UYG_UN_X_O:
 				case UYG_UN_X_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("x");
@@ -1165,7 +1165,7 @@ public class Uyghur
 				case UYG_UN_D_6:
 				case UYG_UN_D_Y:
 				case UYG_UN_D_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("d");
@@ -1173,7 +1173,7 @@ public class Uyghur
 				case UYG_UN_R_6:
 				case UYG_UN_R_Y:
 				case UYG_UN_R_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("r");
@@ -1182,7 +1182,7 @@ public class Uyghur
 				case UYG_UN_Z_Y:
 				case UYG_UN_Z_A:
 					aldiN = false;
-					aldiz = true;
+					aldiZS = true;
 					skip = false;
 					uly.Append("z");
 					break;
@@ -1199,7 +1199,7 @@ public class Uyghur
 				case UYG_UN_S_O:
 				case UYG_UN_S_A:
 					aldiN = false;
-					aldiz = false;
+					aldiZS = true;
 					skip = false;
 					uly.Append("s");
 					break;
@@ -1208,7 +1208,7 @@ public class Uyghur
 				case UYG_UN_SH_B:
 				case UYG_UN_SH_O:
 				case UYG_UN_SH_A:
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					skip = false;
 					uly.Append("sh");
@@ -1218,7 +1218,7 @@ public class Uyghur
 				case UYG_UN_GH_B:
 				case UYG_UN_GH_O:
 				case UYG_UN_GH_A:
-					aldiz = false;
+					aldiZS = false;
 					skip = false;
 					if (aldiN == true)
 					{
@@ -1235,7 +1235,7 @@ public class Uyghur
 				case UYG_UN_F_B:
 				case UYG_UN_F_O:
 				case UYG_UN_F_A:
-					aldiz = false;
+					aldiZS = false;
 					uly.Append("f");
 					skip = false;
 					aldiN = false;
@@ -1246,7 +1246,7 @@ public class Uyghur
 				case UYG_UN_Q_O:
 				case UYG_UN_Q_A:
 					uly.Append("q");
-					aldiz = false;
+					aldiZS = false;
 					skip = false;
 					aldiN = false;
 					break;
@@ -1258,7 +1258,7 @@ public class Uyghur
 					uly.Append("k");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_G_6:
 				case UYG_UN_G_Y:
@@ -1273,7 +1273,7 @@ public class Uyghur
 					{
 						uly.Append("g");
 					}
-					aldiz = false;
+					aldiZS = false;
 					skip = false;
 					aldiN = false;
 					break;
@@ -1283,7 +1283,7 @@ public class Uyghur
 				case UYG_UN_NG_O:
 				case UYG_UN_NG_A:
 					uly.Append("ng");
-					aldiz = false;
+					aldiZS = false;
 					skip = false;
 					aldiN = false;
 					break;
@@ -1295,7 +1295,7 @@ public class Uyghur
 					uly.Append("l");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_M_6:
 				case UYG_UN_M_Y:
@@ -1305,7 +1305,7 @@ public class Uyghur
 					uly.Append("m");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_N_6:
 				case UYG_UN_N_Y:
@@ -1314,7 +1314,7 @@ public class Uyghur
 				case UYG_UN_N_A:
 					uly.Append("n");
 					skip = false;
-					aldiz = false;
+					aldiZS = false;
 					aldiN = true;
 					break;
 				case UYG_UN_H_6:
@@ -1324,7 +1324,7 @@ public class Uyghur
 				case UYG_UN_H_O:
 				case UYG_UN_H_Y_YUL:   // Yulghunda Ishlitilgen
 				case UYG_UN_H_A_YUL:   // Yulghunda ishlitilgen
-					if (aldiz == true)
+					if (aldiZS == true)
 					{
 						uly.Append("’h");
 					}
@@ -1332,7 +1332,7 @@ public class Uyghur
 					{
 						uly.Append("h");
 					}
-					aldiz = false;
+					aldiZS = false;
 					skip = false;
 					aldiN = false;
 					break;
@@ -1342,13 +1342,13 @@ public class Uyghur
 					uly.Append("o");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_U_6:
 				case UYG_UN_U_Y:
 				case UYG_UN_U_A:
 					uly.Append("u");
-					aldiz = false;
+					aldiZS = false;
 					skip = false;
 					aldiN = false;
 					break;
@@ -1358,7 +1358,7 @@ public class Uyghur
 					uly.Append("ö");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_UU_6:
 				case UYG_UN_UU_Y:
@@ -1366,7 +1366,7 @@ public class Uyghur
 					uly.Append("ü");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_W_6:
 				case UYG_UN_W_Y:
@@ -1374,7 +1374,7 @@ public class Uyghur
 					uly.Append("w");
 					skip = false;
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 				case UYG_UN_EE_6:
 				case UYG_UN_EE_Y:
@@ -1383,7 +1383,7 @@ public class Uyghur
 				case UYG_UN_EE_A:
 					uly.Append("é");
 					skip = false;
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					break;
 				case UYG_UN_I_6:
@@ -1393,7 +1393,7 @@ public class Uyghur
 				case UYG_UN_I_A:
 					uly.Append("i");
 					skip = false;
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					break;
 				case UYG_UN_Y_6:
@@ -1403,7 +1403,7 @@ public class Uyghur
 				case UYG_UN_Y_A:
 					uly.Append("y");
 					skip = false;
-					aldiz = false;
+					aldiZS = false;
 					aldiN = false;
 					break;
 
@@ -1411,7 +1411,7 @@ public class Uyghur
                 case UYG_UN_LA_A:
                     uly.Append("la");
                     skip = false;
-                    aldiz = false;
+                    aldiZS = false;
                     aldiN = false;
                     break;
                 
@@ -1419,7 +1419,7 @@ public class Uyghur
 					skip = true;
 					uly.Append(U2LSBelge(Herp + ""));
 					aldiN = false;
-					aldiz = false;
+					aldiZS = false;
 					break;
 			}
 		}
@@ -3801,7 +3801,32 @@ public class Uyghur
         return newbgd;
     }
 
-	static string ReverseNumber(String bgdtxt) {
+    static string CleanBgdEnwer(string bgdctl)
+    {
+        Regex reg1 = new Regex("〖.*?〗");
+        string pattern = Regex.Escape("[") + ".*?" + Regex.Escape("]");
+        Regex reg2 = new Regex(pattern);
+        Regex reg3 = new Regex("［.*?］");
+
+        string newbgd = bgdctl.Replace("　", " ").Replace("\ue008", " ").Replace("\ue009", " ").Replace("\u3013", ""); //Chinese Space
+
+        if (newbgd.IndexOf("\x0d\x0a\x0a") != -1) //Izahliq lughetning hojjitide mushundaq iken
+        {
+            newbgd = newbgd.Replace("\x0d\x0a\x0a", "\x0a");
+        }
+        else
+        {
+            newbgd = reg1.Replace(newbgd, "");
+            newbgd = reg2.Replace(newbgd, "");
+            newbgd = reg3.Replace(newbgd, "");
+            newbgd = newbgd.Replace("\r", "").Replace("\n", "").Replace("\u3013", ""); //.Replace("\u2212","");
+            newbgd = newbgd.Replace("\ue005", "\n").Replace("\ue004", "\n\n").Replace("\ue003", "\n\n\n");
+        }
+        return newbgd;
+    }
+
+
+    static string ReverseNumber(String bgdtxt) {
 		Regex reg = new Regex("[0-9]+"); //(@"^\d$");
 
 		string newbgdtxt = reg.Replace(bgdtxt, match =>
@@ -3943,9 +3968,10 @@ public class Uyghur
 			// Create the document structure.
 			mainPart.Document = new Document();
 			Body body = mainPart.Document.AppendChild(new Body());
-			foreach (string abzas in list)
+			foreach (string originalAbzas in list)
 			{
-				Paragraph para = body.AppendChild(new Paragraph());
+                string abzas = CleanInvalidXmlChars(originalAbzas);
+                Paragraph para = body.AppendChild(new Paragraph());
 				if (yeziq == Uyghur.YEZIQ.UEY)
 				{
 					para.ParagraphProperties = new ParagraphProperties(
@@ -3978,199 +4004,464 @@ public class Uyghur
 		}
 	}
 
-	public static string WordFromUEY(string orgfileNM, YEZIQ toYez)
-	{
-		string newfilnm;
-		if (toYez == YEZIQ.ULY) {
-            newfilnm=orgfileNM.Insert(orgfileNM.Length - 5, "_UEY2ULY");
-		}
-		else
-		{
-            newfilnm=orgfileNM.Insert(orgfileNM.Length - 5, "_UEY2USY");
-        }
+    private static string CleanInvalidXmlChars(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return text;
 
-        byte[] byteArray = File.ReadAllBytes(orgfileNM);
-        string newtxt;
-        using (var stream = new MemoryStream())
-		{
-			stream.Write(byteArray, 0, byteArray.Length);
-			using (var wordDoc = WordprocessingDocument.Open(stream, true))
-			{
-				Body body = wordDoc.MainDocumentPart.Document.Body;
-				var paras = body.Elements<Paragraph>();
-				foreach (var para in paras)
-				{
-					//if(para == null) continue;
-					if (para.ParagraphProperties != null)
-					{
-						foreach (var pPr in para.ParagraphProperties)
-						{
-							if (pPr is BiDi)
-							{
-								para.ParagraphProperties.RemoveChild(pPr);
-							}
-						}
-					}
-                    foreach (var run in para.Elements<Run>())
-					{
-						if (run.RunProperties != null)
-						{
-							foreach (var rPr in run.RunProperties)
-							{
-								if (rPr is RightToLeftText)
-								{
-									run.RunProperties.RemoveChild(rPr);
-								}
-							}
-						}
-						foreach (var text in run.Elements<Text>())
-						{
-							if (toYez == YEZIQ.ULY)
-							{
-								newtxt = UEY2ULY(text.Text);
-								text.Text = Uyghur.ULYJumleChongYaz(newtxt);
-							}
-							else
-							{
-                                newtxt = UEY2USY(text.Text);
-                                text.Text = Uyghur.USYJumleChongYaz(newtxt);
+        // XML 1.0で有効な文字範囲外の制御文字（0x00〜0x08, 0x0B, 0x0C, 0x0E〜0x1F）にマッチする正規表現
+        // ※ 0x09(タブ), 0x0A(改行), 0x0D(キャリッジリターン) は許可されているため除外
+        return Regex.Replace(text, @"[\x00-\x08\x0B\x0C\x0E-\x1F]", "");
+    }
+
+
+    // ===== WordFromUEY メソッド =====
+    public static string WordFromUEY(string orgfileNM, YEZIQ toYez)
+    {
+        if (string.IsNullOrEmpty(orgfileNM))
+            throw new ArgumentNullException(nameof(orgfileNM));
+
+        if (!File.Exists(orgfileNM))
+            throw new FileNotFoundException($"File not found: {orgfileNM}");
+
+        string newfilnm = GenerateOutputFileName(orgfileNM, toYez);
+
+        try
+        {
+            byte[] byteArray = File.ReadAllBytes(orgfileNM);
+            using (var stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, byteArray.Length);
+                stream.Position = 0;
+
+                using (var wordDoc = WordprocessingDocument.Open(stream, true))
+                {
+                    Body body = wordDoc.MainDocumentPart.Document.Body;
+                    var paras = body.Elements<Paragraph>().ToList();
+
+                    foreach (var para in paras)
+                    {
+                        RemoveRtlFormatting(para);
+                        foreach (var run in para.Elements<Run>())
+                        {
+                            foreach (var text in run.Elements<Text>())
+                            {
+                                text.Text = ConvertFromUEY(text.Text, toYez);
                             }
                         }
-					}
-				}
-			}
-			stream.Position = 0;
-            File.WriteAllBytes(newfilnm, stream.ToArray());
-		}
+                    }
+
+                    // Process footnotes if they exist
+                    if (wordDoc.MainDocumentPart.FootnotesPart != null)
+                    {
+                        ProcessFootnotes(wordDoc.MainDocumentPart.FootnotesPart, toYez);
+                    }
+
+                    // Process endnotes if they exist
+                    if (wordDoc.MainDocumentPart.EndnotesPart != null)
+                    {
+                        ProcessEndnotes(wordDoc.MainDocumentPart.EndnotesPart, toYez);
+                    }
+                }
+
+                stream.Position = 0;
+                File.WriteAllBytes(newfilnm, stream.ToArray());
+            }
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            throw new InvalidOperationException($"Access denied to file: {orgfileNM}", ex);
+        }
+        catch (IOException ex)
+        {
+            throw new InvalidOperationException($"Error processing file: {orgfileNM}", ex);
+        }
+
         return newfilnm;
     }
+
+    // ===== ProcessFootnotes メソッド =====
+    private static void ProcessFootnotes(FootnotesPart footnotesPart, YEZIQ toYez)
+    {
+        if (footnotesPart?.Footnotes == null)
+            return;
+
+        var footnotes = footnotesPart.Footnotes.Elements<Footnote>().ToList();
+
+        foreach (var footnote in footnotes)
+        {
+            ProcessParagraphCollection(footnote.Elements<Paragraph>(), toYez);
+        }
+    }
+
+    // ===== ProcessEndnotes メソッド =====
+    private static void ProcessEndnotes(EndnotesPart endnotesPart, YEZIQ toYez)
+    {
+        if (endnotesPart?.Endnotes == null)
+            return;
+
+        var endnotes = endnotesPart.Endnotes.Elements<Endnote>().ToList();
+
+        foreach (var endnote in endnotes)
+        {
+            ProcessParagraphCollection(endnote.Elements<Paragraph>(), toYez);
+        }
+    }
+
+    // ===== ProcessParagraphCollection メソッド =====
+    private static void ProcessParagraphCollection(IEnumerable<Paragraph> paragraphs, YEZIQ toYez)
+    {
+        foreach (var para in paragraphs)
+        {
+            RemoveRtlFormatting(para);
+
+            foreach (var run in para.Elements<Run>())
+            {
+                foreach (var text in run.Elements<Text>())
+                {
+                    text.Text = ConvertFromUEY(text.Text, toYez);
+                }
+            }
+        }
+    }
+
+    // ===== RemoveRtlFormatting メソッド =====
+    private static void RemoveRtlFormatting(Paragraph para)
+    {
+        var biDi = para.ParagraphProperties?.Elements<BiDi>().FirstOrDefault();
+        biDi?.Parent?.RemoveChild(biDi);
+
+        foreach (var run in para.Elements<Run>())
+        {
+            var rlt = run.RunProperties?.Elements<RightToLeftText>().FirstOrDefault();
+            rlt?.Parent?.RemoveChild(rlt);
+        }
+    }
+
+    // ===== ConvertFromUEY メソッド =====
+    private static string ConvertFromUEY(string text, YEZIQ toYez)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        string converted = toYez == YEZIQ.ULY
+            ? UEY2ULY(text)
+            : UEY2USY(text);
+
+        return toYez == YEZIQ.ULY
+            ? ULYJumleChongYaz(converted)
+            : USYJumleChongYaz(converted);
+    }
+
+    // ===== WordFromULY メソッド =====
     public static string WordFromULY(string orgfileNM, YEZIQ toYez)
     {
-		string newfilnm;
-        if (toYez == YEZIQ.UEY)
+        if (string.IsNullOrEmpty(orgfileNM))
+            throw new ArgumentNullException(nameof(orgfileNM));
+
+        if (!File.Exists(orgfileNM))
+            throw new FileNotFoundException($"File not found: {orgfileNM}");
+
+        string newfilnm = GenerateOutputFileNameULY(orgfileNM, toYez);
+
+        try
         {
-            newfilnm = orgfileNM.Insert(orgfileNM.Length - 5, "_ULY2UEY");
+            byte[] byteArray = File.ReadAllBytes(orgfileNM);
+            using (var stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, byteArray.Length);
+                stream.Position = 0;
+
+                using (var wordDoc = WordprocessingDocument.Open(stream, true))
+                {
+                    Body body = wordDoc.MainDocumentPart.Document.Body;
+                    var paras = body.Elements<Paragraph>().ToList();
+
+                    foreach (var para in paras)
+                    {
+                        ManageRtlFormatting(para, toYez);
+                        foreach (var run in para.Elements<Run>())
+                        {
+                            ManageRunRtlFormatting(run, toYez);
+                            foreach (var text in run.Elements<Text>())
+                            {
+                                text.Text = ConvertFromULY(text.Text, toYez);
+                            }
+                        }
+                    }
+
+                    if (wordDoc.MainDocumentPart.FootnotesPart != null)
+                    {
+                        ProcessFootnotesULY(wordDoc.MainDocumentPart.FootnotesPart, toYez);
+                    }
+
+                    if (wordDoc.MainDocumentPart.EndnotesPart != null)
+                    {
+                        ProcessEndnotesULY(wordDoc.MainDocumentPart.EndnotesPart, toYez);
+                    }
+                }
+
+                stream.Position = 0;
+                File.WriteAllBytes(newfilnm, stream.ToArray());
+            }
         }
-        else
+        catch (UnauthorizedAccessException ex)
         {
-            newfilnm = orgfileNM.Insert(orgfileNM.Length - 5, "_ULY2USY");
+            throw new InvalidOperationException($"Access denied to file: {orgfileNM}", ex);
+        }
+        catch (IOException ex)
+        {
+            throw new InvalidOperationException($"Error processing file: {orgfileNM}", ex);
         }
 
-        byte[] byteArray = File.ReadAllBytes(orgfileNM);
-        using (var stream = new MemoryStream())
+        return newfilnm;
+    }
+
+    // ===== ProcessFootnotesULY メソッド =====
+    private static void ProcessFootnotesULY(FootnotesPart footnotesPart, YEZIQ toYez)
+    {
+        if (footnotesPart?.Footnotes == null)
+            return;
+
+        var footnotes = footnotesPart.Footnotes.Elements<Footnote>().ToList();
+
+        foreach (var footnote in footnotes)
         {
-            stream.Write(byteArray, 0, byteArray.Length);
-            using (var wordDoc = WordprocessingDocument.Open(stream, true))
+            ProcessParagraphCollectionULY(footnote.Elements<Paragraph>(), toYez);
+        }
+    }
+
+    // ===== ProcessEndnotesULY メソッド =====
+    private static void ProcessEndnotesULY(EndnotesPart endnotesPart, YEZIQ toYez)
+    {
+        if (endnotesPart?.Endnotes == null)
+            return;
+
+        var endnotes = endnotesPart.Endnotes.Elements<Endnote>().ToList();
+
+        foreach (var endnote in endnotes)
+        {
+            ProcessParagraphCollectionULY(endnote.Elements<Paragraph>(), toYez);
+        }
+    }
+
+    // ===== ProcessParagraphCollectionULY メソッド =====
+    private static void ProcessParagraphCollectionULY(IEnumerable<Paragraph> paragraphs, YEZIQ toYez)
+    {
+        foreach (var para in paragraphs)
+        {
+            ManageRtlFormatting(para, toYez);
+            foreach (var run in para.Elements<Run>())
             {
-                Body body = wordDoc.MainDocumentPart.Document.Body;
-                var paras = body.Elements<Paragraph>();
-                foreach (var para in paras)
+                ManageRunRtlFormatting(run, toYez);
+                foreach (var text in run.Elements<Text>())
                 {
-					if (toYez == YEZIQ.UEY)
-					{
-						if (para.ParagraphProperties == null)
-						{
-                            para.ParagraphProperties = new ParagraphProperties(new BiDi());
-                        }
-                        else 
-						{
-							para.ParagraphProperties.AppendChild(new BiDi());
-						}
-					}
-                    foreach (var run in para.Elements<Run>())
+                    text.Text = ConvertFromULY(text.Text, toYez);
+                }
+            }
+        }
+    }
+
+    // ===== WordFromUSY メソッド =====
+    public static string WordFromUSY(string orgfileNM, YEZIQ toYez)
+    {
+        if (string.IsNullOrEmpty(orgfileNM))
+            throw new ArgumentNullException(nameof(orgfileNM));
+
+        if (!File.Exists(orgfileNM))
+            throw new FileNotFoundException($"File not found: {orgfileNM}");
+
+        string newfilnm = GenerateOutputFileNameUSY(orgfileNM, toYez);
+
+        try
+        {
+            byte[] byteArray = File.ReadAllBytes(orgfileNM);
+            using (var stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, byteArray.Length);
+                stream.Position = 0;
+
+                using (var wordDoc = WordprocessingDocument.Open(stream, true))
+                {
+                    Body body = wordDoc.MainDocumentPart.Document.Body;
+                    var paras = body.Elements<Paragraph>().ToList();
+
+                    foreach (var para in paras)
                     {
-						if (toYez == YEZIQ.UEY)
-						{
-							if (run.RunProperties == null)
-							{
-								run.RunProperties = new RunProperties(new RightToLeftText());
-                            }
-							else 
-							{
-								run.RunProperties.AppendChild(new RightToLeftText());
-                            }
-                        }
-                        foreach (var text in run.Elements<Text>())
+                        ManageRtlFormatting(para, toYez);
+                        foreach (var run in para.Elements<Run>())
                         {
-                            if (toYez == YEZIQ.UEY)
+                            ManageRunRtlFormatting(run, toYez);
+                            foreach (var text in run.Elements<Text>())
                             {
-                                text.Text = ULY2UEY(text.Text);
-                            }
-                            else
-                            {
-                                text.Text = ULY2USY(text.Text);
+                                text.Text = ConvertFromUSY(text.Text, toYez);
                             }
                         }
                     }
+
+                    if (wordDoc.MainDocumentPart.FootnotesPart != null)
+                    {
+                        ProcessFootnotesUSY(wordDoc.MainDocumentPart.FootnotesPart, toYez);
+                    }
+
+                    if (wordDoc.MainDocumentPart.EndnotesPart != null)
+                    {
+                        ProcessEndnotesUSY(wordDoc.MainDocumentPart.EndnotesPart, toYez);
+                    }
                 }
+
+                stream.Position = 0;
+                File.WriteAllBytes(newfilnm, stream.ToArray());
             }
-            stream.Position = 0;
-            File.WriteAllBytes(newfilnm, stream.ToArray());
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            throw new InvalidOperationException($"Access denied to file: {orgfileNM}", ex);
+        }
+        catch (IOException ex)
+        {
+            throw new InvalidOperationException($"Error processing file: {orgfileNM}", ex);
+        }
+
         return newfilnm;
     }
-    public static string WordFromUSY(string orgfileNM, YEZIQ toYez)
+
+    // ===== ProcessFootnotesUSY メソッド =====
+    private static void ProcessFootnotesUSY(FootnotesPart footnotesPart, YEZIQ toYez)
     {
-		string newfilnm;
-        if (toYez == YEZIQ.UEY)
+        if (footnotesPart?.Footnotes == null)
+            return;
+
+        var footnotes = footnotesPart.Footnotes.Elements<Footnote>().ToList();
+
+        foreach (var footnote in footnotes)
         {
-            newfilnm = orgfileNM.Insert(orgfileNM.Length - 5, "_USY2UEY");
+            ProcessParagraphCollectionUSY(footnote.Elements<Paragraph>(), toYez);
+        }
+    }
+
+    // ===== ProcessEndnotesUSY メソッド =====
+    private static void ProcessEndnotesUSY(EndnotesPart endnotesPart, YEZIQ toYez)
+    {
+        if (endnotesPart?.Endnotes == null)
+            return;
+
+        var endnotes = endnotesPart.Endnotes.Elements<Endnote>().ToList();
+
+        foreach (var endnote in endnotes)
+        {
+            ProcessParagraphCollectionUSY(endnote.Elements<Paragraph>(), toYez);
+        }
+    }
+
+    // ===== ProcessParagraphCollectionUSY メソッド =====
+    private static void ProcessParagraphCollectionUSY(IEnumerable<Paragraph> paragraphs, YEZIQ toYez)
+    {
+        foreach (var para in paragraphs)
+        {
+            ManageRtlFormatting(para, toYez);
+            foreach (var run in para.Elements<Run>())
+            {
+                ManageRunRtlFormatting(run, toYez);
+                foreach (var text in run.Elements<Text>())
+                {
+                    text.Text = ConvertFromUSY(text.Text, toYez);
+                }
+            }
+        }
+    }
+
+    // ===== ManageRtlFormatting メソッド =====
+    private static void ManageRtlFormatting(Paragraph para, YEZIQ toYez)
+    {
+        if (toYez != YEZIQ.UEY)
+            return;
+
+        if (para.ParagraphProperties == null)
+        {
+            para.ParagraphProperties = new ParagraphProperties(new BiDi());
         }
         else
         {
-            newfilnm = orgfileNM.Insert(orgfileNM.Length - 5, "_USY2ULY");
-        }
-        byte[] byteArray = File.ReadAllBytes(orgfileNM);
-        using (var stream = new MemoryStream())
-        {
-            stream.Write(byteArray, 0, byteArray.Length);
-            using (var wordDoc = WordprocessingDocument.Open(stream, true))
+            var existingBiDi = para.ParagraphProperties.Elements<BiDi>().FirstOrDefault();
+            if (existingBiDi == null)
             {
-                Body body = wordDoc.MainDocumentPart.Document.Body;
-                var paras = body.Elements<Paragraph>();
-                foreach (var para in paras)
-                {
-                    if (toYez == YEZIQ.UEY)
-                    {
-                        if (para.ParagraphProperties == null)
-                        {
-                            para.ParagraphProperties = new ParagraphProperties(new BiDi());
-                        }
-                        else
-                        {
-                            para.ParagraphProperties.AppendChild(new BiDi());
-                        }
-                    }
-                    foreach (var run in para.Elements<Run>())
-                    {
-                        if (toYez == YEZIQ.UEY)
-                        {
-                            if (run.RunProperties == null)
-                            {
-                                run.RunProperties = new RunProperties(new RightToLeftText());
-                            }
-                            else
-                            {
-                                run.RunProperties.AppendChild(new RightToLeftText());
-                            }
-                        }
-                        foreach (var text in run.Elements<Text>())
-                        {
-                            if (toYez == YEZIQ.UEY)
-                            {
-                                text.Text = USY2UEY(text.Text);
-                            }
-                            else
-                            {
-                                text.Text = USY2ULY(text.Text);
-                            }
-                        }
-                    }
-                }
+                para.ParagraphProperties.AppendChild(new BiDi());
             }
-            stream.Position = 0;
-            File.WriteAllBytes(newfilnm, stream.ToArray());
         }
-        return newfilnm;
+    }
+
+    // ===== ManageRunRtlFormatting メソッド =====
+    private static void ManageRunRtlFormatting(Run run, YEZIQ toYez)
+    {
+        if (toYez != YEZIQ.UEY)
+            return;
+
+        if (run.RunProperties == null)
+        {
+            run.RunProperties = new RunProperties(new RightToLeftText());
+        }
+        else
+        {
+            var existingRlt = run.RunProperties.Elements<RightToLeftText>().FirstOrDefault();
+            if (existingRlt == null)
+            {
+                run.RunProperties.AppendChild(new RightToLeftText());
+            }
+        }
+    }
+
+    // ===== ConvertFromULY メソッド =====
+    private static string ConvertFromULY(string text, YEZIQ toYez)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        return toYez == YEZIQ.UEY
+            ? ULY2UEY(text)
+            : ULY2USY(text);
+    }
+
+    // ===== ConvertFromUSY メソッド =====
+    private static string ConvertFromUSY(string text, YEZIQ toYez)
+    {
+        if (string.IsNullOrEmpty(text))
+            return text;
+
+        return toYez == YEZIQ.UEY
+            ? USY2UEY(text)
+            : USY2ULY(text);
+    }
+
+    // ===== GenerateOutputFileName メソッド =====
+    private static string GenerateOutputFileName(string orgfileNM, YEZIQ toYez)
+    {
+        string directory = Path.GetDirectoryName(orgfileNM);
+        string filename = Path.GetFileNameWithoutExtension(orgfileNM);
+        string extension = Path.GetExtension(orgfileNM);
+        string suffix = toYez == YEZIQ.ULY ? "_UEY2ULY" : "_UEY2USY";
+
+        return Path.Combine(directory, $"{filename}{suffix}{extension}");
+    }
+
+    // ===== GenerateOutputFileNameULY メソッド =====
+    private static string GenerateOutputFileNameULY(string orgfileNM, YEZIQ toYez)
+    {
+        string directory = Path.GetDirectoryName(orgfileNM);
+        string filename = Path.GetFileNameWithoutExtension(orgfileNM);
+        string extension = Path.GetExtension(orgfileNM);
+        string suffix = toYez == YEZIQ.UEY ? "_ULY2UEY" : "_ULY2USY";
+
+        return Path.Combine(directory, $"{filename}{suffix}{extension}");
+    }
+
+    // ===== GenerateOutputFileNameUSY メソッド =====
+    private static string GenerateOutputFileNameUSY(string orgfileNM, YEZIQ toYez)
+    {
+        string directory = Path.GetDirectoryName(orgfileNM);
+        string filename = Path.GetFileNameWithoutExtension(orgfileNM);
+        string extension = Path.GetExtension(orgfileNM);
+        string suffix = toYez == YEZIQ.UEY ? "_USY2UEY" : "_USY2ULY";
+
+        return Path.Combine(directory, $"{filename}{suffix}{extension}");
     }
 }

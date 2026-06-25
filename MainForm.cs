@@ -1882,21 +1882,28 @@ namespace UyghurEditPP
             Regex regbash = new Regex($@"([{OPEN}]+)[ \t]+", RegexOptions.Compiled);
             Regex regaxir = new Regex($@"[ \t]+([{CLOSE}]+)", RegexOptions.Compiled);
             Regex regaxir_post = new Regex($@"([{CLOSE}])([^ \t\r\n{OPEN}{CLOSE}])", RegexOptions.Compiled);
+
+            // ★ 新規追加：閉じ記号/句読点の直後に開き記号が続く場合、スペースを挿入
+            Regex regclose_open = new Regex($@"([{CLOSE}])([{OPEN}])", RegexOptions.Compiled);
+
             Regex regkopbosh = new Regex(@"[ ]{2,}", RegexOptions.Compiled);
             Regex regbosh_qur = new Regex(@"[ \t]*([\r\n]+)[ \t]*", RegexOptions.Compiled);
             Regex reqemarisiboshluq = new Regex(@"(\d+\.)[ ](\d+)", RegexOptions.Compiled);
             Regex urlboshluq = new Regex(@"https?:[ ]?//[\w/:%#\$&\?\(\)~\.=\+\- ]+", RegexOptions.Compiled);
 
-            string txt = siziq.Replace(gEditor.Text, "-").Replace('\u201C', '«').Replace('\u201D', '»');
+            string txt = siziq.Replace(gEditor.Text, "-")
+                              .Replace('\u201C', '«')
+                              .Replace('\u201D', '»');
 
             txt = regbash.Replace(txt, m => m.Groups[1].Value);
             txt = regaxir.Replace(txt, m => m.Groups[1].Value);
             txt = regaxir_post.Replace(txt, m => m.Groups[1].Value + " " + m.Groups[2].Value);
+            txt = regclose_open.Replace(txt, m => m.Groups[1].Value + " " + m.Groups[2].Value); // ★
             txt = regkopbosh.Replace(txt, " ");
             txt = regbosh_qur.Replace(txt, m => m.Groups[1].Value);
             txt = reqemarisiboshluq.Replace(txt, "$1$2");
             txt = urlboshluq.Replace(txt, m => m.Value.Replace(" ", ""));
-			
+				
 			MenuYengiClick(null, null);
             gEditor.Text = txt;
             if (Uyghur.Detect(txt) == Uyghur.YEZIQ.UEY)
