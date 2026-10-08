@@ -25,6 +25,7 @@ namespace UyghurEditPP
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			UsePerMonitorDpi();
+			AppFonts.Load();
 			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 			Application.ThreadException += ThreadException;
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;

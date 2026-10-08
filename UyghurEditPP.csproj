@@ -130,6 +130,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppFonts.cs" />
     <Compile Include="AppPaths.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="CenteredMessageBox.cs" />

@@ -41,7 +41,7 @@ namespace UyghurEditPP.FindReplace
 			cbWildcards.IsChecked = useWildcards;
 			cbSearchUp.IsChecked = searchUp;
 			
-			this.FontFamily = new System.Windows.Media.FontFamily("UKIJ Tuz");
+			this.FontFamily = AppFonts.Wpf(AppFonts.UkijTuz);
 			this.FontSize = 14;
 			repCount = 0;
 			this.txtFind.PreviewTextInput += UserControl_TextInput;

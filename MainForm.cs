@@ -94,6 +94,7 @@ namespace UyghurEditPP
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			AppFonts.Fix(this);
 			// Flat bars with thin lines between them (UiTheme.cs).
 			ToolStripManager.Renderer = new UiRenderer(UiTheme.Current);
 			MakeThemeMenu();
@@ -371,7 +372,7 @@ namespace UyghurEditPP
 				curEdit.ShowLineNumbers = true;
 				//curEdit.Options.ShowEndOfLine = true;
 				
-				curEdit.FontFamily = new System.Windows.Media.FontFamily(gFontName);
+				curEdit.FontFamily = AppFonts.Wpf(gFontName);
 				curEdit.FontSize   = gFontSize;
 				curEdit.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				curEdit.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
@@ -848,7 +849,7 @@ namespace UyghurEditPP
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			int codepage;
-			this.Font = new Font("UKIJ Tuz",12);
+			this.Font = AppFonts.Create(AppFonts.UkijTuz, 12);
 			this.menuBar.Font = this.Font;
 			this.stBar.Font = this.Font;
 			this.mainTab.Font = this.Font;
@@ -2262,6 +2263,7 @@ namespace UyghurEditPP
 		void MenuHeqqideClick(object sender, EventArgs e)
 		{
 			FormHeqqide heqqide = new FormHeqqide();
+			AppFonts.Fix(heqqide);
 			UiThemer.Apply(heqqide, UiTheme.Current);
 			heqqide.ShowInTaskbar = false;
 			heqqide.ShowDialog();
@@ -2311,6 +2313,7 @@ namespace UyghurEditPP
 		{
 			if (gOCR==null || gOCR.IsDisposed){
 				gOCR = new OCRForm(gEditor);
+				AppFonts.Fix(gOCR);
 				UiThemer.Apply(gOCR, UiTheme.Current);
 				gOCR.Owner = this;
 				gOCR.ShowInTaskbar = false;
@@ -2321,7 +2324,7 @@ namespace UyghurEditPP
 		void MenuFontClick(object sender, EventArgs e)
 		{
 			FontDialog fontDlg = new FontDialog();
-			Font tmpFont = new Font(gFontName,gFontSize);
+			Font tmpFont = AppFonts.Create(gFontName,gFontSize);
 			fontDlg.Font = tmpFont;
 			fontDlg.ShowApply = true;
 			fontDlg.ShowColor = false;
@@ -2338,7 +2341,7 @@ namespace UyghurEditPP
 				gConfig["FONTSTYLE"] = gFontStyle;
 				gConfig["FONTWEIGHT"] = gFontWeight;
 				
-				gEditor.FontFamily = new System.Windows.Media.FontFamily(gFontName);
+				gEditor.FontFamily = AppFonts.Wpf(gFontName);
 				gEditor.FontSize   = gFontSize;
 				gEditor.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				gEditor.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
