@@ -182,5 +182,15 @@
   " qur": {
     "jpn": "",
     "eng": ""
+  },
+  "An unexpected error occurred.": {
+    "uly": "",
+    "jpn": "",
+    "eng": "An unexpected error occurred."
+  },
+  "Details were saved to:": {
+    "uly": "",
+    "jpn": "",
+    "eng": "Details were saved to:"
   }
 }
