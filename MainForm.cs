@@ -753,19 +753,8 @@ namespace UyghurEditPP
 		{
 			String lang;
 			string imyeziq;
-			if(File.Exists(gConfName)){
-				try{
-					using(FileStream fs = new FileStream(gConfName, FileMode.Open, FileAccess.Read))
-					{
-						BinaryFormatter bf = new BinaryFormatter();
-						gConfig = (Hashtable)bf.Deserialize(fs);
-					}
-				}
-				catch(Exception ee){
-					System.Diagnostics.Debug.WriteLine(ee.StackTrace);
-					gConfig = new Hashtable();
-				}
-			}
+			// uyghuredit.json; the old uyghuredit.cfg (gConfName) is only read when there is no JSON file yet.
+			gConfig = AppSettings.Load(AppPaths.DataFile(AppSettings.FileName), gConfName);
 			
 			if(gConfig.ContainsKey("LANG"))
 			{
@@ -1728,10 +1717,7 @@ namespace UyghurEditPP
 			{
 				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
-				SafeFile.Write(gConfName, fs => {
-					BinaryFormatter formatter = new BinaryFormatter();
-					formatter.Serialize(fs, gConfig);
-				});
+				AppSettings.Save(AppPaths.DataFile(AppSettings.FileName), gConfig);
 			}
 			catch(Exception er)
 			{
