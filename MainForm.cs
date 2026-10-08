@@ -1666,10 +1666,10 @@ namespace UyghurEditPP
 			{
 				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
-				using(FileStream fs = new FileStream(gConfName, FileMode.Create)){
+				SafeFile.Write(gConfName, fs => {
 					BinaryFormatter formatter = new BinaryFormatter();
 					formatter.Serialize(fs, gConfig);
-				}
+				});
 			}
 			catch(Exception er)
 			{
