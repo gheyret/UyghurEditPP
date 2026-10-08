@@ -954,6 +954,7 @@ namespace UyghurEditPP
 			menuIzlar.ToolTipText = gLang.GetText("Yéqinda tehrirlen’gen höjjetlerning isimliri");
 
 			menuAxirlashtur.Text = gLang.GetText("Axirlashtur");
+			stBarQur.Text = gLang.GetText("Orun");
 
 			menuTehrir.Text = gLang.GetText("Tehrirlesh");
 			menuFont.Text = gLang.GetText("Xet Nusxisi");

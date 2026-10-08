@@ -591,5 +591,13 @@
   "Birla Bölek": {
     "jpn": "単一ブロック",
     "eng": "Single block"
+  },
+  "Orun": {
+    "jpn": "位置",
+    "eng": "Position"
+  },
+  "neshrini ishletken": {
+    "jpn": "Tesseract {0} を使用",
+    "eng": "using Tesseract {0}"
   }
 }
