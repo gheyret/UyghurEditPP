@@ -27,6 +27,13 @@ namespace UyghurEditPP
 			LanguaID ="uly";
 		}
 		
+		// For tests: texts from the given JSON instead of langdata.json.
+		internal Language(string json)
+		{
+			gLangJson = DynaJson.Parse(json);
+			LanguaID ="uly";
+		}
+
 		public String LanguaID{
 			get;
 			set;
@@ -48,24 +55,21 @@ namespace UyghurEditPP
 			}
 		}
 		
-		StringBuilder gBuf = new StringBuilder();
-		List<string> gTmp = new List<string>();
 		public String GetText(String key)
 		{
 			
 			String ret=key;
 			if(gLangJson!=null && (LanguaID.Equals("jpn")||LanguaID.Equals("eng"))){
+				// A missing Japanese text falls back to English, a missing English text to the key.
 				if(gLangJson.IsDefined(key)){
-					ret = gLangJson[key][LanguaID];
+					if(LanguaID.Equals("jpn")){
+						ret = Terjime(key, "jpn");
+					}
+					if(string.IsNullOrEmpty(ret) || LanguaID.Equals("eng")){
+						ret = Terjime(key, "eng");
+					}
 					if(string.IsNullOrEmpty(ret)){
 						ret = key;
-					}
-				}
-				else{
-					if(gTmp.Contains(key)==false){
-						gTmp.Add(key);
-						string str= String.Format("\"{0}\":{{\"jpn\":\"\",\"eng\":\"\"}},",key);
-						gBuf.AppendLine(str);
 					}
 				}
 			}
@@ -141,9 +145,13 @@ namespace UyghurEditPP
 			return sb.ToString();
 		}
 		
-		public void Save(string filename){
-			string jstr = "{" + gBuf.ToString()+ "}";
-			File.WriteAllText(filename,jstr,Encoding.UTF8);
+		// The text of key in the given language, or null when it has none.
+		string Terjime(string key, string til)
+		{
+			if(!gLangJson[key].IsDefined(til)){
+				return null;
+			}
+			return gLangJson[key][til];
 		}
 	}
 }
