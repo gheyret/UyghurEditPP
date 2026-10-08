@@ -207,5 +207,10 @@
     "uly": "",
     "jpn": "",
     "eng": "OCR could not start. Please check that this folder contains the language data (.traineddata) files:"
+  },
+  "Unsaved changes will be discarded. Continue?": {
+    "uly": "",
+    "jpn": "",
+    "eng": "Unsaved changes will be discarded. Continue?"
   }
 }

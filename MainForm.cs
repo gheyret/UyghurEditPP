@@ -2055,15 +2055,31 @@ namespace UyghurEditPP
 			if(menu.Checked) return;
 			
 			int codePage = (int)menu.Tag;
+			string filenm = mainTab.SelectedTab.Tag.ToString();
+			if(!File.Exists(filenm)){
+				// Not saved yet: there is nothing to read again, only the encoding for saving changes.
+				if(codePage>=0){
+					gEditor.Encoding = System.Text.Encoding.GetEncoding(codePage);
+					gEditor.CodePage = codePage;
+					TabControl1SelectedIndexChanged(null,null);
+				}
+				return;
+			}
+			// The file is read again in the new encoding, which throws away unsaved edits.
+			// Do not offer to save here: if the file was opened with the wrong encoding,
+			// saving would write the garbled text over the original bytes.
+			if(gEditor.IsModified){
+				DialogResult dr = MessageBox.Show(this, gLang.GetText("Unsaved changes will be discarded. Continue?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
+				if(dr != DialogResult.OK){
+					return;
+				}
+			}
 			if(-3==codePage||
 			   -2==codePage||
 			   -1==codePage
 			  )
 			{
-				FileStream inStrm = File.OpenRead(mainTab.SelectedTab.Tag.ToString());
-				byte[] Buffer=new byte[inStrm.Length];
-				inStrm.Read(Buffer,0,Buffer.Length);
-				inStrm.Close();
+				byte[] Buffer=File.ReadAllBytes(filenm);
 				switch(codePage)
 				{
 					case -1:
@@ -2083,7 +2099,7 @@ namespace UyghurEditPP
 			}
 			else{
 				gEditor.Encoding = System.Text.Encoding.GetEncoding(codePage);
-				gEditor.Load(mainTab.SelectedTab.Tag.ToString());
+				gEditor.Load(filenm);
 			}
 			
 			TabControl1SelectedIndexChanged(null,null);
