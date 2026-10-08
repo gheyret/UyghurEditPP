@@ -287,12 +287,8 @@ namespace UyghurEditPP
 			if(menuNamzat == gMenuSozToghra)
 			{
 				spell.SaveToIshletkuchi(soz);
-				// The other scripts' dictionaries that are already loaded learn it too.
-				foreach(UyghurSpell bashqa in gImlaAmbarliri.Loaded){
-					if(bashqa!=spell){
-						bashqa.IshletkuchiSozQosh(soz);
-					}
-				}
+				// The other scripts' dictionaries learn it too, also those still loading.
+				gImlaAmbarliri.SozQoshuldi(soz, spell);
 			}
 		}
 		
@@ -643,11 +639,7 @@ namespace UyghurEditPP
 			
 			if(gImlab.SpellCheker!=null){
 				gImlab.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
-				foreach(UyghurSpell bashqa in gImlaAmbarliri.Loaded){
-					if(bashqa!=gImlab.SpellCheker){
-						bashqa.XataToghraQosh(xatasoz,nsoz);
-					}
-				}
+				gImlaAmbarliri.TuzitishQoshuldi(xatasoz, nsoz, gImlab.SpellCheker);
 			}
 			
 			//Barliq Xatani izdep tepip almashturidu

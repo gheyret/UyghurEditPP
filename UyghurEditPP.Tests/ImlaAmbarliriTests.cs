@@ -113,5 +113,36 @@ namespace UyghurEditPP.Tests
 
 			Assert.IsTrue(uly.IsListed(Uyghur.UEY2ULY("ئالما")));
 		}
+
+		// A word added while another script's dictionary is still loading reaches it too.
+		[TestMethod]
+		public void SozQoshuldi_WhileLoading_IsAppliedWhenReady()
+		{
+			ManualResetEventSlim release = new ManualResetEventSlim(false);
+			ImlaAmbarliri ambarlar = new ImlaAmbarliri(
+				() => { release.Wait(); return new MemoryStream(Encoding.UTF8.GetBytes("ئۆي 5\n")); },
+				() => { KenjiSpell s = new KenjiSpell(); s.SetFileNames(Path.Combine(gFolder, "i.txt"), Path.Combine(gFolder, "u.txt"), Path.Combine(gFolder, "s.txt")); return s; });
+			Task<UyghurSpell> uly = ambarlar.Get(Uyghur.YEZIQ.ULY);
+
+			ambarlar.SozQoshuldi("ئالما", null);
+			ambarlar.TuzitishQoshuldi("ئالمە", "ئالما", null);
+			release.Set();
+
+			Assert.IsTrue(uly.Result.IsListed(Uyghur.UEY2ULY("ئالما")));
+			Assert.AreEqual(Uyghur.UEY2ULY("ئالما"), uly.Result.Toghrisi(Uyghur.UEY2ULY("ئالمە")));
+		}
+
+		[TestMethod]
+		public void SozQoshuldi_ReachesTheOtherReadyDictionaries()
+		{
+			ImlaAmbarliri ambarlar = Create();
+			UyghurSpell uey = ambarlar.Get(Uyghur.YEZIQ.UEY).Result;
+			UyghurSpell uly = ambarlar.Get(Uyghur.YEZIQ.ULY).Result;
+			uey.Add("ئالما");  // the source dictionary has it already
+
+			ambarlar.SozQoshuldi("ئالما", uey);
+
+			Assert.IsTrue(uly.IsListed(Uyghur.UEY2ULY("ئالما")));
+		}
 	}
 }
