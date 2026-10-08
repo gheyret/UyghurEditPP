@@ -93,7 +93,7 @@ namespace UyghurEditPP.Tests
 			lang.LanguaID = "uly";
 			Assert.AreEqual(key, lang.GetText(key));
 			lang.LanguaID = "eng";
-			Assert.AreEqual(key, lang.GetText(key));
+			StringAssert.Contains(lang.GetText(key), "OCR");
 			lang.LanguaID = "uey";
 			StringAssert.Contains(lang.GetText(key), "\u200EOCR\u200E");
 		}

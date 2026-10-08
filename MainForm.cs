@@ -908,6 +908,8 @@ namespace UyghurEditPP
 			}
 			gConfig["LANG"] = lang;
 			gLang.LanguaID = lang;
+			// English and Japanese use the Windows menu font; the Uyghur UI keeps UKIJ Tuz.
+			this.menuBar.Font = ("eng".Equals(lang) || "jpn".Equals(lang)) ? SystemFonts.MenuFont : this.Font;
 			if("uey".Equals(lang)){
 				this.menuBar.RightToLeft = RightToLeft.Yes;
 				//this.menuBar.Font = new Font("UKIJ Tuz",14.0f);
@@ -920,7 +922,6 @@ namespace UyghurEditPP
 				this.menuBar.RightToLeft = RightToLeft.No;
 //				this.stBar.RightToLeft =  RightToLeft.No;
 
-				this.menuBar.Font = this.Font;
 //				this.stBar.Font = this.menuBar.Font;
 //				stBarUchur.Font = this.menuBar.Font;
 			}
@@ -964,8 +965,8 @@ namespace UyghurEditPP
 			menuKochur.Text = gLang.GetText("Köchür");
 			menuChapla.Text = gLang.GetText("Chapla");
 			menuHemme.Text = gLang.GetText("Hemmini Talla");
-			menuChaplaUighursoft.Text = "«Uighursoft»" + gLang.GetText("ningkini Chapla");
-			menuChaplaDuldul.Text = "«Duldul»" + gLang.GetText("ningkini Chapla");
+			menuChaplaUighursoft.Text = WithName("«Uighursoft»", gLang.GetText("ningkini Chapla"));
+			menuChaplaDuldul.Text = WithName("«Duldul»", gLang.GetText("ningkini Chapla"));
 			menuChaplaBashqilar.Text = gLang.GetText("Bashqilarningkini Chapla");
 			menuHojjetBash.Text = gLang.GetText("Höjjetning Béshigha Yötkel");
 			menuHojjetAxir.Text = gLang.GetText("Höjjetning Axirigha Yötkel");
@@ -1001,7 +1002,7 @@ namespace UyghurEditPP
 			menuYardem.Text = gLang.GetText("Yardem");
 			menuKunupka.Text = gLang.GetText("Kona Yéziq Kunupka Orunlashturulushi");
 			menuULElipbe.Text = gLang.GetText("Uyghur Latin Yéziqi Élipbesi");
-			menuHeqqide.Text = "UyghurEdit++" + gLang.GetText("Heqqide");
+			menuHeqqide.Text = WithName("UyghurEdit++", gLang.GetText("Heqqide"));
 
 			toolYengi.ToolTipText = gLang.GetText("Yéngi höjjet yasaydu");
 			toolAch.ToolTipText = gLang.GetText("Diskidiki höjjetni oqup tehrirleydu");
@@ -1038,10 +1039,10 @@ namespace UyghurEditPP
 			menuMakeHTML.Text = gLang.GetText("Addiy") + " HTML " + gLang.GetText("Yasa");
 			menuMakeHTML.ToolTipText = gLang.GetText("Hazirqi tékisttin addiy") + " HTML " + gLang.GetText("hasil qilidu.");
 
-			menuSaveToDOCX.Text = "Word " + gLang.GetText("Höjjitide Saqla");
+			menuSaveToDOCX.Text = WithName("Word ", gLang.GetText("Höjjitide Saqla"));
 			menuSaveToDOCX.ToolTipText = gLang.GetText("Tehrirlewatqan höjjetni") + " Word " + gLang.GetText("höjjiti pichimida(formatida) saqlaydu.");
 
-			menuWordAylandur.Text = "Word " + gLang.GetText("Höjjitini Aylandur");
+			menuWordAylandur.Text = WithName("Word ", gLang.GetText("Höjjitini Aylandur"));
 			//            menuWordAylandur.ToolTipText = "Word " + gLang.GetText(" höjjitining bet qurulmisini özgertmey, Uyghurche, Latinche we Silawiyanchigha aylanduridu");
 
 			menuWordUEY2ULY.Text = gLang.GetText("Uyghurche🠊Latinche");
@@ -1065,6 +1066,16 @@ namespace UyghurEditPP
 
 		}
 
+
+		// A name (a product or a file type) put in front of a translated text, as the Uyghur text
+		// reads; an English or Japanese text can place it elsewhere with {0}.
+		static string WithName(string name, string text)
+		{
+			if(text.Contains("{0}")){
+				return text.Replace("{0}", name.Trim());
+			}
+			return name + text;
+		}
 
 		void MenuTilClick(object sender, EventArgs e)
 		{
@@ -1744,7 +1755,6 @@ namespace UyghurEditPP
                 System.Diagnostics.Debug.WriteLine("Failed to serialize. Reason: " + er.Message);
 				ErrorLog.Write(er);
 			}
-			//gLang.Save(Path.Combine(Application.StartupPath, "langdata.txt"));
 		}
 		void MenuAxirlashturClick(object sender, EventArgs e)
 		{

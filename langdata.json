@@ -1,231 +1,595 @@
 ﻿{
   "Höjjet": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "ファイル",
+    "eng": "File"
   },
   "Yéngi höjjet": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "新規",
+    "eng": "New"
   },
   "Yéngi höjjet yasaydu": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "新しい文書を作成します",
+    "eng": "Creates a new document"
   },
   "Ach": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "開く",
+    "eng": "Open"
   },
   "Diskidiki höjjetni oqup tehrirleydu": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "ディスク上のファイルを開いて編集します",
+    "eng": "Opens a file from disk for editing"
   },
   "Saqla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "保存",
+    "eng": "Save"
   },
   "Tehrirlewatqan höjjetni diskigha saqlaydu": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "編集中の文書をディスクに保存します",
+    "eng": "Saves the current document to disk"
   },
   "Bashqa Isimda Saqla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "名前を付けて保存",
+    "eng": "Save As"
   },
   "Bésip Chiqar": {
-    "jpn": "",
-    "eng": ""
-  },
-  "Tehrirlewatqan höjjetni printérda bésip chiqiridu": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "印刷",
+    "eng": "Print"
   },
   "Höjjetning Kodi": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "文字コード",
+    "eng": "Encoding"
   },
   "Izlar": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "最近使ったファイル",
+    "eng": "Recent Files"
   },
   "Axirlashtur": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "終了",
+    "eng": "Exit"
   },
   "Tehrirlesh": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "編集",
+    "eng": "Edit"
   },
   "Qur Nomurini Körsetsun": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "行番号を表示",
+    "eng": "Show Line Numbers"
   },
   "Yéniwal": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "元に戻す",
+    "eng": "Undo"
   },
   "Pushayman Qil": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "やり直し",
+    "eng": "Redo"
   },
   "Öchür": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "削除",
+    "eng": "Delete"
   },
   "Kes": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "切り取り",
+    "eng": "Cut"
   },
   "Köchür": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "コピー",
+    "eng": "Copy"
   },
   "Chapla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "貼り付け",
+    "eng": "Paste"
   },
   "Hemmini Talla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "すべて選択",
+    "eng": "Select All"
   },
   "ningkini Chapla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "形式から貼り付け",
+    "eng": "Paste from {0}"
   },
   "Bashqilarningkini Chapla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "その他の形式から貼り付け",
+    "eng": "Paste from Other Fonts"
   },
   "Höjjetning Béshigha Yötkel": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "文書の先頭へ移動",
+    "eng": "Go to Start of Document"
   },
   "Höjjetning Axirigha Yötkel": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "文書の末尾へ移動",
+    "eng": "Go to End of Document"
   },
   "Körsitilgen Qurgha Yötkel": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "指定行へ移動",
+    "eng": "Go to Line"
   },
   "Chong Yézilishqa Özgert": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "大文字に変換",
+    "eng": "UPPERCASE"
   },
   "Kichik Yézilishqa Özgert": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "小文字に変換",
+    "eng": "lowercase"
   },
   "Bash Herpni Chong Yézilishqa Özgert": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "語頭を大文字に変換",
+    "eng": "Capitalize First Letters"
   },
   "Imla": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "綴り",
+    "eng": "Spelling"
   },
   "Uyghurchining Imlasini Közetsun": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "綴りを検査（ウイグル文字）",
+    "eng": "Check Spelling (Uyghur Script)"
   },
   "Latinchining Imlasini Közetsun": {
-    "jpn": "",
-    "eng": ""
-  },
-  "Slawyanchining Imlasini Közetsun": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "綴りを検査（ラテン文字）",
+    "eng": "Check Spelling (Latin Script)"
   },
   "Tinish Belgiler we Boshluqni Tengshe": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "句読点の前後の空白を整える",
+    "eng": "Fix Spaces Around Punctuation"
   },
   "Aptomatik Tekshür": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "自動訂正",
+    "eng": "Auto-Correct"
   },
   "Qorallar": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "ツール",
+    "eng": "Tools"
   },
   "Élipbe Tertipi Boyiche Tiz": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "字母順に並べ替え",
+    "eng": "Sort Alphabetically"
   },
   "Sözlerning Tekrarliqi": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "単語の出現回数",
+    "eng": "Word Frequency"
   },
   "Til-Yéziq": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "言語",
+    "eng": "Language"
   },
   "Yardem": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "ヘルプ",
+    "eng": "Help"
   },
   "Kona Yéziq Kunupka Orunlashturulushi": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "ウイグル文字のキーボード配列",
+    "eng": "Uyghur Script Keyboard Layout"
   },
   "Uyghur Latin Yéziqi Élipbesi": {
-    "jpn": "",
-    "eng": ""
-  },
-  "Uyghur Édit Heqqide": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "ウイグル語ラテン文字の字母表",
+    "eng": "Uyghur Latin Alphabet"
   },
   "Jemiy ": {
-    "jpn": "",
-    "eng": ""
-  },
-  " qur": {
-    "jpn": "",
-    "eng": ""
+    "jpn": "合計 ",
+    "eng": "Total: "
   },
   "An unexpected error occurred.": {
     "uly": "Kütülmigen xataliq körüldi.",
-    "jpn": "",
+    "jpn": "予期しないエラーが発生しました。",
     "eng": "An unexpected error occurred."
   },
   "Details were saved to:": {
     "uly": "Tepsilati munu höjjetke saqlandi:",
-    "jpn": "",
+    "jpn": "詳細は次の場所に保存しました:",
     "eng": "Details were saved to:"
   },
   "Could not save the word to the user dictionary:": {
     "uly": "Sözni ishletküchi lughitige saqliyalmidi:",
-    "jpn": "",
+    "jpn": "ユーザー辞書に単語を保存できませんでした:",
     "eng": "Could not save the word to the user dictionary:"
   },
   "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):": {
     "uly": "{Visual C++} ambiri kem bolghachqa {OCR} qozghalmidi. {Microsoft Visual C++ Redistributable (x64)} ni ornitip béqing:",
-    "jpn": "",
+    "jpn": "Visual C++ ランタイムのライブラリが無いため OCR を開始できませんでした。Microsoft Visual C++ 再頒布可能パッケージ (x64) をインストールしてください:",
     "eng": "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):"
   },
   "OCR could not start. Please check that this folder contains the language data (.traineddata) files:": {
     "uly": "{OCR} qozghalmidi. Töwendiki qisquchta til sanliq melumat ({.traineddata}) höjjetliri barmu, tekshürüp béqing:",
-    "jpn": "",
+    "jpn": "OCR を開始できませんでした。次のフォルダーに言語データ (.traineddata) があるか確認してください:",
     "eng": "OCR could not start. Please check that this folder contains the language data (.traineddata) files:"
   },
   "Unsaved changes will be discarded. Continue?": {
     "uly": "Saqlanmighan özgirishler tashliwétilidu. Dawamlashturamsiz?",
-    "jpn": "",
+    "jpn": "保存していない変更は破棄されます。続けますか?",
     "eng": "Unsaved changes will be discarded. Continue?"
   },
   "Loading the spelling dictionary...": {
     "uly": "Imla ambiri oquluwatidu...",
-    "jpn": "",
+    "jpn": "綴り辞書を読み込んでいます...",
     "eng": "Loading the spelling dictionary..."
   },
   "The spelling dictionary could not be loaded.": {
     "uly": "Imla ambirini oqughili bolmidi.",
-    "jpn": "",
+    "jpn": "綴り辞書を読み込めませんでした。",
     "eng": "The spelling dictionary could not be loaded."
   },
   "Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi": {
     "uly": "Uyghurche {OCR}(Resimdiki Yéziqni Tonush) Programmisi",
-    "jpn": "",
-    "eng": ""
+    "jpn": "ウイグル語 OCR（画像の文字認識）",
+    "eng": "Uyghur OCR (Text Recognition in Images)"
+  },
+  "Buningda töwendiki Ochuq Kodlar ishlitildi": {
+    "jpn": "このプログラムは次のオープンソースのコードを使っています",
+    "eng": "This program uses the following open-source code"
+  },
+  "Yéngiliqlarni bu yerdin körüng": {
+    "jpn": "最新情報はこちら",
+    "eng": "See what's new here"
+  },
+  "Oxshash xataliqlar tüzitildi": {
+    "jpn": "同じ誤りを訂正しました",
+    "eng": "Corrected the same mistakes"
+  },
+  "Tehrirlewatqan höjjetni diskigha bashqa isim bilen saqlaydu": {
+    "jpn": "編集中の文書を別の名前で保存します",
+    "eng": "Saves the current document under a new name"
+  },
+  "Tehrirlewatqan höjjettiki mezmunlar normal körünmise, bu yerni sinap béqing": {
+    "jpn": "文書の文字が正しく表示されないときに試してください",
+    "eng": "Try this if the text of the document does not display correctly"
+  },
+  "Yéqinda tehrirlen’gen höjjetlerning isimliri": {
+    "jpn": "最近編集したファイル",
+    "eng": "Recently edited files"
+  },
+  "Xet Nusxisi": {
+    "jpn": "フォント",
+    "eng": "Font"
+  },
+  "Silawiyanchining Imlasini Közetsun": {
+    "jpn": "綴りを検査（キリル文字）",
+    "eng": "Check Spelling (Cyrillic Script)"
+  },
+  "Tinish belgilerning aldi-keynidiki kem qalghan yaki artuqche qoshulup qalghan boshluqlarni toghrilaydu.": {
+    "jpn": "句読点の前後の足りない空白を補い、余分な空白を取り除きます。",
+    "eng": "Adds missing spaces and removes extra spaces before and after punctuation marks."
+  },
+  "Xata-toghra ambirini ishlitip imlasi xata sözlerni aptomatik tüzitidu": {
+    "jpn": "訂正リストを使って綴りの誤りを自動で直します",
+    "eng": "Corrects misspelled words automatically with the correction list"
+  },
+  "Ishletküchi Ambirini Körset": {
+    "jpn": "ユーザー辞書を表示",
+    "eng": "Show User Dictionary"
+  },
+  "Heqqide": {
+    "jpn": " について",
+    "eng": "About {0}"
+  },
+  "Tehrirlewatqan höjjetni pirintérda bésip chiqiridu": {
+    "jpn": "編集中の文書を印刷します",
+    "eng": "Prints the current document"
+  },
+  "Tallan’ghanni kesip éliwalidu": {
+    "jpn": "選択範囲を切り取ります",
+    "eng": "Cuts the selection"
+  },
+  "Tallan’ghanni köchürüwalidu": {
+    "jpn": "選択範囲をコピーします",
+    "eng": "Copies the selection"
+  },
+  "Tallan’ghanni öchürüwétidu": {
+    "jpn": "選択範囲を削除します",
+    "eng": "Deletes the selection"
+  },
+  "Qilghan meshghulattin yéniwalidu": {
+    "jpn": "直前の操作を元に戻します",
+    "eng": "Undoes the last action"
+  },
+  "Yéniwalghangha pushayman qilidu": {
+    "jpn": "元に戻した操作をやり直します",
+    "eng": "Redoes the undone action"
+  },
+  "Nur belgisi turghan yerdin bashlap izdeydu yaki izdeshni dawam qilidu": {
+    "jpn": "カーソル位置から検索するか、検索を続けます",
+    "eng": "Searches from the cursor, or continues the search"
+  },
+  "Ékran kenglikidin éship ketmigen tehrirlesh haliti": {
+    "jpn": "右端で折り返す（行を画面の幅に収めます）",
+    "eng": "Word wrap (lines fit the window width)"
+  },
+  "Ongdin yaki soldin bashlap yézishqa özgertidu": {
+    "jpn": "右から左／左から右の書字方向を切り替えます",
+    "eng": "Switches between right-to-left and left-to-right writing"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayonni Uyghurchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲をウイグル文字に変換します",
+    "eng": "Converts the current document or the selection to Uyghur script"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayonni Latinchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲をラテン文字に変換します",
+    "eng": "Converts the current document or the selection to Latin script"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayonni Silawiyanchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲をキリル文字に変換します",
+    "eng": "Converts the current document or the selection to Cyrillic script"
+  },
+  "Közitidighan Yéziqni Aptomatik Tallisun": {
+    "jpn": "検査する文字を自動で選ぶ",
+    "eng": "Choose the Spelling Script Automatically"
+  },
+  "Höjjet közniki almashqanda shu köznektiki yéziqqa mas kélidighan Imla Tekshürgüchni aktiplaydu": {
+    "jpn": "タブを切り替えたとき、そのタブの文字に合った綴りの検査を有効にします",
+    "eng": "When you switch tabs, turns on the spell checker for the script of that tab"
+  },
+  "Resimni yéziqqa aylanduridu": {
+    "jpn": "画像を文字に変換します",
+    "eng": "Converts an image to text"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayondiki Latinchini Uyghurchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲のラテン文字をウイグル文字に変換します",
+    "eng": "Converts Latin script to Uyghur script in the current document or the selection"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayondiki Silawiyanchini Uyghurchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲のキリル文字をウイグル文字に変換します",
+    "eng": "Converts Cyrillic script to Uyghur script in the current document or the selection"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayondiki Uyghurchini Latinchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲のウイグル文字をラテン文字に変換します",
+    "eng": "Converts Uyghur script to Latin script in the current document or the selection"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayondiki Silawiyanchini Latinchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲のキリル文字をラテン文字に変換します",
+    "eng": "Converts Cyrillic script to Latin script in the current document or the selection"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayondiki Uyghurchini Silawiyanchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲のウイグル文字をキリル文字に変換します",
+    "eng": "Converts Uyghur script to Cyrillic script in the current document or the selection"
+  },
+  "Hazirqi höjjet yaki Tallan’ghan rayondiki Latinchini Silawiyanchigha aylanduridu": {
+    "jpn": "現在の文書または選択範囲のラテン文字をキリル文字に変換します",
+    "eng": "Converts Latin script to Cyrillic script in the current document or the selection"
+  },
+  "Addiy": {
+    "jpn": "シンプルな",
+    "eng": "Create Simple"
+  },
+  "Yasa": {
+    "jpn": "を作成",
+    "eng": "File"
+  },
+  "Hazirqi tékisttin addiy": {
+    "jpn": "現在のテキストからシンプルな",
+    "eng": "Creates a simple"
+  },
+  "hasil qilidu.": {
+    "jpn": "ファイルを作成します。",
+    "eng": "file from the current text."
+  },
+  "Höjjitide Saqla": {
+    "jpn": "文書として保存",
+    "eng": "Save as {0} Document"
+  },
+  "Tehrirlewatqan höjjetni": {
+    "jpn": "編集中の文書を",
+    "eng": "Saves the current document in"
+  },
+  "höjjiti pichimida(formatida) saqlaydu.": {
+    "jpn": "形式で保存します。",
+    "eng": "format."
+  },
+  "Höjjitini Aylandur": {
+    "jpn": "文書を変換",
+    "eng": "Convert {0} Document"
+  },
+  "Uyghurche🠊Latinche": {
+    "jpn": "ウイグル文字 → ラテン文字",
+    "eng": "Uyghur → Latin"
+  },
+  "Uyghurche🠊Silawiyanche": {
+    "jpn": "ウイグル文字 → キリル文字",
+    "eng": "Uyghur → Cyrillic"
+  },
+  "Latinche🠊Uyghurche": {
+    "jpn": "ラテン文字 → ウイグル文字",
+    "eng": "Latin → Uyghur"
+  },
+  "Latinche🠊Silawiyanche": {
+    "jpn": "ラテン文字 → キリル文字",
+    "eng": "Latin → Cyrillic"
+  },
+  "Silawiyanche🠊Uyghurche": {
+    "jpn": "キリル文字 → ウイグル文字",
+    "eng": "Cyrillic → Uyghur"
+  },
+  "Silawiyanche🠊Latinche": {
+    "jpn": "キリル文字 → ラテン文字",
+    "eng": "Cyrillic → Latin"
+  },
+  " höjjitining bet qurulmisini özgertmey, Uyghurchini Latinchigha aylanduridu": {
+    "jpn": "文書のページレイアウトを変えずに、ウイグル文字をラテン文字に変換します",
+    "eng": "document: converts Uyghur script to Latin script, keeping the page layout"
+  },
+  " höjjitining bet qurulmisini özgertmey, Uyghurchini Silawiyanchigha aylanduridu": {
+    "jpn": "文書のページレイアウトを変えずに、ウイグル文字をキリル文字に変換します",
+    "eng": "document: converts Uyghur script to Cyrillic script, keeping the page layout"
+  },
+  " höjjitining bet qurulmisini özgertmey, Latinchini Uyghurchigha aylanduridu": {
+    "jpn": "文書のページレイアウトを変えずに、ラテン文字をウイグル文字に変換します",
+    "eng": "document: converts Latin script to Uyghur script, keeping the page layout"
+  },
+  " höjjitining bet qurulmisini özgertmey, Latinchini Silawiyanchigha aylanduridu": {
+    "jpn": "文書のページレイアウトを変えずに、ラテン文字をキリル文字に変換します",
+    "eng": "document: converts Latin script to Cyrillic script, keeping the page layout"
+  },
+  " höjjitining bet qurulmisini özgertmey, Silawiyanchini Uyghurchigha aylanduridu": {
+    "jpn": "文書のページレイアウトを変えずに、キリル文字をウイグル文字に変換します",
+    "eng": "document: converts Cyrillic script to Uyghur script, keeping the page layout"
+  },
+  " höjjitining bet qurulmisini özgertmey, Silawiyanchini Latinchigha aylanduridu": {
+    "jpn": "文書のページレイアウトを変えずに、キリル文字をラテン文字に変換します",
+    "eng": "document: converts Cyrillic script to Latin script, keeping the page layout"
+  },
+  "Höjjetning mezmunida özgirish boldi. Saqlamsiz?": {
+    "jpn": "文書が変更されています。保存しますか?",
+    "eng": "The document has been changed. Save it?"
+  },
+  "Tekshürülgen söz: ": {
+    "jpn": "検査した語: ",
+    "eng": "Words checked: "
+  },
+  "Xata söz: ": {
+    "jpn": "誤り: ",
+    "eng": "Misspelled: "
+  },
+  "Tüzitilgen söz: ": {
+    "jpn": "訂正: ",
+    "eng": "Corrected: "
+  },
+  "Toghriliqi: ": {
+    "jpn": "正確さ: ",
+    "eng": "Accuracy: "
+  },
+  " gha saqlandi.": {
+    "jpn": " に保存しました。",
+    "eng": " saved."
+  },
+  "Aylandurulghini ": {
+    "jpn": "変換結果を ",
+    "eng": "Saved the converted file as "
+  },
+  " höjjetke saqlandi.": {
+    "jpn": " に保存しました。",
+    "eng": "."
+  },
+  "Izdesh we Almashturush": {
+    "jpn": "検索と置換",
+    "eng": "Find and Replace"
+  },
+  "Izdeydighan tékist:": {
+    "jpn": "検索する文字列:",
+    "eng": "Find what:"
+  },
+  "Orunbasar tékist:": {
+    "jpn": "置換後の文字列:",
+    "eng": "Replace with:"
+  },
+  "Izde": {
+    "jpn": "次を検索",
+    "eng": "Find Next"
+  },
+  "Sani": {
+    "jpn": "数える",
+    "eng": "Count"
+  },
+  "Almashtur": {
+    "jpn": "置換",
+    "eng": "Replace"
+  },
+  "Hemmini Almashtur": {
+    "jpn": "すべて置換",
+    "eng": "Replace All"
+  },
+  "Chong-kichik yézilishini perqlendürsun": {
+    "jpn": "大文字と小文字を区別する",
+    "eng": "Match case"
+  },
+  "Pütün söz": {
+    "jpn": "単語単位で探す",
+    "eng": "Whole word"
+  },
+  "Üstige qarap izdisun": {
+    "jpn": "上へ検索",
+    "eng": "Search up"
+  },
+  "Muntizim ipade": {
+    "jpn": "正規表現",
+    "eng": "Regex"
+  },
+  "Alahide belgiler": {
+    "jpn": "特殊文字",
+    "eng": "Special characters"
+  },
+  "Normal": {
+    "jpn": "通常",
+    "eng": "Normal"
+  },
+  "ni bassa kunupka almiship, Uyghurche kirgüzgili bolidu": {
+    "jpn": "でキーボードを切り替え、ウイグル語を入力できます",
+    "eng": "switches the keyboard so you can type Uyghur"
+  },
+  "ni bassa kunupka almishidu. Uyghurche kirgüzgili bolidu": {
+    "jpn": "でキーボードを切り替えます。ウイグル語を入力できます",
+    "eng": "switches the keyboard. You can type Uyghur."
+  },
+  "Sani: ": {
+    "jpn": "件数: ",
+    "eng": "Count: "
+  },
+  " qétim almashturuldi": {
+    "jpn": " 件を置換しました",
+    "eng": " replaced"
+  },
+  "Rastla barliq «": {
+    "jpn": "すべての「",
+    "eng": "Replace all «"
+  },
+  "» ni «": {
+    "jpn": "」を「",
+    "eng": "» with «"
+  },
+  "» gha alamshturamsiz?": {
+    "jpn": "」に置き換えますか?",
+    "eng": "»?"
+  },
+  "Hemmini Almashturush": {
+    "jpn": "すべて置換",
+    "eng": "Replace All"
+  },
+  "Tépilmidi": {
+    "jpn": "見つかりません",
+    "eng": "Not found"
+  },
+  "Bu yerni chékip resimni éching yaki resimni tutup bu köznekke tashlang.": {
+    "jpn": "ここをクリックして画像を開くか、画像をこのウィンドウにドラッグしてください。",
+    "eng": "Click here to open an image, or drag an image onto this window."
+  },
+  "Resim körün’gende, Chashqinek bilen tonutidighan da’irini tallang.": {
+    "jpn": "画像が表示されたら、認識する範囲をマウスで選んでください。",
+    "eng": "When the image appears, select the area to recognize with the mouse."
+  },
+  "Tonu": {
+    "jpn": "認識",
+    "eng": "Recognize"
+  },
+  "Tonuydighan Tillar": {
+    "jpn": "認識する言語",
+    "eng": "Languages"
+  },
+  "Bet Qurulmisi": {
+    "jpn": "ページレイアウト",
+    "eng": "Page layout"
+  },
+  "Uyghurche": {
+    "jpn": "ウイグル語",
+    "eng": "Uyghur"
+  },
+  "In’glizche": {
+    "jpn": "英語",
+    "eng": "English"
+  },
+  "Türkche": {
+    "jpn": "トルコ語",
+    "eng": "Turkish"
+  },
+  "Xenzuche": {
+    "jpn": "中国語",
+    "eng": "Chinese"
+  },
+  "Silawiyanche": {
+    "jpn": "ロシア語",
+    "eng": "Russian"
+  },
+  "Özüng Tap": {
+    "jpn": "自動",
+    "eng": "Automatic"
+  },
+  "Birla Bölek": {
+    "jpn": "単一ブロック",
+    "eng": "Single block"
   }
 }
