@@ -1002,11 +1002,16 @@ namespace UyghurEditPP
 			if (fileName == null)
 				throw new ArgumentNullException("fileName");
 			// Write to a temporary file first, so that a failed save cannot destroy the existing file.
+			// Save(Stream) may switch Encoding and CodePage to UTF-8; undo that too if saving fails.
 			bool modified = this.IsModified;
+			Encoding encoding = this.Encoding;
+			int codePage = CodePage;
 			try {
 				SafeFile.Write(fileName, Save);
 			} catch {
 				SetCurrentValue(IsModifiedProperty, Boxes.Box(modified));
+				SetCurrentValue(EncodingProperty, encoding);
+				CodePage = codePage;
 				throw;
 			}
 		}
