@@ -35,6 +35,8 @@ namespace UyghurEditPP
 			InitializeComponent();
 			System.Reflection.Assembly asm =System.Reflection.Assembly.GetExecutingAssembly();
 			gTip = new ToolTip();
+			Til = "";
+			UpdateButtons();
 		}
 		
 		public string ImageFile{
@@ -43,7 +45,7 @@ namespace UyghurEditPP
 				if(gImgFile!=null){
 					Bitmap bimg = new Bitmap(gImgFile);
 					ramka.Image=bimg;
-					Invalidate();
+					UpdateButtons();
 				}
 			}
 		}
@@ -53,23 +55,22 @@ namespace UyghurEditPP
 			set;
 		}
 		
-		void OCRFormPaint(object sender, PaintEventArgs e)
+		// Enables the controls for the current state. This used to be done in the Paint
+		// handler, which can run before OCRFormShown has set Til (a NullReferenceException
+		// that left the window drawn with red crosses); it is now called whenever the
+		// state changes.
+		void UpdateButtons()
 		{
-			if(Til.Length==0 || ramka.Image == null){
-				butTonu.Enabled = false;
-			}
-			else{
-				butAch.Enabled = !gRunning;
-				butTonu.Enabled = !gRunning;
-				chkUyghurUKIJ.Enabled = !gRunning;
-				chkUyghur.Enabled = !gRunning;				
-				chkEng.Enabled = !gRunning;
-				chkRus.Enabled = !gRunning;
-				chkChi.Enabled = !gRunning;
-				chkTur.Enabled = !gRunning;
-				radAuto.Enabled = !gRunning;
-				radSingle.Enabled = !gRunning;
-			}
+			butAch.Enabled = !gRunning;
+			chkUyghurUKIJ.Enabled = !gRunning;
+			chkUyghur.Enabled = !gRunning;
+			chkEng.Enabled = !gRunning;
+			chkRus.Enabled = !gRunning;
+			chkChi.Enabled = !gRunning;
+			chkTur.Enabled = !gRunning;
+			radAuto.Enabled = !gRunning;
+			radSingle.Enabled = !gRunning;
+			butTonu.Enabled = !gRunning && gOcr!=null && !string.IsNullOrEmpty(Til) && ramka.Image != null;
 		}
 		
 		async void ButtonRight(object sender, EventArgs e)
@@ -82,7 +83,7 @@ namespace UyghurEditPP
 				else{
 					gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
 				}
-				Invalidate();
+				UpdateButtons();
 				Bitmap roibmp;
 				Pix    roipix;
 				Rectangle roi = ramka.getRoi();
@@ -96,16 +97,19 @@ namespace UyghurEditPP
 				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
 				string txt = await ocr;
 				roipix.Dispose();
-				ramka.Enabled = true;
 				gEditor.AppendText(txt);
-				Cursor=Cursors.Default;
 			}
 			catch(Exception ee){
 				System.Diagnostics.Debug.WriteLine(ee.Message);
 				MessageBox.Show(ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			finally{
+				// Also after an error, so the picture and the cursor do not stay disabled/busy.
+				ramka.Enabled = true;
+				Cursor=Cursors.Default;
+			}
 			gRunning = false;
-			Invalidate();
+			UpdateButtons();
 		}
 		
 		
@@ -168,7 +172,7 @@ namespace UyghurEditPP
 			Bitmap bimg = new Bitmap(gImgFile);
 			ramka.Image=bimg;
 			
-			Invalidate();
+			UpdateButtons();
 		}
 		void ButAchClick(object sender, EventArgs e)
 		{
@@ -180,13 +184,13 @@ namespace UyghurEditPP
 				Bitmap bimg = new Bitmap(opnFileDlg.FileName);
 				ramka.Image=bimg;
 			}
-			Invalidate();
+			UpdateButtons();
 		}
 		
 		public Image Resim{
 			set{
 				ramka.Image=new Bitmap(value);
-				Invalidate();
+				UpdateButtons();
 			}
 		}
 		
@@ -238,7 +242,7 @@ namespace UyghurEditPP
 				}
 			}
 			this.Cursor = Cursors.Default;
-			Invalidate();
+			UpdateButtons();
 		}
 
 		// tessdata is looked up next to the program, not in the current directory,
