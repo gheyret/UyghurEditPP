@@ -23,9 +23,16 @@ namespace UyghurEditPP
 
 		static PrivateFontCollection gCollection;
 		static FontFamily gFamily;
+		static string gFolder;
 
+		// FR_PRIVATE: only this process can use the font, and "when the process terminates,
+		// the system will remove all fonts installed by the process with the AddFontResourceEx
+		// function" (https://learn.microsoft.com/en-us/windows/win32/api/wingdi/nf-wingdi-addfontresourceexw ).
+		// They are also removed explicitly when the program exits, as the same page asks.
 		[DllImport("gdi32.dll", CharSet = CharSet.Unicode)]
 		static extern int AddFontResourceEx(string name, uint fl, IntPtr res);
+		[DllImport("gdi32.dll", CharSet = CharSet.Unicode)]
+		static extern bool RemoveFontResourceEx(string name, uint fl, IntPtr res);
 		const uint FR_PRIVATE = 0x10;
 
 		/// <summary>True when UKIJ Tuz is not installed and the program's own copy is used.</summary>
@@ -56,12 +63,21 @@ namespace UyghurEditPP
 					continue;
 				}
 				collection.AddFontFile(path);
-				AddFontResourceEx(path, FR_PRIVATE, IntPtr.Zero);
+				// The return value is the number of fonts added; 0 means it failed (the docs
+				// give no further error information).
+				if(AddFontResourceEx(path, FR_PRIVATE, IntPtr.Zero) == 0){
+					ErrorLog.Write(new IOException("AddFontResourceEx failed: " + path));
+				}
+				else{
+					string added = path;
+					Application.ApplicationExit += (s, e) => RemoveFontResourceEx(added, FR_PRIVATE, IntPtr.Zero);
+				}
 			}
 			foreach(FontFamily family in collection.Families){
 				if(family.Name == UkijTuz){
 					gCollection = collection; // the families live as long as the collection
 					gFamily = family;
+					gFolder = folder;
 				}
 			}
 		}
@@ -105,15 +121,24 @@ namespace UyghurEditPP
 			}
 		}
 
+		/// <summary>
+		/// A file URI for a folder, ending in "/". Built with UriBuilder, which escapes the path,
+		/// so a folder name with "#" or "%" is not read as a fragment or an escape.
+		/// </summary>
+		internal static Uri FolderUri(string folder)
+		{
+			string path = Path.GetFullPath(folder).Replace('\\', '/');
+			if(!path.EndsWith("/", StringComparison.Ordinal)){
+				path += "/";
+			}
+			return new UriBuilder(Uri.UriSchemeFile, "", -1, path).Uri;
+		}
+
 		/// <summary>The WPF font family for a name; UKIJ Tuz from the program folder when needed.</summary>
 		public static System.Windows.Media.FontFamily Wpf(string name)
 		{
 			if(gFamily != null && UkijTuz.Equals(name, StringComparison.OrdinalIgnoreCase)){
-				string folder = AppPaths.ProgramFolder;
-				if(!folder.EndsWith("\\", StringComparison.Ordinal)){
-					folder += "\\";
-				}
-				return new System.Windows.Media.FontFamily(new Uri(folder), "./#" + UkijTuz);
+				return new System.Windows.Media.FontFamily(FolderUri(gFolder), "./#" + UkijTuz);
 			}
 			return new System.Windows.Media.FontFamily(name);
 		}
