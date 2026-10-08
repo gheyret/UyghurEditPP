@@ -96,6 +96,9 @@ namespace UyghurEditPP
 			InitializeComponent();
 			// Flat bars with thin lines between them (UiTheme.cs).
 			ToolStripManager.Renderer = new UiRenderer(UiTheme.Current);
+			MakeThemeMenu();
+			Microsoft.Win32.SystemEvents.UserPreferenceChanged += WindowsSettingChanged;
+			FormClosed += (s, e) => Microsoft.Win32.SystemEvents.UserPreferenceChanged -= WindowsSettingChanged;
 			//IntPtr appIns = Marshal.GetHINSTANCE(System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0]);
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
@@ -259,6 +262,7 @@ namespace UyghurEditPP
 			gImlab.FindReplace=true;
 			gEditor.TextArea.TextView.Redraw();
 			gFindReplace.ShowMe();
+			UiThemer.Apply(gFindReplace, UiTheme.Current); // the title bar needs the window's handle
 
 //			if (!gEditor.TextArea.Selection.IsMultiline)
 //			{
@@ -397,6 +401,7 @@ namespace UyghurEditPP
 				curEdit.Drop += MainFormDragDrop;
 				
 				curEdit.TextArea.TextView.LineTransformers.Add(gImlab);
+				UiThemer.Apply(curEdit, UiTheme.Current);
 				curEdit.TextArea.SelectionChanged +=TextSelctionChanged;
 				curHost.Dock = DockStyle.Fill;
 				curHost.Child = curEdit;
@@ -763,6 +768,7 @@ namespace UyghurEditPP
 				lang=CultureInfo.CurrentCulture.ThreeLetterISOLanguageName.ToLowerInvariant();
 			}
 			CheckLangMenu(lang);
+			ApplyTheme(gConfig["TEMA"] as string ?? UiTheme.LightSetting);
 			
 			if(gConfig.ContainsKey("ORUNLAR")){
 				gIzOffset =(Dictionary<string,int>)gConfig["ORUNLAR"];
@@ -996,6 +1002,10 @@ namespace UyghurEditPP
 
 			menuQoral.Text = gLang.GetText("Qorallar");
 			menuTiz.Text = gLang.GetText("Élipbe Tertipi Boyiche Tiz");
+			menuTema.Text = gLang.GetText("Theme");
+			menuTemaYoruq.Text = gLang.GetText("Light");
+			menuTemaQarangghu.Text = gLang.GetText("Dark");
+			menuTemaWindows.Text = gLang.GetText("Follow Windows");
 			menuTekrar.Text = gLang.GetText("Sözlerning Tekrarliqi");
 
 			menuTil.Text = gLang.GetText("Til-Yéziq");
@@ -1079,6 +1089,72 @@ namespace UyghurEditPP
 				return text.Replace("{0}", name.Trim());
 			}
 			return name + text;
+		}
+
+		ToolStripMenuItem menuTema, menuTemaYoruq, menuTemaQarangghu, menuTemaWindows;
+		string gTemaSetting = UiTheme.LightSetting;
+
+		// Tools > Theme > Light / Dark / Follow Windows (the texts are set in UpdateMessage).
+		void MakeThemeMenu()
+		{
+			menuTemaYoruq = new ToolStripMenuItem();
+			menuTemaYoruq.Tag = UiTheme.LightSetting;
+			menuTemaQarangghu = new ToolStripMenuItem();
+			menuTemaQarangghu.Tag = UiTheme.DarkSetting;
+			menuTemaWindows = new ToolStripMenuItem();
+			menuTemaWindows.Tag = UiTheme.SystemSetting;
+			menuTema = new ToolStripMenuItem();
+			foreach(ToolStripMenuItem itm in new[]{ menuTemaYoruq, menuTemaQarangghu, menuTemaWindows }){
+				itm.Click += (s, e) => ApplyTheme((string)((ToolStripMenuItem)s).Tag);
+				menuTema.DropDownItems.Add(itm);
+			}
+			menuQoral.DropDownItems.Add(new ToolStripSeparator());
+			menuQoral.DropDownItems.Add(menuTema);
+		}
+
+		/// <summary>Puts the theme of a setting ("light", "dark", "system") on every window.</summary>
+		void ApplyTheme(string setting)
+		{
+			gTemaSetting = setting;
+			gConfig["TEMA"] = setting;
+			foreach(ToolStripMenuItem itm in menuTema.DropDownItems){
+				itm.Checked = setting.Equals(itm.Tag);
+			}
+			UiTheme theme = UiTheme.FromSetting(setting);
+			UiTheme.Current = theme;
+			ToolStripManager.Renderer = new UiRenderer(theme);
+			BackColor = theme.TabStrip;
+			toolTBox.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
+			toolTBox.ForeColor = theme.IsDark ? theme.EditorText : SystemColors.WindowText;
+			gImlab.SetColors(System.Windows.Media.Color.FromRgb(theme.Misspelled.R, theme.Misspelled.G, theme.Misspelled.B),
+			                 new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundBack.R, theme.FoundBack.G, theme.FoundBack.B)),
+			                 theme.IsDark ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundText.R, theme.FoundText.G, theme.FoundText.B)) : null);
+			foreach(TabPage pg in mainTab.TabPages){
+				pg.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
+				ElementHost host = pg.Controls.Count > 0 ? pg.Controls[0] as ElementHost : null;
+				TextEditor ed = host != null ? host.Child as TextEditor : null;
+				if(ed != null){
+					UiThemer.Apply(ed, theme);
+					ed.TextArea.TextView.Redraw();
+				}
+			}
+			mainTab.Invalidate();
+			UiThemer.Apply(gContextMenu, theme);
+			UiThemer.Apply(gFindReplace, theme);
+			if(gOCR != null && !gOCR.IsDisposed){
+				UiThemer.Apply(gOCR, theme);
+				gOCR.Invalidate(true);
+			}
+			UiTheme.SetTitleBar(Handle, theme.IsDark);
+			Invalidate(true);
+		}
+
+		// The Windows app mode was changed: follow it if the setting says so.
+		void WindowsSettingChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
+		{
+			if(UiTheme.SystemSetting.Equals(gTemaSetting) && IsHandleCreated){
+				BeginInvoke(new Action(() => ApplyTheme(UiTheme.SystemSetting)));
+			}
 		}
 
 		void MenuTilClick(object sender, EventArgs e)
@@ -1472,6 +1548,7 @@ namespace UyghurEditPP
 		void MenuULElipbeClick(object sender, EventArgs e)
 		{
 			FormULElipbe frm = new FormULElipbe();
+			UiThemer.Apply(frm, UiTheme.Current);
 			frm.ShowInTaskbar = false;
 			frm.ShowDialog();
 			gEditor.Focus();
@@ -1479,6 +1556,7 @@ namespace UyghurEditPP
 		void MenuKunupkaClick(object sender, EventArgs e)
 		{
 			FormKunupka frm = new FormKunupka(this);
+			UiThemer.Apply(frm, UiTheme.Current);
 			frm.ShowInTaskbar = false;
 			frm.Show(this);
 			gEditor.Focus();
@@ -2184,6 +2262,7 @@ namespace UyghurEditPP
 		void MenuHeqqideClick(object sender, EventArgs e)
 		{
 			FormHeqqide heqqide = new FormHeqqide();
+			UiThemer.Apply(heqqide, UiTheme.Current);
 			heqqide.ShowInTaskbar = false;
 			heqqide.ShowDialog();
 			gEditor.Focus();
@@ -2232,6 +2311,7 @@ namespace UyghurEditPP
 		{
 			if (gOCR==null || gOCR.IsDisposed){
 				gOCR = new OCRForm(gEditor);
+				UiThemer.Apply(gOCR, UiTheme.Current);
 				gOCR.Owner = this;
 				gOCR.ShowInTaskbar = false;
 				gOCR.Show(this);

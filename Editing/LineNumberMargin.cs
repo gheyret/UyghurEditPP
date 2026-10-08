@@ -36,6 +36,9 @@ namespace UyghurEditPP.Editing
 	/// </summary>
 	public class LineNumberMargin : AbstractMargin, IWeakEventListener
 	{
+		/// <summary>The color of the caret line's number (UyghurEdit++: set by the theme).</summary>
+		public static Brush CurrentLineNumberBrush = Brushes.DarkBlue;
+
 		static LineNumberMargin()
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(LineNumberMargin),
@@ -78,7 +81,7 @@ namespace UyghurEditPP.Editing
 			TextView textView = this.TextView;
 			Size renderSize = this.RenderSize;
 			if (textView != null && textView.VisualLinesValid) {
-				var nforeground = Brushes.DarkBlue;
+				var nforeground = CurrentLineNumberBrush;
 				var foreground = (Brush)GetValue(Control.ForegroundProperty);
 				Brush cforeground;
 				foreach (VisualLine line in textView.VisualLines) {

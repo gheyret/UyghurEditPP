@@ -21,16 +21,30 @@ namespace UyghurEditPP
 	/// </summary>
 	public class ImlaBoya:DocumentColorizingTransformer
 	{
-		readonly TextDecorationCollection gCollection;
+		TextDecorationCollection gCollection;
+		Brush gFoundBack = Brushes.Yellow;
+		Brush gFoundText = null;
 		public ImlaBoya(){
 			SpellCheker = null;
-			gCollection = new TextDecorationCollection();
-			TextDecoration dec = new TextDecoration();
-			dec.Pen = new Pen { Thickness = 2, DashStyle = DashStyles.Dash, Brush = new SolidColorBrush(Colors.Red) };
-			dec.PenThicknessUnit = TextDecorationUnit.FontRecommended;
-			gCollection.Add(dec);
-			gCollection.Freeze();
+			SetColors(Colors.Red, Brushes.Yellow, null);
 			FindReplace=false;
+		}
+
+		/// <summary>
+		/// The color of the wavy line under misspelled words, and the colors of the words the
+		/// find window marks (foundText null: the text keeps its color).
+		/// </summary>
+		public void SetColors(Color misspelled, Brush foundBack, Brush foundText)
+		{
+			TextDecorationCollection collection = new TextDecorationCollection();
+			TextDecoration dec = new TextDecoration();
+			dec.Pen = new Pen { Thickness = 2, DashStyle = DashStyles.Dash, Brush = new SolidColorBrush(misspelled) };
+			dec.PenThicknessUnit = TextDecorationUnit.FontRecommended;
+			collection.Add(dec);
+			collection.Freeze();
+			gCollection = collection;
+			gFoundBack = foundBack;
+			gFoundText = foundText;
 		}
 		
 		public IEnumerable<Match> FindWords(string text)
@@ -105,7 +119,10 @@ namespace UyghurEditPP
 		
 		void HilightSelection(VisualLineElement element)
 		{
-			element.TextRunProperties.SetBackgroundBrush(Brushes.Yellow);
+			element.TextRunProperties.SetBackgroundBrush(gFoundBack);
+			if(gFoundText != null){
+				element.TextRunProperties.SetForegroundBrush(gFoundText);
+			}
 		}
 	}
 }
