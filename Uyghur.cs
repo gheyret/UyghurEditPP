@@ -347,7 +347,7 @@ public class Uyghur
 						herp = qur[stind];
 					}
 					if (stind < qur.Length) {
-						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 					}
 					match = jumle.Match(qur, stind);
 				}
@@ -361,7 +361,7 @@ public class Uyghur
 					herp = qur[stind];
 				}
 				if (stind < qur.Length && char.IsLower(qur[stind])) {
-					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 				}
 				qurlar[i] = qur;
 			}
@@ -393,7 +393,7 @@ public class Uyghur
 						herp = qur[stind];
 					}
 					if (stind < qur.Length) {
-						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 					}
 					match = jumle.Match(qur, stind);
 				}
@@ -407,7 +407,7 @@ public class Uyghur
 					herp = qur[stind];
 				}
 				if (stind < qur.Length && char.IsLower(qur[stind])) {
-					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 				}
 				qurlar[i] = qur;
 			}

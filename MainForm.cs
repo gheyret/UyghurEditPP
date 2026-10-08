@@ -566,7 +566,7 @@ namespace UyghurEditPP
 				if(toghrisi!=null){
 					strNamzat = toghrisi;
 					if(char.IsUpper(usoz.Value[0])){
-						strNamzat=char.ToUpper(strNamzat[0])+strNamzat.Substring(1);
+						strNamzat=char.ToUpperInvariant(strNamzat[0])+strNamzat.Substring(1);
 					}
 					menuNamzat = new System.Windows.Controls.MenuItem{Header=strNamzat,Tag=txtPos};
 					menuNamzat.HorizontalContentAlignment = gMenuSozToghra.HorizontalAlignment;
@@ -584,7 +584,7 @@ namespace UyghurEditPP
 					strNamzat= namzat;
 					//System.Diagnostics.Debug.WriteLine(strNamzat);
 					if(char.IsUpper(usoz.Value[0])){
-						strNamzat=char.ToUpper(strNamzat[0])+strNamzat.Substring(1);
+						strNamzat=char.ToUpperInvariant(strNamzat[0])+strNamzat.Substring(1);
 					}
 					menuNamzat = new System.Windows.Controls.MenuItem{Header=strNamzat,Tag=txtPos};
 					menuNamzat.HorizontalContentAlignment = gMenuSozToghra.HorizontalAlignment;
@@ -631,7 +631,7 @@ namespace UyghurEditPP
 			//string qelip = "\b"+xatasoz+"\b";
 			int sani = 0;
 			string qelip = "(?<!\\w)"+xatasoz+"(?!\\w)";
-			Regex finder = new Regex(qelip,RegexOptions.Compiled|RegexOptions.IgnoreCase);
+			Regex finder = new Regex(qelip,RegexOptions.Compiled|RegexOptions.IgnoreCase|RegexOptions.CultureInvariant);
 			string alltext = gEditor.Text.ToLower();
 			int stpos = gEditor.CaretOffset;
 			int oldPos = stpos;
@@ -750,10 +750,10 @@ namespace UyghurEditPP
 			if(gConfig.ContainsKey("LANG"))
 			{
 				lang = (string)gConfig["LANG"];
-				lang = lang.ToLower();
+				lang = lang.ToLowerInvariant();
 			}
 			else{
-				lang=CultureInfo.CurrentCulture.ThreeLetterISOLanguageName.ToLower();
+				lang=CultureInfo.CurrentCulture.ThreeLetterISOLanguageName.ToLowerInvariant();
 			}
 			CheckLangMenu(lang);
 			
@@ -1962,7 +1962,7 @@ namespace UyghurEditPP
 					toghrisi = gImlab.SpellCheker.Toghrisi(soz.Value);
 					if(toghrisi!=null){
 						if(char.IsUpper(soz.Value[0])){
-							toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+							toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
 						}
 						gEditor.CaretOffset = soz.Index;
 						gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
@@ -1976,7 +1976,7 @@ namespace UyghurEditPP
 						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é'))){
 							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é');
 							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
 							}
 							gEditor.CaretOffset = soz.Index;
 							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
@@ -1988,7 +1988,7 @@ namespace UyghurEditPP
 						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü'))){
 							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü');
 							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
 							}
 							gEditor.CaretOffset = soz.Index;
 							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
@@ -2000,7 +2000,7 @@ namespace UyghurEditPP
 						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö'))){
 							toghrisi = soz.Value.Replace('o','ö');
 							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
 							}
 							gEditor.CaretOffset = soz.Index;
 							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
@@ -2012,7 +2012,7 @@ namespace UyghurEditPP
 						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('u','ü'))){
 							toghrisi = soz.Value.Replace('u','ü');
 							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
 							}
 							gEditor.CaretOffset = soz.Index;
 							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
@@ -2024,7 +2024,7 @@ namespace UyghurEditPP
 						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('e','é'))){
 							toghrisi = soz.Value.Replace('e','é');
 							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
+								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
 							}
 							gEditor.CaretOffset = soz.Index;
 							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);

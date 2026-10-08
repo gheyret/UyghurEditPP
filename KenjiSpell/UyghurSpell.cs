@@ -73,10 +73,10 @@ namespace UyghurEditPP
 			string newsoz;
 			foreach(string soz in IshletkuchiDic){
 				if(yeziq==Uyghur.YEZIQ.ULY){
-					newsoz  = Uyghur.UEY2ULY(soz).ToLower();
+					newsoz  = Uyghur.UEY2ULY(soz).ToLowerInvariant();
 				}
 				else if(yeziq==Uyghur.YEZIQ.USY){
-					newsoz  = Uyghur.UEY2USY(soz).ToLower();
+					newsoz  = Uyghur.UEY2USY(soz).ToLowerInvariant();
 				}
 				else{
 					newsoz = soz;
@@ -91,10 +91,10 @@ namespace UyghurEditPP
 
 			foreach(string qur in XataToghraBuf){
 				if(yeziq==Uyghur.YEZIQ.ULY){
-					newsoz = Uyghur.UEY2ULY(qur).ToLower();
+					newsoz = Uyghur.UEY2ULY(qur).ToLowerInvariant();
 				}
 				else if(yeziq==Uyghur.YEZIQ.USY){
-					newsoz = Uyghur.UEY2USY(qur).ToLower();
+					newsoz = Uyghur.UEY2USY(qur).ToLowerInvariant();
 				}
 				else{
 					newsoz  = qur;
@@ -158,8 +158,8 @@ namespace UyghurEditPP
 			if(!XataToghra.ContainsKey(xata))
 			{
 				string filenm =gImlaXataToghra;
-				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
-				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
+				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
 				string bk = xt+"="+togh;
 				XataToghra[xt]=togh;				
 				bk= Uyghur.ToUEY(bk)?? bk;
@@ -174,14 +174,14 @@ namespace UyghurEditPP
 		
 		public string Toghrisi(string xatasi){
 			string toghrisi = null;
-			XataToghra.TryGetValue(xatasi.ToLower().Replace(Uyghur.Sozghuch,""), out toghrisi);
+			XataToghra.TryGetValue(xatasi.ToLowerInvariant().Replace(Uyghur.Sozghuch,""), out toghrisi);
 			return toghrisi;
 		}
 		
 		public void SaveToIshletkuchi(string soz)
 		{
 			string filenm =gImlaIshletkuchi;
-			soz = soz.ToLower().Replace(Uyghur.Sozghuch,"");
+			soz = soz.ToLowerInvariant().Replace(Uyghur.Sozghuch,"");
 			soz = Uyghur.ToUEY(soz)?? soz;
 			IshletkuchiDic.Add(soz);
 			try{
