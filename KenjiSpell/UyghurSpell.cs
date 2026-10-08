@@ -245,7 +245,7 @@ namespace UyghurEditPP
 		void SaveFailed(string filenm, Exception ee)
 		{
 			ErrorLog.Write(ee);
-			MessageBox.Show(MainForm.gLang.GetText("Could not save the word to the user dictionary:") + Environment.NewLine + filenm + Environment.NewLine + Environment.NewLine + ee.Message,
+			CenteredMessageBox.Show(CenteredMessageBox.MainWindow, MainForm.gLang.GetText("Could not save the word to the user dictionary:") + Environment.NewLine + filenm + Environment.NewLine + Environment.NewLine + ee.Message,
 			                "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
 	}

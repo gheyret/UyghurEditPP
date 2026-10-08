@@ -74,7 +74,7 @@ namespace UyghurEditPP
 				if(logFile!=null){
 					msg += Environment.NewLine + Environment.NewLine + Text("Details were saved to:") + Environment.NewLine + logFile;
 				}
-				MessageBox.Show(msg,"UyghurEdit++",MessageBoxButtons.OK,MessageBoxIcon.Error);
+				CenteredMessageBox.Show(CenteredMessageBox.MainWindow, msg,"UyghurEdit++",MessageBoxButtons.OK,MessageBoxIcon.Error);
 			}
 			catch(Exception ee){
 				System.Diagnostics.Debug.WriteLine(ee);

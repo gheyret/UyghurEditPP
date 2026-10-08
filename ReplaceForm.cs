@@ -25,11 +25,11 @@ namespace UyghurEditPP
 			try
 			{
 				if (!Find(tbFind.Text))
-					MessageBox.Show("Not found");
+					CenteredMessageBox.Show(this, "Not found");
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				CenteredMessageBox.Show(this, ex.Message);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace UyghurEditPP
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				CenteredMessageBox.Show(this, ex.Message);
 			}
 		}
 
@@ -157,11 +157,11 @@ namespace UyghurEditPP
 				}
 				//
 				tb.Invalidate();
-				MessageBox.Show(ranges.Count + " occurrence(s) replaced");
+				CenteredMessageBox.Show(this, ranges.Count + " occurrence(s) replaced");
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				CenteredMessageBox.Show(this, ex.Message);
 			}
 		}
 

@@ -106,7 +106,7 @@ namespace UyghurEditPP
 			}
 			catch(Exception ee){
 				System.Diagnostics.Debug.WriteLine(ee.Message);
-				MessageBox.Show(ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				CenteredMessageBox.Show(this, ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			finally{
 				// Also after an error, so the picture and the cursor do not stay disabled/busy.
@@ -316,7 +316,7 @@ namespace UyghurEditPP
 				msg = MainForm.gLang.GetText("OCR could not start. Please check that this folder contains the language data (.traineddata) files:")
 					+ Environment.NewLine + tessdata;
 			}
-			MessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			CenteredMessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		static bool IsMissingLibrary(Exception ee)
