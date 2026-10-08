@@ -34,8 +34,10 @@ namespace UyghurEditPP
 			try{
 				MainForm frm = new MainForm();
 				frm.Show();
-				if(args.Length==1){
-					frm.OpenaFile(args[0]);
+				// Every file given (e.g. several files dropped on the exe, or "Open with" on a
+				// selection), each in its own tab; with more than one, none was opened before.
+				foreach(string arg in args){
+					frm.OpenaFile(arg);
 				}
 				Application.Run(frm);
 			}catch(Exception ee){
