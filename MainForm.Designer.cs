@@ -1402,7 +1402,6 @@ namespace UyghurEditPP
             this.Load += new System.EventHandler(this.MainFormLoad);
             this.Shown += new System.EventHandler(this.MainFormShown);
             this.SizeChanged += new System.EventHandler(this.MainFormSizeChanged);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainFormPaint);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.MainFormMouseDoubleClick);
             this.Resize += new System.EventHandler(this.MainFormResize);
             this.toolBar.ResumeLayout(false);

@@ -335,8 +335,8 @@ namespace UyghurEditPP
 						offset = 0;
 					}
 					curEdit.Focus();
-					if(offset>curEdit.Text.Length){
-						offset = curEdit.Text.Length;
+					if(offset>curEdit.Document.TextLength){
+						offset = curEdit.Document.TextLength;
 					}
 					curEdit.CaretOffset = offset;
 					curEdit.BringCaretToView();
@@ -382,6 +382,8 @@ namespace UyghurEditPP
 				curEdit.WordWrap = true;
 				curEdit.TextArea.Caret.PositionChanged += CaretChanged;
 				curEdit.TextChanged += TextOzgerdi;
+				// Saving, or undoing back to the saved text, changes IsModified without a text change.
+				System.ComponentModel.DependencyPropertyDescriptor.FromProperty(TextEditor.IsModifiedProperty, typeof(TextEditor)).AddValueChanged(curEdit, TextOzgerdi);
 				
 				curEdit.PreviewMouseWheel += PreviewMouseWheel; //Ctrolni besip  turup chaqanekning ghaltikini mangdursa, chongiyip kichikleydu
 				curEdit.MouseRightButtonUp += PreMouseUp;       //chashqinekning ong teripi chekilse
@@ -414,8 +416,8 @@ namespace UyghurEditPP
 				offset = 0;
 			}
 			curEdit.Focus();
-			if(offset>curEdit.Text.Length){
-				offset = curEdit.Text.Length;
+			if(offset>curEdit.Document.TextLength){
+				offset = curEdit.Document.TextLength;
 			}
 			curEdit.CaretOffset = offset;
 			curEdit.BringCaretToView();
@@ -437,6 +439,7 @@ namespace UyghurEditPP
 				gEditor.TextArea.TextView.Redraw();
 				//gEditor.TextArea.TextView.InvalidateLayer(UyghurEditPP.Rendering.KnownLayer.Selection);
 			}
+			UpdateToolbar();
 		}
 		
 		//Tallanghan yaki nur belgisi turghan orundiki mezmunni CHong Yezilishqa ozgertidu
@@ -1114,22 +1117,21 @@ namespace UyghurEditPP
 			gFileNum++;
 		}
 		
-		void MainFormPaint(object sender, PaintEventArgs e)
+		// Brings the toolbar, the tab title and the status bar up to date with the current
+		// editor. It is called when the state changes (text, selection, tab, saving ...);
+		// it used to run on every Paint and built the whole text each time.
+		void UpdateToolbar()
 		{
 			// stBarUchur.Text = "UyghurEdit++ V"+GetVersion() + "(2020/11/12) Aptor: Gheyret T.Kenji";
 			// stBarUchur.Text = "UyghurEdit++ V "+GetVersion() + " Aptor: Gheyret T.Kenji";
 			// stBarQur.Text = gLang.GetText("Jemiy ") + gEditor.LineCount.ToString() + gLang.GetText(" qur");
 
-			// Paint also comes while there is no editor tab: in MainFormLoad, "new ElementHost()"
-			// loads a cursor through COM, which pumps messages before the first tab exists;
-			// and when the form is disposed after MainFormFormClosing has closed every tab.
-			// The toolbar's transparent background is drawn by this handler too.
 			if(gEditor==null || mainTab.SelectedTab==null){
 				return;
 			}
 			toolQatla.Checked = gEditor.WordWrap;
-			
-			toolBas.Enabled = gEditor.Text.Length>0;
+
+			toolBas.Enabled = gEditor.Document.TextLength>0;
 			toolSaqla.Enabled = gEditor.IsModified;
 			if(gEditor.IsModified && mainTab.SelectedTab.Text.StartsWith("*")==false){
 				mainTab.SelectedTab.Text = "*" + mainTab.SelectedTab.Text;
@@ -1162,6 +1164,14 @@ namespace UyghurEditPP
 			toolKes.Enabled    = gEditor.SelectionLength>0;
 			toolKochur.Enabled = gEditor.SelectionLength>0;
 			toolOchur.Enabled = gEditor.SelectionLength>0;
+
+			toolYeniwal.Enabled = gEditor.CanUndo;
+			toolYPushayman.Enabled = gEditor.CanRedo;
+        }
+
+		// The Paste button follows the clipboard: Windows tells the form when it changes.
+		void UpdateChapla()
+		{
 			try
 			{
 				IDataObject idata = Clipboard.GetDataObject();
@@ -1172,10 +1182,34 @@ namespace UyghurEditPP
 				toolChapla.Enabled = false;
                 System.Diagnostics.Debug.WriteLine(ee.StackTrace);
             }
+		}
 
-			toolYeniwal.Enabled = gEditor.CanUndo;
-			toolYPushayman.Enabled = gEditor.CanRedo;			
-        }
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern bool AddClipboardFormatListener(IntPtr hwnd);
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+		const int WM_CLIPBOARDUPDATE = 0x031D;
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			AddClipboardFormatListener(Handle);
+			UpdateChapla();
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			RemoveClipboardFormatListener(Handle);
+			base.OnHandleDestroyed(e);
+		}
+
+		protected override void WndProc(ref Message m)
+		{
+			if(m.Msg == WM_CLIPBOARDUPDATE){
+				UpdateChapla();
+			}
+			base.WndProc(ref m);
+		}
 
         public static String GetVersion()
 		{
@@ -1186,7 +1220,7 @@ namespace UyghurEditPP
 		
 		void CaretChanged(object sender, EventArgs e){
 			string herpcode="0000";
-			if (gEditor.CaretOffset<gEditor.Text.Length) { 
+			if (gEditor.CaretOffset<gEditor.Document.TextLength) {
 				UInt32 code = gEditor.TextArea.Document.GetCharAt(gEditor.CaretOffset);
 				herpcode = code.ToString("X4");
             }
@@ -1215,7 +1249,7 @@ namespace UyghurEditPP
 				
 				gEditor.TextArea.TextView.Redraw();
 				
-				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+				Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 				if(curYeziq == Uyghur.YEZIQ.UEY || curYeziq == Uyghur.YEZIQ.YOQ)
 				{
 					gEditor.RightToLeft = true;
@@ -1237,9 +1271,16 @@ namespace UyghurEditPP
 					}
 				}
 			}
-			Invalidate();
+			UpdateToolbar();
 		}
-		
+
+		// Uyghur.Detect looks only at the first 5000 characters; give it just those
+		// instead of building the whole text.
+		static Uyghur.YEZIQ YeziqniBayqa(TextEditor editor)
+		{
+			return Uyghur.Detect(editor.Document.GetText(0, Math.Min(5000, editor.Document.TextLength)));
+		}
+
 		void ToolYeniwalClick(object sender, EventArgs e)
 		{
 			gEditor.Undo();
@@ -1253,11 +1294,12 @@ namespace UyghurEditPP
 		}
 		
 		void TextOzgerdi(object sender, EventArgs e){
-			Invalidate();
+			UpdateToolbar();
 		}
 		void ToolQatlaClick(object sender, EventArgs e)
 		{
 			gEditor.WordWrap = !toolQatla.Checked;
+			UpdateToolbar();
 		}
 		
 		void ToolKesClick(object sender, EventArgs e)
@@ -1338,8 +1380,9 @@ namespace UyghurEditPP
 			else{
 				MenuBSaqlaClick(null,null);
 			}
+			UpdateToolbar();
 		}
-		
+
 		void MenuBSaqlaClick(object sender, EventArgs e)
 		{
 			string newflname = SaveAs(gEditor, mainTab.SelectedTab.Tag.ToString());
@@ -1348,6 +1391,7 @@ namespace UyghurEditPP
 				mainTab.SelectedTab.Tag = newflname;
 				Text = newflname + " - UyghurEdit++";
 			}
+			UpdateToolbar();
 		}
 		
 		string SaveAs(TextEditor curEdit, string fileName = null){
@@ -1400,7 +1444,6 @@ namespace UyghurEditPP
 		void ButQurNomurClick(object sender, EventArgs e)
 		{
 			gEditor.ShowLineNumbers = !gEditor.ShowLineNumbers;
-			Invalidate();
 		}
 		
 		void MenuULElipbeClick(object sender, EventArgs e)
@@ -1449,7 +1492,7 @@ namespace UyghurEditPP
 		
 		void ToolULYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.ToULY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1469,7 +1512,7 @@ namespace UyghurEditPP
 		
 		void ToolUSYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.ToUSY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1490,7 +1533,7 @@ namespace UyghurEditPP
 		
 		void ToolUEYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.ToUEY(txtuey);
@@ -1512,7 +1555,7 @@ namespace UyghurEditPP
 		
 		void ToolULY2UEYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.ULY2UEY(txtuey);
@@ -1533,7 +1576,7 @@ namespace UyghurEditPP
 		}
 		void ToolUSY2UEYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.USY2UEY(txtuey);
@@ -1555,7 +1598,7 @@ namespace UyghurEditPP
 		
 		void ToolUEY2ULYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.UEY2ULY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1576,7 +1619,7 @@ namespace UyghurEditPP
 
 		void ToolUSY2ULYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.USY2ULY(txtuey);
@@ -1598,7 +1641,7 @@ namespace UyghurEditPP
 		
 		void ToolUEY2USYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.UEY2USY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1618,7 +1661,7 @@ namespace UyghurEditPP
 
 		void ToolULY2USYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.ULY2USY(txtuey);
@@ -1662,6 +1705,8 @@ namespace UyghurEditPP
 			}
 			gIzOffset[filenm] = curEdit.CaretOffset;
 			mainTab.TabPages.RemoveAt(tabIndex);
+			// The descriptor holds the editor; release it so the closed tab can be collected.
+			System.ComponentModel.DependencyPropertyDescriptor.FromProperty(TextEditor.IsModifiedProperty, typeof(TextEditor)).RemoveValueChanged(curEdit, TextOzgerdi);
 			curEdit.Clear();
 			curHost.Dispose();
 			return dr;
@@ -1711,14 +1756,14 @@ namespace UyghurEditPP
 		}
 		void MenuHojjetAxirClick(object sender, EventArgs e)
 		{
-			gEditor.CaretOffset = gEditor.Text.Length;
+			gEditor.CaretOffset = gEditor.Document.TextLength;
 			gEditor.ScrollToEnd();
 		}
 
 		void MenuImlaClick(object sender, EventArgs e){
 			menuYeziqAuto.Checked = gYeziqAuto;
 
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			if(curYeziq == Uyghur.YEZIQ.UEY){
 				menuBelge.Enabled = true;
 			}
@@ -2120,7 +2165,7 @@ namespace UyghurEditPP
 		{
 			string ngramtext="";
 			NGram ngram = new NGram(1);
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			if(curYeziq == Uyghur.YEZIQ.UEY)
 			{
 				ngramtext = ngram.MakeNGram(gEditor.Text,this.gUyghurcheSoz);
@@ -2210,7 +2255,7 @@ namespace UyghurEditPP
 		
 		void MenuQoralDropDownOpened(object sender, EventArgs e)
 		{
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			if(curYeziq == Uyghur.YEZIQ.UEY){
 				menuTiz.Enabled = true;
 			}
@@ -2252,7 +2297,7 @@ namespace UyghurEditPP
 		
 		void MenuMakeHTMLClick(object sender, EventArgs e)
 		{
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			string strhtml = MakeHtml(gEditor.Document.Lines,curYeziq);
 			MenuYengiClick(null,null);
 			gEditor.WordWrap = false;
@@ -2315,7 +2360,7 @@ namespace UyghurEditPP
 			List<string> list = new List<string>();
 			if (dr == DialogResult.OK)
 			{
-				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+				Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 				foreach (DocumentLine qur in gEditor.Document.Lines)
 				{
 					list.Add(gEditor.Document.GetText(qur.Offset, qur.Length));
