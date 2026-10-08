@@ -72,16 +72,7 @@ namespace UyghurEditPP
 			}
 			string newsoz;
 			foreach(string soz in IshletkuchiDic){
-				if(yeziq==Uyghur.YEZIQ.ULY){
-					newsoz  = Uyghur.UEY2ULY(soz).ToLower();
-				}
-				else if(yeziq==Uyghur.YEZIQ.USY){
-					newsoz  = Uyghur.UEY2USY(soz).ToLower();
-				}
-				else{
-					newsoz = soz;
-				}
-				Add(newsoz);
+				Add(UEYdin(soz));
 			}
 			
 			
@@ -90,15 +81,7 @@ namespace UyghurEditPP
 			}
 
 			foreach(string qur in XataToghraBuf){
-				if(yeziq==Uyghur.YEZIQ.ULY){
-					newsoz = Uyghur.UEY2ULY(qur).ToLower();
-				}
-				else if(yeziq==Uyghur.YEZIQ.USY){
-					newsoz = Uyghur.UEY2USY(qur).ToLower();
-				}
-				else{
-					newsoz  = qur;
-				}
+				newsoz = UEYdin(qur);
 				string[] tx = newsoz.Split('=');
 				if(tx.Length==2){
 					XataToghra[tx[0].Trim()]=tx[1].Trim();
@@ -113,10 +96,49 @@ namespace UyghurEditPP
 			return ret;
 		}
 		
+		// The user files keep words in UEY; this converts one to the script of this dictionary.
+		string UEYdin(string uey)
+		{
+			if(gYeziq==Uyghur.YEZIQ.ULY){
+				return Uyghur.UEY2ULY(uey).ToLowerInvariant();
+			}
+			if(gYeziq==Uyghur.YEZIQ.USY){
+				return Uyghur.UEY2USY(uey).ToLowerInvariant();
+			}
+			return uey;
+		}
+		
+		/// <summary>
+		/// Adds a word the user marked as correct while another script's dictionary was in
+		/// use (that one saved it to the user file), so this loaded dictionary knows it too.
+		/// </summary>
+		public void IshletkuchiSozQosh(string soz)
+		{
+			soz = soz.ToLowerInvariant().Replace(Uyghur.Sozghuch,"");
+			soz = Uyghur.ToUEY(soz)?? soz;
+			if(IshletkuchiDic.Add(soz)){
+				Add(UEYdin(soz));
+			}
+		}
+		
+		/// <summary>
+		/// Adds a correction the user chose while another script's dictionary was in use.
+		/// </summary>
+		public void XataToghraQosh(string xata, string toghra)
+		{
+			string bk = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant()+"="+toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
+			bk = Uyghur.ToUEY(bk)?? bk;
+			XataToghraBuf.Add(bk);
+			string[] tx = UEYdin(bk).Split('=');
+			if(tx.Length==2){
+				XataToghra[tx[0].Trim()]=tx[1].Trim();
+			}
+		}
+		
 		void ReadIshletkuchiDic()
 		{
 			if(!File.Exists(gImlaIshletkuchi)) return;
-			using (StreamReader sr = new StreamReader(File.OpenRead(gImlaIshletkuchi),true))
+			using (StreamReader sr = new StreamReader(OpenShared(gImlaIshletkuchi),true))
 			{
 				String line;
 				while ((line = sr.ReadLine()) != null)
@@ -142,7 +164,7 @@ namespace UyghurEditPP
 		void ReadXataToghra(string filenm)
 		{
 			if (!File.Exists(filenm)) return;
-			using (StreamReader sr = new StreamReader(File.OpenRead(filenm),true))
+			using (StreamReader sr = new StreamReader(OpenShared(filenm),true))
 			{
 				String qur;
 				while ((qur = sr.ReadLine()) != null)
@@ -158,14 +180,14 @@ namespace UyghurEditPP
 			if(!XataToghra.ContainsKey(xata))
 			{
 				string filenm =gImlaXataToghra;
-				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
-				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
+				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
 				string bk = xt+"="+togh;
 				XataToghra[xt]=togh;				
 				bk= Uyghur.ToUEY(bk)?? bk;
 				XataToghraBuf.Add(bk);
 				try{
-					File.AppendAllText(filenm,bk+System.Environment.NewLine,System.Text.Encoding.UTF8);
+					AppendLine(filenm, bk);
 				}catch(Exception ee){
 					SaveFailed(filenm, ee);
 				}
@@ -174,23 +196,52 @@ namespace UyghurEditPP
 		
 		public string Toghrisi(string xatasi){
 			string toghrisi = null;
-			XataToghra.TryGetValue(xatasi.ToLower().Replace(Uyghur.Sozghuch,""), out toghrisi);
+			XataToghra.TryGetValue(xatasi.ToLowerInvariant().Replace(Uyghur.Sozghuch,""), out toghrisi);
 			return toghrisi;
 		}
 		
 		public void SaveToIshletkuchi(string soz)
 		{
 			string filenm =gImlaIshletkuchi;
-			soz = soz.ToLower().Replace(Uyghur.Sozghuch,"");
+			soz = soz.ToLowerInvariant().Replace(Uyghur.Sozghuch,"");
 			soz = Uyghur.ToUEY(soz)?? soz;
 			IshletkuchiDic.Add(soz);
 			try{
-				File.AppendAllText(filenm, soz+ " 1" +System.Environment.NewLine,System.Text.Encoding.UTF8);
+				AppendLine(filenm, soz+ " 1");
 			}catch(Exception ee){
 				SaveFailed(filenm, ee);
 			}
 		}
 
+		// Another dictionary may be reading the same user file on a background thread, so
+		// readers allow writers and the other way round.
+		static Stream OpenShared(string filenm)
+		{
+			return new FileStream(filenm, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+		}
+		
+		static void AppendLine(string filenm, string line)
+		{
+			byte[] data = System.Text.Encoding.UTF8.GetBytes(line + System.Environment.NewLine);
+			for(int tekrar = 0; ; tekrar++){
+				try{
+					bool yengi = !File.Exists(filenm);
+					using(FileStream fs = new FileStream(filenm, FileMode.Append, FileAccess.Write, FileShare.ReadWrite)){
+						if(yengi && fs.Length == 0){
+							byte[] bom = System.Text.Encoding.UTF8.GetPreamble(); // as File.AppendAllText(..., UTF8) wrote it
+							fs.Write(bom, 0, bom.Length);
+						}
+						fs.Write(data, 0, data.Length);
+					}
+					return;
+				}
+				catch(IOException){
+					if(tekrar >= 1) throw;
+					System.Threading.Thread.Sleep(100);
+				}
+			}
+		}
+		
 		void SaveFailed(string filenm, Exception ee)
 		{
 			ErrorLog.Write(ee);

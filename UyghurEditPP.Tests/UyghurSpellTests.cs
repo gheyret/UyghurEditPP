@@ -77,5 +77,33 @@ namespace UyghurEditPP.Tests
 			StringAssert.Contains(File.ReadAllText(gUser, Encoding.UTF8), "ئالما=ئالمىلار");
 			Assert.AreEqual("ئالمىلار", Load().Toghrisi("ئالما"));
 		}
+
+		// The user file may be open for appending (another dictionary saving a word)
+		// while a dictionary loads.
+		[TestMethod]
+		public void Load_WhileUserFilesAreOpenForWriting_Succeeds()
+		{
+			File.WriteAllText(gUser, "ئالما=ئالمىلار\r\n", Encoding.UTF8);
+			File.WriteAllText(gIshletkuchi, "ئۆردەك 1\r\n", Encoding.UTF8);
+			using (new FileStream(gUser, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+			using (new FileStream(gIshletkuchi, FileMode.Append, FileAccess.Write, FileShare.ReadWrite)) {
+				KenjiSpell spell = Load();
+
+				Assert.AreEqual("ئالمىلار", spell.Toghrisi("ئالما"));
+				Assert.IsTrue(spell.IsListed("ئۆردەك"));
+			}
+		}
+
+		[TestMethod]
+		public void SaveToIshletkuchi_WhileFileIsOpenForReading_Succeeds()
+		{
+			KenjiSpell spell = Load();
+			File.WriteAllText(gIshletkuchi, "", Encoding.UTF8);
+			using (new FileStream(gIshletkuchi, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+				spell.SaveToIshletkuchi("ئۆردەك");
+			}
+
+			StringAssert.Contains(File.ReadAllText(gIshletkuchi, Encoding.UTF8), "ئۆردەك 1");
+		}
 	}
 }

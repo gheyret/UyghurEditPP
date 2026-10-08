@@ -35,7 +35,7 @@ namespace UyghurEditPP
 
 		public List<Range> FindAll(string pattern)
 		{
-			var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+			var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
 			if (!cbRegex.Checked)
 				pattern = Regex.Escape(pattern);
 			if (cbWholeWord.Checked)
@@ -52,7 +52,7 @@ namespace UyghurEditPP
 
 		public bool Find(string pattern)
 		{
-			RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+			RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
 			if (!cbRegex.Checked)
 				pattern = Regex.Escape(pattern);
 			if (cbWholeWord.Checked)

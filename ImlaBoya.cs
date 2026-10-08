@@ -73,7 +73,7 @@ namespace UyghurEditPP
 				return;
 
 			int lineStartOffset = line.Offset;
-			string text = CurrentContext.Document.GetText(line).ToLower();
+			string text = CurrentContext.Document.GetText(line).ToLowerInvariant();
 			if(WordFinder!=null && SpellCheker!=null)
 			{
 				foreach(Match soz in FindWords(text))

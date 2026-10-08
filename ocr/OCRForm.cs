@@ -25,6 +25,9 @@ namespace UyghurEditPP
 		string           gImgFile = null;
 		ToolTip          gTip;
 		bool             gRunning = false;
+		int              gEngineNomur = 0; // which engine request is the latest
+		bool             gEngineYasiliwatidu = false; // an engine is being created
+		string           gKutuwatqanTil = null;      // languages requested meanwhile
 		
 		public OCRForm(TextEditor curedit)
 		{
@@ -77,11 +80,13 @@ namespace UyghurEditPP
 		{
 			try{
 				gRunning = true;
+				// The background task uses this engine, not the field, so the field can change safely.
+				TesseractEngine engine = gOcr;
 				if(radAuto.Checked){
-					gOcr.DefaultPageSegMode = PageSegMode.Auto;
+					engine.DefaultPageSegMode = PageSegMode.Auto;
 				}
 				else{
-					gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
+					engine.DefaultPageSegMode = PageSegMode.SingleBlock;
 				}
 				UpdateButtons();
 				Bitmap roibmp;
@@ -94,7 +99,7 @@ namespace UyghurEditPP
 				roipix = PixConverter.ToPix(roibmp).Deskew().Scale(4.3f,4.3f);
 				roibmp.Dispose();
 				
-				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
+				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(engine, roipix);});
 				string txt = await ocr;
 				roipix.Dispose();
 				gEditor.AppendText(txt);
@@ -113,9 +118,9 @@ namespace UyghurEditPP
 		}
 		
 		
-		string DoOCR(Pix pix){
-			gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
-			Page pg = gOcr.Process(pix);
+		// Uses the page segmentation chosen in the window (ButtonRight sets it).
+		string DoOCR(TesseractEngine engine, Pix pix){
+			Page pg = engine.Process(pix);
 			String buf = pg.GetText();
 			pix.Dispose();
 			pg.Dispose();
@@ -226,47 +231,92 @@ namespace UyghurEditPP
 			}
 			lang = lang.Trim(tr);
 			System.Diagnostics.Debug.WriteLine(lang);
+			// Recognition is not running here: the language boxes are disabled while it runs.
 			if(gOcr!=null){
 				gOcr.Dispose();
 				gOcr = null;
 			}
 			Til = lang;
-			
+			UpdateButtons();
+			gEngineNomur++;           // an engine still being created is out of date now
+			gKutuwatqanTil = null;
+
 			if(lang.Length >=3){
-				gOcr = CreateEngine(lang);
-				if(gOcr!=null){
-					Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+				CreateEngine(lang);
+			}
+			else{
+				this.Cursor = Cursors.Default;
+			}
+		}
+
+		// Loading the language data takes a while (more for several languages), so the
+		// engine is created on a thread-pool thread, one at a time: while one is being
+		// created, only the latest request waits, and it starts when that one is done.
+		// An engine that is out of date when it is ready (the languages changed again, or
+		// the window was closed) is thrown away.
+		// tessdata is looked up next to the program, not in the current directory,
+		// so OCR also works when UyghurEdit++ is started from another folder.
+		void CreateEngine(string lang)
+		{
+			if(gEngineYasiliwatidu){
+				gKutuwatqanTil = lang;
+				return;
+			}
+			StartEngine(lang, gEngineNomur);
+		}
+
+		async void StartEngine(string lang, int nomur)
+		{
+			gEngineYasiliwatidu = true;
+			string tessdata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
+			TesseractEngine engine = null;
+			Exception xata = null;
+			try{
+				engine = await Task.Run(() => new TesseractEngine(tessdata,lang,EngineMode.LstmOnly));
+			}
+			catch(Exception ee){
+				xata = ee;
+			}
+			gEngineYasiliwatidu = false;
+			if(nomur != gEngineNomur || IsDisposed){
+				if(engine!=null){
+					engine.Dispose();
 				}
-				else{
-					Til = "";
+				if(xata!=null){
+					ErrorLog.Write(xata); // not shown: nobody waits for this engine any more
 				}
+				if(!IsDisposed && gKutuwatqanTil!=null){
+					string til = gKutuwatqanTil;
+					gKutuwatqanTil = null;
+					StartEngine(til, gEngineNomur);
+				}
+				return;
 			}
 			this.Cursor = Cursors.Default;
+			if(engine!=null){
+				gOcr = engine;
+				Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+			}
+			else{
+				Til = "";
+				ShowEngineError(xata, tessdata);
+			}
 			UpdateButtons();
 		}
 
-		// tessdata is looked up next to the program, not in the current directory,
-		// so OCR also works when UyghurEdit++ is started from another folder.
-		TesseractEngine CreateEngine(string lang)
+		void ShowEngineError(Exception ee, string tessdata)
 		{
-			string tessdata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
-			try{
-				return new TesseractEngine(tessdata,lang,EngineMode.LstmOnly);
+			ErrorLog.Write(ee);
+			string msg;
+			if(IsMissingLibrary(ee)){
+				msg = MainForm.gLang.GetText("OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):")
+					+ Environment.NewLine + "https://aka.ms/vs/17/release/vc_redist.x64.exe";
 			}
-			catch(Exception ee){
-				ErrorLog.Write(ee);
-				string msg;
-				if(IsMissingLibrary(ee)){
-					msg = MainForm.gLang.GetText("OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):")
-						+ Environment.NewLine + "https://aka.ms/vs/17/release/vc_redist.x64.exe";
-				}
-				else{
-					msg = MainForm.gLang.GetText("OCR could not start. Please check that this folder contains the language data (.traineddata) files:")
-						+ Environment.NewLine + tessdata;
-				}
-				MessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return null;
+			else{
+				msg = MainForm.gLang.GetText("OCR could not start. Please check that this folder contains the language data (.traineddata) files:")
+					+ Environment.NewLine + tessdata;
 			}
+			MessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		static bool IsMissingLibrary(Exception ee)
@@ -284,8 +334,11 @@ namespace UyghurEditPP
 				e.Cancel = true;
 			}
 			else{
+				gEngineNomur++; // an engine still being created is thrown away when it is ready
+				gKutuwatqanTil = null;
 				if(gOcr!=null){
 					gOcr.Dispose();
+					gOcr = null;
 				}
 			}
 		}

@@ -347,7 +347,7 @@ public class Uyghur
 						herp = qur[stind];
 					}
 					if (stind < qur.Length) {
-						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 					}
 					match = jumle.Match(qur, stind);
 				}
@@ -361,7 +361,7 @@ public class Uyghur
 					herp = qur[stind];
 				}
 				if (stind < qur.Length && char.IsLower(qur[stind])) {
-					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 				}
 				qurlar[i] = qur;
 			}
@@ -369,6 +369,24 @@ public class Uyghur
 		return string.Join(sp[0], qurlar);
 	}
 
+
+	// Case conversion for the Case menu. ULY uses I/i like English (see ULYHerpler), so it
+	// must not follow a Turkish Windows culture, which would give İ and ı.
+	public static string ChongYaz(string text)
+	{
+		return text.ToUpperInvariant();
+	}
+
+	public static string KichikYaz(string text)
+	{
+		return text.ToLowerInvariant();
+	}
+
+	// Capitalizes the first letter of every word.
+	public static string MawzuYaz(string text)
+	{
+		return Regex.Replace(text, @"(?<!\S)\p{Ll}", m => m.Value.ToUpperInvariant());
+	}
 
 	public static string USYJumleChongYaz(string newtext)
 	{
@@ -393,7 +411,7 @@ public class Uyghur
 						herp = qur[stind];
 					}
 					if (stind < qur.Length) {
-						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+						qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 					}
 					match = jumle.Match(qur, stind);
 				}
@@ -407,7 +425,7 @@ public class Uyghur
 					herp = qur[stind];
 				}
 				if (stind < qur.Length && char.IsLower(qur[stind])) {
-					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpper(herp).ToString());
+					qur = qur.Remove(stind, 1).Insert(stind, char.ToUpperInvariant(herp).ToString());
 				}
 				qurlar[i] = qur;
 			}

@@ -212,5 +212,15 @@
     "uly": "",
     "jpn": "",
     "eng": "Unsaved changes will be discarded. Continue?"
+  },
+  "Loading the spelling dictionary...": {
+    "uly": "",
+    "jpn": "",
+    "eng": "Loading the spelling dictionary..."
+  },
+  "The spelling dictionary could not be loaded.": {
+    "uly": "",
+    "jpn": "",
+    "eng": "The spelling dictionary could not be loaded."
   }
 }

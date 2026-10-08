@@ -41,7 +41,7 @@ namespace UyghurEditPP
 
 		public override Int64 Add(String soz,  Int64 tekrar=1)
 		{
-			string szWord = soz.Replace(Uyghur.Sozghuch,"").Trim().ToLower();
+			string szWord = soz.Replace(Uyghur.Sozghuch,"").Trim().ToLowerInvariant();
 			if(szWord.Trim().Length==0){
 				return 0;
 			}
@@ -92,7 +92,7 @@ namespace UyghurEditPP
 		public override bool IsListed(String szWord, bool siziqtekshur=true)
 		{
 			if (m_RootNode == null) return false;
-			string inSoz = szWord.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+			string inSoz = szWord.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
 			bool ret=_IsWordListed(m_RootNode,inSoz);
 			if(ret==false && inSoz.IndexOf("-")>0 && siziqtekshur){
 				int ind = inSoz.IndexOf("-");
@@ -173,10 +173,10 @@ namespace UyghurEditPP
 					{
 						string key = lineParts[0];
 						if(yeziq==Uyghur.YEZIQ.ULY){
-							key  = Uyghur.UEY2ULY(key).ToLower();
+							key  = Uyghur.UEY2ULY(key).ToLowerInvariant();
 						}
 						else if(yeziq==Uyghur.YEZIQ.USY){
-							key  = Uyghur.UEY2USY(key).ToLower();
+							key  = Uyghur.UEY2USY(key).ToLowerInvariant();
 						}
 						Int64 count;
 						if (Int64.TryParse(lineParts[1], out count))
@@ -253,7 +253,7 @@ namespace UyghurEditPP
 			if (m_RootNode == null) return Namzatlar;
 			char[] herpler;
 			String yasSoz="";
-			Soz = Soz.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
+			Soz = Soz.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
 			int lenSoz=Soz.Length;
 			int i;
 			
@@ -379,7 +379,7 @@ namespace UyghurEditPP
 			tmpNam.Clear();
 			_namzatlar.Clear();
 			tmpQeliplar.Clear();
-			if(Soz.EndsWith("سى") || Soz.EndsWith("si") || Soz.EndsWith("си"))
+			if(Soz.EndsWith("سى", StringComparison.Ordinal) || Soz.EndsWith("si", StringComparison.Ordinal) || Soz.EndsWith("си", StringComparison.Ordinal))
 			{
 				//kelgusi
 				yasSoz=Soz.Substring(0,lenSoz-2);
@@ -390,7 +390,7 @@ namespace UyghurEditPP
 					_GetSuggestions(yasSoz+"?");
 				}
 			}
-			else if(Soz.EndsWith("ى") || Soz.EndsWith("i") || Soz.EndsWith("и")){
+			else if(Soz.EndsWith("ى", StringComparison.Ordinal) || Soz.EndsWith("i", StringComparison.Ordinal) || Soz.EndsWith("и", StringComparison.Ordinal)){
 				//qedimi
 				yasSoz=Soz.Substring(0,lenSoz-1);
 				_GetSuggestions(yasSoz);
