@@ -12,6 +12,7 @@ namespace UyghurEditPP.Tests
 		string gFile;
 		Action<string, string, string> gOriginalReplace;
 		Action<Exception> gOriginalLog;
+		Action<string, string> gOriginalMove;
 		int gLogged;
 
 		[TestInitialize]
@@ -22,6 +23,7 @@ namespace UyghurEditPP.Tests
 			gFile = Path.Combine(gFolder, "test.txt");
 			gOriginalReplace = SafeFile.ReplaceFile;
 			gOriginalLog = SafeFile.Log;
+			gOriginalMove = SafeFile.MoveFile;
 			gLogged = 0;
 			SafeFile.Log = ee => gLogged++;
 		}
@@ -31,6 +33,7 @@ namespace UyghurEditPP.Tests
 		{
 			SafeFile.ReplaceFile = gOriginalReplace;
 			SafeFile.Log = gOriginalLog;
+			SafeFile.MoveFile = gOriginalMove;
 			if(Directory.Exists(gFolder)){
 				foreach(string f in Directory.GetFiles(gFolder)){
 					File.SetAttributes(f, FileAttributes.Normal);
@@ -203,6 +206,52 @@ namespace UyghurEditPP.Tests
 
 			Assert.AreEqual("original", File.ReadAllText(gFile));
 			AssertOnlyTargetLeft();
+		}
+
+		// After ERROR_UNABLE_TO_MOVE_REPLACEMENT_2 the temporary file cannot be moved
+		// either: the original is moved back from the backup name.
+		[TestMethod]
+		public void Write_ReplaceAndMoveFail_RestoresOriginal()
+		{
+			File.WriteAllText(gFile, "original");
+			SafeFile.ReplaceFile = (src, dst, bak) => {
+				File.Move(dst, bak);
+				throw new IOException("unable to move replacement");
+			};
+			SafeFile.MoveFile = (src, dst) => {
+				if(src.EndsWith(".tmp")) throw new IOException("temp file locked");
+				gOriginalMove(src, dst);
+			};
+
+			Assert.ThrowsException<IOException>(() =>
+				SafeFile.Write(gFile, Bytes(Encoding.UTF8.GetBytes("new"))));
+
+			Assert.AreEqual("original", File.ReadAllText(gFile));
+			Assert.AreEqual(2, gLogged);
+			AssertOnlyTargetLeft();
+		}
+
+		[TestMethod]
+		public void Write_NothingCanBeMoved_NamesBothFiles()
+		{
+			File.WriteAllText(gFile, "original");
+			string backup = null;
+			SafeFile.ReplaceFile = (src, dst, bak) => {
+				backup = bak;
+				File.Move(dst, bak);
+				throw new IOException("unable to move replacement");
+			};
+			SafeFile.MoveFile = (src, dst) => { throw new IOException("locked"); };
+
+			IOException ex = Assert.ThrowsException<IOException>(() =>
+				SafeFile.Write(gFile, Bytes(Encoding.UTF8.GetBytes("new"))));
+
+			Assert.AreEqual("original", File.ReadAllText(backup));
+			string temp = Path.ChangeExtension(backup, ".tmp");
+			Assert.AreEqual("new", File.ReadAllText(temp));
+			StringAssert.Contains(ex.Message, backup);
+			StringAssert.Contains(ex.Message, temp);
+			Assert.AreEqual(3, gLogged);
 		}
 
 		static byte[] Combine(byte[] a, byte[] b)

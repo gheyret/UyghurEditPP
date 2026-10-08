@@ -11,8 +11,9 @@ namespace UyghurEditPP
 {
 	public static class SafeFile
 	{
-		// Seams for the tests: the replace call and the error log.
+		// Seams for the tests: the file operations and the error log.
 		internal static Action<string, string, string> ReplaceFile = (source, destination, backup) => File.Replace(source, destination, backup, true);
+		internal static Action<string, string> MoveFile = File.Move;
 		internal static Action<Exception> Log = ee => ErrorLog.Write(ee);
 
 		/// <summary>
@@ -78,7 +79,23 @@ namespace UyghurEditPP
 			Log(replaceError);
 			if(!File.Exists(fullName)){
 				// The original is only under the backup name: finish the job.
-				File.Move(tempName, fullName);
+				try{
+					MoveFile(tempName, fullName);
+				}
+				catch(Exception moveError){
+					// Whatever blocked the replace (for example a virus scanner holding the
+					// temporary file) may still be there. Put the original back instead.
+					Log(moveError);
+					try{
+						MoveFile(backupName, fullName);
+					}
+					catch(Exception restoreError){
+						Log(restoreError);
+						throw new IOException("The file could not be saved. The original content is in " + backupName + " and the new content is in " + tempName, moveError);
+					}
+					DeleteQuietly(tempName);
+					throw new IOException("The file could not be saved; it was left unchanged.", moveError);
+				}
 				DeleteQuietly(backupName);
 				return;
 			}
