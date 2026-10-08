@@ -140,7 +140,7 @@ namespace UyghurEditPP
 			gMenuSozTekshurme.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
 			gMenuSozTekshurme.Click += menuSozImla;
 			
-			gConfName = Path.Combine(Application.StartupPath, gConfName);
+			gConfName = AppPaths.DataFile(gConfName);
 		}
 		
 		private bool IsFontInstalled(string fontName) {
@@ -1671,11 +1671,11 @@ namespace UyghurEditPP
 					formatter.Serialize(fs, gConfig);
 				}
 			}
-			catch(SerializationException er)
+			catch(Exception er)
 			{
-                System.Diagnostics.Debug.WriteLine(er.StackTrace);
+				// Losing the settings is better than not being able to close the program.
                 System.Diagnostics.Debug.WriteLine("Failed to serialize. Reason: " + er.Message);
-				throw;
+				ErrorLog.Write(er);
 			}
 			//gLang.Save(Path.Combine(Application.StartupPath, "langdata.txt"));
 		}

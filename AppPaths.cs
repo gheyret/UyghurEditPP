@@ -2,7 +2,8 @@
  * Where UyghurEdit++ keeps its own files (settings, user dictionaries, logs).
  *
  * The program folder may be read-only (for example under Program Files), so
- * these files live in %AppData%\UyghurEditPP.
+ * these files live in %AppData%\UyghurEditPP. Files left in the program folder
+ * by older versions are copied there once.
  */
 using System;
 using System.IO;
@@ -12,6 +13,12 @@ namespace UyghurEditPP
 {
 	public static class AppPaths
 	{
+		public const string ConfigFileName      = "uyghuredit.cfg";
+		public const string IshletkuchiFileName = "imla_ishletkuchi.txt";
+		public const string XataToghraFileName  = "imla_xatatoghra.txt";
+
+		static readonly string[] gKonaHojjetler = { ConfigFileName, IshletkuchiFileName, XataToghraFileName };
+
 		/// <summary>
 		/// %AppData%\UyghurEditPP
 		/// </summary>
@@ -25,6 +32,60 @@ namespace UyghurEditPP
 			get{
 				return Path.Combine(DataFolder, "logs");
 			}
+		}
+
+		public static string ProgramFolder{
+			get{
+				return AppDomain.CurrentDomain.BaseDirectory;
+			}
+		}
+
+		public static string DataFile(string fileName)
+		{
+			return Path.Combine(DataFolder, fileName);
+		}
+
+		/// <summary>
+		/// Creates the data folder and copies settings and user dictionaries that
+		/// older versions saved next to the program. Never throws; failures are logged.
+		/// </summary>
+		public static void Prepare()
+		{
+			try{
+				Directory.CreateDirectory(DataFolder);
+			}
+			catch(Exception ee){
+				ErrorLog.Write(ee);
+				return;
+			}
+			foreach(string name in gKonaHojjetler){
+				try{
+					MigrateFile(name, ProgramFolder, DataFolder);
+				}
+				catch(Exception ee){
+					ErrorLog.Write(ee);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Copies oldFolder\fileName to newFolder\fileName when the new file does not
+		/// exist yet and the old one does. The old file is left in place.
+		/// Returns true when a file was copied.
+		/// </summary>
+		public static bool MigrateFile(string fileName, string oldFolder, string newFolder)
+		{
+			string oldPath = Path.Combine(oldFolder, fileName);
+			string newPath = Path.Combine(newFolder, fileName);
+			if(File.Exists(newPath) || !File.Exists(oldPath)){
+				return false;
+			}
+			if(string.Equals(Path.GetFullPath(oldPath), Path.GetFullPath(newPath), StringComparison.OrdinalIgnoreCase)){
+				return false;
+			}
+			Directory.CreateDirectory(newFolder);
+			File.Copy(oldPath, newPath, false);
+			return true;
 		}
 	}
 

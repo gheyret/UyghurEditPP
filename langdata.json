@@ -192,5 +192,10 @@
     "uly": "",
     "jpn": "",
     "eng": "Details were saved to:"
+  },
+  "Could not save the word to the user dictionary:": {
+    "uly": "",
+    "jpn": "",
+    "eng": "Could not save the word to the user dictionary:"
   }
 }

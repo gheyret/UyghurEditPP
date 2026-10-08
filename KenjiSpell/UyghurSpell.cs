@@ -29,13 +29,13 @@ namespace UyghurEditPP
 		
 		protected Uyghur.YEZIQ gYeziq;
 
-		string gImlaIshletkuchi = "imla_ishletkuchi.txt";
-		string gImlaXataToghra = "imla_xatatoghra.txt";
+		string gImlaIshletkuchi = AppPaths.IshletkuchiFileName;
+		string gImlaXataToghra = AppPaths.XataToghraFileName;
 		
 		
 		internal UyghurSpell(){
-			gImlaIshletkuchi = Path.Combine(Application.StartupPath, gImlaIshletkuchi);
-			gImlaXataToghra = Path.Combine(Application.StartupPath, gImlaXataToghra);
+			gImlaIshletkuchi = AppPaths.DataFile(gImlaIshletkuchi);
+			gImlaXataToghra = AppPaths.DataFile(gImlaXataToghra);
 		}
 		
 		public string IshletkcuhiAmbarIsimi{
@@ -140,7 +140,7 @@ namespace UyghurEditPP
 		{
 			if(!XataToghra.ContainsKey(xata))
 			{
-				string filenm =Path.Combine(Application.StartupPath, gImlaXataToghra);
+				string filenm =gImlaXataToghra;
 				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 				string bk = xt+"="+togh;
@@ -149,8 +149,8 @@ namespace UyghurEditPP
 				XataToghraBuf.Add(bk);
 				try{
 					File.AppendAllText(filenm,bk+System.Environment.NewLine,System.Text.Encoding.UTF8);
-				}catch{
-					
+				}catch(Exception ee){
+					SaveFailed(filenm, ee);
 				}
 			}
 		}
@@ -163,15 +163,22 @@ namespace UyghurEditPP
 		
 		public void SaveToIshletkuchi(string soz)
 		{
-			string filenm =Path.Combine(Application.StartupPath, gImlaIshletkuchi);
+			string filenm =gImlaIshletkuchi;
 			soz = soz.ToLower().Replace(Uyghur.Sozghuch,"");
 			soz = Uyghur.ToUEY(soz)?? soz;
 			IshletkuchiDic.Add(soz);
 			try{
 				File.AppendAllText(filenm, soz+ " 1" +System.Environment.NewLine,System.Text.Encoding.UTF8);
-			}catch{
-				
+			}catch(Exception ee){
+				SaveFailed(filenm, ee);
 			}
+		}
+
+		void SaveFailed(string filenm, Exception ee)
+		{
+			ErrorLog.Write(ee);
+			MessageBox.Show(MainForm.gLang.GetText("Could not save the word to the user dictionary:") + Environment.NewLine + filenm + Environment.NewLine + Environment.NewLine + ee.Message,
+			                "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
 	}
 }

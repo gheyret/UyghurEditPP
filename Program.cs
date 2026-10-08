@@ -28,6 +28,7 @@ namespace UyghurEditPP
 			Application.ThreadException += ThreadException;
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
 			System.Windows.Threading.Dispatcher.CurrentDispatcher.UnhandledException += DispatcherUnhandledException;
+			AppPaths.Prepare();
 			try{
 				MainForm frm = new MainForm();
 				frm.Show();
