@@ -41,6 +41,8 @@ namespace UyghurEditPP
 			[DataMember(Name = "window", EmitDefaultValue = false, Order = 9)] public Bounds Window;
 			[DataMember(Name = "recentFiles", EmitDefaultValue = false, Order = 10)] public string[] RecentFiles;
 			[DataMember(Name = "caretOffsets", EmitDefaultValue = false, Order = 11)] public List<FileOffset> CaretOffsets;
+			// "light", "dark" or "system" (follow the Windows app mode); none = light.
+			[DataMember(Name = "theme", EmitDefaultValue = false, Order = 12)] public string Theme;
 		}
 
 		[DataContract]
@@ -124,6 +126,7 @@ namespace UyghurEditPP
 			if(d.FontWeight.HasValue) h["FONTWEIGHT"] = d.FontWeight.Value;
 			if(d.Window != null) h["CHONGLUQI"] = new Rectangle(d.Window.X, d.Window.Y, d.Window.Width, d.Window.Height);
 			if(d.RecentFiles != null) h["IZLAR"] = Array.FindAll(d.RecentFiles, f => !string.IsNullOrEmpty(f));
+			if(d.Theme != null) h["TEMA"] = d.Theme;
 			if(d.CaretOffsets != null){
 				Dictionary<string,int> orunlar = new Dictionary<string, int>();
 				foreach(FileOffset fo in d.CaretOffsets){
@@ -150,6 +153,7 @@ namespace UyghurEditPP
 				d.Window = new Bounds{X = rc.X, Y = rc.Y, Width = rc.Width, Height = rc.Height};
 			}
 			d.RecentFiles = h["IZLAR"] as string[];
+			d.Theme = h["TEMA"] as string;
 			Dictionary<string,int> orunlar = h["ORUNLAR"] as Dictionary<string,int>;
 			if(orunlar != null){
 				d.CaretOffsets = new List<FileOffset>();

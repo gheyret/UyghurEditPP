@@ -296,6 +296,7 @@
     </Compile>
     <Compile Include="Language.cs" />
     <Compile Include="UiTheme.cs" />
+    <Compile Include="UiThemer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

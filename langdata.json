@@ -599,5 +599,25 @@
   "neshrini ishletken": {
     "jpn": "Tesseract {0} を使用",
     "eng": "using Tesseract {0}"
+  },
+  "Theme": {
+    "uly": "Körünüsh",
+    "jpn": "テーマ",
+    "eng": "Theme"
+  },
+  "Light": {
+    "uly": "Yoruq",
+    "jpn": "ライト",
+    "eng": "Light"
+  },
+  "Dark": {
+    "uly": "Qarangghu",
+    "jpn": "ダーク",
+    "eng": "Dark"
+  },
+  "Follow Windows": {
+    "uly": "{Windows} bilen birdek",
+    "jpn": "Windows の設定に従う",
+    "eng": "Follow Windows"
   }
 }

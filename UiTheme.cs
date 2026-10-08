@@ -28,6 +28,21 @@ namespace UyghurEditPP
 		public Color TabHover;
 		public Color TabBorder;
 		public Color Accent;         // the line on top of the active tab
+		public bool IsDark;
+		// Windows of their own (OCR, About ...): the form, its buttons and text boxes.
+		public Color FormBack;
+		public Color FormText;
+		public Color ButtonBack;
+		public Color LinkText;
+		// The editor (WPF). In the light theme these are left at the editor's own defaults.
+		public Color EditorBack;
+		public Color EditorText;
+		public Color LineNumbers;
+		public Color Selection;
+		public Color Caret;
+		public Color Misspelled;     // the wavy line under misspelled words
+		public Color FoundBack;      // words marked by the find window
+		public Color FoundText;
 
 		public static readonly UiTheme Light = new UiTheme {
 			Bar = Color.FromArgb(0xF5, 0xF5, 0xF5),
@@ -48,9 +63,115 @@ namespace UyghurEditPP
 			TabHover = Color.FromArgb(0xF2, 0xF2, 0xF2),
 			TabBorder = Color.FromArgb(0xC0, 0xC0, 0xC0),
 			Accent = Color.FromArgb(0x00, 0x93, 0xE6),
+			IsDark = false,
+			FormBack = SystemColors.Control,
+			FormText = SystemColors.ControlText,
+			ButtonBack = SystemColors.Control,
+			LinkText = Color.Blue,
+			EditorBack = Color.White,
+			EditorText = Color.Black,
+			LineNumbers = Color.Gray,
+			Selection = SystemColors.Highlight,
+			Caret = Color.Black,
+			Misspelled = Color.Red,
+			FoundBack = Color.Yellow,
+			FoundText = Color.Black,
+		};
+
+		public static readonly UiTheme Dark = new UiTheme {
+			Bar = Color.FromArgb(0x2B, 0x2B, 0x2B),
+			BarText = Color.FromArgb(0xE0, 0xE0, 0xE0),
+			BarLine = Color.FromArgb(0x44, 0x44, 0x44),
+			MenuBack = Color.FromArgb(0x2B, 0x2B, 0x2B),
+			MenuBorder = Color.FromArgb(0x5A, 0x5A, 0x5A),
+			MenuSelected = Color.FromArgb(0x3F, 0x4A, 0x55),
+			MenuSelectedBorder = Color.FromArgb(0x55, 0x66, 0x77),
+			Separator = Color.FromArgb(0x50, 0x50, 0x50),
+			ButtonPressed = Color.FromArgb(0x26, 0x4F, 0x78),
+			ButtonChecked = Color.FromArgb(0x2F, 0x4A, 0x63),
+			TabStrip = Color.FromArgb(0x25, 0x25, 0x26),
+			TabActive = Color.FromArgb(0x1E, 0x1E, 0x1E),
+			TabActiveText = Color.White,
+			TabInactive = Color.FromArgb(0x2D, 0x2D, 0x2D),
+			TabInactiveText = Color.FromArgb(0xB4, 0xB4, 0xB4),
+			TabHover = Color.FromArgb(0x3A, 0x3A, 0x3A),
+			TabBorder = Color.FromArgb(0x44, 0x44, 0x44),
+			Accent = Color.FromArgb(0x00, 0x93, 0xE6),
+			IsDark = true,
+			FormBack = Color.FromArgb(0x20, 0x20, 0x20),
+			FormText = Color.FromArgb(0xE0, 0xE0, 0xE0),
+			ButtonBack = Color.FromArgb(0x33, 0x33, 0x33),
+			LinkText = Color.FromArgb(0x4E, 0xA6, 0xEA),
+			EditorBack = Color.FromArgb(0x1E, 0x1E, 0x1E),
+			EditorText = Color.FromArgb(0xDC, 0xDC, 0xDC),
+			LineNumbers = Color.FromArgb(0x85, 0x85, 0x85),
+			Selection = Color.FromArgb(0x26, 0x4F, 0x78),
+			Caret = Color.White,
+			Misspelled = Color.FromArgb(0xF1, 0x4C, 0x4C),
+			FoundBack = Color.FromArgb(0x80, 0x60, 0x00),
+			FoundText = Color.White,
 		};
 
 		public static UiTheme Current = Light;
+
+		// The values of the "theme" setting.
+		public const string LightSetting = "light";
+		public const string DarkSetting = "dark";
+		public const string SystemSetting = "system";
+
+		/// <summary>The theme for a setting; anything unknown is the light theme.</summary>
+		public static UiTheme FromSetting(string setting)
+		{
+			if(DarkSetting.Equals(setting)){
+				return Dark;
+			}
+			if(SystemSetting.Equals(setting)){
+				return WindowsUsesDarkMode() ? Dark : Light;
+			}
+			return Light;
+		}
+
+		/// <summary>
+		/// Whether apps are set to dark mode in the Windows settings. Read the same way as
+		/// Windows Forms in .NET 9+ does (AppsUseLightTheme = 0 means dark; see dotnet/winforms,
+		/// Application.cs); never dark with a high contrast theme.
+		/// </summary>
+		public static bool WindowsUsesDarkMode()
+		{
+			if(SystemInformation.HighContrast){
+				return false;
+			}
+			try{
+				object value = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1);
+				return value is int && (int)value == 0;
+			}
+			catch(Exception ee){
+				System.Diagnostics.Debug.WriteLine(ee);
+				return false;
+			}
+		}
+
+		[System.Runtime.InteropServices.DllImport("dwmapi.dll")]
+		static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
+		const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
+
+		/// <summary>
+		/// Dark or light title bar. Only on Windows 11 (build 22000) or later, where this window
+		/// attribute is documented; Windows 10 keeps the light title bar.
+		/// </summary>
+		public static void SetTitleBar(IntPtr hwnd, bool dark)
+		{
+			if(hwnd == IntPtr.Zero || Environment.OSVersion.Version.Major < 10 || Environment.OSVersion.Version.Build < 22000){
+				return;
+			}
+			int value = dark ? 1 : 0;
+			try{
+				DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ref value, sizeof(int));
+			}
+			catch(Exception ee){
+				System.Diagnostics.Debug.WriteLine(ee);
+			}
+		}
 	}
 
 	/// <summary>The toolbar and menu colors of a theme.</summary>
@@ -123,6 +244,17 @@ namespace UyghurEditPP
 			RoundedEdges = false;
 		}
 
+		protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+		{
+			if(e.ToolStrip is StatusStrip){
+				using(SolidBrush back = new SolidBrush(gTheme.Bar)){
+					e.Graphics.FillRectangle(back, e.AffectedBounds);
+				}
+				return;
+			}
+			base.OnRenderToolStripBackground(e);
+		}
+
 		protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
 		{
 			ToolStrip strip = e.ToolStrip;
@@ -142,10 +274,46 @@ namespace UyghurEditPP
 
 		protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
 		{
-			if(e.Item.Enabled && !(e.ToolStrip is ToolStripDropDown)){
+			if(e.Item.Enabled){
 				e.TextColor = gTheme.BarText;
 			}
+			else if(gTheme.IsDark){
+				e.TextColor = Color.FromArgb(0x80, 0x80, 0x80);
+			}
 			base.OnRenderItemText(e);
+		}
+
+		protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
+		{
+			if(e.Item == null || e.Item.Enabled){
+				e.ArrowColor = gTheme.BarText;
+			}
+			base.OnRenderArrow(e);
+		}
+
+		// The check mark of a menu item; drawn as lines in the dark theme, where the usual
+		// black mark would not show.
+		protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
+		{
+			if(!gTheme.IsDark){
+				base.OnRenderItemCheck(e);
+				return;
+			}
+			Rectangle rc = e.ImageRectangle;
+			rc.Inflate(1, 1);
+			using(SolidBrush back = new SolidBrush(gTheme.ButtonChecked)){
+				e.Graphics.FillRectangle(back, rc);
+			}
+			float w = Math.Max(1.5f, rc.Height / 8f);
+			System.Drawing.Drawing2D.SmoothingMode old = e.Graphics.SmoothingMode;
+			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+			using(Pen pen = new Pen(gTheme.BarText, w)){
+				e.Graphics.DrawLines(pen, new[] {
+					new PointF(rc.Left + rc.Width * 0.25f, rc.Top + rc.Height * 0.52f),
+					new PointF(rc.Left + rc.Width * 0.43f, rc.Top + rc.Height * 0.70f),
+					new PointF(rc.Left + rc.Width * 0.76f, rc.Top + rc.Height * 0.32f) });
+			}
+			e.Graphics.SmoothingMode = old;
 		}
 	}
 }
