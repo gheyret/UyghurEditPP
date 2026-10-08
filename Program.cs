@@ -37,7 +37,14 @@ namespace UyghurEditPP
 				// Every file given (e.g. several files dropped on the exe, or "Open with" on a
 				// selection), each in its own tab; with more than one, none was opened before.
 				foreach(string arg in args){
-					frm.OpenaFile(arg);
+					// A file that cannot be opened (no permission, locked ...) is reported, and
+					// the program still starts with the others.
+					try{
+						frm.OpenaFile(arg);
+					}
+					catch(Exception ee){
+						ShowError(ee);
+					}
 				}
 				Application.Run(frm);
 			}catch(Exception ee){
