@@ -13,6 +13,7 @@ namespace UyghurEditPP.Tests
 		Action<string, string, string> gOriginalReplace;
 		Action<Exception> gOriginalLog;
 		Action<string, string> gOriginalMove;
+		Func<string, FileStream> gOriginalCreateTemp;
 		int gLogged;
 
 		[TestInitialize]
@@ -24,6 +25,7 @@ namespace UyghurEditPP.Tests
 			gOriginalReplace = SafeFile.ReplaceFile;
 			gOriginalLog = SafeFile.Log;
 			gOriginalMove = SafeFile.MoveFile;
+			gOriginalCreateTemp = SafeFile.CreateTemp;
 			gLogged = 0;
 			SafeFile.Log = ee => gLogged++;
 		}
@@ -34,6 +36,7 @@ namespace UyghurEditPP.Tests
 			SafeFile.ReplaceFile = gOriginalReplace;
 			SafeFile.Log = gOriginalLog;
 			SafeFile.MoveFile = gOriginalMove;
+			SafeFile.CreateTemp = gOriginalCreateTemp;
 			if(Directory.Exists(gFolder)){
 				foreach(string f in Directory.GetFiles(gFolder)){
 					File.SetAttributes(f, FileAttributes.Normal);
@@ -252,6 +255,25 @@ namespace UyghurEditPP.Tests
 			StringAssert.Contains(ex.Message, backup);
 			StringAssert.Contains(ex.Message, temp);
 			Assert.AreEqual(3, gLogged);
+		}
+
+		// The folder lets the user change the file but not create new files in it.
+		[DataTestMethod]
+		[DataRow(true)]
+		[DataRow(false)]
+		public void Write_CannotCreateTempFile_WritesDirectly(bool unauthorized)
+		{
+			File.WriteAllText(gFile, "a longer original content");
+			SafeFile.CreateTemp = name => {
+				if(unauthorized) throw new UnauthorizedAccessException("no create permission");
+				throw new IOException("cannot create");
+			};
+
+			SafeFile.Write(gFile, Bytes(Encoding.UTF8.GetBytes("new")));
+
+			Assert.AreEqual("new", File.ReadAllText(gFile));
+			Assert.AreEqual(1, gLogged);
+			AssertOnlyTargetLeft();
 		}
 
 		static byte[] Combine(byte[] a, byte[] b)

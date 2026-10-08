@@ -14,6 +14,7 @@ namespace UyghurEditPP
 		// Seams for the tests: the file operations and the error log.
 		internal static Action<string, string, string> ReplaceFile = (source, destination, backup) => File.Replace(source, destination, backup, true);
 		internal static Action<string, string> MoveFile = File.Move;
+		internal static Func<string, FileStream> CreateTemp = name => new FileStream(name, FileMode.CreateNew, FileAccess.Write, FileShare.None);
 		internal static Action<Exception> Log = ee => ErrorLog.Write(ee);
 
 		/// <summary>
@@ -36,8 +37,24 @@ namespace UyghurEditPP
 			string tempName = prefix + ".tmp";
 			string backupName = prefix + ".bak";
 
+			FileStream temp;
 			try{
-				using (FileStream fs = new FileStream(tempName, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
+				temp = CreateTemp(tempName);
+			}
+			catch(Exception ee){
+				if(!(ee is UnauthorizedAccessException || ee is IOException)){
+					throw;
+				}
+				// The folder may allow writing the file but not creating new files in it.
+				// Write the file directly, as files were saved before.
+				Log(ee);
+				using (FileStream fs = new FileStream(fullName, FileMode.Create, FileAccess.Write, FileShare.None)) {
+					write(fs);
+				}
+				return;
+			}
+			try{
+				using (FileStream fs = temp) {
 					write(fs);
 					fs.Flush(true);
 				}
