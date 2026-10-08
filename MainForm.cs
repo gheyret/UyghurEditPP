@@ -440,6 +440,9 @@ namespace UyghurEditPP
 			UpdateToolbar();
 		}
 		
+		// Note: ChongYaz, KichikYaz and MawzuYaz still use the Windows culture (ToUpper/ToLower).
+		// Under a Turkish culture "i" becomes "İ", which is not a ULY letter. Whether these menu
+		// commands should use the invariant culture is waiting for the owner's decision.
 		//Tallanghan yaki nur belgisi turghan orundiki mezmunni CHong Yezilishqa ozgertidu
 		void ChongYaz(object sender,EventArgs e)
 		{
