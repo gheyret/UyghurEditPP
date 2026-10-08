@@ -21,6 +21,8 @@ namespace UyghurEditPP
 			IntPtr ownerHandle = owner != null ? owner.Handle : IntPtr.Zero;
 			// In the Arabic-script UI the box reads from right to left.
 			MessageBoxOptions options = RightToLeftUi ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : 0;
+			// The captions are Latin ("UyghurEdit++ v0.82"): keep "++" at the end when read right to left.
+			caption = LeftToRight(caption);
 			return Run(ownerHandle, () => owner != null
 				? MessageBox.Show(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, options)
 				: MessageBox.Show(text, caption, buttons, icon, MessageBoxDefaultButton.Button1, options));

@@ -179,7 +179,8 @@ namespace UyghurEditPP
 		{
 			Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi");
 			if(gOcr!=null){
-				Text += "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+				// A space, and the Latin part as one left-to-right run (it stays at the end in UEY).
+				Text += " " + CenteredMessageBox.LeftToRight("Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken");
 			}
 		}
 		
