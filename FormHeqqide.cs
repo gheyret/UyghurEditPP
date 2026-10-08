@@ -225,6 +225,10 @@ namespace UyghurEditPP
 			label1.Text = "UyghurEdit++ Version " + MainForm.GetVersion();
 			label3.Text = MainForm.gLang.GetText("Buningda töwendiki Ochuq Kodlar ishlitildi")+":";
 			label5.Text = MainForm.gLang.GetText("Yéngiliqlarni bu yerdin körüng")+":";
+			// The Uyghur-script labels read right to left (the colon at their left end).
+			System.Windows.Forms.RightToLeft rtl = CenteredMessageBox.RightToLeftUi ? System.Windows.Forms.RightToLeft.Yes : System.Windows.Forms.RightToLeft.No;
+			label3.RightToLeft = rtl;
+			label5.RightToLeft = rtl;
 		}
 		
 		void LinkLabel1LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)

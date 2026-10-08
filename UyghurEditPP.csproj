@@ -131,6 +131,7 @@
   <ItemGroup>
     <Compile Include="AppPaths.cs" />
     <Compile Include="AppSettings.cs" />
+    <Compile Include="CenteredMessageBox.cs" />
     <Compile Include="Document\DocumentChangeOperation.cs">
       <DependentUpon>UndoStack.cs</DependentUpon>
     </Compile>

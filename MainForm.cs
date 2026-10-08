@@ -926,6 +926,9 @@ namespace UyghurEditPP
 			}
 			UpdateMessage();
 			gFindReplace.UpdateMessages();
+			if(gOCR!=null && !gOCR.IsDisposed){
+				gOCR.UpdateMessages();
+			}
 		}
 
 
@@ -1695,7 +1698,7 @@ namespace UyghurEditPP
 			DialogResult dr = DialogResult.None;
 			if(curEdit.IsModified)
 			{
-				dr = MessageBox.Show(this, gLang.GetText("Höjjetning mezmunida özgirish boldi. Saqlamsiz?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
+				dr = CenteredMessageBox.Show(this, gLang.GetText("Höjjetning mezmunida özgirish boldi. Saqlamsiz?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
 				if(dr ==  DialogResult.Cancel){
 					return dr;
 				}
@@ -2111,7 +2114,7 @@ namespace UyghurEditPP
 			// Do not offer to save here: if the file was opened with the wrong encoding,
 			// saving would write the garbled text over the original bytes.
 			if(gEditor.IsModified){
-				DialogResult dr = MessageBox.Show(this, gLang.GetText("Unsaved changes will be discarded. Continue?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
+				DialogResult dr = CenteredMessageBox.Show(this, gLang.GetText("Unsaved changes will be discarded. Continue?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
 				if(dr != DialogResult.OK){
 					return;
 				}
