@@ -370,6 +370,24 @@ public class Uyghur
 	}
 
 
+	// Case conversion for the Case menu. ULY uses I/i like English (see ULYHerpler), so it
+	// must not follow a Turkish Windows culture, which would give İ and ı.
+	public static string ChongYaz(string text)
+	{
+		return text.ToUpperInvariant();
+	}
+
+	public static string KichikYaz(string text)
+	{
+		return text.ToLowerInvariant();
+	}
+
+	// Capitalizes the first letter of every word.
+	public static string MawzuYaz(string text)
+	{
+		return Regex.Replace(text, @"(?<!\S)\p{Ll}", m => m.Value.ToUpperInvariant());
+	}
+
 	public static string USYJumleChongYaz(string newtext)
 	{
 		string qur;

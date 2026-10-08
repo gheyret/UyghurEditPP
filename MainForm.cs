@@ -440,19 +440,18 @@ namespace UyghurEditPP
 			UpdateToolbar();
 		}
 		
-		// Note: ChongYaz, KichikYaz and MawzuYaz still use the Windows culture (ToUpper/ToLower).
-		// Under a Turkish culture "i" becomes "İ", which is not a ULY letter. Whether these menu
-		// commands should use the invariant culture is waiting for the owner's decision.
+		// The Case menu converts independently of the Windows culture (owner's decision,
+		// 2026-10-08): ULY uses I/i, so a Turkish culture must not produce İ/ı.
 		//Tallanghan yaki nur belgisi turghan orundiki mezmunni CHong Yezilishqa ozgertidu
 		void ChongYaz(object sender,EventArgs e)
 		{
 			if(gEditor.SelectionLength>0){
-				gEditor.SelectedText = gEditor.SelectedText.ToUpper();
+				gEditor.SelectedText = Uyghur.ChongYaz(gEditor.SelectedText);
 			}
 			else if((gEditor.CaretOffset-1)>=0){
 				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset-1);
 				if(char.IsLower(nurHerp)){
-					string txt=char.ToUpper(nurHerp)+"";
+					string txt=char.ToUpperInvariant(nurHerp)+"";
 					gEditor.Document.Replace(gEditor.CaretOffset-1,1,txt);
 				}
 			}
@@ -462,12 +461,12 @@ namespace UyghurEditPP
 		void KichikYaz(object sender,EventArgs e)
 		{
 			if(gEditor.SelectionLength>0){
-				gEditor.SelectedText = gEditor.SelectedText.ToLower();
+				gEditor.SelectedText = Uyghur.KichikYaz(gEditor.SelectedText);
 			}
 			else if((gEditor.CaretOffset-1)>=0){
 				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset-1);
 				if(char.IsUpper(nurHerp)){
-					string txt=char.ToLower(nurHerp)+"";
+					string txt=char.ToLowerInvariant(nurHerp)+"";
 					gEditor.Document.Replace(gEditor.CaretOffset-1,1,txt);
 				}
 			}
@@ -477,7 +476,7 @@ namespace UyghurEditPP
 		void MawzuYaz(object sender,EventArgs e)
 		{
 			if(gEditor.SelectionLength>0){
-				gEditor.SelectedText = Regex.Replace(gEditor.SelectedText, @"(?<!\S)\p{Ll}", m => m.Value.ToUpper());
+				gEditor.SelectedText = Uyghur.MawzuYaz(gEditor.SelectedText);
 			}
 
 		}

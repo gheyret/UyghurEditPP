@@ -54,6 +54,25 @@ namespace UyghurEditPP.Tests
 			CollectionAssert.Contains(spell.Lookup("Ishchy"), "ishchi");
 		}
 
+		// The Case menu (owner's decision 2026-10-08: follow the ULY alphabet, not the culture).
+		[TestMethod]
+		public void CaseMenu_UsesUlyIUnderTurkishCulture()
+		{
+			Assert.AreEqual("ISHCHI IZ", Uyghur.ChongYaz("ishchi iz"));
+			Assert.AreEqual("ishchi iz", Uyghur.KichikYaz("ISHCHI IZ"));
+			Assert.AreEqual("Ishchi Iz", Uyghur.MawzuYaz("ishchi iz"));
+		}
+
+		// The find dialogs search case-insensitively with these options.
+		[TestMethod]
+		public void FindIgnoreCase_MatchesIWithiUnderTurkishCulture()
+		{
+			var options = System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant;
+
+			Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch("ISHCHI", "ishchi", options));
+			Assert.IsTrue(System.Text.RegularExpressions.Regex.IsMatch("ishchi", "ISHCHI", options));
+		}
+
 		[TestMethod]
 		public void UlyJumleChongYaz_CapitalizesToI()
 		{

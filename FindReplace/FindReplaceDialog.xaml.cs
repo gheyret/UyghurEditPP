@@ -307,7 +307,7 @@ namespace UyghurEditPP.FindReplace
 			if (cbSearchUp.IsChecked == true && !leftToRight)
 				options |= RegexOptions.RightToLeft;
 			if (cbCaseSensitive.IsChecked == false)
-				options |= RegexOptions.IgnoreCase;
+				options |= RegexOptions.IgnoreCase | RegexOptions.CultureInvariant; // ULY I/i, never Turkish İ/ı
 
 			string pattern = textToFind;
 			if(cbNormal.IsChecked==true){
