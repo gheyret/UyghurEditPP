@@ -23,6 +23,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace UyghurEditPP
 {
@@ -76,6 +77,12 @@ namespace UyghurEditPP
 		FindReplaceDialog gFindReplace = null;
 		
 		OCRForm gOCR = null;
+		
+		// Spelling dictionaries, loaded in the background once per script.
+		ImlaAmbarliri gImlaAmbarliri = new ImlaAmbarliri(
+			() => System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UyghurEditPP.uyghur_imla.txt"),
+			() => new KenjiSpell());
+		string gImlaYeziq = "YOQ";  // the script whose dictionary is wanted (it may still be loading)
 
         // ① 記号群を定義（共通化してミスを防ぐ）
         const string OPEN = @"‹«\(\[";
@@ -104,7 +111,6 @@ namespace UyghurEditPP
 			gSlawyancheSoz = new Regex(pattern,RegexOptions.Compiled);
 			
 			gImlab = new ImlaBoya();
-			gImlab.SpellCheker = new KenjiSpell();
 			mainTab.RemoveTab += DeleteTab;
 			
 			//string fontpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "UKIJTuz.ttf".ToUpper());
@@ -274,11 +280,19 @@ namespace UyghurEditPP
 		{
 			System.Windows.Controls.MenuItem  menuNamzat= (System.Windows.Controls.MenuItem)sender;
 			string soz = (string)menuNamzat.Tag;
-			gImlab.SpellCheker.Add(soz,1);
+			UyghurSpell spell = gImlab.SpellCheker;
+			if(spell==null) return;
+			spell.Add(soz,1);
 			gEditor.TextArea.TextView.Redraw();
 			if(menuNamzat == gMenuSozToghra)
 			{
-				gImlab.SpellCheker.SaveToIshletkuchi(soz);
+				spell.SaveToIshletkuchi(soz);
+				// The other scripts' dictionaries that are already loaded learn it too.
+				foreach(UyghurSpell bashqa in gImlaAmbarliri.Loaded){
+					if(bashqa!=spell){
+						bashqa.IshletkuchiSozQosh(soz);
+					}
+				}
 			}
 		}
 		
@@ -524,7 +538,7 @@ namespace UyghurEditPP
 			var pp = e.GetPosition(gEditor);
 			TextDocument curDoc = gEditor.Document;
 			var mousePosition = gEditor.GetPositionFromPoint(pp);
-			if(curDoc.Text.Length==0 || gImlab.WordFinder == null || mousePosition==null){
+			if(curDoc.TextLength==0 || gImlab.WordFinder == null || gImlab.SpellCheker == null || mousePosition==null){
 				return;
 			}
 			
@@ -626,6 +640,11 @@ namespace UyghurEditPP
 			
 			if(gImlab.SpellCheker!=null){
 				gImlab.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
+				foreach(UyghurSpell bashqa in gImlaAmbarliri.Loaded){
+					if(bashqa!=gImlab.SpellCheker){
+						bashqa.XataToghraQosh(xatasoz,nsoz);
+					}
+				}
 			}
 			
 			//Barliq Xatani izdep tepip almashturidu
@@ -1745,50 +1764,85 @@ namespace UyghurEditPP
 		
 		void ImlaniAktipla(string yeziq)
 		{
-			Stream imlastrem;
 			menuImlaUEY.Checked=false;
 			menuImlaULY.Checked=false;
 			menuImlaUSY.Checked=false;
 			
 			if(yeziq.Equals("YOQ")){
+				gImlaYeziq = yeziq;
 				gImlab.WordFinder = null;
+				gImlab.SpellCheker = null;
 			}
 			else{
+				Regex finder;
+				Uyghur.YEZIQ ambar;
 				if(yeziq.Equals("UEY")){
 					menuImlaUEY.Checked=true;
+					finder = gUyghurcheSoz;
+					ambar = Uyghur.YEZIQ.UEY;
 				}
 				else if(yeziq.Equals("ULY")){
 					menuImlaULY.Checked = true;
+					finder = gLatincheSoz;
+					ambar = Uyghur.YEZIQ.ULY;
 				}
-				else if(yeziq.Equals("USY")){
+				else{
 					menuImlaUSY.Checked = true;
+					finder = gSlawyancheSoz;
+					ambar = Uyghur.YEZIQ.USY; //Imla mbirini slawyanchigha ozgertip ishlitidu
 				}
 				
-				
-//				if(File.Exists("uyghur_imla.txt")){
-				//imlastrem = File.OpenRead("uyghur_imla.txt");
-				imlastrem=System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UyghurEditPP.uyghur_imla.txt");
-				if(yeziq.Equals("UEY") && gUyghurcheSoz != gImlab.WordFinder){
-					gMenuSozTekshurme.Header= Uyghur.ULY2UEY("Bu sözni ötküzüwet");
-					gMenuSozToghra.Header   = Uyghur.ULY2UEY("Bu söz toghra");
-					gImlab.WordFinder = gUyghurcheSoz;
-					gImlab.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.UEY);
+				if(!yeziq.Equals(gImlaYeziq)){
+					gImlaYeziq = yeziq;
+					if(ambar == Uyghur.YEZIQ.UEY){
+						gMenuSozTekshurme.Header= Uyghur.ULY2UEY("Bu sözni ötküzüwet");
+						gMenuSozToghra.Header   = Uyghur.ULY2UEY("Bu söz toghra");
+					}
+					else if(ambar == Uyghur.YEZIQ.ULY){
+						gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
+						gMenuSozToghra.Header   = "Bu söz toghra";
+					}
+					else{
+						gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
+						gMenuSozToghra.Header   = Uyghur.ULY2USY("Bu söz toghra");
+					}
+					// Until the dictionary is loaded, no word is marked as misspelled.
+					gImlab.WordFinder = null;
+					gImlab.SpellCheker = null;
+					Task<UyghurSpell> yuklesh = gImlaAmbarliri.Get(ambar);
+					if(yuklesh.IsCompleted){
+						ImlaAmbiriTeyyar(yeziq, finder, yuklesh);
+					}
+					else{
+						stBarUchur.Text = gLang.GetText("Loading the spelling dictionary...");
+						yuklesh.ContinueWith(t => ImlaAmbiriTeyyar(yeziq, finder, t), TaskScheduler.FromCurrentSynchronizationContext());
+					}
 				}
-				else if(yeziq.Equals("ULY") && gLatincheSoz != gImlab.WordFinder){
-					gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
-					gMenuSozToghra.Header   = "Bu söz toghra";
-					gImlab.WordFinder = gLatincheSoz;
-					gImlab.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.ULY);
-				}
-				else if( yeziq.Equals("USY") && gSlawyancheSoz != gImlab.WordFinder){
-					gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
-					gMenuSozToghra.Header   = Uyghur.ULY2USY("Bu söz toghra");
-					gImlab.WordFinder = gSlawyancheSoz;
-					gImlab.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.USY);//Imla mbirini slawyanchigha ozgertip ishlitidu
-				}
-				imlastrem.Close();
 			}
 			gConfig["IMLAYEZIQ"]=yeziq;
+		}
+		
+		// Runs on the UI thread when the dictionary for yeziq has been loaded (or failed).
+		void ImlaAmbiriTeyyar(string yeziq, Regex finder, Task<UyghurSpell> yuklesh)
+		{
+			if(IsDisposed){
+				return;
+			}
+			if(stBarUchur.Text == gLang.GetText("Loading the spelling dictionary...")){
+				stBarUchur.Text = "";
+			}
+			if(yuklesh.IsFaulted){
+				ErrorLog.Write(yuklesh.Exception);
+				return;
+			}
+			if(!yeziq.Equals(gImlaYeziq)){
+				return; // another script was chosen meanwhile
+			}
+			gImlab.WordFinder = finder;
+			gImlab.SpellCheker = yuklesh.Result;
+			if(gEditor!=null){
+				gEditor.TextArea.TextView.Redraw();
+			}
 		}
 
 
@@ -2180,13 +2234,15 @@ namespace UyghurEditPP
 		}
 		void MenuImlaAmbarClick(object sender, EventArgs e)
 		{
-			if(File.Exists(gImlab.SpellCheker.IshletkcuhiAmbarIsimi)){
-				AddNew(gImlab.SpellCheker.IshletkcuhiAmbarIsimi);
+			// The file names do not depend on the script, so this also works while no dictionary is loaded.
+			string ishletkuchi = AppPaths.DataFile(AppPaths.IshletkuchiFileName);
+			if(File.Exists(ishletkuchi)){
+				AddNew(ishletkuchi);
 			}
 
 			// The user's corrections file only exists after the first correction; create it
 			// (empty, UTF-8 with BOM like File.AppendAllText writes it) so the menu always opens it.
-			string xataToghra = gImlab.SpellCheker.XataToghraAmbarIsimi;
+			string xataToghra = AppPaths.DataFile(AppPaths.XataToghraFileName);
 			if(!File.Exists(xataToghra)){
 				Directory.CreateDirectory(Path.GetDirectoryName(xataToghra));
 				File.WriteAllBytes(xataToghra, Encoding.UTF8.GetPreamble());

@@ -72,16 +72,7 @@ namespace UyghurEditPP
 			}
 			string newsoz;
 			foreach(string soz in IshletkuchiDic){
-				if(yeziq==Uyghur.YEZIQ.ULY){
-					newsoz  = Uyghur.UEY2ULY(soz).ToLowerInvariant();
-				}
-				else if(yeziq==Uyghur.YEZIQ.USY){
-					newsoz  = Uyghur.UEY2USY(soz).ToLowerInvariant();
-				}
-				else{
-					newsoz = soz;
-				}
-				Add(newsoz);
+				Add(UEYdin(soz));
 			}
 			
 			
@@ -90,15 +81,7 @@ namespace UyghurEditPP
 			}
 
 			foreach(string qur in XataToghraBuf){
-				if(yeziq==Uyghur.YEZIQ.ULY){
-					newsoz = Uyghur.UEY2ULY(qur).ToLowerInvariant();
-				}
-				else if(yeziq==Uyghur.YEZIQ.USY){
-					newsoz = Uyghur.UEY2USY(qur).ToLowerInvariant();
-				}
-				else{
-					newsoz  = qur;
-				}
+				newsoz = UEYdin(qur);
 				string[] tx = newsoz.Split('=');
 				if(tx.Length==2){
 					XataToghra[tx[0].Trim()]=tx[1].Trim();
@@ -111,6 +94,45 @@ namespace UyghurEditPP
 				}
 			}
 			return ret;
+		}
+		
+		// The user files keep words in UEY; this converts one to the script of this dictionary.
+		string UEYdin(string uey)
+		{
+			if(gYeziq==Uyghur.YEZIQ.ULY){
+				return Uyghur.UEY2ULY(uey).ToLowerInvariant();
+			}
+			if(gYeziq==Uyghur.YEZIQ.USY){
+				return Uyghur.UEY2USY(uey).ToLowerInvariant();
+			}
+			return uey;
+		}
+		
+		/// <summary>
+		/// Adds a word the user marked as correct while another script's dictionary was in
+		/// use (that one saved it to the user file), so this loaded dictionary knows it too.
+		/// </summary>
+		public void IshletkuchiSozQosh(string soz)
+		{
+			soz = soz.ToLowerInvariant().Replace(Uyghur.Sozghuch,"");
+			soz = Uyghur.ToUEY(soz)?? soz;
+			if(IshletkuchiDic.Add(soz)){
+				Add(UEYdin(soz));
+			}
+		}
+		
+		/// <summary>
+		/// Adds a correction the user chose while another script's dictionary was in use.
+		/// </summary>
+		public void XataToghraQosh(string xata, string toghra)
+		{
+			string bk = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant()+"="+toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLowerInvariant();
+			bk = Uyghur.ToUEY(bk)?? bk;
+			XataToghraBuf.Add(bk);
+			string[] tx = UEYdin(bk).Split('=');
+			if(tx.Length==2){
+				XataToghra[tx[0].Trim()]=tx[1].Trim();
+			}
 		}
 		
 		void ReadIshletkuchiDic()
