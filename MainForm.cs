@@ -380,6 +380,8 @@ namespace UyghurEditPP
 				curEdit.TextChanged += TextOzgerdi;
 				// Saving, or undoing back to the saved text, changes IsModified without a text change.
 				System.ComponentModel.DependencyPropertyDescriptor.FromProperty(TextEditor.IsModifiedProperty, typeof(TextEditor)).AddValueChanged(curEdit, TextOzgerdi);
+				// Setting Text clears the undo history only after TextChanged, so follow CanUndo/CanRedo too.
+				curEdit.Document.UndoStack.PropertyChanged += UndoStackOzgerdi;
 				
 				curEdit.PreviewMouseWheel += PreviewMouseWheel; //Ctrolni besip  turup chaqanekning ghaltikini mangdursa, chongiyip kichikleydu
 				curEdit.MouseRightButtonUp += PreMouseUp;       //chashqinekning ong teripi chekilse
@@ -1276,6 +1278,11 @@ namespace UyghurEditPP
 		
 		void TextOzgerdi(object sender, EventArgs e){
 			UpdateToolbar();
+		}
+		void UndoStackOzgerdi(object sender, System.ComponentModel.PropertyChangedEventArgs e){
+			if(e.PropertyName == "CanUndo" || e.PropertyName == "CanRedo"){
+				UpdateToolbar();
+			}
 		}
 		void ToolQatlaClick(object sender, EventArgs e)
 		{
