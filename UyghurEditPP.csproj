@@ -34,7 +34,6 @@
     </NuGetPackageImportStamp>
     <ApplicationIcon>uyghur.ico</ApplicationIcon>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\nk1449\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <StartupObject>UyghurEditPP.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -57,7 +56,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <DebugType>Full</DebugType>
@@ -69,7 +68,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\UyghurEditPP\</OutputPath>
     <DebugSymbols>false</DebugSymbols>
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DebugType>None</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -170,7 +169,6 @@
     <Compile Include="Document\WeakLineTracker.cs">
       <DependentUpon>ILineTracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="docx_test.cs" />
     <Compile Include="Editing\AbstractMargin.cs" />
     <Compile Include="Editing\Caret.cs" />
     <Compile Include="Editing\CaretLayer.cs">
