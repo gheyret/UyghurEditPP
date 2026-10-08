@@ -1167,8 +1167,23 @@ namespace UyghurEditPP
 			{
 				toolChapla.Enabled = false;
                 System.Diagnostics.Debug.WriteLine(ee.StackTrace);
+				// Another program may still hold the clipboard: look again shortly.
+				if(gChaplaQayta < 3){
+					gChaplaQayta++;
+					if(gChaplaTimer == null){
+						gChaplaTimer = new Timer();
+						gChaplaTimer.Interval = 100;
+						gChaplaTimer.Tick += (s, a) => { gChaplaTimer.Stop(); UpdateChapla(); };
+					}
+					gChaplaTimer.Start();
+					return;
+				}
             }
+			gChaplaQayta = 0;
 		}
+
+		Timer gChaplaTimer;
+		int   gChaplaQayta;   // retries of UpdateChapla in a row
 
 		[DllImport("user32.dll", SetLastError = true)]
 		static extern bool AddClipboardFormatListener(IntPtr hwnd);
