@@ -2251,10 +2251,15 @@ namespace UyghurEditPP
 			if(File.Exists(gImlab.SpellCheker.IshletkcuhiAmbarIsimi)){
 				AddNew(gImlab.SpellCheker.IshletkcuhiAmbarIsimi);
 			}
-			
-			if(File.Exists(gImlab.SpellCheker.XataToghraAmbarIsimi)){
-				AddNew(gImlab.SpellCheker.XataToghraAmbarIsimi);
+
+			// The user's corrections file only exists after the first correction; create it
+			// (empty, UTF-8 with BOM like File.AppendAllText writes it) so the menu always opens it.
+			string xataToghra = gImlab.SpellCheker.XataToghraAmbarIsimi;
+			if(!File.Exists(xataToghra)){
+				Directory.CreateDirectory(Path.GetDirectoryName(xataToghra));
+				File.WriteAllBytes(xataToghra, Encoding.UTF8.GetPreamble());
 			}
+			AddNew(xataToghra);
 		}
 		
 		void MenuMakeHTMLClick(object sender, EventArgs e)
