@@ -60,8 +60,10 @@ namespace UyghurEditPP
 		}
 
 		/// <summary>
-		/// Reads the settings from jsonFile; if it does not exist (or cannot be read), from the
-		/// old legacyFile. Returns an empty table when neither can be read. Never throws.
+		/// Reads the settings from jsonFile; only if it does not exist, from the old legacyFile.
+		/// A jsonFile that cannot be read is renamed to jsonFile.bad-yyyyMMddHHmmss (so it is
+		/// not overwritten on exit) and the defaults are used. Returns an empty table for the
+		/// defaults. Never throws.
 		/// </summary>
 		public static Hashtable Load(string jsonFile, string legacyFile)
 		{
@@ -74,6 +76,13 @@ namespace UyghurEditPP
 				}
 				catch(Exception ee){
 					Log(ee);
+					try{
+						File.Move(jsonFile, jsonFile + ".bad-" + DateTime.Now.ToString("yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture));
+					}
+					catch(Exception moveError){
+						Log(moveError);
+					}
+					return new Hashtable();
 				}
 			}
 			if(legacyFile != null && File.Exists(legacyFile)){
@@ -114,7 +123,7 @@ namespace UyghurEditPP
 			if(d.FontStyle.HasValue) h["FONTSTYLE"] = d.FontStyle.Value;
 			if(d.FontWeight.HasValue) h["FONTWEIGHT"] = d.FontWeight.Value;
 			if(d.Window != null) h["CHONGLUQI"] = new Rectangle(d.Window.X, d.Window.Y, d.Window.Width, d.Window.Height);
-			if(d.RecentFiles != null) h["IZLAR"] = d.RecentFiles;
+			if(d.RecentFiles != null) h["IZLAR"] = Array.FindAll(d.RecentFiles, f => !string.IsNullOrEmpty(f));
 			if(d.CaretOffsets != null){
 				Dictionary<string,int> orunlar = new Dictionary<string, int>();
 				foreach(FileOffset fo in d.CaretOffsets){
@@ -161,39 +170,40 @@ namespace UyghurEditPP
 		}
 
 		// Only the types the old settings file can contain may be created when reading it.
-		sealed class LegacyBinder : SerializationBinder
+		// Each allowed name is bound to the type of this program's own framework, whatever
+		// assembly the file names.
+		internal sealed class LegacyBinder : SerializationBinder
 		{
-			static readonly string[] gRuxset = {
-				"System.Collections.Hashtable",
-				"System.String",
-				"System.String[]",
-				"System.Int32",
-				"System.Single",
-				"System.Double",
-				"System.Boolean",
-				"System.Drawing.Rectangle",
-				"UyghurEditPP.KUNUPKA",
-			};
+			static readonly Dictionary<string, Type> gRuxset = Ruxset(
+				typeof(Hashtable),
+				typeof(string),
+				typeof(string[]),
+				typeof(int),
+				typeof(float),
+				typeof(double),
+				typeof(bool),
+				typeof(Rectangle),
+				typeof(KUNUPKA),
+				// Dictionary<string,int> (the caret offsets) and the types it is stored with.
+				typeof(Dictionary<string, int>),
+				typeof(KeyValuePair<string, int>),
+				typeof(KeyValuePair<string, int>[]),
+				EqualityComparer<string>.Default.GetType());
 
-			// Dictionary<string,int> (the caret offsets) and the helper types it is stored with.
-			static readonly string[] gGeneric = {
-				"System.Collections.Generic.Dictionary`2",
-				"System.Collections.Generic.KeyValuePair`2",
-				"System.Collections.Generic.GenericEqualityComparer`1",
-			};
+			static Dictionary<string, Type> Ruxset(params Type[] types)
+			{
+				Dictionary<string, Type> ret = new Dictionary<string, Type>();
+				foreach(Type t in types){
+					ret[t.FullName] = t;
+				}
+				return ret;
+			}
 
 			public override Type BindToType(string assemblyName, string typeName)
 			{
-				if(Array.IndexOf(gRuxset, typeName) >= 0){
-					return null; // the default lookup
-				}
-				foreach(string generic in gGeneric){
-					if(typeName.StartsWith(generic + "[[System.String, mscorlib,", StringComparison.Ordinal)){
-						string rest = typeName.Substring(typeName.IndexOf("]", StringComparison.Ordinal) + 1);
-						if(rest == "]" || rest.StartsWith(",[System.Int32, mscorlib,", StringComparison.Ordinal)){
-							return null;
-						}
-					}
+				Type type;
+				if(gRuxset.TryGetValue(typeName, out type)){
+					return type;
 				}
 				throw new SerializationException("Unexpected type in the old settings file: " + typeName);
 			}

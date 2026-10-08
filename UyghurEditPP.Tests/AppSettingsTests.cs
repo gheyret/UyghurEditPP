@@ -126,13 +126,48 @@ namespace UyghurEditPP.Tests
 		}
 
 		[TestMethod]
-		public void Load_BrokenJson_FallsBackToLegacyFile()
+		public void Load_BrokenJson_UsesDefaultsAndKeepsTheBrokenFile()
 		{
 			WriteLegacy(FullConfig());
 			File.WriteAllText(gJson, "{ not json");
 
-			AssertSame(FullConfig(), AppSettings.Load(gJson, gCfg));
+			Hashtable loaded = AppSettings.Load(gJson, gCfg);
+
+			// The old file is not brought back once a JSON file has existed.
+			Assert.AreEqual(0, loaded.Count);
 			Assert.AreEqual(1, gLogged.Count);
+			Assert.IsFalse(File.Exists(gJson));
+			string[] bad = Directory.GetFiles(gFolder, "uyghuredit.json.bad-*");
+			Assert.AreEqual(1, bad.Length);
+			Assert.AreEqual("{ not json", File.ReadAllText(bad[0]));
+			Assert.IsTrue(File.Exists(gCfg));
+		}
+
+		[TestMethod]
+		public void Load_EmptyRecentFiles_AreDropped()
+		{
+			File.WriteAllText(gJson, "{\"recentFiles\":[\"a.txt\",null,\"\",\"b.txt\"],\"caretOffsets\":[{\"file\":null,\"offset\":3},{\"file\":\"a.txt\",\"offset\":5}]}");
+
+			Hashtable loaded = AppSettings.Load(gJson, gCfg);
+
+			CollectionAssert.AreEqual(new[] { "a.txt", "b.txt" }, (string[])loaded["IZLAR"]);
+			Dictionary<string, int> orunlar = (Dictionary<string, int>)loaded["ORUNLAR"];
+			Assert.AreEqual(1, orunlar.Count);
+			Assert.AreEqual(5, orunlar["a.txt"]);
+		}
+
+		[TestMethod]
+		public void LegacyBinder_BindsAllowedNamesToExactTypes()
+		{
+			var binder = new AppSettings.LegacyBinder();
+
+			Assert.AreSame(typeof(Dictionary<string, int>), binder.BindToType("mscorlib", typeof(Dictionary<string, int>).FullName));
+			Assert.AreSame(typeof(Rectangle), binder.BindToType("System.Drawing, Version=9.9.9.9", "System.Drawing.Rectangle"));
+			Assert.AreSame(typeof(KUNUPKA), binder.BindToType("SomethingElse", "UyghurEditPP.KUNUPKA"));
+			Assert.ThrowsException<System.Runtime.Serialization.SerializationException>(() =>
+				binder.BindToType("mscorlib", typeof(Dictionary<string, Version>).FullName));
+			Assert.ThrowsException<System.Runtime.Serialization.SerializationException>(() =>
+				binder.BindToType("mscorlib", "System.Version"));
 		}
 
 		[TestMethod]
