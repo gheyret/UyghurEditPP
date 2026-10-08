@@ -283,6 +283,7 @@
     <Compile Include="Json\JsonParser.cs" />
     <Compile Include="Json\ReflectiveOperation.cs" />
     <Compile Include="Json\TypeDictionary.cs" />
+    <Compile Include="KenjiSpell\AutoCorrect.cs" />
     <Compile Include="KenjiSpell\KenjiSpell.cs" />
     <Compile Include="KenjiSpell\UyghurSpell.cs" />
     <Compile Include="KenjiTab.cs">

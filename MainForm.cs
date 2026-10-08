@@ -621,40 +621,38 @@ namespace UyghurEditPP
 			System.Windows.Controls.MenuItem  menuNamzat= (System.Windows.Controls.MenuItem)sender;
 			string nsoz = menuNamzat.Header.ToString();
 			Point txtPos = (Point)menuNamzat.Tag;
-			string xatasoz = gEditor.Document.GetText(txtPos.X,txtPos.Y);
-			gEditor.Document.Replace(txtPos.X,txtPos.Y,nsoz);
-			gEditor.CaretOffset = txtPos.X + nsoz.Length;
-
-			gImlab.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
+			TextDocument doc = gEditor.Document;
+			string xatasoz = doc.GetText(txtPos.X,txtPos.Y);
+			
+			if(gImlab.SpellCheker!=null){
+				gImlab.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
+			}
 			
 			//Barliq Xatani izdep tepip almashturidu
-			//string qelip = "\b"+xatasoz+"\b";
+			//The same mistake after this word is corrected too; all of it is one Undo step.
 			int sani = 0;
-			string qelip = "(?<!\\w)"+xatasoz+"(?!\\w)";
-			Regex finder = new Regex(qelip,RegexOptions.Compiled|RegexOptions.IgnoreCase|RegexOptions.CultureInvariant);
-			string alltext = gEditor.Text.ToLower();
-			int stpos = gEditor.CaretOffset;
-			int oldPos = stpos;
-//			alltext = finder.Replace(alltext,nsoz,stpos);
-//			gEditor.Text = alltext;
-//			gEditor.CaretOffset = stpos;
-//			gEditor.BringCaretToView();
-//			while((soz = finder.Match(gEditor.Text.ToLower(),stpos)).Success)
-
-			Match soz;
-			while((soz = finder.Match(gEditor.Text,stpos)).Success)
-			{
-				gEditor.CaretOffset = soz.Index;
-				gEditor.Document.Replace(soz.Index,xatasoz.Length,nsoz);
-//				alltext = gEditor.Text.ToLower();
-				stpos = soz.Index+nsoz.Length;
-				sani++;
+			string qelip = "(?<!\\w)"+Regex.Escape(xatasoz)+"(?!\\w)";
+			Regex finder = new Regex(qelip,RegexOptions.IgnoreCase|RegexOptions.CultureInvariant);
+			int oldPos = txtPos.X + nsoz.Length;
+			doc.BeginUpdate();
+			try{
+				doc.Replace(txtPos.X,txtPos.Y,nsoz);
+				List<Match> tepilghan = new List<Match>();
+				foreach(Match soz in finder.Matches(doc.Text, oldPos)){
+					tepilghan.Add(soz);
+				}
+				for(int i = tepilghan.Count-1; i>=0; i--){
+					doc.Replace(tepilghan[i].Index, tepilghan[i].Length, nsoz);
+				}
+				sani = tepilghan.Count;
 			}
+			finally{
+				doc.EndUpdate();
+			}
+			gEditor.CaretOffset = oldPos;
 			
 			if(sani>0){
 				stBarUchur.Text = gLang.GetText("Oxshash xataliqlar tüzitildi") + "["+sani+"]";
-				gEditor.CaretOffset = oldPos;
-//				gEditor.BringCaretToView();
 			}
 		}
 		
@@ -1941,101 +1939,35 @@ namespace UyghurEditPP
 		
 		void MenuImlaAutoClick(object sender, EventArgs e)
 		{
-			string alltext = gEditor.Text;
-			if (alltext.Length == 0)
+			if(gImlab.WordFinder == null || gImlab.SpellCheker == null || gEditor.Document.TextLength == 0)
 				return;
 			
-			int sani = 0;
-			int xatasani = 0;
-			int tuz = 0;
-			string toghrisi;
-			int stpos = 0;
-			Match soz;
+			int sani;
+			int xatasani;
 			System.Windows.Input.Cursor old = System.Windows.Input.Mouse.OverrideCursor;
 			System.Windows.Input.Mouse.OverrideCursor= System.Windows.Input.Cursors.Wait;
-			while((soz = gImlab.WordFinder.Match(alltext,stpos)).Success)
-			{
-				sani++;
-				if(gImlab.SpellCheker.IsListed(soz.Value)==false)
-				{
-					xatasani++;
-					toghrisi = gImlab.SpellCheker.Toghrisi(soz.Value);
-					if(toghrisi!=null){
-						if(char.IsUpper(soz.Value[0])){
-							toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
-						}
-						gEditor.CaretOffset = soz.Index;
-						gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-						alltext = gEditor.Text.ToLower();
-						stpos = soz.Index+toghrisi.Length;
-						tuz++;
-						continue;
-					}
-					if(gImlab.WordFinder == gLatincheSoz)
-					{
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é'))){
-							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü'))){
-							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö'))){
-							toghrisi = soz.Value.Replace('o','ö');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('u','ü'))){
-							toghrisi = soz.Value.Replace('u','ü');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('e','é'))){
-							toghrisi = soz.Value.Replace('e','é');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpperInvariant(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
+			// All corrections are found in one pass over the text and applied as one
+			// change, so a single Undo takes them all back.
+			List<Tuzitish> tuzitishler = AutoCorrect.Find(gEditor.Text, gImlab.WordFinder, gImlab.SpellCheker, gImlab.WordFinder == gLatincheSoz, out sani, out xatasani);
+			int tuz = tuzitishler.Count;
+			if(tuz>0){
+				TextDocument doc = gEditor.Document;
+				doc.BeginUpdate();
+				try{
+					// From the end, so that the offsets of the earlier corrections stay valid.
+					for(int i = tuz-1; i>=0; i--){
+						doc.Replace(tuzitishler[i].Offset, tuzitishler[i].Length, tuzitishler[i].Text);
 					}
 				}
-				stpos = soz.Index+soz.Value.Length;
+				finally{
+					doc.EndUpdate();
+				}
+				// Put the caret on the last correction, as before.
+				int ozgirish = 0;
+				for(int i = 0; i<tuz-1; i++){
+					ozgirish += tuzitishler[i].Text.Length - tuzitishler[i].Length;
+				}
+				gEditor.CaretOffset = tuzitishler[tuz-1].Offset + ozgirish;
 			}
 			
 			gEditor.BringCaretToView();
