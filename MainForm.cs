@@ -140,7 +140,7 @@ namespace UyghurEditPP
 			gMenuSozTekshurme.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
 			gMenuSozTekshurme.Click += menuSozImla;
 			
-			gConfName = Path.Combine(Application.StartupPath, gConfName);
+			gConfName = AppPaths.DataFile(gConfName);
 		}
 		
 		private bool IsFontInstalled(string fontName) {
@@ -1102,6 +1102,14 @@ namespace UyghurEditPP
 			// stBarUchur.Text = "UyghurEdit++ V"+GetVersion() + "(2020/11/12) Aptor: Gheyret T.Kenji";
 			// stBarUchur.Text = "UyghurEdit++ V "+GetVersion() + " Aptor: Gheyret T.Kenji";
 			// stBarQur.Text = gLang.GetText("Jemiy ") + gEditor.LineCount.ToString() + gLang.GetText(" qur");
+
+			// Paint also comes while there is no editor tab: in MainFormLoad, "new ElementHost()"
+			// loads a cursor through COM, which pumps messages before the first tab exists;
+			// and when the form is disposed after MainFormFormClosing has closed every tab.
+			// The toolbar's transparent background is drawn by this handler too.
+			if(gEditor==null || mainTab.SelectedTab==null){
+				return;
+			}
 			toolQatla.Checked = gEditor.WordWrap;
 			
 			toolBas.Enabled = gEditor.Text.Length>0;
@@ -1658,16 +1666,16 @@ namespace UyghurEditPP
 			{
 				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
-				using(FileStream fs = new FileStream(gConfName, FileMode.Create)){
+				SafeFile.Write(gConfName, fs => {
 					BinaryFormatter formatter = new BinaryFormatter();
 					formatter.Serialize(fs, gConfig);
-				}
+				});
 			}
-			catch(SerializationException er)
+			catch(Exception er)
 			{
-                System.Diagnostics.Debug.WriteLine(er.StackTrace);
+				// Losing the settings is better than not being able to close the program.
                 System.Diagnostics.Debug.WriteLine("Failed to serialize. Reason: " + er.Message);
-				throw;
+				ErrorLog.Write(er);
 			}
 			//gLang.Save(Path.Combine(Application.StartupPath, "langdata.txt"));
 		}
@@ -2047,15 +2055,31 @@ namespace UyghurEditPP
 			if(menu.Checked) return;
 			
 			int codePage = (int)menu.Tag;
+			string filenm = mainTab.SelectedTab.Tag.ToString();
+			if(!File.Exists(filenm)){
+				// Not saved yet: there is nothing to read again, only the encoding for saving changes.
+				if(codePage>=0){
+					gEditor.Encoding = System.Text.Encoding.GetEncoding(codePage);
+					gEditor.CodePage = codePage;
+					TabControl1SelectedIndexChanged(null,null);
+				}
+				return;
+			}
+			// The file is read again in the new encoding, which throws away unsaved edits.
+			// Do not offer to save here: if the file was opened with the wrong encoding,
+			// saving would write the garbled text over the original bytes.
+			if(gEditor.IsModified){
+				DialogResult dr = MessageBox.Show(this, gLang.GetText("Unsaved changes will be discarded. Continue?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
+				if(dr != DialogResult.OK){
+					return;
+				}
+			}
 			if(-3==codePage||
 			   -2==codePage||
 			   -1==codePage
 			  )
 			{
-				FileStream inStrm = File.OpenRead(mainTab.SelectedTab.Tag.ToString());
-				byte[] Buffer=new byte[inStrm.Length];
-				inStrm.Read(Buffer,0,Buffer.Length);
-				inStrm.Close();
+				byte[] Buffer=File.ReadAllBytes(filenm);
 				switch(codePage)
 				{
 					case -1:
@@ -2075,7 +2099,7 @@ namespace UyghurEditPP
 			}
 			else{
 				gEditor.Encoding = System.Text.Encoding.GetEncoding(codePage);
-				gEditor.Load(mainTab.SelectedTab.Tag.ToString());
+				gEditor.Load(filenm);
 			}
 			
 			TabControl1SelectedIndexChanged(null,null);
@@ -2227,10 +2251,15 @@ namespace UyghurEditPP
 			if(File.Exists(gImlab.SpellCheker.IshletkcuhiAmbarIsimi)){
 				AddNew(gImlab.SpellCheker.IshletkcuhiAmbarIsimi);
 			}
-			
-			if(File.Exists(gImlab.SpellCheker.XataToghraAmbarIsimi)){
-				AddNew(gImlab.SpellCheker.XataToghraAmbarIsimi);
+
+			// The user's corrections file only exists after the first correction; create it
+			// (empty, UTF-8 with BOM like File.AppendAllText writes it) so the menu always opens it.
+			string xataToghra = gImlab.SpellCheker.XataToghraAmbarIsimi;
+			if(!File.Exists(xataToghra)){
+				Directory.CreateDirectory(Path.GetDirectoryName(xataToghra));
+				File.WriteAllBytes(xataToghra, Encoding.UTF8.GetPreamble());
 			}
+			AddNew(xataToghra);
 		}
 		
 		void MenuMakeHTMLClick(object sender, EventArgs e)

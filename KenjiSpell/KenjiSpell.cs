@@ -384,7 +384,7 @@ namespace UyghurEditPP
 				//kelgusi
 				yasSoz=Soz.Substring(0,lenSoz-2);
 				_GetSuggestions(yasSoz);
-				if(_namzatlar.Count==0)
+				if(_namzatlar.Count==0 && lenSoz>=3)
 				{
 					yasSoz=Soz.Substring(0,lenSoz-3);
 					_GetSuggestions(yasSoz+"?");
@@ -394,7 +394,7 @@ namespace UyghurEditPP
 				//qedimi
 				yasSoz=Soz.Substring(0,lenSoz-1);
 				_GetSuggestions(yasSoz);
-				if(_namzatlar.Count==0)
+				if(_namzatlar.Count==0 && lenSoz>=3)
 				{
 					yasSoz=Soz.Substring(0,lenSoz-3)+"?"+Soz[lenSoz-2];
 					_GetSuggestions(yasSoz); //qed?m

@@ -25,17 +25,28 @@ namespace UyghurEditPP
 		Dictionary<string,string> XataToghra = new Dictionary<string, string>();
 		
 		HashSet<string>           IshletkuchiDic = new HashSet<string>();
-		HashSet<string>           XataToghraBuf  = new HashSet<string>();
+		List<string>              XataToghraBuf  = new List<string>(); // in file order: later lines win
 		
 		protected Uyghur.YEZIQ gYeziq;
 
-		string gImlaIshletkuchi = "imla_ishletkuchi.txt";
-		string gImlaXataToghra = "imla_xatatoghra.txt";
+		string gImlaIshletkuchi = AppPaths.IshletkuchiFileName;
+		string gImlaXataToghra = AppPaths.XataToghraFileName;
+		// The correction list that comes with the program. The user's own corrections
+		// are kept separately (gImlaXataToghra), so a newer list in a new release is used.
+		string gImlaXataToghraAsasi;
 		
 		
 		internal UyghurSpell(){
-			gImlaIshletkuchi = Path.Combine(Application.StartupPath, gImlaIshletkuchi);
-			gImlaXataToghra = Path.Combine(Application.StartupPath, gImlaXataToghra);
+			gImlaIshletkuchi = AppPaths.DataFile(gImlaIshletkuchi);
+			gImlaXataToghra = AppPaths.DataFile(gImlaXataToghra);
+			gImlaXataToghraAsasi = AppPaths.ProgramFile(AppPaths.XataToghraFileName);
+		}
+		
+		// For the tests.
+		internal void SetFileNames(string ishletkuchi, string xataToghra, string xataToghraAsasi){
+			gImlaIshletkuchi = ishletkuchi;
+			gImlaXataToghra = xataToghra;
+			gImlaXataToghraAsasi = xataToghraAsasi;
 		}
 		
 		public string IshletkcuhiAmbarIsimi{
@@ -122,10 +133,16 @@ namespace UyghurEditPP
 		
 		void ReadXataToghra()
 		{
-
-			if (!File.Exists(gImlaXataToghra)) return;
 			XataToghra.Clear();
-			using (StreamReader sr = new StreamReader(File.OpenRead(gImlaXataToghra),true))
+			// The user's corrections come last, so they win over the shipped list.
+			ReadXataToghra(gImlaXataToghraAsasi);
+			ReadXataToghra(gImlaXataToghra);
+		}
+		
+		void ReadXataToghra(string filenm)
+		{
+			if (!File.Exists(filenm)) return;
+			using (StreamReader sr = new StreamReader(File.OpenRead(filenm),true))
 			{
 				String qur;
 				while ((qur = sr.ReadLine()) != null)
@@ -140,7 +157,7 @@ namespace UyghurEditPP
 		{
 			if(!XataToghra.ContainsKey(xata))
 			{
-				string filenm =Path.Combine(Application.StartupPath, gImlaXataToghra);
+				string filenm =gImlaXataToghra;
 				string xt    = xata.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 				string togh  = toghra.Trim().Replace(Uyghur.Sozghuch,"").ToLower();
 				string bk = xt+"="+togh;
@@ -149,8 +166,8 @@ namespace UyghurEditPP
 				XataToghraBuf.Add(bk);
 				try{
 					File.AppendAllText(filenm,bk+System.Environment.NewLine,System.Text.Encoding.UTF8);
-				}catch{
-					
+				}catch(Exception ee){
+					SaveFailed(filenm, ee);
 				}
 			}
 		}
@@ -163,15 +180,22 @@ namespace UyghurEditPP
 		
 		public void SaveToIshletkuchi(string soz)
 		{
-			string filenm =Path.Combine(Application.StartupPath, gImlaIshletkuchi);
+			string filenm =gImlaIshletkuchi;
 			soz = soz.ToLower().Replace(Uyghur.Sozghuch,"");
 			soz = Uyghur.ToUEY(soz)?? soz;
 			IshletkuchiDic.Add(soz);
 			try{
 				File.AppendAllText(filenm, soz+ " 1" +System.Environment.NewLine,System.Text.Encoding.UTF8);
-			}catch{
-				
+			}catch(Exception ee){
+				SaveFailed(filenm, ee);
 			}
+		}
+
+		void SaveFailed(string filenm, Exception ee)
+		{
+			ErrorLog.Write(ee);
+			MessageBox.Show(MainForm.gLang.GetText("Could not save the word to the user dictionary:") + Environment.NewLine + filenm + Environment.NewLine + Environment.NewLine + ee.Message,
+			                "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
 	}
 }

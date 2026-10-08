@@ -70,6 +70,16 @@ namespace UyghurEditPP
 				}
 			}
 			else{
+				// Newer messages use their English text as the key and keep the
+				// Uyghur (ULY) text in an "uly" field. Until that field is filled in,
+				// the English text is shown as is.
+				if(gLangJson!=null && gLangJson.IsDefined(key) && gLangJson[key].IsDefined("uly")){
+					string uly = gLangJson[key]["uly"];
+					if(string.IsNullOrEmpty(uly)){
+						return key;
+					}
+					ret = key = uly;
+				}
 				if(LanguaID.Equals("uey")){
 					ret = Uyghur.ULY2UEY(key).Replace("🠊", "🠈");
 				}

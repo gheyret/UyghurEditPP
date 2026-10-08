@@ -228,7 +228,6 @@ namespace UyghurEditPP
             this.Shown += new System.EventHandler(this.OCRFormShown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainFormDragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainFormDragEnter);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.OCRFormPaint);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OCRFormKeyUp);
             this.ResumeLayout(false);
 
