@@ -24,6 +24,7 @@ namespace UyghurEditPP
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			UsePerMonitorDpi();
 			Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 			Application.ThreadException += ThreadException;
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
@@ -81,6 +82,23 @@ namespace UyghurEditPP
 			}
 			finally{
 				System.Threading.Interlocked.Exchange(ref gShowingError, 0);
+			}
+		}
+
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		static extern bool SetProcessDpiAwarenessContext(IntPtr value);
+		static readonly IntPtr DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = new IntPtr(-4);
+
+		// app.config asks Windows Forms for Per-Monitor V2, but Windows Forms applies it only when
+		// it creates its first window; the WPF editor is created before that and sets the process
+		// to system DPI aware first. So set it here, before any window (Windows 10 1703 or later;
+		// on older Windows the call is missing and the program stays as before).
+		static void UsePerMonitorDpi()
+		{
+			try{
+				SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+			}
+			catch(EntryPointNotFoundException){
 			}
 		}
 

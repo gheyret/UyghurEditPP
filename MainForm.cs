@@ -825,7 +825,8 @@ namespace UyghurEditPP
 			SetKunupka(kun);
 			
 			if(!gConfig.Contains("CHONGLUQI")){
-				Rectangle rc = new Rectangle(100,100,1024, 768);
+				// 1024x768 at 100%, larger on a high-DPI screen.
+				Rectangle rc = new Rectangle(100,100,LogicalToDeviceUnits(1024), LogicalToDeviceUnits(768));
 				gConfig["CHONGLUQI"] = rc;
 			}
 		}
@@ -890,8 +891,8 @@ namespace UyghurEditPP
 			if (rc.X<0 || rc.Y<0){
 				rc.X = 100;
 				rc.Y = 100;
-				rc.Width=1024;
-				rc.Height=768;
+				rc.Width=LogicalToDeviceUnits(1024);
+				rc.Height=LogicalToDeviceUnits(768);
 			}
 			this.Location = new Point(rc.X,rc.Y);
 			this.Size = new Size(rc.Width,rc.Height);

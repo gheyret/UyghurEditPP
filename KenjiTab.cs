@@ -19,7 +19,8 @@ namespace UyghurEditPP
 		
 		private int CloseButtonHeight
 		{
-			get{ return 14; }
+			// 14 pixels at 100%, scaled to the monitor's DPI.
+			get{ return LogicalToDeviceUnits(14); }
 		}
 
 		private int HotTabIndex
@@ -165,7 +166,7 @@ namespace UyghurEditPP
 					if (selectedOrHot)
 					{
 						Rectangle closeRect = new Rectangle(contentRect.Right - CloseButtonHeight, 0, CloseButtonHeight, CloseButtonHeight);
-						closeRect.Offset(-2, (contentRect.Height - closeRect.Height) / 2);
+						closeRect.Offset(-LogicalToDeviceUnits(2), (contentRect.Height - closeRect.Height) / 2);
 						DrawCloseButton(bmGraphics, closeRect);
 					}
 					if (tabImage != null)
@@ -184,7 +185,7 @@ namespace UyghurEditPP
 		private void DrawCloseButton(Graphics graphics, Rectangle bounds)
 		{
 			graphics.FillRectangle(Brushes.Red, bounds);
-			using (Font closeFont = new Font("Tahoma", 9, FontStyle.Bold))
+			using (Font closeFont = new Font("Tahoma", LogicalToDeviceUnits(12), FontStyle.Bold, GraphicsUnit.Pixel)) // 9 pt at 100%
 				TextRenderer.DrawText(graphics, "X", closeFont, bounds, Color.White, Color.Red, TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPadding | TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter);
 
 		}

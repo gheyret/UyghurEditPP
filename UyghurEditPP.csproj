@@ -33,6 +33,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationIcon>uyghur.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>UyghurEditPP.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
@@ -483,6 +484,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <EmbeddedResource Include="langdata.json" />
     <None Include="packages.config" />
     <None Include="tessdata\chi_sim.traineddata">
