@@ -78,16 +78,45 @@ namespace UyghurEditPP
 					if(string.IsNullOrEmpty(uly)){
 						return key;
 					}
-					ret = key = uly;
+					return Yeziqla(uly, LanguaID);
 				}
-				if(LanguaID.Equals("uey")){
-					ret = Uyghur.ULY2UEY(key).Replace("🠊", "🠈");
-				}
-				else if(LanguaID.Equals("usy")){
-					ret = Uyghur.ULY2USY(key);
-				}
+				ret = Aylandur(key, LanguaID);
 			}
 			return ret;
+		}
+
+		static string Aylandur(string uly, string languaID)
+		{
+			if(languaID.Equals("uey")){
+				return Uyghur.ULY2UEY(uly).Replace("🠊", "🠈");
+			}
+			if(languaID.Equals("usy")){
+				return Uyghur.ULY2USY(uly);
+			}
+			return uly;
+		}
+
+		// In an "uly" text, parts in {braces} (product names, file types ...) stay in Latin
+		// letters in every script; only the rest is converted. In UEY they are wrapped in
+		// LEFT-TO-RIGHT MARKs so they keep their order inside the right-to-left text.
+		static readonly System.Text.RegularExpressions.Regex gLatinche = new System.Text.RegularExpressions.Regex(@"\{([^{}]*)\}");
+
+		internal static string Yeziqla(string uly, string languaID)
+		{
+			StringBuilder sb = new StringBuilder();
+			int orun = 0;
+			foreach(System.Text.RegularExpressions.Match m in gLatinche.Matches(uly)){
+				sb.Append(Aylandur(uly.Substring(orun, m.Index - orun), languaID));
+				if(languaID.Equals("uey")){
+					sb.Append('‎').Append(m.Groups[1].Value).Append('‎');
+				}
+				else{
+					sb.Append(m.Groups[1].Value);
+				}
+				orun = m.Index + m.Length;
+			}
+			sb.Append(Aylandur(uly.Substring(orun), languaID));
+			return sb.ToString();
 		}
 		
 		public void Save(string filename){

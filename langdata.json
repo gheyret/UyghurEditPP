@@ -199,12 +199,12 @@
     "eng": "Could not save the word to the user dictionary:"
   },
   "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):": {
-    "uly": "Visual C++ ambiri kem bolghachqa OCR qozghalmidi. Microsoft Visual C++ Redistributable (x64) ni ornitip béqing:",
+    "uly": "{Visual C++} ambiri kem bolghachqa {OCR} qozghalmidi. {Microsoft Visual C++ Redistributable (x64)} ni ornitip béqing:",
     "jpn": "",
     "eng": "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):"
   },
   "OCR could not start. Please check that this folder contains the language data (.traineddata) files:": {
-    "uly": "OCR qozghalmidi. Töwendiki qisquchta til sanliq melumat (.traineddata) höjjetliri barmu, tekshürüp béqing:",
+    "uly": "{OCR} qozghalmidi. Töwendiki qisquchta til sanliq melumat ({.traineddata}) höjjetliri barmu, tekshürüp béqing:",
     "jpn": "",
     "eng": "OCR could not start. Please check that this folder contains the language data (.traineddata) files:"
   },
