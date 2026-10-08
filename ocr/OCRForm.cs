@@ -106,7 +106,7 @@ namespace UyghurEditPP
 			}
 			catch(Exception ee){
 				System.Diagnostics.Debug.WriteLine(ee.Message);
-				CenteredMessageBox.Show(this, ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				CenteredMessageBox.Show(this, CenteredMessageBox.LeftToRight(ee.Message), "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			finally{
 				// Also after an error, so the picture and the cursor do not stay disabled/busy.
@@ -134,6 +134,28 @@ namespace UyghurEditPP
 		
 		void OCRFormShown(object sender, EventArgs e)
 		{
+			UpdateMessages();
+			
+			chkUyghurUKIJ.Checked = true;
+			radAuto.Checked = true;
+			
+			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
+			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
+			this.Location = new Point(startx,starty);
+		}
+		
+		/// <summary>
+		/// Sets the texts in the current UI language, and the layout: mirrored (right to left)
+		/// for UEY, left to right otherwise, like the main window's menu. Called when the window
+		/// is shown and when the UI language changes.
+		/// </summary>
+		public void UpdateMessages()
+		{
+			bool rtl = CenteredMessageBox.RightToLeftUi;
+			RightToLeft = rtl ? RightToLeft.Yes : RightToLeft.No;
+			RightToLeftLayout = rtl;
+			UpdateTitle();
+			
 			butAch.Text = MainForm.gLang.GetText("Ach");
 			gTip.SetToolTip(butAch,MainForm.gLang.GetText("Bu yerni chékip resimni éching yaki resimni tutup bu köznekke tashlang."));
 			gTip.SetToolTip(ramka,MainForm.gLang.GetText("Resim körün’gende, Chashqinek bilen tonutidighan da’irini tallang."));
@@ -150,13 +172,15 @@ namespace UyghurEditPP
 			chkRus.Text = MainForm.gLang.GetText("Silawiyanche");
 			radAuto.Text = MainForm.gLang.GetText("Özüng Tap");
 			radSingle.Text = MainForm.gLang.GetText("Birla Bölek");
-			
-			chkUyghurUKIJ.Checked = true;
-			radAuto.Checked = true;
-			
-			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
-			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
-			this.Location = new Point(startx,starty);
+		}
+		
+		// The window title; with the Tesseract version once an engine is ready.
+		void UpdateTitle()
+		{
+			Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi");
+			if(gOcr!=null){
+				Text += "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+			}
 		}
 		
 		
@@ -295,7 +319,7 @@ namespace UyghurEditPP
 			this.Cursor = Cursors.Default;
 			if(engine!=null){
 				gOcr = engine;
-				Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+				UpdateTitle();
 			}
 			else{
 				Til = "";
@@ -310,13 +334,13 @@ namespace UyghurEditPP
 			string msg;
 			if(IsMissingLibrary(ee)){
 				msg = MainForm.gLang.GetText("OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):")
-					+ Environment.NewLine + "https://aka.ms/vs/17/release/vc_redist.x64.exe";
+					+ Environment.NewLine + CenteredMessageBox.LeftToRight("https://aka.ms/vs/17/release/vc_redist.x64.exe");
 			}
 			else{
 				msg = MainForm.gLang.GetText("OCR could not start. Please check that this folder contains the language data (.traineddata) files:")
-					+ Environment.NewLine + tessdata;
+					+ Environment.NewLine + CenteredMessageBox.LeftToRight(tessdata);
 			}
-			CenteredMessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			CenteredMessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + CenteredMessageBox.LeftToRight(ee.Message), "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		static bool IsMissingLibrary(Exception ee)

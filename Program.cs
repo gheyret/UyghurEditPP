@@ -70,9 +70,9 @@ namespace UyghurEditPP
 				return;
 			}
 			try{
-				string msg = Text("An unexpected error occurred.") + Environment.NewLine + Environment.NewLine + ex.Message;
+				string msg = Text("An unexpected error occurred.") + Environment.NewLine + Environment.NewLine + CenteredMessageBox.LeftToRight(ex.Message);
 				if(logFile!=null){
-					msg += Environment.NewLine + Environment.NewLine + Text("Details were saved to:") + Environment.NewLine + logFile;
+					msg += Environment.NewLine + Environment.NewLine + Text("Details were saved to:") + Environment.NewLine + CenteredMessageBox.LeftToRight(logFile);
 				}
 				CenteredMessageBox.Show(CenteredMessageBox.MainWindow, msg,"UyghurEdit++",MessageBoxButtons.OK,MessageBoxIcon.Error);
 			}

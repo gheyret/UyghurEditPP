@@ -926,6 +926,9 @@ namespace UyghurEditPP
 			}
 			UpdateMessage();
 			gFindReplace.UpdateMessages();
+			if(gOCR!=null && !gOCR.IsDisposed){
+				gOCR.UpdateMessages();
+			}
 		}
 
 

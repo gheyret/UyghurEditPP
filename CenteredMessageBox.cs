@@ -19,9 +19,39 @@ namespace UyghurEditPP
 		public static DialogResult Show(IWin32Window owner, string text, string caption = "", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.None)
 		{
 			IntPtr ownerHandle = owner != null ? owner.Handle : IntPtr.Zero;
+			// In the Arabic-script UI the box reads from right to left.
+			MessageBoxOptions options = RightToLeftUi ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : 0;
 			return Run(ownerHandle, () => owner != null
-				? MessageBox.Show(owner, text, caption, buttons, icon)
-				: MessageBox.Show(text, caption, buttons, icon));
+				? MessageBox.Show(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1, options)
+				: MessageBox.Show(text, caption, buttons, icon, MessageBoxDefaultButton.Button1, options));
+		}
+
+		/// <summary>
+		/// True when the user interface is shown in UEY (Arabic script, right to left).
+		/// </summary>
+		public static bool RightToLeftUi
+		{
+			get{
+				try{
+					return MainForm.gLang != null && "uey".Equals(MainForm.gLang.LanguaID);
+				}
+				catch(Exception){
+					return false;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Marks a left-to-right part of a message (a path, a URL, an English error text) so that
+		/// it keeps its own order inside right-to-left text: each line gets a LEFT-TO-RIGHT MARK
+		/// at both ends. Unchanged in a left-to-right UI.
+		/// </summary>
+		public static string LeftToRight(string text)
+		{
+			if(!RightToLeftUi || string.IsNullOrEmpty(text)){
+				return text;
+			}
+			return Language.LeftToRightRun(text);
 		}
 
 		/// <summary>

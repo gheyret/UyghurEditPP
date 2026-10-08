@@ -29,7 +29,7 @@ namespace UyghurEditPP.Tests
 		public void LatinParts_StayLatinInEveryScript()
 		{
 			Language lang = new Language();
-			const string LRM = "‎";
+			const string LRI = "\u200E", PDI = "\u200E"; // a LEFT-TO-RIGHT MARK at both ends
 
 			lang.LanguaID = "uly";
 			Assert.AreEqual("Visual C++ ambiri kem bolghachqa OCR qozghalmidi. Microsoft Visual C++ Redistributable (x64) ni ornitip béqing:", lang.GetText(Key4));
@@ -37,11 +37,11 @@ namespace UyghurEditPP.Tests
 
 			lang.LanguaID = "uey";
 			Assert.AreEqual(
-				LRM + "Visual C++" + LRM + Uyghur.ULY2UEY(" ambiri kem bolghachqa ") + LRM + "OCR" + LRM + Uyghur.ULY2UEY(" qozghalmidi. ")
-				+ LRM + "Microsoft Visual C++ Redistributable (x64)" + LRM + Uyghur.ULY2UEY(" ni ornitip béqing:"),
+				LRI + "Visual C++" + PDI + Uyghur.ULY2UEY(" ambiri kem bolghachqa ") + LRI + "OCR" + PDI + Uyghur.ULY2UEY(" qozghalmidi. ")
+				+ LRI + "Microsoft Visual C++ Redistributable (x64)" + PDI + Uyghur.ULY2UEY(" ni ornitip béqing:"),
 				lang.GetText(Key4));
 			Assert.AreEqual(
-				LRM + "OCR" + LRM + Uyghur.ULY2UEY(" qozghalmidi. Töwendiki qisquchta til sanliq melumat (") + LRM + ".traineddata" + LRM + Uyghur.ULY2UEY(") höjjetliri barmu, tekshürüp béqing:"),
+				LRI + "OCR" + PDI + Uyghur.ULY2UEY(" qozghalmidi. Töwendiki qisquchta til sanliq melumat (") + LRI + ".traineddata" + PDI + Uyghur.ULY2UEY(") höjjetliri barmu, tekshürüp béqing:"),
 				lang.GetText(Key5));
 
 			lang.LanguaID = "usy";
@@ -62,6 +62,40 @@ namespace UyghurEditPP.Tests
 			Assert.AreEqual(Uyghur.ULY2UEY(uly).Replace("🠊", "🠈"), Language.Yeziqla(uly, "uey"));
 			Assert.AreEqual(Uyghur.ULY2USY(uly), Language.Yeziqla(uly, "usy"));
 			Assert.AreEqual(uly, Language.Yeziqla(uly, "uly"));
+		}
+
+		// Paths and English error texts in a message: each line is isolated as left-to-right
+		// in the UEY UI, and left alone otherwise.
+		[TestMethod]
+		public void LeftToRight_IsolatesEachLineOnlyInUey()
+		{
+			string old = MainForm.gLang.LanguaID;
+			try{
+				MainForm.gLang.LanguaID = "uey";
+				Assert.AreEqual("\u200EE:\\a\\tessdata\u200E\r\n\r\n\u200EFailed.\u200E", CenteredMessageBox.LeftToRight("E:\\a\\tessdata\r\n\r\nFailed."));
+				Assert.IsTrue(CenteredMessageBox.RightToLeftUi);
+
+				MainForm.gLang.LanguaID = "uly";
+				Assert.AreEqual("E:\\a\\tessdata", CenteredMessageBox.LeftToRight("E:\\a\\tessdata"));
+				Assert.IsFalse(CenteredMessageBox.RightToLeftUi);
+			}
+			finally{
+				MainForm.gLang.LanguaID = old;
+			}
+		}
+
+		[TestMethod]
+		public void OcrTitle_KeepsOcrInLatin()
+		{
+			Language lang = new Language();
+			string key = "Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi";
+
+			lang.LanguaID = "uly";
+			Assert.AreEqual(key, lang.GetText(key));
+			lang.LanguaID = "eng";
+			Assert.AreEqual(key, lang.GetText(key));
+			lang.LanguaID = "uey";
+			StringAssert.Contains(lang.GetText(key), "\u200EOCR\u200E");
 		}
 
 		[TestMethod]

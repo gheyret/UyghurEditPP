@@ -251,7 +251,8 @@ namespace UyghurEditPP.FindReplace
 			string msg = MainForm.gLang.GetText("Rastla barliq «") + txtFind.Text + MainForm.gLang.GetText("» ni «") +  txtReplace.Text + MainForm.gLang.GetText("» gha alamshturamsiz?");
 			// Centered on the editor window, like the other message boxes.
 			System.Windows.Forms.IWin32Window mainWindow = CenteredMessageBox.MainWindow;
-			if (CenteredMessageBox.Run(mainWindow != null ? mainWindow.Handle : System.IntPtr.Zero, () => MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question)) == MessageBoxResult.Yes)
+			if (CenteredMessageBox.Run(mainWindow != null ? mainWindow.Handle : System.IntPtr.Zero, () => MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.None,
+				CenteredMessageBox.RightToLeftUi ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : MessageBoxOptions.None)) == MessageBoxResult.Yes)
 			{
 				Cursor old = Mouse.OverrideCursor;
 				Mouse.OverrideCursor= Cursors.Wait;
