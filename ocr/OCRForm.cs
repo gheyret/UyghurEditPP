@@ -118,8 +118,8 @@ namespace UyghurEditPP
 		}
 		
 		
+		// Uses the page segmentation chosen in the window (ButtonRight sets it).
 		string DoOCR(TesseractEngine engine, Pix pix){
-			engine.DefaultPageSegMode = PageSegMode.SingleBlock;
 			Page pg = engine.Process(pix);
 			String buf = pg.GetText();
 			pix.Dispose();
