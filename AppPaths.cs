@@ -4,6 +4,9 @@
  * The program folder may be read-only (for example under Program Files), so
  * these files live in %AppData%\UyghurEditPP. Files left in the program folder
  * by older versions are copied there once.
+ *
+ * The correction list imla_xatatoghra.txt comes with the program and stays in the
+ * program folder; only the user's own corrections are kept in %AppData%.
  */
 using System;
 using System.IO;
@@ -17,7 +20,9 @@ namespace UyghurEditPP
 		public const string IshletkuchiFileName = "imla_ishletkuchi.txt";
 		public const string XataToghraFileName  = "imla_xatatoghra.txt";
 
-		static readonly string[] gKonaHojjetler = { ConfigFileName, IshletkuchiFileName, XataToghraFileName };
+		// Not imla_xatatoghra.txt: the copy in the program folder is the shipped list, and it
+		// is still read from there (with anything older versions appended to it).
+		static readonly string[] gKonaHojjetler = { ConfigFileName, IshletkuchiFileName };
 
 		/// <summary>
 		/// %AppData%\UyghurEditPP
@@ -43,6 +48,11 @@ namespace UyghurEditPP
 		public static string DataFile(string fileName)
 		{
 			return Path.Combine(DataFolder, fileName);
+		}
+
+		public static string ProgramFile(string fileName)
+		{
+			return Path.Combine(ProgramFolder, fileName);
 		}
 
 		/// <summary>

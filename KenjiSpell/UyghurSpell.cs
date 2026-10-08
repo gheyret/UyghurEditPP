@@ -25,17 +25,28 @@ namespace UyghurEditPP
 		Dictionary<string,string> XataToghra = new Dictionary<string, string>();
 		
 		HashSet<string>           IshletkuchiDic = new HashSet<string>();
-		HashSet<string>           XataToghraBuf  = new HashSet<string>();
+		List<string>              XataToghraBuf  = new List<string>(); // in file order: later lines win
 		
 		protected Uyghur.YEZIQ gYeziq;
 
 		string gImlaIshletkuchi = AppPaths.IshletkuchiFileName;
 		string gImlaXataToghra = AppPaths.XataToghraFileName;
+		// The correction list that comes with the program. The user's own corrections
+		// are kept separately (gImlaXataToghra), so a newer list in a new release is used.
+		string gImlaXataToghraAsasi;
 		
 		
 		internal UyghurSpell(){
 			gImlaIshletkuchi = AppPaths.DataFile(gImlaIshletkuchi);
 			gImlaXataToghra = AppPaths.DataFile(gImlaXataToghra);
+			gImlaXataToghraAsasi = AppPaths.ProgramFile(AppPaths.XataToghraFileName);
+		}
+		
+		// For the tests.
+		internal void SetFileNames(string ishletkuchi, string xataToghra, string xataToghraAsasi){
+			gImlaIshletkuchi = ishletkuchi;
+			gImlaXataToghra = xataToghra;
+			gImlaXataToghraAsasi = xataToghraAsasi;
 		}
 		
 		public string IshletkcuhiAmbarIsimi{
@@ -122,10 +133,16 @@ namespace UyghurEditPP
 		
 		void ReadXataToghra()
 		{
-
-			if (!File.Exists(gImlaXataToghra)) return;
 			XataToghra.Clear();
-			using (StreamReader sr = new StreamReader(File.OpenRead(gImlaXataToghra),true))
+			// The user's corrections come last, so they win over the shipped list.
+			ReadXataToghra(gImlaXataToghraAsasi);
+			ReadXataToghra(gImlaXataToghra);
+		}
+		
+		void ReadXataToghra(string filenm)
+		{
+			if (!File.Exists(filenm)) return;
+			using (StreamReader sr = new StreamReader(File.OpenRead(filenm),true))
 			{
 				String qur;
 				while ((qur = sr.ReadLine()) != null)
