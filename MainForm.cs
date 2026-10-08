@@ -910,6 +910,8 @@ namespace UyghurEditPP
 		}
 
 		
+		Font gMenuFont;
+
 		void CheckLangMenu(string lang){
 			foreach(ToolStripMenuItem itm in menuTil.DropDownItems){
 				itm.Checked = false;
@@ -920,7 +922,10 @@ namespace UyghurEditPP
 			gConfig["LANG"] = lang;
 			gLang.LanguaID = lang;
 			// English and Japanese use the Windows menu font; the Uyghur UI keeps UKIJ Tuz.
-			this.menuBar.Font = ("eng".Equals(lang) || "jpn".Equals(lang)) ? SystemFonts.MenuFont : this.Font;
+			if(gMenuFont == null){
+				gMenuFont = SystemFonts.MenuFont; // a new Font on every call, so keep one
+			}
+			this.menuBar.Font = ("eng".Equals(lang) || "jpn".Equals(lang)) ? gMenuFont : this.Font;
 			if("uey".Equals(lang)){
 				this.menuBar.RightToLeft = RightToLeft.Yes;
 				//this.menuBar.Font = new Font("UKIJ Tuz",14.0f);
@@ -1128,9 +1133,14 @@ namespace UyghurEditPP
 			BackColor = theme.TabStrip;
 			toolTBox.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
 			toolTBox.ForeColor = theme.IsDark ? theme.EditorText : SystemColors.WindowText;
-			gImlab.SetColors(System.Windows.Media.Color.FromRgb(theme.Misspelled.R, theme.Misspelled.G, theme.Misspelled.B),
-			                 new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundBack.R, theme.FoundBack.G, theme.FoundBack.B)),
-			                 theme.IsDark ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundText.R, theme.FoundText.G, theme.FoundText.B)) : null);
+			System.Windows.Media.SolidColorBrush foundBack = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundBack.R, theme.FoundBack.G, theme.FoundBack.B));
+			foundBack.Freeze();
+			System.Windows.Media.SolidColorBrush foundText = null;
+			if(theme.IsDark){
+				foundText = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundText.R, theme.FoundText.G, theme.FoundText.B));
+				foundText.Freeze();
+			}
+			gImlab.SetColors(System.Windows.Media.Color.FromRgb(theme.Misspelled.R, theme.Misspelled.G, theme.Misspelled.B), foundBack, foundText);
 			foreach(TabPage pg in mainTab.TabPages){
 				pg.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
 				ElementHost host = pg.Controls.Count > 0 ? pg.Controls[0] as ElementHost : null;

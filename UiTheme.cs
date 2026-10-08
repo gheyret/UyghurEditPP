@@ -295,6 +295,8 @@ namespace UyghurEditPP
 			e.Graphics.DrawImage(glyph, e.ImageRectangle);
 		}
 
+		// One recolored pair per toolbar / menu image, dropped with the image: the number of
+		// images is fixed, so this stays small.
 		static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Image, Image[]> gGlyphs =
 			new System.Runtime.CompilerServices.ConditionalWeakTable<Image, Image[]>();
 
