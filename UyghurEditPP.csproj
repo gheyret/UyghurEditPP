@@ -57,7 +57,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <DebugType>Full</DebugType>
@@ -69,7 +69,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\UyghurEditPP\</OutputPath>
     <DebugSymbols>false</DebugSymbols>
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DebugType>None</DebugType>
     <DefineTrace>True</DefineTrace>
