@@ -34,7 +34,6 @@
     </NuGetPackageImportStamp>
     <ApplicationIcon>uyghur.ico</ApplicationIcon>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\nk1449\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <StartupObject>UyghurEditPP.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
