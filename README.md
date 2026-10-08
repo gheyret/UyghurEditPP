@@ -128,5 +128,3 @@ Avalonedit: https://github.com/icsharpcode/AvalonEdit
 DynaJson: https://github.com/fujieda/DynaJson
 
 Tesseract .Net: https://github.com/charlesw/tesseract
-
-SymSpell: https://github.com/wolfgarbe/SymSpell (Hazirche bu ishlitilmidi. emma esli kodi saqlap qélindi)
