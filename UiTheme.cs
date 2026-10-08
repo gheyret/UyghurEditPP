@@ -283,6 +283,74 @@ namespace UyghurEditPP
 			base.OnRenderItemText(e);
 		}
 
+		// Black glyph icons (wrap, writing direction, the script buttons ...) are drawn in the
+		// text color in the dark theme; colored icons are drawn as they are.
+		protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
+		{
+			Image glyph = gTheme.IsDark && e.Image != null ? LightGlyph(e.Image, e.Item == null || e.Item.Enabled) : null;
+			if(glyph == null){
+				base.OnRenderItemImage(e);
+				return;
+			}
+			e.Graphics.DrawImage(glyph, e.ImageRectangle);
+		}
+
+		static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Image, Image[]> gGlyphs =
+			new System.Runtime.CompilerServices.ConditionalWeakTable<Image, Image[]>();
+
+		// The image recolored to the text color (or a dimmed gray when disabled), or null if it
+		// is not a dark one-color glyph.
+		Image LightGlyph(Image image, bool enabled)
+		{
+			Image[] cached = gGlyphs.GetValue(image, img => MakeGlyphs(img, gTheme.BarText, Color.FromArgb(0x70, 0x70, 0x70)));
+			return cached == null ? null : cached[enabled ? 0 : 1];
+		}
+
+		static Image[] MakeGlyphs(Image image, Color text, Color disabled)
+		{
+			Bitmap src = image as Bitmap;
+			if(src == null || src.Width > 64 || src.Height > 64){
+				return null;
+			}
+			int opaque = 0, dark = 0;
+			for(int y = 0; y < src.Height; y++){
+				for(int x = 0; x < src.Width; x++){
+					Color c = src.GetPixel(x, y);
+					if(c.A < 32 || (c.R == 255 && c.G == 0 && c.B == 255)){
+						continue; // transparent, or the magenta used as transparent color
+					}
+					opaque++;
+					int max = Math.Max(c.R, Math.Max(c.G, c.B)), min = Math.Min(c.R, Math.Min(c.G, c.B));
+					if(max < 120 && max - min < 40){
+						dark++;
+					}
+				}
+			}
+			if(opaque == 0 || dark < opaque * 0.9){
+				return null;
+			}
+			return new Image[] { Recolor(src, text), Recolor(src, disabled) };
+		}
+
+		// Darker pixels become more opaque in the new color: a black glyph turns into a
+		// glyph of that color with the same smooth edges.
+		static Bitmap Recolor(Bitmap src, Color color)
+		{
+			Bitmap dst = new Bitmap(src.Width, src.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			for(int y = 0; y < src.Height; y++){
+				for(int x = 0; x < src.Width; x++){
+					Color c = src.GetPixel(x, y);
+					if(c.A == 0 || (c.R == 255 && c.G == 0 && c.B == 255)){
+						continue;
+					}
+					double darkness = 1.0 - (c.R * 0.299 + c.G * 0.587 + c.B * 0.114) / 255.0;
+					int alpha = (int)Math.Round(c.A * darkness);
+					dst.SetPixel(x, y, Color.FromArgb(alpha, color.R, color.G, color.B));
+				}
+			}
+			return dst;
+		}
+
 		protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
 		{
 			if(e.Item == null || e.Item.Enabled){
