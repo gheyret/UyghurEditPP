@@ -1153,9 +1153,16 @@ namespace UyghurEditPP
 		// The Windows app mode was changed: follow it if the setting says so.
 		void WindowsSettingChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
 		{
-			if(UiTheme.SystemSetting.Equals(gTemaSetting) && IsHandleCreated){
-				BeginInvoke(new Action(() => ApplyTheme(UiTheme.SystemSetting)));
+			// The app mode change comes as General; other changes (wallpaper ...) are ignored,
+			// and so is a General change that does not switch light / dark.
+			if(e.Category != Microsoft.Win32.UserPreferenceCategory.General || !UiTheme.SystemSetting.Equals(gTemaSetting) || !IsHandleCreated){
+				return;
 			}
+			BeginInvoke(new Action(() => {
+				if(UiTheme.FromSetting(UiTheme.SystemSetting) != UiTheme.Current){
+					ApplyTheme(UiTheme.SystemSetting);
+				}
+			}));
 		}
 
 		void MenuTilClick(object sender, EventArgs e)
