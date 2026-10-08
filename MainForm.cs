@@ -834,8 +834,8 @@ namespace UyghurEditPP
 			SetKunupka(kun);
 			
 			if(!gConfig.Contains("CHONGLUQI")){
-				// 1024x768 at 100%, larger on a high-DPI screen.
-				Rectangle rc = new Rectangle(100,100,LogicalToDeviceUnits(1024), LogicalToDeviceUnits(768));
+				// The size is in logical units (pixels at 100%); see WindowSize.
+				Rectangle rc = new Rectangle(100,100,1024, 768);
 				gConfig["CHONGLUQI"] = rc;
 			}
 		}
@@ -900,11 +900,12 @@ namespace UyghurEditPP
 			if (rc.X<0 || rc.Y<0){
 				rc.X = 100;
 				rc.Y = 100;
-				rc.Width=LogicalToDeviceUnits(1024);
-				rc.Height=LogicalToDeviceUnits(768);
+				rc.Width=1024;
+				rc.Height=768;
 			}
+			// The saved size is in logical units; turn it into pixels for the monitor the window opens on.
 			this.Location = new Point(rc.X,rc.Y);
-			this.Size = new Size(rc.Width,rc.Height);
+			this.Size = WindowSize.ToDevice(rc.Size, WindowSize.DpiAt(this.Location, DeviceDpi));
 			MenuYengiClick(null,null);
 		}
 
@@ -1835,7 +1836,7 @@ namespace UyghurEditPP
 			gConfig["ORUNLAR"] = gIzOffset;
 			try
 			{
-				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
+				gConfig["CHONGLUQI"] = new Rectangle(this.Location, WindowSize.ToLogical(this.Size, DeviceDpi));
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
 				AppSettings.Save(AppPaths.DataFile(AppSettings.FileName), gConfig);
 			}
