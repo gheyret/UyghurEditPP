@@ -184,42 +184,42 @@
     "eng": ""
   },
   "An unexpected error occurred.": {
-    "uly": "",
+    "uly": "Kütülmigen xataliq körüldi.",
     "jpn": "",
     "eng": "An unexpected error occurred."
   },
   "Details were saved to:": {
-    "uly": "",
+    "uly": "Tepsilati munu höjjetke saqlandi:",
     "jpn": "",
     "eng": "Details were saved to:"
   },
   "Could not save the word to the user dictionary:": {
-    "uly": "",
+    "uly": "Sözni ishletküchi lughitige saqliyalmidi:",
     "jpn": "",
     "eng": "Could not save the word to the user dictionary:"
   },
   "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):": {
-    "uly": "",
+    "uly": "Visual C++ ambiri kem bolghachqa OCR qozghalmidi. Microsoft Visual C++ Redistributable (x64) ni ornitip béqing:",
     "jpn": "",
     "eng": "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):"
   },
   "OCR could not start. Please check that this folder contains the language data (.traineddata) files:": {
-    "uly": "",
+    "uly": "OCR qozghalmidi. Töwendiki qisquchta til sanliq melumat (.traineddata) höjjetliri barmu, tekshürüp béqing:",
     "jpn": "",
     "eng": "OCR could not start. Please check that this folder contains the language data (.traineddata) files:"
   },
   "Unsaved changes will be discarded. Continue?": {
-    "uly": "",
+    "uly": "Saqlanmighan özgirishler tashliwétilidu. Dawamlashturamsiz?",
     "jpn": "",
     "eng": "Unsaved changes will be discarded. Continue?"
   },
   "Loading the spelling dictionary...": {
-    "uly": "",
+    "uly": "Imla ambiri oquluwatidu...",
     "jpn": "",
     "eng": "Loading the spelling dictionary..."
   },
   "The spelling dictionary could not be loaded.": {
-    "uly": "",
+    "uly": "Imla ambirini oqughili bolmidi.",
     "jpn": "",
     "eng": "The spelling dictionary could not be loaded."
   }
