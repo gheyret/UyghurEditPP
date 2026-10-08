@@ -379,13 +379,14 @@ namespace UyghurEditPP
 				curEdit  = new TextEditor();
 				curHost = new ElementHost();
 				curPg = new TabPage(Path.GetFileName(fileName));
-				mainTab.TabPages.Add(curPg);
 				curPg.Tag ="";
 				if(File.Exists(fileName))
 				{
 					curEdit.Load(fileName);
 					curPg.Tag = fileName;
 				}
+				// Added only once the file is read, so a file that cannot be read leaves no empty tab.
+				mainTab.TabPages.Add(curPg);
 				
 				curEdit.Padding = new System.Windows.Thickness(2,0,0,0);
 				curEdit.ShowLineNumbers = true;
