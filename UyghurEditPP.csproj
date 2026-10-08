@@ -130,6 +130,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppFonts.cs" />
     <Compile Include="AppPaths.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="CenteredMessageBox.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="UiDarkStyles.cs" />
     <Compile Include="UiTheme.cs" />
     <Compile Include="UiThemer.cs" />
+    <Compile Include="WindowSize.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

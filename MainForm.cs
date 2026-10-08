@@ -94,6 +94,7 @@ namespace UyghurEditPP
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			AppFonts.Fix(this);
 			// Flat bars with thin lines between them (UiTheme.cs).
 			ToolStripManager.Renderer = new UiRenderer(UiTheme.Current);
 			MakeThemeMenu();
@@ -314,6 +315,25 @@ namespace UyghurEditPP
 		
 		
 		
+		/// <summary>
+		/// Whether two paths name the same file: relative paths are made full, and case is
+		/// ignored (Windows file names are not case sensitive). Empty paths never match.
+		/// </summary>
+		internal static bool SameFile(string a, string b)
+		{
+			if(string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b)){
+				return false;
+			}
+			try{
+				a = Path.GetFullPath(a);
+				b = Path.GetFullPath(b);
+			}
+			catch(Exception ee){
+				System.Diagnostics.Debug.WriteLine(ee); // not a valid path: compare as given
+			}
+			return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+		}
+
 		void AddNew(String fileName){
 			TabPage     curPg   = null;
 			TextEditor  curEdit = null;
@@ -348,7 +368,7 @@ namespace UyghurEditPP
 			
 			bool bar=false;
 			foreach(TabPage pg in mainTab.TabPages){
-				if(pg.Tag.Equals(fileName)){
+				if(SameFile(pg.Tag as string, fileName)){
 					bar = true;
 					curPg = pg;
 					break;
@@ -359,19 +379,20 @@ namespace UyghurEditPP
 				curEdit  = new TextEditor();
 				curHost = new ElementHost();
 				curPg = new TabPage(Path.GetFileName(fileName));
-				mainTab.TabPages.Add(curPg);
 				curPg.Tag ="";
 				if(File.Exists(fileName))
 				{
 					curEdit.Load(fileName);
 					curPg.Tag = fileName;
 				}
+				// Added only once the file is read, so a file that cannot be read leaves no empty tab.
+				mainTab.TabPages.Add(curPg);
 				
 				curEdit.Padding = new System.Windows.Thickness(2,0,0,0);
 				curEdit.ShowLineNumbers = true;
 				//curEdit.Options.ShowEndOfLine = true;
 				
-				curEdit.FontFamily = new System.Windows.Media.FontFamily(gFontName);
+				curEdit.FontFamily = AppFonts.Wpf(gFontName);
 				curEdit.FontSize   = gFontSize;
 				curEdit.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				curEdit.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
@@ -833,8 +854,8 @@ namespace UyghurEditPP
 			SetKunupka(kun);
 			
 			if(!gConfig.Contains("CHONGLUQI")){
-				// 1024x768 at 100%, larger on a high-DPI screen.
-				Rectangle rc = new Rectangle(100,100,LogicalToDeviceUnits(1024), LogicalToDeviceUnits(768));
+				// The size is in logical units (pixels at 100%); see WindowSize.
+				Rectangle rc = new Rectangle(100,100,1024, 768);
 				gConfig["CHONGLUQI"] = rc;
 			}
 		}
@@ -848,7 +869,7 @@ namespace UyghurEditPP
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			int codepage;
-			this.Font = new Font("UKIJ Tuz",12);
+			this.Font = AppFonts.Create(AppFonts.UkijTuz, 12);
 			this.menuBar.Font = this.Font;
 			this.stBar.Font = this.Font;
 			this.mainTab.Font = this.Font;
@@ -899,15 +920,18 @@ namespace UyghurEditPP
 			if (rc.X<0 || rc.Y<0){
 				rc.X = 100;
 				rc.Y = 100;
-				rc.Width=LogicalToDeviceUnits(1024);
-				rc.Height=LogicalToDeviceUnits(768);
+				rc.Width=1024;
+				rc.Height=768;
 			}
+			// The saved size is in logical units; turn it into pixels for the monitor the window opens on.
 			this.Location = new Point(rc.X,rc.Y);
-			this.Size = new Size(rc.Width,rc.Height);
+			this.Size = WindowSize.ToDevice(rc.Size, WindowSize.DpiAt(this.Location, DeviceDpi));
 			MenuYengiClick(null,null);
 		}
 
 		
+		Font gMenuFont;
+
 		void CheckLangMenu(string lang){
 			foreach(ToolStripMenuItem itm in menuTil.DropDownItems){
 				itm.Checked = false;
@@ -918,7 +942,10 @@ namespace UyghurEditPP
 			gConfig["LANG"] = lang;
 			gLang.LanguaID = lang;
 			// English and Japanese use the Windows menu font; the Uyghur UI keeps UKIJ Tuz.
-			this.menuBar.Font = ("eng".Equals(lang) || "jpn".Equals(lang)) ? SystemFonts.MenuFont : this.Font;
+			if(gMenuFont == null){
+				gMenuFont = SystemFonts.MenuFont; // a new Font on every call, so keep one
+			}
+			this.menuBar.Font = ("eng".Equals(lang) || "jpn".Equals(lang)) ? gMenuFont : this.Font;
 			if("uey".Equals(lang)){
 				this.menuBar.RightToLeft = RightToLeft.Yes;
 				//this.menuBar.Font = new Font("UKIJ Tuz",14.0f);
@@ -1126,9 +1153,14 @@ namespace UyghurEditPP
 			BackColor = theme.TabStrip;
 			toolTBox.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
 			toolTBox.ForeColor = theme.IsDark ? theme.EditorText : SystemColors.WindowText;
-			gImlab.SetColors(System.Windows.Media.Color.FromRgb(theme.Misspelled.R, theme.Misspelled.G, theme.Misspelled.B),
-			                 new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundBack.R, theme.FoundBack.G, theme.FoundBack.B)),
-			                 theme.IsDark ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundText.R, theme.FoundText.G, theme.FoundText.B)) : null);
+			System.Windows.Media.SolidColorBrush foundBack = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundBack.R, theme.FoundBack.G, theme.FoundBack.B));
+			foundBack.Freeze();
+			System.Windows.Media.SolidColorBrush foundText = null;
+			if(theme.IsDark){
+				foundText = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundText.R, theme.FoundText.G, theme.FoundText.B));
+				foundText.Freeze();
+			}
+			gImlab.SetColors(System.Windows.Media.Color.FromRgb(theme.Misspelled.R, theme.Misspelled.G, theme.Misspelled.B), foundBack, foundText);
 			foreach(TabPage pg in mainTab.TabPages){
 				pg.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
 				ElementHost host = pg.Controls.Count > 0 ? pg.Controls[0] as ElementHost : null;
@@ -1152,9 +1184,16 @@ namespace UyghurEditPP
 		// The Windows app mode was changed: follow it if the setting says so.
 		void WindowsSettingChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
 		{
-			if(UiTheme.SystemSetting.Equals(gTemaSetting) && IsHandleCreated){
-				BeginInvoke(new Action(() => ApplyTheme(UiTheme.SystemSetting)));
+			// The app mode change comes as General; other changes (wallpaper ...) are ignored,
+			// and so is a General change that does not switch light / dark.
+			if(e.Category != Microsoft.Win32.UserPreferenceCategory.General || !UiTheme.SystemSetting.Equals(gTemaSetting) || !IsHandleCreated){
+				return;
 			}
+			BeginInvoke(new Action(() => {
+				if(UiTheme.FromSetting(UiTheme.SystemSetting) != UiTheme.Current){
+					ApplyTheme(UiTheme.SystemSetting);
+				}
+			}));
 		}
 
 		void MenuTilClick(object sender, EventArgs e)
@@ -1178,6 +1217,11 @@ namespace UyghurEditPP
 		}
 		
 		public void OpenaFile(string filename){
+			// A relative path (from the command line) is kept as a full one, so tabs and the
+			// recent files list name each file one way.
+			if(File.Exists(filename)){
+				filename = Path.GetFullPath(filename);
+			}
 			String  extName = Path.GetExtension(filename);
 			if(extName.Length>0 && gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
 			{
@@ -1827,7 +1871,7 @@ namespace UyghurEditPP
 			gConfig["ORUNLAR"] = gIzOffset;
 			try
 			{
-				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
+				gConfig["CHONGLUQI"] = new Rectangle(this.Location, WindowSize.ToLogical(this.Size, DeviceDpi));
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
 				AppSettings.Save(AppPaths.DataFile(AppSettings.FileName), gConfig);
 			}
@@ -2262,6 +2306,7 @@ namespace UyghurEditPP
 		void MenuHeqqideClick(object sender, EventArgs e)
 		{
 			FormHeqqide heqqide = new FormHeqqide();
+			AppFonts.Fix(heqqide);
 			UiThemer.Apply(heqqide, UiTheme.Current);
 			heqqide.ShowInTaskbar = false;
 			heqqide.ShowDialog();
@@ -2311,6 +2356,7 @@ namespace UyghurEditPP
 		{
 			if (gOCR==null || gOCR.IsDisposed){
 				gOCR = new OCRForm(gEditor);
+				AppFonts.Fix(gOCR);
 				UiThemer.Apply(gOCR, UiTheme.Current);
 				gOCR.Owner = this;
 				gOCR.ShowInTaskbar = false;
@@ -2321,7 +2367,7 @@ namespace UyghurEditPP
 		void MenuFontClick(object sender, EventArgs e)
 		{
 			FontDialog fontDlg = new FontDialog();
-			Font tmpFont = new Font(gFontName,gFontSize);
+			Font tmpFont = AppFonts.Create(gFontName,gFontSize);
 			fontDlg.Font = tmpFont;
 			fontDlg.ShowApply = true;
 			fontDlg.ShowColor = false;
@@ -2338,7 +2384,7 @@ namespace UyghurEditPP
 				gConfig["FONTSTYLE"] = gFontStyle;
 				gConfig["FONTWEIGHT"] = gFontWeight;
 				
-				gEditor.FontFamily = new System.Windows.Media.FontFamily(gFontName);
+				gEditor.FontFamily = AppFonts.Wpf(gFontName);
 				gEditor.FontSize   = gFontSize;
 				gEditor.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				gEditor.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
