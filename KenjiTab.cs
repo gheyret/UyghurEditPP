@@ -70,10 +70,21 @@ namespace UyghurEditPP
 
 		protected override void OnPaintBackground(PaintEventArgs pevent)
 		{
-			base.OnPaintBackground(pevent);
+			UiTheme theme = UiTheme.Current;
+			using (SolidBrush strip = new SolidBrush(theme.TabStrip))
+				pevent.Graphics.FillRectangle(strip, ClientRectangle);
+			if (this.TabCount > 0 && this.Alignment == TabAlignment.Top)
+			{
+				// The line under the tabs; the active tab is drawn over it, so it stays open below.
+				int y = GetTabRect(0).Bottom - 1;
+				using (Pen line = new Pen(theme.TabBorder))
+					pevent.Graphics.DrawLine(line, 0, y, Width, y);
+			}
 			for (int id = 0; id < this.TabCount; id++)
-				DrawTabBackground(pevent.Graphics, id);
-
+				if (id != SelectedIndex)
+					DrawTabBackground(pevent.Graphics, id);
+			if (SelectedIndex >= 0 && SelectedIndex < this.TabCount)
+				DrawTabBackground(pevent.Graphics, SelectedIndex);
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -113,17 +124,25 @@ namespace UyghurEditPP
 			return new IntPtr((hi << 16) | (lo & 0xFFFF));
 		}
 		
+		// A tab with a thin frame; the active one is white, open below, with a colored line on top.
 		private void DrawTabBackground(Graphics graphics, int id)
 		{
-			if (id == SelectedIndex){
-				graphics.FillRectangle(Brushes.White, GetTabRect(id));
-			}
-			else if (id == HotTabIndex)
+			UiTheme theme = UiTheme.Current;
+			Rectangle rc = GetTabRect(id);
+			bool active = id == SelectedIndex;
+			Color back = active ? theme.TabActive : (id == HotTabIndex ? theme.TabHover : theme.TabInactive);
+			using (SolidBrush brush = new SolidBrush(back))
+				graphics.FillRectangle(brush, rc);
+			using (Pen border = new Pen(theme.TabBorder))
 			{
-				Rectangle rc = GetTabRect(id);
-				rc.Width--;
-				rc.Height--;
-				graphics.DrawRectangle(Pens.DarkGray, rc);
+				graphics.DrawLine(border, rc.Left, rc.Top, rc.Left, rc.Bottom - 1);
+				graphics.DrawLine(border, rc.Right - 1, rc.Top, rc.Right - 1, rc.Bottom - 1);
+				graphics.DrawLine(border, rc.Left, rc.Top, rc.Right - 1, rc.Top);
+			}
+			if (active)
+			{
+				using (SolidBrush accent = new SolidBrush(theme.Accent))
+					graphics.FillRectangle(accent, rc.Left, rc.Top, rc.Width, LogicalToDeviceUnits(3));
 			}
 		}
 		
@@ -148,6 +167,9 @@ namespace UyghurEditPP
 			Rectangle contentRect = vertical ? new Rectangle(0, 0, tabRect.Height, tabRect.Width) : new Rectangle(Point.Empty, tabRect.Size);
 			Rectangle textrect = contentRect;
 			textrect.Width -= FontHeight;
+			// Keep clear of the frame and the line on top (the text fills its box with the tab color).
+			int edge = LogicalToDeviceUnits(3);
+			textrect.Inflate(-1, -edge);
 
 			if (tabImage != null)
 			{
@@ -155,8 +177,9 @@ namespace UyghurEditPP
 				textrect.X += tabImage.Width;
 			}
 
-			Color frColor = id == SelectedIndex ? Color.Black : this.ForeColor;
-			Color bkColor = id == SelectedIndex ? Color.White : this.BackColor;
+			UiTheme theme = UiTheme.Current;
+			Color frColor = id == SelectedIndex ? theme.TabActiveText : theme.TabInactiveText;
+			Color bkColor = id == SelectedIndex ? theme.TabActive : (id == this.HotTabIndex ? theme.TabHover : theme.TabInactive);
 
 			using (Bitmap bm = new Bitmap(contentRect.Width, contentRect.Height))
 			{
@@ -253,21 +276,5 @@ namespace UyghurEditPP
 		
 		#endregion
 
-	}
-	
-	class MyRenderer : ToolStripProfessionalRenderer
-	{
-		protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
-		{
-			var btn = e.Item as ToolStripButton;
-			if (btn != null && btn.CheckOnClick && btn.Checked)
-			{
-				Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
-				Color c = Color.FromArgb(0, 147, 230); //Your custom color here
-				var brush = new SolidBrush(c);
-				e.Graphics.FillRectangle(brush, bounds);
-			}
-			else base.OnRenderButtonBackground(e);
-		}
 	}
 }

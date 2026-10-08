@@ -94,6 +94,8 @@ namespace UyghurEditPP
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			// Flat bars with thin lines between them (UiTheme.cs).
+			ToolStripManager.Renderer = new UiRenderer(UiTheme.Current);
 			//IntPtr appIns = Marshal.GetHINSTANCE(System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0]);
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
