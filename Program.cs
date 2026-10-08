@@ -95,7 +95,7 @@ namespace UyghurEditPP
 			}
 		}
 
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		[System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
 		static extern bool SetProcessDpiAwarenessContext(IntPtr value);
 		static readonly IntPtr DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = new IntPtr(-4);
 
@@ -106,7 +106,11 @@ namespace UyghurEditPP
 		static void UsePerMonitorDpi()
 		{
 			try{
-				SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+				if(!SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)){
+					// E.g. ERROR_ACCESS_DENIED when the awareness was already set; the program
+					// still runs, at whatever awareness the process has.
+					ErrorLog.Write(new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error(), "SetProcessDpiAwarenessContext(PER_MONITOR_AWARE_V2) failed"));
+				}
 			}
 			catch(EntryPointNotFoundException){
 			}
