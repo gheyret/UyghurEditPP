@@ -1798,7 +1798,11 @@ namespace UyghurEditPP
 			menuImlaUEY.Checked=false;
 			menuImlaULY.Checked=false;
 			menuImlaUSY.Checked=false;
-			
+
+			if(!(yeziq.Equals("UEY") || yeziq.Equals("ULY") || yeziq.Equals("USY") || yeziq.Equals("YOQ"))){
+				ErrorLog.Write(new ArgumentException("Unknown spelling script: " + yeziq));
+				yeziq = "UEY";
+			}
 			if(yeziq.Equals("YOQ")){
 				gImlaYeziq = yeziq;
 				gImlab.WordFinder = null;
@@ -1817,7 +1821,7 @@ namespace UyghurEditPP
 					finder = gLatincheSoz;
 					ambar = Uyghur.YEZIQ.ULY;
 				}
-				else{
+				else{ // USY
 					menuImlaUSY.Checked = true;
 					finder = gSlawyancheSoz;
 					ambar = Uyghur.YEZIQ.USY; //Imla mbirini slawyanchigha ozgertip ishlitidu
@@ -1864,6 +1868,11 @@ namespace UyghurEditPP
 			}
 			if(yuklesh.IsFaulted){
 				ErrorLog.Write(yuklesh.Exception);
+				if(yeziq.Equals(gImlaYeziq)){
+					// Spelling is off; choosing the script again loads the dictionary again.
+					ImlaniAktipla("YOQ");
+					stBarUchur.Text = gLang.GetText("The spelling dictionary could not be loaded.");
+				}
 				return;
 			}
 			if(!yeziq.Equals(gImlaYeziq)){
