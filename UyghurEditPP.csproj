@@ -295,6 +295,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Language.cs" />
+    <Compile Include="UiDarkStyles.cs" />
     <Compile Include="UiTheme.cs" />
     <Compile Include="UiThemer.cs" />
     <Compile Include="MainForm.cs">

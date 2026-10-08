@@ -111,15 +111,8 @@ namespace UyghurEditPP
 			SetOrClear(editor.TextArea, UyghurEditPP.Editing.TextArea.SelectionBorderProperty, dark, null);
 			editor.TextArea.Caret.CaretBrush = dark ? Brush(theme.Caret) : null;
 			UyghurEditPP.Editing.LineNumberMargin.CurrentLineNumberBrush = dark ? Brush(Color.FromArgb(0x56, 0x9C, 0xD6)) : System.Windows.Media.Brushes.DarkBlue;
-			// The scroll bars: a dark track in the dark theme.
-			if(dark){
-				System.Windows.Style style = new System.Windows.Style(typeof(System.Windows.Controls.Primitives.ScrollBar));
-				style.Setters.Add(new System.Windows.Setter(System.Windows.Controls.Control.BackgroundProperty, Brush(theme.TabStrip)));
-				editor.Resources[typeof(System.Windows.Controls.Primitives.ScrollBar)] = style;
-			}
-			else{
-				editor.Resources.Remove(typeof(System.Windows.Controls.Primitives.ScrollBar));
-			}
+			// The scroll bars (their usual look ignores the colors).
+			UiDarkStyles.ScrollBars(editor.Resources, theme);
 		}
 
 		// Original local values of WPF elements, as for the WinForms controls above.
@@ -152,6 +145,7 @@ namespace UyghurEditPP
 				SetOrRestore(window, System.Windows.Controls.Control.BackgroundProperty, dark, Brush(theme.FormBack));
 				IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
 				UiTheme.SetTitleBar(hwnd, dark);
+				UiDarkStyles.Toggles(window.Resources, theme);
 			}
 			ApplyWpf(root, theme);
 		}
