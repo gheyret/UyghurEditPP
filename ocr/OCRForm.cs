@@ -26,6 +26,8 @@ namespace UyghurEditPP
 		ToolTip          gTip;
 		bool             gRunning = false;
 		int              gEngineNomur = 0; // which engine request is the latest
+		bool             gEngineYasiliwatidu = false; // an engine is being created
+		string           gKutuwatqanTil = null;      // languages requested meanwhile
 		
 		public OCRForm(TextEditor curedit)
 		{
@@ -236,6 +238,8 @@ namespace UyghurEditPP
 			}
 			Til = lang;
 			UpdateButtons();
+			gEngineNomur++;           // an engine still being created is out of date now
+			gKutuwatqanTil = null;
 
 			if(lang.Length >=3){
 				CreateEngine(lang);
@@ -246,13 +250,24 @@ namespace UyghurEditPP
 		}
 
 		// Loading the language data takes a while (more for several languages), so the
-		// engine is created on a thread-pool thread. If the languages change again, or the
-		// window is closed, before it is ready, the engine is thrown away.
+		// engine is created on a thread-pool thread, one at a time: while one is being
+		// created, only the latest request waits, and it starts when that one is done.
+		// An engine that is out of date when it is ready (the languages changed again, or
+		// the window was closed) is thrown away.
 		// tessdata is looked up next to the program, not in the current directory,
 		// so OCR also works when UyghurEdit++ is started from another folder.
-		async void CreateEngine(string lang)
+		void CreateEngine(string lang)
 		{
-			int nomur = ++gEngineNomur;
+			if(gEngineYasiliwatidu){
+				gKutuwatqanTil = lang;
+				return;
+			}
+			StartEngine(lang, gEngineNomur);
+		}
+
+		async void StartEngine(string lang, int nomur)
+		{
+			gEngineYasiliwatidu = true;
 			string tessdata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
 			TesseractEngine engine = null;
 			Exception xata = null;
@@ -262,9 +277,18 @@ namespace UyghurEditPP
 			catch(Exception ee){
 				xata = ee;
 			}
+			gEngineYasiliwatidu = false;
 			if(nomur != gEngineNomur || IsDisposed){
 				if(engine!=null){
 					engine.Dispose();
+				}
+				if(xata!=null){
+					ErrorLog.Write(xata); // not shown: nobody waits for this engine any more
+				}
+				if(!IsDisposed && gKutuwatqanTil!=null){
+					string til = gKutuwatqanTil;
+					gKutuwatqanTil = null;
+					StartEngine(til, gEngineNomur);
 				}
 				return;
 			}
@@ -311,6 +335,7 @@ namespace UyghurEditPP
 			}
 			else{
 				gEngineNomur++; // an engine still being created is thrown away when it is ready
+				gKutuwatqanTil = null;
 				if(gOcr!=null){
 					gOcr.Dispose();
 					gOcr = null;
