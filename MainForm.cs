@@ -315,6 +315,25 @@ namespace UyghurEditPP
 		
 		
 		
+		/// <summary>
+		/// Whether two paths name the same file: relative paths are made full, and case is
+		/// ignored (Windows file names are not case sensitive). Empty paths never match.
+		/// </summary>
+		internal static bool SameFile(string a, string b)
+		{
+			if(string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b)){
+				return false;
+			}
+			try{
+				a = Path.GetFullPath(a);
+				b = Path.GetFullPath(b);
+			}
+			catch(Exception ee){
+				System.Diagnostics.Debug.WriteLine(ee); // not a valid path: compare as given
+			}
+			return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+		}
+
 		void AddNew(String fileName){
 			TabPage     curPg   = null;
 			TextEditor  curEdit = null;
@@ -349,7 +368,7 @@ namespace UyghurEditPP
 			
 			bool bar=false;
 			foreach(TabPage pg in mainTab.TabPages){
-				if(pg.Tag.Equals(fileName)){
+				if(SameFile(pg.Tag as string, fileName)){
 					bar = true;
 					curPg = pg;
 					break;
@@ -1197,6 +1216,11 @@ namespace UyghurEditPP
 		}
 		
 		public void OpenaFile(string filename){
+			// A relative path (from the command line) is kept as a full one, so tabs and the
+			// recent files list name each file one way.
+			if(File.Exists(filename)){
+				filename = Path.GetFullPath(filename);
+			}
 			String  extName = Path.GetExtension(filename);
 			if(extName.Length>0 && gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
 			{

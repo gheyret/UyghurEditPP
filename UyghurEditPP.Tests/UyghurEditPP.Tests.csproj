@@ -16,11 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- WPF, for the dark styles test -->
+    <!-- WPF and Windows Forms types used by the tests -->
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsBase" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup>
