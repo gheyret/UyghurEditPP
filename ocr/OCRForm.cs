@@ -229,11 +229,50 @@ namespace UyghurEditPP
 			Til = lang;
 			
 			if(lang.Length >=3){
-				gOcr= new TesseractEngine(@".\tessdata",lang,EngineMode.LstmOnly);
-				Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+				gOcr = CreateEngine(lang);
+				if(gOcr!=null){
+					Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+				}
+				else{
+					Til = "";
+				}
 			}
 			this.Cursor = Cursors.Default;
 			Invalidate();
+		}
+
+		// tessdata is looked up next to the program, not in the current directory,
+		// so OCR also works when UyghurEdit++ is started from another folder.
+		TesseractEngine CreateEngine(string lang)
+		{
+			string tessdata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
+			try{
+				return new TesseractEngine(tessdata,lang,EngineMode.LstmOnly);
+			}
+			catch(Exception ee){
+				ErrorLog.Write(ee);
+				string msg;
+				if(IsMissingLibrary(ee)){
+					msg = MainForm.gLang.GetText("OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):")
+						+ Environment.NewLine + "https://aka.ms/vs/17/release/vc_redist.x64.exe";
+				}
+				else{
+					msg = MainForm.gLang.GetText("OCR could not start. Please check that this folder contains the language data (.traineddata) files:")
+						+ Environment.NewLine + tessdata;
+				}
+				MessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return null;
+			}
+		}
+
+		static bool IsMissingLibrary(Exception ee)
+		{
+			for(Exception ex = ee; ex!=null; ex = ex.InnerException){
+				if(ex is DllNotFoundException || ex is BadImageFormatException){
+					return true;
+				}
+			}
+			return false;
 		}
 		void OCRFormFormClosing(object sender, FormClosingEventArgs e)
 		{

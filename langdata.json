@@ -197,5 +197,15 @@
     "uly": "",
     "jpn": "",
     "eng": "Could not save the word to the user dictionary:"
+  },
+  "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):": {
+    "uly": "",
+    "jpn": "",
+    "eng": "OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):"
+  },
+  "OCR could not start. Please check that this folder contains the language data (.traineddata) files:": {
+    "uly": "",
+    "jpn": "",
+    "eng": "OCR could not start. Please check that this folder contains the language data (.traineddata) files:"
   }
 }
