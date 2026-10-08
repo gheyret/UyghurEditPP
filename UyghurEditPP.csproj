@@ -170,7 +170,6 @@
     <Compile Include="Document\WeakLineTracker.cs">
       <DependentUpon>ILineTracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="docx_test.cs" />
     <Compile Include="Editing\AbstractMargin.cs" />
     <Compile Include="Editing\Caret.cs" />
     <Compile Include="Editing\CaretLayer.cs">
