@@ -1102,6 +1102,14 @@ namespace UyghurEditPP
 			// stBarUchur.Text = "UyghurEdit++ V"+GetVersion() + "(2020/11/12) Aptor: Gheyret T.Kenji";
 			// stBarUchur.Text = "UyghurEdit++ V "+GetVersion() + " Aptor: Gheyret T.Kenji";
 			// stBarQur.Text = gLang.GetText("Jemiy ") + gEditor.LineCount.ToString() + gLang.GetText(" qur");
+
+			// Paint also comes while there is no editor tab: in MainFormLoad, "new ElementHost()"
+			// loads a cursor through COM, which pumps messages before the first tab exists;
+			// and when the form is disposed after MainFormFormClosing has closed every tab.
+			// The toolbar's transparent background is drawn by this handler too.
+			if(gEditor==null || mainTab.SelectedTab==null){
+				return;
+			}
 			toolQatla.Checked = gEditor.WordWrap;
 			
 			toolBas.Enabled = gEditor.Text.Length>0;
