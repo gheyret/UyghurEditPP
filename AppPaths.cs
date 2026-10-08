@@ -29,7 +29,12 @@ namespace UyghurEditPP
 		/// </summary>
 		public static string DataFolder{
 			get{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UyghurEditPP");
+				string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				if(string.IsNullOrEmpty(appData)){
+					// No profile folder (rare service/locked-down accounts): use the program folder as before.
+					return ProgramFolder;
+				}
+				return Path.Combine(appData, "UyghurEditPP");
 			}
 		}
 
@@ -76,6 +81,12 @@ namespace UyghurEditPP
 					ErrorLog.Write(ee);
 				}
 			}
+			try{
+				ErrorLog.DeleteOldLogs(LogFolder, DateTime.Now.AddDays(-30));
+			}
+			catch(Exception ee){
+				ErrorLog.Write(ee);
+			}
 		}
 
 		/// <summary>
@@ -110,6 +121,25 @@ namespace UyghurEditPP
 			get{
 				return Path.Combine(AppPaths.LogFolder, "error-" + DateTime.Now.ToString("yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture) + ".log");
 			}
+		}
+
+		/// <summary>
+		/// Deletes error-*.log files in folder last written before olderThan.
+		/// Returns how many were deleted.
+		/// </summary>
+		public static int DeleteOldLogs(string folder, DateTime olderThan)
+		{
+			if(!Directory.Exists(folder)){
+				return 0;
+			}
+			int count = 0;
+			foreach(string f in Directory.GetFiles(folder, "error-*.log")){
+				if(File.GetLastWriteTime(f) < olderThan){
+					File.Delete(f);
+					count++;
+				}
+			}
+			return count;
 		}
 
 		/// <summary>

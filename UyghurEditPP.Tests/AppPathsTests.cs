@@ -80,5 +80,31 @@ namespace UyghurEditPP.Tests
 
 			Assert.AreEqual(expected, AppPaths.DataFile(AppPaths.ConfigFileName));
 		}
+
+		[TestMethod]
+		public void DeleteOldLogs_RemovesOnlyOldErrorLogs()
+		{
+			string old = Path.Combine(gOld, "error-20200101.log");
+			string recent = Path.Combine(gOld, "error-20261001.log");
+			string other = Path.Combine(gOld, "notes.log");
+			File.WriteAllText(old, "x");
+			File.WriteAllText(recent, "x");
+			File.WriteAllText(other, "x");
+			File.SetLastWriteTime(old, DateTime.Now.AddDays(-40));
+			File.SetLastWriteTime(other, DateTime.Now.AddDays(-40));
+
+			int deleted = ErrorLog.DeleteOldLogs(gOld, DateTime.Now.AddDays(-30));
+
+			Assert.AreEqual(1, deleted);
+			Assert.IsFalse(File.Exists(old));
+			Assert.IsTrue(File.Exists(recent));
+			Assert.IsTrue(File.Exists(other));
+		}
+
+		[TestMethod]
+		public void DeleteOldLogs_MissingFolder_DoesNothing()
+		{
+			Assert.AreEqual(0, ErrorLog.DeleteOldLogs(Path.Combine(gRoot, "nope"), DateTime.Now));
+		}
 	}
 }
