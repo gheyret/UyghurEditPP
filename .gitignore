@@ -1,0 +1,11 @@
+# Build output
+bin/
+obj/
+
+# NuGet packages (restored with: msbuild -t:restore -p:RestorePackagesConfig=true)
+packages/
+
+# Visual Studio / SharpDevelop user state
+.vs/
+*.user
+*.suo

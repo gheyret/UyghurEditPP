@@ -41,7 +41,7 @@ namespace UyghurEditPP.FindReplace
 			cbWildcards.IsChecked = useWildcards;
 			cbSearchUp.IsChecked = searchUp;
 			
-			this.FontFamily = new System.Windows.Media.FontFamily("UKIJ Tuz");
+			this.FontFamily = AppFonts.Wpf(AppFonts.UkijTuz);
 			this.FontSize = 14;
 			repCount = 0;
 			this.txtFind.PreviewTextInput += UserControl_TextInput;
@@ -249,7 +249,10 @@ namespace UyghurEditPP.FindReplace
 		{
 			string repText = Regex.Unescape(txtReplace.Text);
 			string msg = MainForm.gLang.GetText("Rastla barliq «") + txtFind.Text + MainForm.gLang.GetText("» ni «") +  txtReplace.Text + MainForm.gLang.GetText("» gha alamshturamsiz?");
-			if (MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			// Centered on the editor window, like the other message boxes.
+			System.Windows.Forms.IWin32Window mainWindow = CenteredMessageBox.MainWindow;
+			if (CenteredMessageBox.Run(mainWindow != null ? mainWindow.Handle : System.IntPtr.Zero, () => MessageBox.Show(msg, MainForm.gLang.GetText("Hemmini Almashturush"), MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.None,
+				CenteredMessageBox.RightToLeftUi ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : MessageBoxOptions.None)) == MessageBoxResult.Yes)
 			{
 				Cursor old = Mouse.OverrideCursor;
 				Mouse.OverrideCursor= Cursors.Wait;
@@ -307,7 +310,7 @@ namespace UyghurEditPP.FindReplace
 			if (cbSearchUp.IsChecked == true && !leftToRight)
 				options |= RegexOptions.RightToLeft;
 			if (cbCaseSensitive.IsChecked == false)
-				options |= RegexOptions.IgnoreCase;
+				options |= RegexOptions.IgnoreCase | RegexOptions.CultureInvariant; // ULY I/i, never Turkish İ/ı
 
 			string pattern = textToFind;
 			if(cbNormal.IsChecked==true){

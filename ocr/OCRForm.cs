@@ -25,6 +25,9 @@ namespace UyghurEditPP
 		string           gImgFile = null;
 		ToolTip          gTip;
 		bool             gRunning = false;
+		int              gEngineNomur = 0; // which engine request is the latest
+		bool             gEngineYasiliwatidu = false; // an engine is being created
+		string           gKutuwatqanTil = null;      // languages requested meanwhile
 		
 		public OCRForm(TextEditor curedit)
 		{
@@ -35,6 +38,8 @@ namespace UyghurEditPP
 			InitializeComponent();
 			System.Reflection.Assembly asm =System.Reflection.Assembly.GetExecutingAssembly();
 			gTip = new ToolTip();
+			Til = "";
+			UpdateButtons();
 		}
 		
 		public string ImageFile{
@@ -43,7 +48,7 @@ namespace UyghurEditPP
 				if(gImgFile!=null){
 					Bitmap bimg = new Bitmap(gImgFile);
 					ramka.Image=bimg;
-					Invalidate();
+					UpdateButtons();
 				}
 			}
 		}
@@ -53,36 +58,37 @@ namespace UyghurEditPP
 			set;
 		}
 		
-		void OCRFormPaint(object sender, PaintEventArgs e)
+		// Enables the controls for the current state. This used to be done in the Paint
+		// handler, which can run before OCRFormShown has set Til (a NullReferenceException
+		// that left the window drawn with red crosses); it is now called whenever the
+		// state changes.
+		void UpdateButtons()
 		{
-			if(Til.Length==0 || ramka.Image == null){
-				butTonu.Enabled = false;
-			}
-			else{
-				butAch.Enabled = !gRunning;
-				butTonu.Enabled = !gRunning;
-				chkUyghurUKIJ.Enabled = !gRunning;
-				chkUyghur.Enabled = !gRunning;				
-				chkEng.Enabled = !gRunning;
-				chkRus.Enabled = !gRunning;
-				chkChi.Enabled = !gRunning;
-				chkTur.Enabled = !gRunning;
-				radAuto.Enabled = !gRunning;
-				radSingle.Enabled = !gRunning;
-			}
+			butAch.Enabled = !gRunning;
+			chkUyghurUKIJ.Enabled = !gRunning;
+			chkUyghur.Enabled = !gRunning;
+			chkEng.Enabled = !gRunning;
+			chkRus.Enabled = !gRunning;
+			chkChi.Enabled = !gRunning;
+			chkTur.Enabled = !gRunning;
+			radAuto.Enabled = !gRunning;
+			radSingle.Enabled = !gRunning;
+			butTonu.Enabled = !gRunning && gOcr!=null && !string.IsNullOrEmpty(Til) && ramka.Image != null;
 		}
 		
 		async void ButtonRight(object sender, EventArgs e)
 		{
 			try{
 				gRunning = true;
+				// The background task uses this engine, not the field, so the field can change safely.
+				TesseractEngine engine = gOcr;
 				if(radAuto.Checked){
-					gOcr.DefaultPageSegMode = PageSegMode.Auto;
+					engine.DefaultPageSegMode = PageSegMode.Auto;
 				}
 				else{
-					gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
+					engine.DefaultPageSegMode = PageSegMode.SingleBlock;
 				}
-				Invalidate();
+				UpdateButtons();
 				Bitmap roibmp;
 				Pix    roipix;
 				Rectangle roi = ramka.getRoi();
@@ -93,25 +99,28 @@ namespace UyghurEditPP
 				roipix = PixConverter.ToPix(roibmp).Deskew().Scale(4.3f,4.3f);
 				roibmp.Dispose();
 				
-				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(roipix);});
+				Task<string> ocr = Task.Run<string>(() =>{return DoOCR(engine, roipix);});
 				string txt = await ocr;
 				roipix.Dispose();
-				ramka.Enabled = true;
 				gEditor.AppendText(txt);
-				Cursor=Cursors.Default;
 			}
 			catch(Exception ee){
 				System.Diagnostics.Debug.WriteLine(ee.Message);
-				MessageBox.Show(ee.Message, "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				CenteredMessageBox.Show(this, CenteredMessageBox.LeftToRight(ee.Message), "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally{
+				// Also after an error, so the picture and the cursor do not stay disabled/busy.
+				ramka.Enabled = true;
+				Cursor=Cursors.Default;
 			}
 			gRunning = false;
-			Invalidate();
+			UpdateButtons();
 		}
 		
 		
-		string DoOCR(Pix pix){
-			gOcr.DefaultPageSegMode = PageSegMode.SingleBlock;
-			Page pg = gOcr.Process(pix);
+		// Uses the page segmentation chosen in the window (ButtonRight sets it).
+		string DoOCR(TesseractEngine engine, Pix pix){
+			Page pg = engine.Process(pix);
 			String buf = pg.GetText();
 			pix.Dispose();
 			pg.Dispose();
@@ -125,6 +134,28 @@ namespace UyghurEditPP
 		
 		void OCRFormShown(object sender, EventArgs e)
 		{
+			UpdateMessages();
+			
+			chkUyghurUKIJ.Checked = true;
+			radAuto.Checked = true;
+			
+			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
+			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
+			this.Location = new Point(startx,starty);
+		}
+		
+		/// <summary>
+		/// Sets the texts in the current UI language, and the layout: mirrored (right to left)
+		/// for UEY, left to right otherwise, like the main window's menu. Called when the window
+		/// is shown and when the UI language changes.
+		/// </summary>
+		public void UpdateMessages()
+		{
+			bool rtl = CenteredMessageBox.RightToLeftUi;
+			RightToLeft = rtl ? RightToLeft.Yes : RightToLeft.No;
+			RightToLeftLayout = rtl;
+			UpdateTitle();
+			
 			butAch.Text = MainForm.gLang.GetText("Ach");
 			gTip.SetToolTip(butAch,MainForm.gLang.GetText("Bu yerni chékip resimni éching yaki resimni tutup bu köznekke tashlang."));
 			gTip.SetToolTip(ramka,MainForm.gLang.GetText("Resim körün’gende, Chashqinek bilen tonutidighan da’irini tallang."));
@@ -141,13 +172,23 @@ namespace UyghurEditPP
 			chkRus.Text = MainForm.gLang.GetText("Silawiyanche");
 			radAuto.Text = MainForm.gLang.GetText("Özüng Tap");
 			radSingle.Text = MainForm.gLang.GetText("Birla Bölek");
-			
-			chkUyghurUKIJ.Checked = true;
-			radAuto.Checked = true;
-			
-			int startx = this.Owner.Location.X + (this.Owner.Width-this.Width)/2;
-			int starty = this.Owner.Location.Y + (this.Owner.Height-this.Height)/2;
-			this.Location = new Point(startx,starty);
+		}
+		
+		// The window title; with the Tesseract version once an engine is ready.
+		void UpdateTitle()
+		{
+			Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi");
+			if(gOcr!=null){
+				// An English or Japanese text places the version with {0}. In Uyghur the Latin part
+				// is one left-to-right run, followed by the Uyghur words.
+				string tail = MainForm.gLang.GetText("neshrini ishletken");
+				if(tail.Contains("{0}")){
+					Text += " " + tail.Replace("{0}", gOcr.Version);
+				}
+				else{
+					Text += " " + CenteredMessageBox.LeftToRight("Tesseract[v " +  gOcr.Version + "]") + " " + tail;
+				}
+			}
 		}
 		
 		
@@ -168,7 +209,7 @@ namespace UyghurEditPP
 			Bitmap bimg = new Bitmap(gImgFile);
 			ramka.Image=bimg;
 			
-			Invalidate();
+			UpdateButtons();
 		}
 		void ButAchClick(object sender, EventArgs e)
 		{
@@ -180,13 +221,13 @@ namespace UyghurEditPP
 				Bitmap bimg = new Bitmap(opnFileDlg.FileName);
 				ramka.Image=bimg;
 			}
-			Invalidate();
+			UpdateButtons();
 		}
 		
 		public Image Resim{
 			set{
 				ramka.Image=new Bitmap(value);
-				Invalidate();
+				UpdateButtons();
 			}
 		}
 		
@@ -222,18 +263,102 @@ namespace UyghurEditPP
 			}
 			lang = lang.Trim(tr);
 			System.Diagnostics.Debug.WriteLine(lang);
+			// Recognition is not running here: the language boxes are disabled while it runs.
 			if(gOcr!=null){
 				gOcr.Dispose();
 				gOcr = null;
 			}
 			Til = lang;
-			
+			UpdateButtons();
+			gEngineNomur++;           // an engine still being created is out of date now
+			gKutuwatqanTil = null;
+
 			if(lang.Length >=3){
-				gOcr= new TesseractEngine(@".\tessdata",lang,EngineMode.LstmOnly);
-				Text = MainForm.gLang.GetText("Uyghurche OCR(Resimdiki Yéziqni Tonush) Programmisi")+ "Tessract[v " +  gOcr.Version + "]" + " neshrini ishletken";
+				CreateEngine(lang);
+			}
+			else{
+				this.Cursor = Cursors.Default;
+			}
+		}
+
+		// Loading the language data takes a while (more for several languages), so the
+		// engine is created on a thread-pool thread, one at a time: while one is being
+		// created, only the latest request waits, and it starts when that one is done.
+		// An engine that is out of date when it is ready (the languages changed again, or
+		// the window was closed) is thrown away.
+		// tessdata is looked up next to the program, not in the current directory,
+		// so OCR also works when UyghurEdit++ is started from another folder.
+		void CreateEngine(string lang)
+		{
+			if(gEngineYasiliwatidu){
+				gKutuwatqanTil = lang;
+				return;
+			}
+			StartEngine(lang, gEngineNomur);
+		}
+
+		async void StartEngine(string lang, int nomur)
+		{
+			gEngineYasiliwatidu = true;
+			string tessdata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
+			TesseractEngine engine = null;
+			Exception xata = null;
+			try{
+				engine = await Task.Run(() => new TesseractEngine(tessdata,lang,EngineMode.LstmOnly));
+			}
+			catch(Exception ee){
+				xata = ee;
+			}
+			gEngineYasiliwatidu = false;
+			if(nomur != gEngineNomur || IsDisposed){
+				if(engine!=null){
+					engine.Dispose();
+				}
+				if(xata!=null){
+					ErrorLog.Write(xata); // not shown: nobody waits for this engine any more
+				}
+				if(!IsDisposed && gKutuwatqanTil!=null){
+					string til = gKutuwatqanTil;
+					gKutuwatqanTil = null;
+					StartEngine(til, gEngineNomur);
+				}
+				return;
 			}
 			this.Cursor = Cursors.Default;
-			Invalidate();
+			if(engine!=null){
+				gOcr = engine;
+				UpdateTitle();
+			}
+			else{
+				Til = "";
+				ShowEngineError(xata, tessdata);
+			}
+			UpdateButtons();
+		}
+
+		void ShowEngineError(Exception ee, string tessdata)
+		{
+			ErrorLog.Write(ee);
+			string msg;
+			if(IsMissingLibrary(ee)){
+				msg = MainForm.gLang.GetText("OCR could not start because a Visual C++ runtime library is missing. Please install the Microsoft Visual C++ Redistributable (x64):")
+					+ Environment.NewLine + CenteredMessageBox.LeftToRight("https://aka.ms/vs/17/release/vc_redist.x64.exe");
+			}
+			else{
+				msg = MainForm.gLang.GetText("OCR could not start. Please check that this folder contains the language data (.traineddata) files:")
+					+ Environment.NewLine + CenteredMessageBox.LeftToRight(tessdata);
+			}
+			CenteredMessageBox.Show(this, msg + Environment.NewLine + Environment.NewLine + CenteredMessageBox.LeftToRight(ee.Message), "UyghurEdit++", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		}
+
+		static bool IsMissingLibrary(Exception ee)
+		{
+			for(Exception ex = ee; ex!=null; ex = ex.InnerException){
+				if(ex is DllNotFoundException || ex is BadImageFormatException){
+					return true;
+				}
+			}
+			return false;
 		}
 		void OCRFormFormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -241,8 +366,11 @@ namespace UyghurEditPP
 				e.Cancel = true;
 			}
 			else{
+				gEngineNomur++; // an engine still being created is thrown away when it is ready
+				gKutuwatqanTil = null;
 				if(gOcr!=null){
 					gOcr.Dispose();
+					gOcr = null;
 				}
 			}
 		}

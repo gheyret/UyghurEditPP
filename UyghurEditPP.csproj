@@ -33,8 +33,8 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationIcon>uyghur.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <SourceAnalysisOverrideSettingsFile>C:\Users\nk1449\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <StartupObject>UyghurEditPP.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>bin\debug\</OutputPath>
     <DebugSymbols>true</DebugSymbols>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <DebugType>Full</DebugType>
@@ -69,7 +69,7 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <OutputPath>bin\UyghurEditPP\</OutputPath>
     <DebugSymbols>false</DebugSymbols>
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DebugType>None</DebugType>
     <DefineTrace>True</DefineTrace>
@@ -103,6 +103,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml">
@@ -129,6 +130,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppFonts.cs" />
+    <Compile Include="AppPaths.cs" />
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="CenteredMessageBox.cs" />
     <Compile Include="Document\DocumentChangeOperation.cs">
       <DependentUpon>UndoStack.cs</DependentUpon>
     </Compile>
@@ -170,7 +175,6 @@
     <Compile Include="Document\WeakLineTracker.cs">
       <DependentUpon>ILineTracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="docx_test.cs" />
     <Compile Include="Editing\AbstractMargin.cs" />
     <Compile Include="Editing\Caret.cs" />
     <Compile Include="Editing\CaretLayer.cs">
@@ -284,12 +288,18 @@
     <Compile Include="Json\JsonParser.cs" />
     <Compile Include="Json\ReflectiveOperation.cs" />
     <Compile Include="Json\TypeDictionary.cs" />
+    <Compile Include="KenjiSpell\AutoCorrect.cs" />
+    <Compile Include="KenjiSpell\ImlaAmbarliri.cs" />
     <Compile Include="KenjiSpell\KenjiSpell.cs" />
     <Compile Include="KenjiSpell\UyghurSpell.cs" />
     <Compile Include="KenjiTab.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Language.cs" />
+    <Compile Include="UiDarkStyles.cs" />
+    <Compile Include="UiTheme.cs" />
+    <Compile Include="UiThemer.cs" />
+    <Compile Include="WindowSize.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -311,6 +321,7 @@
       <DependentUpon>ResimRamka.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="SafeFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\BackgroundGeometryBuilder.cs">
       <DependentUpon>IBackgroundRenderer.cs</DependentUpon>
@@ -478,6 +489,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <EmbeddedResource Include="langdata.json" />
     <None Include="packages.config" />
     <None Include="tessdata\chi_sim.traineddata">
@@ -516,6 +528,9 @@
     <EmbeddedResource Include="uyghur_imla.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="imla_xatatoghra.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="UKIJTuz.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

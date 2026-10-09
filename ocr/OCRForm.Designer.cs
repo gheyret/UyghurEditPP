@@ -222,13 +222,12 @@ namespace UyghurEditPP
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Name = "OCRForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Simple Uyghur OCR using Tessract";
+            this.Text = "Simple Uyghur OCR using Tesseract";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OCRFormFormClosing);
             this.Load += new System.EventHandler(this.MainFormLoad);
             this.Shown += new System.EventHandler(this.OCRFormShown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainFormDragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainFormDragEnter);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.OCRFormPaint);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OCRFormKeyUp);
             this.ResumeLayout(false);
 

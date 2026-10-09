@@ -23,6 +23,7 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace UyghurEditPP
 {
@@ -76,6 +77,12 @@ namespace UyghurEditPP
 		FindReplaceDialog gFindReplace = null;
 		
 		OCRForm gOCR = null;
+		
+		// Spelling dictionaries, loaded in the background once per script.
+		ImlaAmbarliri gImlaAmbarliri = new ImlaAmbarliri(
+			() => System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UyghurEditPP.uyghur_imla.txt"),
+			() => new KenjiSpell());
+		string gImlaYeziq = "YOQ";  // the script whose dictionary is wanted (it may still be loading)
 
         // ① 記号群を定義（共通化してミスを防ぐ）
         const string OPEN = @"‹«\(\[";
@@ -87,6 +94,12 @@ namespace UyghurEditPP
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			AppFonts.Fix(this);
+			// Flat bars with thin lines between them (UiTheme.cs).
+			ToolStripManager.Renderer = new UiRenderer(UiTheme.Current);
+			MakeThemeMenu();
+			Microsoft.Win32.SystemEvents.UserPreferenceChanged += WindowsSettingChanged;
+			FormClosed += (s, e) => Microsoft.Win32.SystemEvents.UserPreferenceChanged -= WindowsSettingChanged;
 			//IntPtr appIns = Marshal.GetHINSTANCE(System.Reflection.Assembly.GetExecutingAssembly().GetModules()[0]);
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
@@ -104,7 +117,6 @@ namespace UyghurEditPP
 			gSlawyancheSoz = new Regex(pattern,RegexOptions.Compiled);
 			
 			gImlab = new ImlaBoya();
-			gImlab.SpellCheker = new KenjiSpell();
 			mainTab.RemoveTab += DeleteTab;
 			
 			//string fontpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "UKIJTuz.ttf".ToUpper());
@@ -140,7 +152,7 @@ namespace UyghurEditPP
 			gMenuSozTekshurme.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
 			gMenuSozTekshurme.Click += menuSozImla;
 			
-			gConfName = Path.Combine(Application.StartupPath, gConfName);
+			gConfName = AppPaths.DataFile(gConfName);
 		}
 		
 		private bool IsFontInstalled(string fontName) {
@@ -251,6 +263,7 @@ namespace UyghurEditPP
 			gImlab.FindReplace=true;
 			gEditor.TextArea.TextView.Redraw();
 			gFindReplace.ShowMe();
+			UiThemer.Apply(gFindReplace, UiTheme.Current); // the title bar needs the window's handle
 
 //			if (!gEditor.TextArea.Selection.IsMultiline)
 //			{
@@ -274,11 +287,15 @@ namespace UyghurEditPP
 		{
 			System.Windows.Controls.MenuItem  menuNamzat= (System.Windows.Controls.MenuItem)sender;
 			string soz = (string)menuNamzat.Tag;
-			gImlab.SpellCheker.Add(soz,1);
+			UyghurSpell spell = gImlab.SpellCheker;
+			if(spell==null) return;
+			spell.Add(soz,1);
 			gEditor.TextArea.TextView.Redraw();
 			if(menuNamzat == gMenuSozToghra)
 			{
-				gImlab.SpellCheker.SaveToIshletkuchi(soz);
+				spell.SaveToIshletkuchi(soz);
+				// The other scripts' dictionaries learn it too, also those still loading.
+				gImlaAmbarliri.SozQoshuldi(soz, spell);
 			}
 		}
 		
@@ -298,6 +315,25 @@ namespace UyghurEditPP
 		
 		
 		
+		/// <summary>
+		/// Whether two paths name the same file: relative paths are made full, and case is
+		/// ignored (Windows file names are not case sensitive). Empty paths never match.
+		/// </summary>
+		internal static bool SameFile(string a, string b)
+		{
+			if(string.IsNullOrEmpty(a) || string.IsNullOrEmpty(b)){
+				return false;
+			}
+			try{
+				a = Path.GetFullPath(a);
+				b = Path.GetFullPath(b);
+			}
+			catch(Exception ee){
+				System.Diagnostics.Debug.WriteLine(ee); // not a valid path: compare as given
+			}
+			return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+		}
+
 		void AddNew(String fileName){
 			TabPage     curPg   = null;
 			TextEditor  curEdit = null;
@@ -321,8 +357,8 @@ namespace UyghurEditPP
 						offset = 0;
 					}
 					curEdit.Focus();
-					if(offset>curEdit.Text.Length){
-						offset = curEdit.Text.Length;
+					if(offset>curEdit.Document.TextLength){
+						offset = curEdit.Document.TextLength;
 					}
 					curEdit.CaretOffset = offset;
 					curEdit.BringCaretToView();
@@ -332,7 +368,7 @@ namespace UyghurEditPP
 			
 			bool bar=false;
 			foreach(TabPage pg in mainTab.TabPages){
-				if(pg.Tag.Equals(fileName)){
+				if(SameFile(pg.Tag as string, fileName)){
 					bar = true;
 					curPg = pg;
 					break;
@@ -343,19 +379,20 @@ namespace UyghurEditPP
 				curEdit  = new TextEditor();
 				curHost = new ElementHost();
 				curPg = new TabPage(Path.GetFileName(fileName));
-				mainTab.TabPages.Add(curPg);
 				curPg.Tag ="";
 				if(File.Exists(fileName))
 				{
 					curEdit.Load(fileName);
 					curPg.Tag = fileName;
 				}
+				// Added only once the file is read, so a file that cannot be read leaves no empty tab.
+				mainTab.TabPages.Add(curPg);
 				
 				curEdit.Padding = new System.Windows.Thickness(2,0,0,0);
 				curEdit.ShowLineNumbers = true;
 				//curEdit.Options.ShowEndOfLine = true;
 				
-				curEdit.FontFamily = new System.Windows.Media.FontFamily(gFontName);
+				curEdit.FontFamily = AppFonts.Wpf(gFontName);
 				curEdit.FontSize   = gFontSize;
 				curEdit.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				curEdit.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
@@ -368,6 +405,10 @@ namespace UyghurEditPP
 				curEdit.WordWrap = true;
 				curEdit.TextArea.Caret.PositionChanged += CaretChanged;
 				curEdit.TextChanged += TextOzgerdi;
+				// Saving, or undoing back to the saved text, changes IsModified without a text change.
+				System.ComponentModel.DependencyPropertyDescriptor.FromProperty(TextEditor.IsModifiedProperty, typeof(TextEditor)).AddValueChanged(curEdit, TextOzgerdi);
+				// Setting Text clears the undo history only after TextChanged, so follow CanUndo/CanRedo too.
+				curEdit.Document.UndoStack.PropertyChanged += UndoStackOzgerdi;
 				
 				curEdit.PreviewMouseWheel += PreviewMouseWheel; //Ctrolni besip  turup chaqanekning ghaltikini mangdursa, chongiyip kichikleydu
 				curEdit.MouseRightButtonUp += PreMouseUp;       //chashqinekning ong teripi chekilse
@@ -381,6 +422,7 @@ namespace UyghurEditPP
 				curEdit.Drop += MainFormDragDrop;
 				
 				curEdit.TextArea.TextView.LineTransformers.Add(gImlab);
+				UiThemer.Apply(curEdit, UiTheme.Current);
 				curEdit.TextArea.SelectionChanged +=TextSelctionChanged;
 				curHost.Dock = DockStyle.Fill;
 				curHost.Child = curEdit;
@@ -400,8 +442,8 @@ namespace UyghurEditPP
 				offset = 0;
 			}
 			curEdit.Focus();
-			if(offset>curEdit.Text.Length){
-				offset = curEdit.Text.Length;
+			if(offset>curEdit.Document.TextLength){
+				offset = curEdit.Document.TextLength;
 			}
 			curEdit.CaretOffset = offset;
 			curEdit.BringCaretToView();
@@ -423,18 +465,21 @@ namespace UyghurEditPP
 				gEditor.TextArea.TextView.Redraw();
 				//gEditor.TextArea.TextView.InvalidateLayer(UyghurEditPP.Rendering.KnownLayer.Selection);
 			}
+			UpdateToolbar();
 		}
 		
+		// The Case menu converts independently of the Windows culture (owner's decision,
+		// 2026-10-08): ULY uses I/i, so a Turkish culture must not produce İ/ı.
 		//Tallanghan yaki nur belgisi turghan orundiki mezmunni CHong Yezilishqa ozgertidu
 		void ChongYaz(object sender,EventArgs e)
 		{
 			if(gEditor.SelectionLength>0){
-				gEditor.SelectedText = gEditor.SelectedText.ToUpper();
+				gEditor.SelectedText = Uyghur.ChongYaz(gEditor.SelectedText);
 			}
 			else if((gEditor.CaretOffset-1)>=0){
 				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset-1);
 				if(char.IsLower(nurHerp)){
-					string txt=char.ToUpper(nurHerp)+"";
+					string txt=char.ToUpperInvariant(nurHerp)+"";
 					gEditor.Document.Replace(gEditor.CaretOffset-1,1,txt);
 				}
 			}
@@ -444,12 +489,12 @@ namespace UyghurEditPP
 		void KichikYaz(object sender,EventArgs e)
 		{
 			if(gEditor.SelectionLength>0){
-				gEditor.SelectedText = gEditor.SelectedText.ToLower();
+				gEditor.SelectedText = Uyghur.KichikYaz(gEditor.SelectedText);
 			}
 			else if((gEditor.CaretOffset-1)>=0){
 				char nurHerp =gEditor.Document.GetCharAt(gEditor.CaretOffset-1);
 				if(char.IsUpper(nurHerp)){
-					string txt=char.ToLower(nurHerp)+"";
+					string txt=char.ToLowerInvariant(nurHerp)+"";
 					gEditor.Document.Replace(gEditor.CaretOffset-1,1,txt);
 				}
 			}
@@ -459,7 +504,7 @@ namespace UyghurEditPP
 		void MawzuYaz(object sender,EventArgs e)
 		{
 			if(gEditor.SelectionLength>0){
-				gEditor.SelectedText = Regex.Replace(gEditor.SelectedText, @"(?<!\S)\p{Ll}", m => m.Value.ToUpper());
+				gEditor.SelectedText = Uyghur.MawzuYaz(gEditor.SelectedText);
 			}
 
 		}
@@ -524,7 +569,7 @@ namespace UyghurEditPP
 			var pp = e.GetPosition(gEditor);
 			TextDocument curDoc = gEditor.Document;
 			var mousePosition = gEditor.GetPositionFromPoint(pp);
-			if(curDoc.Text.Length==0 || gImlab.WordFinder == null || mousePosition==null){
+			if(curDoc.TextLength==0 || gImlab.WordFinder == null || gImlab.SpellCheker == null || mousePosition==null){
 				return;
 			}
 			
@@ -566,7 +611,7 @@ namespace UyghurEditPP
 				if(toghrisi!=null){
 					strNamzat = toghrisi;
 					if(char.IsUpper(usoz.Value[0])){
-						strNamzat=char.ToUpper(strNamzat[0])+strNamzat.Substring(1);
+						strNamzat=char.ToUpperInvariant(strNamzat[0])+strNamzat.Substring(1);
 					}
 					menuNamzat = new System.Windows.Controls.MenuItem{Header=strNamzat,Tag=txtPos};
 					menuNamzat.HorizontalContentAlignment = gMenuSozToghra.HorizontalAlignment;
@@ -584,7 +629,7 @@ namespace UyghurEditPP
 					strNamzat= namzat;
 					//System.Diagnostics.Debug.WriteLine(strNamzat);
 					if(char.IsUpper(usoz.Value[0])){
-						strNamzat=char.ToUpper(strNamzat[0])+strNamzat.Substring(1);
+						strNamzat=char.ToUpperInvariant(strNamzat[0])+strNamzat.Substring(1);
 					}
 					menuNamzat = new System.Windows.Controls.MenuItem{Header=strNamzat,Tag=txtPos};
 					menuNamzat.HorizontalContentAlignment = gMenuSozToghra.HorizontalAlignment;
@@ -621,40 +666,39 @@ namespace UyghurEditPP
 			System.Windows.Controls.MenuItem  menuNamzat= (System.Windows.Controls.MenuItem)sender;
 			string nsoz = menuNamzat.Header.ToString();
 			Point txtPos = (Point)menuNamzat.Tag;
-			string xatasoz = gEditor.Document.GetText(txtPos.X,txtPos.Y);
-			gEditor.Document.Replace(txtPos.X,txtPos.Y,nsoz);
-			gEditor.CaretOffset = txtPos.X + nsoz.Length;
-
-			gImlab.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
+			TextDocument doc = gEditor.Document;
+			string xatasoz = doc.GetText(txtPos.X,txtPos.Y);
+			
+			if(gImlab.SpellCheker!=null){
+				gImlab.SpellCheker.SaveToXataToghra(xatasoz,nsoz);
+				gImlaAmbarliri.TuzitishQoshuldi(xatasoz, nsoz, gImlab.SpellCheker);
+			}
 			
 			//Barliq Xatani izdep tepip almashturidu
-			//string qelip = "\b"+xatasoz+"\b";
+			//The same mistake after this word is corrected too; all of it is one Undo step.
 			int sani = 0;
-			string qelip = "(?<!\\w)"+xatasoz+"(?!\\w)";
-			Regex finder = new Regex(qelip,RegexOptions.Compiled|RegexOptions.IgnoreCase);
-			string alltext = gEditor.Text.ToLower();
-			int stpos = gEditor.CaretOffset;
-			int oldPos = stpos;
-//			alltext = finder.Replace(alltext,nsoz,stpos);
-//			gEditor.Text = alltext;
-//			gEditor.CaretOffset = stpos;
-//			gEditor.BringCaretToView();
-//			while((soz = finder.Match(gEditor.Text.ToLower(),stpos)).Success)
-
-			Match soz;
-			while((soz = finder.Match(gEditor.Text,stpos)).Success)
-			{
-				gEditor.CaretOffset = soz.Index;
-				gEditor.Document.Replace(soz.Index,xatasoz.Length,nsoz);
-//				alltext = gEditor.Text.ToLower();
-				stpos = soz.Index+nsoz.Length;
-				sani++;
+			string qelip = "(?<!\\w)"+Regex.Escape(xatasoz)+"(?!\\w)";
+			Regex finder = new Regex(qelip,RegexOptions.IgnoreCase|RegexOptions.CultureInvariant);
+			int oldPos = txtPos.X + nsoz.Length;
+			doc.BeginUpdate();
+			try{
+				doc.Replace(txtPos.X,txtPos.Y,nsoz);
+				List<Match> tepilghan = new List<Match>();
+				foreach(Match soz in finder.Matches(doc.Text, oldPos)){
+					tepilghan.Add(soz);
+				}
+				for(int i = tepilghan.Count-1; i>=0; i--){
+					doc.Replace(tepilghan[i].Index, tepilghan[i].Length, nsoz);
+				}
+				sani = tepilghan.Count;
 			}
+			finally{
+				doc.EndUpdate();
+			}
+			gEditor.CaretOffset = oldPos;
 			
 			if(sani>0){
 				stBarUchur.Text = gLang.GetText("Oxshash xataliqlar tüzitildi") + "["+sani+"]";
-				gEditor.CaretOffset = oldPos;
-//				gEditor.BringCaretToView();
 			}
 		}
 		
@@ -733,29 +777,19 @@ namespace UyghurEditPP
 		{
 			String lang;
 			string imyeziq;
-			if(File.Exists(gConfName)){
-				try{
-					using(FileStream fs = new FileStream(gConfName, FileMode.Open, FileAccess.Read))
-					{
-						BinaryFormatter bf = new BinaryFormatter();
-						gConfig = (Hashtable)bf.Deserialize(fs);
-					}
-				}
-				catch(Exception ee){
-					System.Diagnostics.Debug.WriteLine(ee.StackTrace);
-					gConfig = new Hashtable();
-				}
-			}
+			// uyghuredit.json; the old uyghuredit.cfg (gConfName) is only read when there is no JSON file yet.
+			gConfig = AppSettings.Load(AppPaths.DataFile(AppSettings.FileName), gConfName);
 			
 			if(gConfig.ContainsKey("LANG"))
 			{
 				lang = (string)gConfig["LANG"];
-				lang = lang.ToLower();
+				lang = lang.ToLowerInvariant();
 			}
 			else{
-				lang=CultureInfo.CurrentCulture.ThreeLetterISOLanguageName.ToLower();
+				lang=CultureInfo.CurrentCulture.ThreeLetterISOLanguageName.ToLowerInvariant();
 			}
 			CheckLangMenu(lang);
+			ApplyTheme(gConfig["TEMA"] as string ?? UiTheme.LightSetting);
 			
 			if(gConfig.ContainsKey("ORUNLAR")){
 				gIzOffset =(Dictionary<string,int>)gConfig["ORUNLAR"];
@@ -820,6 +854,7 @@ namespace UyghurEditPP
 			SetKunupka(kun);
 			
 			if(!gConfig.Contains("CHONGLUQI")){
+				// The size is in logical units (pixels at 100%); see WindowSize.
 				Rectangle rc = new Rectangle(100,100,1024, 768);
 				gConfig["CHONGLUQI"] = rc;
 			}
@@ -834,7 +869,7 @@ namespace UyghurEditPP
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			int codepage;
-			this.Font = new Font("UKIJ Tuz",12);
+			this.Font = AppFonts.Create(AppFonts.UkijTuz, 12);
 			this.menuBar.Font = this.Font;
 			this.stBar.Font = this.Font;
 			this.mainTab.Font = this.Font;
@@ -888,12 +923,15 @@ namespace UyghurEditPP
 				rc.Width=1024;
 				rc.Height=768;
 			}
+			// The saved size is in logical units; turn it into pixels for the monitor the window opens on.
 			this.Location = new Point(rc.X,rc.Y);
-			this.Size = new Size(rc.Width,rc.Height);
+			this.Size = WindowSize.ToDevice(rc.Size, WindowSize.DpiAt(this.Location, DeviceDpi));
 			MenuYengiClick(null,null);
 		}
 
 		
+		Font gMenuFont;
+
 		void CheckLangMenu(string lang){
 			foreach(ToolStripMenuItem itm in menuTil.DropDownItems){
 				itm.Checked = false;
@@ -903,6 +941,11 @@ namespace UyghurEditPP
 			}
 			gConfig["LANG"] = lang;
 			gLang.LanguaID = lang;
+			// English and Japanese use the Windows menu font; the Uyghur UI keeps UKIJ Tuz.
+			if(gMenuFont == null){
+				gMenuFont = SystemFonts.MenuFont; // a new Font on every call, so keep one
+			}
+			this.menuBar.Font = ("eng".Equals(lang) || "jpn".Equals(lang)) ? gMenuFont : this.Font;
 			if("uey".Equals(lang)){
 				this.menuBar.RightToLeft = RightToLeft.Yes;
 				//this.menuBar.Font = new Font("UKIJ Tuz",14.0f);
@@ -915,12 +958,14 @@ namespace UyghurEditPP
 				this.menuBar.RightToLeft = RightToLeft.No;
 //				this.stBar.RightToLeft =  RightToLeft.No;
 
-				this.menuBar.Font = this.Font;
 //				this.stBar.Font = this.menuBar.Font;
 //				stBarUchur.Font = this.menuBar.Font;
 			}
 			UpdateMessage();
 			gFindReplace.UpdateMessages();
+			if(gOCR!=null && !gOCR.IsDisposed){
+				gOCR.UpdateMessages();
+			}
 		}
 
 
@@ -945,6 +990,7 @@ namespace UyghurEditPP
 			menuIzlar.ToolTipText = gLang.GetText("Yéqinda tehrirlen’gen höjjetlerning isimliri");
 
 			menuAxirlashtur.Text = gLang.GetText("Axirlashtur");
+			stBarQur.Text = gLang.GetText("Orun");
 
 			menuTehrir.Text = gLang.GetText("Tehrirlesh");
 			menuFont.Text = gLang.GetText("Xet Nusxisi");
@@ -956,8 +1002,8 @@ namespace UyghurEditPP
 			menuKochur.Text = gLang.GetText("Köchür");
 			menuChapla.Text = gLang.GetText("Chapla");
 			menuHemme.Text = gLang.GetText("Hemmini Talla");
-			menuChaplaUighursoft.Text = "«Uighursoft»" + gLang.GetText("ningkini Chapla");
-			menuChaplaDuldul.Text = "«Duldul»" + gLang.GetText("ningkini Chapla");
+			menuChaplaUighursoft.Text = WithName("«Uighursoft»", gLang.GetText("ningkini Chapla"));
+			menuChaplaDuldul.Text = WithName("«Duldul»", gLang.GetText("ningkini Chapla"));
 			menuChaplaBashqilar.Text = gLang.GetText("Bashqilarningkini Chapla");
 			menuHojjetBash.Text = gLang.GetText("Höjjetning Béshigha Yötkel");
 			menuHojjetAxir.Text = gLang.GetText("Höjjetning Axirigha Yötkel");
@@ -983,6 +1029,10 @@ namespace UyghurEditPP
 
 			menuQoral.Text = gLang.GetText("Qorallar");
 			menuTiz.Text = gLang.GetText("Élipbe Tertipi Boyiche Tiz");
+			menuTema.Text = gLang.GetText("Theme");
+			menuTemaYoruq.Text = gLang.GetText("Light");
+			menuTemaQarangghu.Text = gLang.GetText("Dark");
+			menuTemaWindows.Text = gLang.GetText("Follow Windows");
 			menuTekrar.Text = gLang.GetText("Sözlerning Tekrarliqi");
 
 			menuTil.Text = gLang.GetText("Til-Yéziq");
@@ -993,7 +1043,7 @@ namespace UyghurEditPP
 			menuYardem.Text = gLang.GetText("Yardem");
 			menuKunupka.Text = gLang.GetText("Kona Yéziq Kunupka Orunlashturulushi");
 			menuULElipbe.Text = gLang.GetText("Uyghur Latin Yéziqi Élipbesi");
-			menuHeqqide.Text = "UyghurEdit++" + gLang.GetText("Heqqide");
+			menuHeqqide.Text = WithName("UyghurEdit++", gLang.GetText("Heqqide"));
 
 			toolYengi.ToolTipText = gLang.GetText("Yéngi höjjet yasaydu");
 			toolAch.ToolTipText = gLang.GetText("Diskidiki höjjetni oqup tehrirleydu");
@@ -1030,10 +1080,10 @@ namespace UyghurEditPP
 			menuMakeHTML.Text = gLang.GetText("Addiy") + " HTML " + gLang.GetText("Yasa");
 			menuMakeHTML.ToolTipText = gLang.GetText("Hazirqi tékisttin addiy") + " HTML " + gLang.GetText("hasil qilidu.");
 
-			menuSaveToDOCX.Text = "Word " + gLang.GetText("Höjjitide Saqla");
+			menuSaveToDOCX.Text = WithName("Word ", gLang.GetText("Höjjitide Saqla"));
 			menuSaveToDOCX.ToolTipText = gLang.GetText("Tehrirlewatqan höjjetni") + " Word " + gLang.GetText("höjjiti pichimida(formatida) saqlaydu.");
 
-			menuWordAylandur.Text = "Word " + gLang.GetText("Höjjitini Aylandur");
+			menuWordAylandur.Text = WithName("Word ", gLang.GetText("Höjjitini Aylandur"));
 			//            menuWordAylandur.ToolTipText = "Word " + gLang.GetText(" höjjitining bet qurulmisini özgertmey, Uyghurche, Latinche we Silawiyanchigha aylanduridu");
 
 			menuWordUEY2ULY.Text = gLang.GetText("Uyghurche🠊Latinche");
@@ -1058,6 +1108,94 @@ namespace UyghurEditPP
 		}
 
 
+		// A name (a product or a file type) put in front of a translated text, as the Uyghur text
+		// reads; an English or Japanese text can place it elsewhere with {0}.
+		static string WithName(string name, string text)
+		{
+			if(text.Contains("{0}")){
+				return text.Replace("{0}", name.Trim());
+			}
+			return name + text;
+		}
+
+		ToolStripMenuItem menuTema, menuTemaYoruq, menuTemaQarangghu, menuTemaWindows;
+		string gTemaSetting = UiTheme.LightSetting;
+
+		// Tools > Theme > Light / Dark / Follow Windows (the texts are set in UpdateMessage).
+		void MakeThemeMenu()
+		{
+			menuTemaYoruq = new ToolStripMenuItem();
+			menuTemaYoruq.Tag = UiTheme.LightSetting;
+			menuTemaQarangghu = new ToolStripMenuItem();
+			menuTemaQarangghu.Tag = UiTheme.DarkSetting;
+			menuTemaWindows = new ToolStripMenuItem();
+			menuTemaWindows.Tag = UiTheme.SystemSetting;
+			menuTema = new ToolStripMenuItem();
+			foreach(ToolStripMenuItem itm in new[]{ menuTemaYoruq, menuTemaQarangghu, menuTemaWindows }){
+				itm.Click += (s, e) => ApplyTheme((string)((ToolStripMenuItem)s).Tag);
+				menuTema.DropDownItems.Add(itm);
+			}
+			menuQoral.DropDownItems.Add(new ToolStripSeparator());
+			menuQoral.DropDownItems.Add(menuTema);
+		}
+
+		/// <summary>Puts the theme of a setting ("light", "dark", "system") on every window.</summary>
+		void ApplyTheme(string setting)
+		{
+			gTemaSetting = setting;
+			gConfig["TEMA"] = setting;
+			foreach(ToolStripMenuItem itm in menuTema.DropDownItems){
+				itm.Checked = setting.Equals(itm.Tag);
+			}
+			UiTheme theme = UiTheme.FromSetting(setting);
+			UiTheme.Current = theme;
+			ToolStripManager.Renderer = new UiRenderer(theme);
+			BackColor = theme.TabStrip;
+			toolTBox.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
+			toolTBox.ForeColor = theme.IsDark ? theme.EditorText : SystemColors.WindowText;
+			System.Windows.Media.SolidColorBrush foundBack = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundBack.R, theme.FoundBack.G, theme.FoundBack.B));
+			foundBack.Freeze();
+			System.Windows.Media.SolidColorBrush foundText = null;
+			if(theme.IsDark){
+				foundText = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(theme.FoundText.R, theme.FoundText.G, theme.FoundText.B));
+				foundText.Freeze();
+			}
+			gImlab.SetColors(System.Windows.Media.Color.FromRgb(theme.Misspelled.R, theme.Misspelled.G, theme.Misspelled.B), foundBack, foundText);
+			foreach(TabPage pg in mainTab.TabPages){
+				pg.BackColor = theme.IsDark ? theme.EditorBack : SystemColors.Window;
+				ElementHost host = pg.Controls.Count > 0 ? pg.Controls[0] as ElementHost : null;
+				TextEditor ed = host != null ? host.Child as TextEditor : null;
+				if(ed != null){
+					UiThemer.Apply(ed, theme);
+					ed.TextArea.TextView.Redraw();
+				}
+			}
+			mainTab.Invalidate();
+			UiThemer.Apply(gContextMenu, theme);
+			UiThemer.Apply(gFindReplace, theme);
+			if(gOCR != null && !gOCR.IsDisposed){
+				UiThemer.Apply(gOCR, theme);
+				gOCR.Invalidate(true);
+			}
+			UiTheme.SetTitleBar(Handle, theme.IsDark);
+			Invalidate(true);
+		}
+
+		// The Windows app mode was changed: follow it if the setting says so.
+		void WindowsSettingChanged(object sender, Microsoft.Win32.UserPreferenceChangedEventArgs e)
+		{
+			// The app mode change comes as General; other changes (wallpaper ...) are ignored,
+			// and so is a General change that does not switch light / dark.
+			if(e.Category != Microsoft.Win32.UserPreferenceCategory.General || !UiTheme.SystemSetting.Equals(gTemaSetting) || !IsHandleCreated){
+				return;
+			}
+			BeginInvoke(new Action(() => {
+				if(UiTheme.FromSetting(UiTheme.SystemSetting) != UiTheme.Current){
+					ApplyTheme(UiTheme.SystemSetting);
+				}
+			}));
+		}
+
 		void MenuTilClick(object sender, EventArgs e)
 		{
 			ToolStripMenuItem selItem = (ToolStripMenuItem)sender;
@@ -1079,6 +1217,11 @@ namespace UyghurEditPP
 		}
 		
 		public void OpenaFile(string filename){
+			// A relative path (from the command line) is kept as a full one, so tabs and the
+			// recent files list name each file one way.
+			if(File.Exists(filename)){
+				filename = Path.GetFullPath(filename);
+			}
 			String  extName = Path.GetExtension(filename);
 			if(extName.Length>0 && gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
 			{
@@ -1097,14 +1240,21 @@ namespace UyghurEditPP
 			gFileNum++;
 		}
 		
-		void MainFormPaint(object sender, PaintEventArgs e)
+		// Brings the toolbar, the tab title and the status bar up to date with the current
+		// editor. It is called when the state changes (text, selection, tab, saving ...);
+		// it used to run on every Paint and built the whole text each time.
+		void UpdateToolbar()
 		{
 			// stBarUchur.Text = "UyghurEdit++ V"+GetVersion() + "(2020/11/12) Aptor: Gheyret T.Kenji";
 			// stBarUchur.Text = "UyghurEdit++ V "+GetVersion() + " Aptor: Gheyret T.Kenji";
 			// stBarQur.Text = gLang.GetText("Jemiy ") + gEditor.LineCount.ToString() + gLang.GetText(" qur");
+
+			if(gEditor==null || mainTab.SelectedTab==null){
+				return;
+			}
 			toolQatla.Checked = gEditor.WordWrap;
-			
-			toolBas.Enabled = gEditor.Text.Length>0;
+
+			toolBas.Enabled = gEditor.Document.TextLength>0;
 			toolSaqla.Enabled = gEditor.IsModified;
 			if(gEditor.IsModified && mainTab.SelectedTab.Text.StartsWith("*")==false){
 				mainTab.SelectedTab.Text = "*" + mainTab.SelectedTab.Text;
@@ -1137,6 +1287,14 @@ namespace UyghurEditPP
 			toolKes.Enabled    = gEditor.SelectionLength>0;
 			toolKochur.Enabled = gEditor.SelectionLength>0;
 			toolOchur.Enabled = gEditor.SelectionLength>0;
+
+			toolYeniwal.Enabled = gEditor.CanUndo;
+			toolYPushayman.Enabled = gEditor.CanRedo;
+        }
+
+		// The Paste button follows the clipboard: Windows tells the form when it changes.
+		void UpdateChapla()
+		{
 			try
 			{
 				IDataObject idata = Clipboard.GetDataObject();
@@ -1146,11 +1304,50 @@ namespace UyghurEditPP
 			{
 				toolChapla.Enabled = false;
                 System.Diagnostics.Debug.WriteLine(ee.StackTrace);
+				// Another program may still hold the clipboard: look again shortly.
+				if(gChaplaQayta < 3){
+					gChaplaQayta++;
+					if(gChaplaTimer == null){
+						gChaplaTimer = new Timer();
+						gChaplaTimer.Interval = 100;
+						gChaplaTimer.Tick += (s, a) => { gChaplaTimer.Stop(); UpdateChapla(); };
+					}
+					gChaplaTimer.Start();
+					return;
+				}
             }
+			gChaplaQayta = 0;
+		}
 
-			toolYeniwal.Enabled = gEditor.CanUndo;
-			toolYPushayman.Enabled = gEditor.CanRedo;			
-        }
+		Timer gChaplaTimer;
+		int   gChaplaQayta;   // retries of UpdateChapla in a row
+
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern bool AddClipboardFormatListener(IntPtr hwnd);
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
+		const int WM_CLIPBOARDUPDATE = 0x031D;
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			AddClipboardFormatListener(Handle);
+			UpdateChapla();
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			RemoveClipboardFormatListener(Handle);
+			base.OnHandleDestroyed(e);
+		}
+
+		protected override void WndProc(ref Message m)
+		{
+			if(m.Msg == WM_CLIPBOARDUPDATE){
+				UpdateChapla();
+			}
+			base.WndProc(ref m);
+		}
 
         public static String GetVersion()
 		{
@@ -1161,7 +1358,7 @@ namespace UyghurEditPP
 		
 		void CaretChanged(object sender, EventArgs e){
 			string herpcode="0000";
-			if (gEditor.CaretOffset<gEditor.Text.Length) { 
+			if (gEditor.CaretOffset<gEditor.Document.TextLength) {
 				UInt32 code = gEditor.TextArea.Document.GetCharAt(gEditor.CaretOffset);
 				herpcode = code.ToString("X4");
             }
@@ -1190,7 +1387,7 @@ namespace UyghurEditPP
 				
 				gEditor.TextArea.TextView.Redraw();
 				
-				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+				Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 				if(curYeziq == Uyghur.YEZIQ.UEY || curYeziq == Uyghur.YEZIQ.YOQ)
 				{
 					gEditor.RightToLeft = true;
@@ -1212,9 +1409,16 @@ namespace UyghurEditPP
 					}
 				}
 			}
-			Invalidate();
+			UpdateToolbar();
 		}
-		
+
+		// Uyghur.Detect looks only at the first 5000 characters; give it just those
+		// instead of building the whole text.
+		static Uyghur.YEZIQ YeziqniBayqa(TextEditor editor)
+		{
+			return Uyghur.Detect(editor.Document.GetText(0, Math.Min(5000, editor.Document.TextLength)));
+		}
+
 		void ToolYeniwalClick(object sender, EventArgs e)
 		{
 			gEditor.Undo();
@@ -1228,11 +1432,17 @@ namespace UyghurEditPP
 		}
 		
 		void TextOzgerdi(object sender, EventArgs e){
-			Invalidate();
+			UpdateToolbar();
+		}
+		void UndoStackOzgerdi(object sender, System.ComponentModel.PropertyChangedEventArgs e){
+			if(e.PropertyName == "CanUndo" || e.PropertyName == "CanRedo"){
+				UpdateToolbar();
+			}
 		}
 		void ToolQatlaClick(object sender, EventArgs e)
 		{
 			gEditor.WordWrap = !toolQatla.Checked;
+			UpdateToolbar();
 		}
 		
 		void ToolKesClick(object sender, EventArgs e)
@@ -1313,8 +1523,9 @@ namespace UyghurEditPP
 			else{
 				MenuBSaqlaClick(null,null);
 			}
+			UpdateToolbar();
 		}
-		
+
 		void MenuBSaqlaClick(object sender, EventArgs e)
 		{
 			string newflname = SaveAs(gEditor, mainTab.SelectedTab.Tag.ToString());
@@ -1323,6 +1534,7 @@ namespace UyghurEditPP
 				mainTab.SelectedTab.Tag = newflname;
 				Text = newflname + " - UyghurEdit++";
 			}
+			UpdateToolbar();
 		}
 		
 		string SaveAs(TextEditor curEdit, string fileName = null){
@@ -1375,12 +1587,12 @@ namespace UyghurEditPP
 		void ButQurNomurClick(object sender, EventArgs e)
 		{
 			gEditor.ShowLineNumbers = !gEditor.ShowLineNumbers;
-			Invalidate();
 		}
 		
 		void MenuULElipbeClick(object sender, EventArgs e)
 		{
 			FormULElipbe frm = new FormULElipbe();
+			UiThemer.Apply(frm, UiTheme.Current);
 			frm.ShowInTaskbar = false;
 			frm.ShowDialog();
 			gEditor.Focus();
@@ -1388,6 +1600,7 @@ namespace UyghurEditPP
 		void MenuKunupkaClick(object sender, EventArgs e)
 		{
 			FormKunupka frm = new FormKunupka(this);
+			UiThemer.Apply(frm, UiTheme.Current);
 			frm.ShowInTaskbar = false;
 			frm.Show(this);
 			gEditor.Focus();
@@ -1424,7 +1637,7 @@ namespace UyghurEditPP
 		
 		void ToolULYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.ToULY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1444,7 +1657,7 @@ namespace UyghurEditPP
 		
 		void ToolUSYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.ToUSY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1465,7 +1678,7 @@ namespace UyghurEditPP
 		
 		void ToolUEYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.ToUEY(txtuey);
@@ -1487,7 +1700,7 @@ namespace UyghurEditPP
 		
 		void ToolULY2UEYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.ULY2UEY(txtuey);
@@ -1508,7 +1721,7 @@ namespace UyghurEditPP
 		}
 		void ToolUSY2UEYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.USY2UEY(txtuey);
@@ -1530,7 +1743,7 @@ namespace UyghurEditPP
 		
 		void ToolUEY2ULYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.UEY2ULY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1551,7 +1764,7 @@ namespace UyghurEditPP
 
 		void ToolUSY2ULYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.USY2ULY(txtuey);
@@ -1573,7 +1786,7 @@ namespace UyghurEditPP
 		
 		void ToolUEY2USYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string newtext = Uyghur.UEY2USY(gEditor.SelectedText);
 				if(newtext!=null){
@@ -1593,7 +1806,7 @@ namespace UyghurEditPP
 
 		void ToolULY2USYClick(object sender, EventArgs e)
 		{
-			if(gEditor.Text.Length==0) return;
+			if(gEditor.Document.TextLength==0) return;
 			if(gEditor.SelectedText.Length>0){
 				string txtuey = gEditor.SelectedText;
 				string newtext = Uyghur.ULY2USY(txtuey);
@@ -1622,7 +1835,7 @@ namespace UyghurEditPP
 			DialogResult dr = DialogResult.None;
 			if(curEdit.IsModified)
 			{
-				dr = MessageBox.Show(this, gLang.GetText("Höjjetning mezmunida özgirish boldi. Saqlamsiz?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
+				dr = CenteredMessageBox.Show(this, gLang.GetText("Höjjetning mezmunida özgirish boldi. Saqlamsiz?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question);
 				if(dr ==  DialogResult.Cancel){
 					return dr;
 				}
@@ -1637,6 +1850,8 @@ namespace UyghurEditPP
 			}
 			gIzOffset[filenm] = curEdit.CaretOffset;
 			mainTab.TabPages.RemoveAt(tabIndex);
+			// The descriptor holds the editor; release it so the closed tab can be collected.
+			System.ComponentModel.DependencyPropertyDescriptor.FromProperty(TextEditor.IsModifiedProperty, typeof(TextEditor)).RemoveValueChanged(curEdit, TextOzgerdi);
 			curEdit.Clear();
 			curHost.Dispose();
 			return dr;
@@ -1656,20 +1871,16 @@ namespace UyghurEditPP
 			gConfig["ORUNLAR"] = gIzOffset;
 			try
 			{
-				gConfig["CHONGLUQI"] = new Rectangle(this.Location.X,this.Location.Y,this.Size.Width, this.Size.Height);
+				gConfig["CHONGLUQI"] = new Rectangle(this.Location, WindowSize.ToLogical(this.Size, DeviceDpi));
 				System.Diagnostics.Debug.WriteLine(gConfig["CHONGLUQI"]);
-				using(FileStream fs = new FileStream(gConfName, FileMode.Create)){
-					BinaryFormatter formatter = new BinaryFormatter();
-					formatter.Serialize(fs, gConfig);
-				}
+				AppSettings.Save(AppPaths.DataFile(AppSettings.FileName), gConfig);
 			}
-			catch(SerializationException er)
+			catch(Exception er)
 			{
-                System.Diagnostics.Debug.WriteLine(er.StackTrace);
+				// Losing the settings is better than not being able to close the program.
                 System.Diagnostics.Debug.WriteLine("Failed to serialize. Reason: " + er.Message);
-				throw;
+				ErrorLog.Write(er);
 			}
-			//gLang.Save(Path.Combine(Application.StartupPath, "langdata.txt"));
 		}
 		void MenuAxirlashturClick(object sender, EventArgs e)
 		{
@@ -1686,14 +1897,14 @@ namespace UyghurEditPP
 		}
 		void MenuHojjetAxirClick(object sender, EventArgs e)
 		{
-			gEditor.CaretOffset = gEditor.Text.Length;
+			gEditor.CaretOffset = gEditor.Document.TextLength;
 			gEditor.ScrollToEnd();
 		}
 
 		void MenuImlaClick(object sender, EventArgs e){
 			menuYeziqAuto.Checked = gYeziqAuto;
 
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			if(curYeziq == Uyghur.YEZIQ.UEY){
 				menuBelge.Enabled = true;
 			}
@@ -1739,50 +1950,94 @@ namespace UyghurEditPP
 		
 		void ImlaniAktipla(string yeziq)
 		{
-			Stream imlastrem;
 			menuImlaUEY.Checked=false;
 			menuImlaULY.Checked=false;
 			menuImlaUSY.Checked=false;
-			
+
+			if(!(yeziq.Equals("UEY") || yeziq.Equals("ULY") || yeziq.Equals("USY") || yeziq.Equals("YOQ"))){
+				ErrorLog.Write(new ArgumentException("Unknown spelling script: " + yeziq));
+				yeziq = "UEY";
+			}
 			if(yeziq.Equals("YOQ")){
+				gImlaYeziq = yeziq;
 				gImlab.WordFinder = null;
+				gImlab.SpellCheker = null;
 			}
 			else{
+				Regex finder;
+				Uyghur.YEZIQ ambar;
 				if(yeziq.Equals("UEY")){
 					menuImlaUEY.Checked=true;
+					finder = gUyghurcheSoz;
+					ambar = Uyghur.YEZIQ.UEY;
 				}
 				else if(yeziq.Equals("ULY")){
 					menuImlaULY.Checked = true;
+					finder = gLatincheSoz;
+					ambar = Uyghur.YEZIQ.ULY;
 				}
-				else if(yeziq.Equals("USY")){
+				else{ // USY
 					menuImlaUSY.Checked = true;
+					finder = gSlawyancheSoz;
+					ambar = Uyghur.YEZIQ.USY; //Imla mbirini slawyanchigha ozgertip ishlitidu
 				}
 				
-				
-//				if(File.Exists("uyghur_imla.txt")){
-				//imlastrem = File.OpenRead("uyghur_imla.txt");
-				imlastrem=System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UyghurEditPP.uyghur_imla.txt");
-				if(yeziq.Equals("UEY") && gUyghurcheSoz != gImlab.WordFinder){
-					gMenuSozTekshurme.Header= Uyghur.ULY2UEY("Bu sözni ötküzüwet");
-					gMenuSozToghra.Header   = Uyghur.ULY2UEY("Bu söz toghra");
-					gImlab.WordFinder = gUyghurcheSoz;
-					gImlab.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.UEY);
+				if(!yeziq.Equals(gImlaYeziq)){
+					gImlaYeziq = yeziq;
+					if(ambar == Uyghur.YEZIQ.UEY){
+						gMenuSozTekshurme.Header= Uyghur.ULY2UEY("Bu sözni ötküzüwet");
+						gMenuSozToghra.Header   = Uyghur.ULY2UEY("Bu söz toghra");
+					}
+					else if(ambar == Uyghur.YEZIQ.ULY){
+						gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
+						gMenuSozToghra.Header   = "Bu söz toghra";
+					}
+					else{
+						gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
+						gMenuSozToghra.Header   = Uyghur.ULY2USY("Bu söz toghra");
+					}
+					// Until the dictionary is loaded, no word is marked as misspelled.
+					gImlab.WordFinder = null;
+					gImlab.SpellCheker = null;
+					Task<UyghurSpell> yuklesh = gImlaAmbarliri.Get(ambar);
+					if(yuklesh.IsCompleted){
+						ImlaAmbiriTeyyar(yeziq, finder, yuklesh);
+					}
+					else{
+						stBarUchur.Text = gLang.GetText("Loading the spelling dictionary...");
+						yuklesh.ContinueWith(t => ImlaAmbiriTeyyar(yeziq, finder, t), TaskScheduler.FromCurrentSynchronizationContext());
+					}
 				}
-				else if(yeziq.Equals("ULY") && gLatincheSoz != gImlab.WordFinder){
-					gMenuSozTekshurme.Header= "Bu sözni ötküzüwet";
-					gMenuSozToghra.Header   = "Bu söz toghra";
-					gImlab.WordFinder = gLatincheSoz;
-					gImlab.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.ULY);
-				}
-				else if( yeziq.Equals("USY") && gSlawyancheSoz != gImlab.WordFinder){
-					gMenuSozTekshurme.Header= Uyghur.ULY2USY("Bu sözni ötküzüwet");
-					gMenuSozToghra.Header   = Uyghur.ULY2USY("Bu söz toghra");
-					gImlab.WordFinder = gSlawyancheSoz;
-					gImlab.SpellCheker.Load(imlastrem,Uyghur.YEZIQ.USY);//Imla mbirini slawyanchigha ozgertip ishlitidu
-				}
-				imlastrem.Close();
 			}
 			gConfig["IMLAYEZIQ"]=yeziq;
+		}
+		
+		// Runs on the UI thread when the dictionary for yeziq has been loaded (or failed).
+		void ImlaAmbiriTeyyar(string yeziq, Regex finder, Task<UyghurSpell> yuklesh)
+		{
+			if(IsDisposed){
+				return;
+			}
+			if(stBarUchur.Text == gLang.GetText("Loading the spelling dictionary...")){
+				stBarUchur.Text = "";
+			}
+			if(yuklesh.IsFaulted){
+				ErrorLog.Write(yuklesh.Exception);
+				if(yeziq.Equals(gImlaYeziq)){
+					// Spelling is off; choosing the script again loads the dictionary again.
+					ImlaniAktipla("YOQ");
+					stBarUchur.Text = gLang.GetText("The spelling dictionary could not be loaded.");
+				}
+				return;
+			}
+			if(!yeziq.Equals(gImlaYeziq)){
+				return; // another script was chosen meanwhile
+			}
+			gImlab.WordFinder = finder;
+			gImlab.SpellCheker = yuklesh.Result;
+			if(gEditor!=null){
+				gEditor.TextArea.TextView.Redraw();
+			}
 		}
 
 
@@ -1933,101 +2188,35 @@ namespace UyghurEditPP
 		
 		void MenuImlaAutoClick(object sender, EventArgs e)
 		{
-			string alltext = gEditor.Text;
-			if (alltext.Length == 0)
+			if(gImlab.WordFinder == null || gImlab.SpellCheker == null || gEditor.Document.TextLength == 0)
 				return;
 			
-			int sani = 0;
-			int xatasani = 0;
-			int tuz = 0;
-			string toghrisi;
-			int stpos = 0;
-			Match soz;
+			int sani;
+			int xatasani;
 			System.Windows.Input.Cursor old = System.Windows.Input.Mouse.OverrideCursor;
 			System.Windows.Input.Mouse.OverrideCursor= System.Windows.Input.Cursors.Wait;
-			while((soz = gImlab.WordFinder.Match(alltext,stpos)).Success)
-			{
-				sani++;
-				if(gImlab.SpellCheker.IsListed(soz.Value)==false)
-				{
-					xatasani++;
-					toghrisi = gImlab.SpellCheker.Toghrisi(soz.Value);
-					if(toghrisi!=null){
-						if(char.IsUpper(soz.Value[0])){
-							toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
-						}
-						gEditor.CaretOffset = soz.Index;
-						gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-						alltext = gEditor.Text.ToLower();
-						stpos = soz.Index+toghrisi.Length;
-						tuz++;
-						continue;
-					}
-					if(gImlab.WordFinder == gLatincheSoz)
-					{
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é'))){
-							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü').Replace('e','é');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö').Replace('u','ü'))){
-							toghrisi = soz.Value.Replace('o','ö').Replace('u','ü');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('o','ö'))){
-							toghrisi = soz.Value.Replace('o','ö');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('u','ü'))){
-							toghrisi = soz.Value.Replace('u','ü');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
-						if(gImlab.SpellCheker.IsListed(soz.Value.Replace('e','é'))){
-							toghrisi = soz.Value.Replace('e','é');
-							if(char.IsUpper(soz.Value[0])){
-								toghrisi=char.ToUpper(toghrisi[0])+toghrisi.Substring(1);
-							}
-							gEditor.CaretOffset = soz.Index;
-							gEditor.Document.Replace(soz.Index,soz.Value.Length,toghrisi);
-							alltext = gEditor.Text.ToLower();
-							stpos = soz.Index+toghrisi.Length;
-							tuz++;
-							continue;
-						}
+			// All corrections are found in one pass over the text and applied as one
+			// change, so a single Undo takes them all back.
+			List<Tuzitish> tuzitishler = AutoCorrect.Find(gEditor.Text, gImlab.WordFinder, gImlab.SpellCheker, gImlab.WordFinder == gLatincheSoz, out sani, out xatasani);
+			int tuz = tuzitishler.Count;
+			if(tuz>0){
+				TextDocument doc = gEditor.Document;
+				doc.BeginUpdate();
+				try{
+					// From the end, so that the offsets of the earlier corrections stay valid.
+					for(int i = tuz-1; i>=0; i--){
+						doc.Replace(tuzitishler[i].Offset, tuzitishler[i].Length, tuzitishler[i].Text);
 					}
 				}
-				stpos = soz.Index+soz.Value.Length;
+				finally{
+					doc.EndUpdate();
+				}
+				// Put the caret on the last correction, as before.
+				int ozgirish = 0;
+				for(int i = 0; i<tuz-1; i++){
+					ozgirish += tuzitishler[i].Text.Length - tuzitishler[i].Length;
+				}
+				gEditor.CaretOffset = tuzitishler[tuz-1].Offset + ozgirish;
 			}
 			
 			gEditor.BringCaretToView();
@@ -2047,15 +2236,31 @@ namespace UyghurEditPP
 			if(menu.Checked) return;
 			
 			int codePage = (int)menu.Tag;
+			string filenm = mainTab.SelectedTab.Tag.ToString();
+			if(!File.Exists(filenm)){
+				// Not saved yet: there is nothing to read again, only the encoding for saving changes.
+				if(codePage>=0){
+					gEditor.Encoding = System.Text.Encoding.GetEncoding(codePage);
+					gEditor.CodePage = codePage;
+					TabControl1SelectedIndexChanged(null,null);
+				}
+				return;
+			}
+			// The file is read again in the new encoding, which throws away unsaved edits.
+			// Do not offer to save here: if the file was opened with the wrong encoding,
+			// saving would write the garbled text over the original bytes.
+			if(gEditor.IsModified){
+				DialogResult dr = CenteredMessageBox.Show(this, gLang.GetText("Unsaved changes will be discarded. Continue?"),"UyghurEdit++ v"+ GetVersion(), MessageBoxButtons.OKCancel,MessageBoxIcon.Warning);
+				if(dr != DialogResult.OK){
+					return;
+				}
+			}
 			if(-3==codePage||
 			   -2==codePage||
 			   -1==codePage
 			  )
 			{
-				FileStream inStrm = File.OpenRead(mainTab.SelectedTab.Tag.ToString());
-				byte[] Buffer=new byte[inStrm.Length];
-				inStrm.Read(Buffer,0,Buffer.Length);
-				inStrm.Close();
+				byte[] Buffer=File.ReadAllBytes(filenm);
 				switch(codePage)
 				{
 					case -1:
@@ -2075,7 +2280,7 @@ namespace UyghurEditPP
 			}
 			else{
 				gEditor.Encoding = System.Text.Encoding.GetEncoding(codePage);
-				gEditor.Load(mainTab.SelectedTab.Tag.ToString());
+				gEditor.Load(filenm);
 			}
 			
 			TabControl1SelectedIndexChanged(null,null);
@@ -2101,6 +2306,8 @@ namespace UyghurEditPP
 		void MenuHeqqideClick(object sender, EventArgs e)
 		{
 			FormHeqqide heqqide = new FormHeqqide();
+			AppFonts.Fix(heqqide);
+			UiThemer.Apply(heqqide, UiTheme.Current);
 			heqqide.ShowInTaskbar = false;
 			heqqide.ShowDialog();
 			gEditor.Focus();
@@ -2110,7 +2317,7 @@ namespace UyghurEditPP
 		{
 			string ngramtext="";
 			NGram ngram = new NGram(1);
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			if(curYeziq == Uyghur.YEZIQ.UEY)
 			{
 				ngramtext = ngram.MakeNGram(gEditor.Text,this.gUyghurcheSoz);
@@ -2149,6 +2356,8 @@ namespace UyghurEditPP
 		{
 			if (gOCR==null || gOCR.IsDisposed){
 				gOCR = new OCRForm(gEditor);
+				AppFonts.Fix(gOCR);
+				UiThemer.Apply(gOCR, UiTheme.Current);
 				gOCR.Owner = this;
 				gOCR.ShowInTaskbar = false;
 				gOCR.Show(this);
@@ -2158,7 +2367,7 @@ namespace UyghurEditPP
 		void MenuFontClick(object sender, EventArgs e)
 		{
 			FontDialog fontDlg = new FontDialog();
-			Font tmpFont = new Font(gFontName,gFontSize);
+			Font tmpFont = AppFonts.Create(gFontName,gFontSize);
 			fontDlg.Font = tmpFont;
 			fontDlg.ShowApply = true;
 			fontDlg.ShowColor = false;
@@ -2175,7 +2384,7 @@ namespace UyghurEditPP
 				gConfig["FONTSTYLE"] = gFontStyle;
 				gConfig["FONTWEIGHT"] = gFontWeight;
 				
-				gEditor.FontFamily = new System.Windows.Media.FontFamily(gFontName);
+				gEditor.FontFamily = AppFonts.Wpf(gFontName);
 				gEditor.FontSize   = gFontSize;
 				gEditor.FontStyle = gFontStyle == 0? System.Windows.FontStyles.Normal:System.Windows.FontStyles.Italic;
 				gEditor.FontWeight = gFontWeight == 0? System.Windows.FontWeights.Normal:System.Windows.FontWeights.Bold;
@@ -2200,7 +2409,7 @@ namespace UyghurEditPP
 		
 		void MenuQoralDropDownOpened(object sender, EventArgs e)
 		{
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			if(curYeziq == Uyghur.YEZIQ.UEY){
 				menuTiz.Enabled = true;
 			}
@@ -2224,18 +2433,25 @@ namespace UyghurEditPP
 		}
 		void MenuImlaAmbarClick(object sender, EventArgs e)
 		{
-			if(File.Exists(gImlab.SpellCheker.IshletkcuhiAmbarIsimi)){
-				AddNew(gImlab.SpellCheker.IshletkcuhiAmbarIsimi);
+			// The file names do not depend on the script, so this also works while no dictionary is loaded.
+			string ishletkuchi = AppPaths.DataFile(AppPaths.IshletkuchiFileName);
+			if(File.Exists(ishletkuchi)){
+				AddNew(ishletkuchi);
 			}
-			
-			if(File.Exists(gImlab.SpellCheker.XataToghraAmbarIsimi)){
-				AddNew(gImlab.SpellCheker.XataToghraAmbarIsimi);
+
+			// The user's corrections file only exists after the first correction; create it
+			// (empty, UTF-8 with BOM like File.AppendAllText writes it) so the menu always opens it.
+			string xataToghra = AppPaths.DataFile(AppPaths.XataToghraFileName);
+			if(!File.Exists(xataToghra)){
+				Directory.CreateDirectory(Path.GetDirectoryName(xataToghra));
+				File.WriteAllBytes(xataToghra, Encoding.UTF8.GetPreamble());
 			}
+			AddNew(xataToghra);
 		}
 		
 		void MenuMakeHTMLClick(object sender, EventArgs e)
 		{
-			Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+			Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 			string strhtml = MakeHtml(gEditor.Document.Lines,curYeziq);
 			MenuYengiClick(null,null);
 			gEditor.WordWrap = false;
@@ -2298,7 +2514,7 @@ namespace UyghurEditPP
 			List<string> list = new List<string>();
 			if (dr == DialogResult.OK)
 			{
-				Uyghur.YEZIQ curYeziq = Uyghur.Detect(gEditor.Text);
+				Uyghur.YEZIQ curYeziq = YeziqniBayqa(gEditor);
 				foreach (DocumentLine qur in gEditor.Document.Lines)
 				{
 					list.Add(gEditor.Document.GetText(qur.Offset, qur.Length));
