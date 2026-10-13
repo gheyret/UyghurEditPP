@@ -16,7 +16,10 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 Eger OCR da xataliq körülse, [Microsoft Visual C++ Redistributable packages](https://aka.ms/vs/17/release/vc_redist.x64.exe) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
 
 <hr></hr>
-
+### 0.84 neshri(2026/10/14)
+   * OCR qisimi chiqiriwetildi. OCR uchun [UyghurOCR](https://github.com/gheyret/UyghurOCR) ni ishliting
+   * Bu neshri hazir texi sinaq basquchida...
+   
 ### 0.82 neshri(2023/09/05)
 
   * Tesseeract ning Uyghurche modéli qayta ögitildi we tonush toghriliqi köp yaxshilandi.
@@ -119,8 +122,6 @@ sözlerde xataliqlarni bayqisanglar, melum qilsanglar xush bolimen.
 ![](screenshot/uly.png)
 
 ![](screenshot/usy.png)
-
-![](screenshot/ocrnew.png)
 
 # Ishlitilgen ochuq kodlar
 Avalonedit: https://github.com/icsharpcode/AvalonEdit
