@@ -308,18 +308,6 @@
     </Compile>
     <Compile Include="Ngram\TstTree.cs" />
     <Compile Include="Ngram\UNode.cs" />
-    <Compile Include="ocr\OCRForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ocr\OCRForm.Designer.cs">
-      <DependentUpon>OCRForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ocr\ResimRamka.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ocr\ResimRamka.Designer.cs">
-      <DependentUpon>ResimRamka.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="SafeFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -480,51 +468,12 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ocr\OCRForm.resx">
-      <DependentUpon>OCRForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ocr\ResimRamka.resx">
-      <DependentUpon>ResimRamka.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.manifest" />
     <EmbeddedResource Include="langdata.json" />
     <None Include="packages.config" />
-    <None Include="tessdata\chi_sim.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\Configs\bazzar">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\eng.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\eng.user-patterns">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\eng.user-words">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\osd.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\pdf.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\rus.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\tur.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\uig.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="tessdata\ukij.traineddata">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <EmbeddedResource Include="uyghur_imla.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

@@ -75,9 +75,7 @@ namespace UyghurEditPP
 		bool      gYeziqAuto = true;
 		
 		FindReplaceDialog gFindReplace = null;
-		
-		OCRForm gOCR = null;
-		
+				
 		// Spelling dictionaries, loaded in the background once per script.
 		ImlaAmbarliri gImlaAmbarliri = new ImlaAmbarliri(
 			() => System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("UyghurEditPP.uyghur_imla.txt"),
@@ -963,9 +961,6 @@ namespace UyghurEditPP
 			}
 			UpdateMessage();
 			gFindReplace.UpdateMessages();
-			if(gOCR!=null && !gOCR.IsDisposed){
-				gOCR.UpdateMessages();
-			}
 		}
 
 
@@ -1066,8 +1061,6 @@ namespace UyghurEditPP
 
 			menuYeziqAuto.Text = gLang.GetText("Közitidighan Yéziqni Aptomatik Tallisun");
 			menuYeziqAuto.ToolTipText = gLang.GetText("Höjjet közniki almashqanda shu köznektiki yéziqqa mas kélidighan Imla Tekshürgüchni aktiplaydu");
-
-			menuOCR.ToolTipText = gLang.GetText("Resimni yéziqqa aylanduridu");
 
 
 			this.toolULY2UEY.ToolTipText = gLang.GetText("Hazirqi höjjet yaki Tallan’ghan rayondiki Latinchini Uyghurchigha aylanduridu");
@@ -1173,10 +1166,6 @@ namespace UyghurEditPP
 			mainTab.Invalidate();
 			UiThemer.Apply(gContextMenu, theme);
 			UiThemer.Apply(gFindReplace, theme);
-			if(gOCR != null && !gOCR.IsDisposed){
-				UiThemer.Apply(gOCR, theme);
-				gOCR.Invalidate(true);
-			}
 			UiTheme.SetTitleBar(Handle, theme.IsDark);
 			Invalidate(true);
 		}
@@ -1222,16 +1211,7 @@ namespace UyghurEditPP
 			if(File.Exists(filename)){
 				filename = Path.GetFullPath(filename);
 			}
-			String  extName = Path.GetExtension(filename);
-			if(extName.Length>0 && gImgexts.IndexOf(extName,StringComparison.OrdinalIgnoreCase)!=-1)
-			{
-				UpdateIzlar(filename);
-				MenuOCRClick(null,null);
-				gOCR.ImageFile = filename;
-			}
-			else{
-				AddNew(filename);
-			}
+			AddNew(filename);
 		}
 		
 		void MenuYengiClick(object sender, EventArgs e)
@@ -1478,12 +1458,6 @@ namespace UyghurEditPP
                     gEditor.BringCaretToView();
                 }
             }
-            else if (dataObject.GetDataPresent(DataFormats.Bitmap)){
-				Image img = (Image)dataObject.GetData(DataFormats.Bitmap);
-				MenuOCRClick(null,null);
-				gOCR.Resim = img;
-				img.Dispose();
-			}
 		}
 		
 		void ToolOchurClick(object sender, EventArgs e)
@@ -2352,17 +2326,6 @@ namespace UyghurEditPP
 			gEditor.Text = sortedabzaslar;
 		}
 		
-		void MenuOCRClick(object sender, EventArgs e)
-		{
-			if (gOCR==null || gOCR.IsDisposed){
-				gOCR = new OCRForm(gEditor);
-				AppFonts.Fix(gOCR);
-				UiThemer.Apply(gOCR, UiTheme.Current);
-				gOCR.Owner = this;
-				gOCR.ShowInTaskbar = false;
-				gOCR.Show(this);
-			}
-		}
 		
 		void MenuFontClick(object sender, EventArgs e)
 		{
