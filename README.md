@@ -16,7 +16,9 @@ Zip ni yéyipla ichidiki UyghurEditPP.exe ni ijra qilsingiz bolidu.
 Eger OCR da xataliq körülse, [Microsoft Visual C++ Redistributable packages](https://aka.ms/vs/17/release/vc_redist.x64.exe) ni ornitip sinap béqing. chünki Tesseract OCR bu ambargha béqinidiken.
 
 <hr></hr>
+
 ### 0.84 neshri(2026/10/14)
+
    * OCR qisimi chiqiriwetildi. OCR uchun [UyghurOCR](https://github.com/gheyret/UyghurOCR) ni ishliting
    * Bu neshri hazir texi sinaq basquchida...
    
